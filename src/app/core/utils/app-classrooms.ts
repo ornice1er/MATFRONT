@@ -1,0 +1,17 @@
+export const AppClassroom={
+   0:"Maternelle I",
+   1:"Maternelle II",
+   2:"Maternelle III",
+   3:"CP",
+   4:"CE1",
+   5:"CE2",
+   6:"CM1",
+   7:"CM2",
+   8:"6e",
+   9:"5e",
+   10:"4e",
+   11:"3e",
+   12:"2e",
+   13:"1ere",
+   14:"Tle",
+}

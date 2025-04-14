@@ -1,0 +1,45 @@
+<div class="ag-bg-danger-light " style="min-height: 100vh; width: 100%;">
+    <div class="p-1">
+        <img src="assets/images/logo-horizontal@4x.png" class="img-fluid" alt="" style="height: 60px;">
+    </div>
+
+    <div class="container d-flex flex-column justify-content-start h-100">
+        <h1 class="text-center text-black">Bon retour parmi nous ! </h1>
+
+        <div class="col-12 col-md-5 mx-auto align-self-center ">
+            <div class="card rounded-0">
+                <div class="card-body">
+                    <p class="text-center h4 mb-5">C’est un plaisir de vous revoir parmi nous !</p>
+                    <form class="" #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+                        <div class="form-row">
+                <div class="col-12 mb-3">
+                <div class="form-group">
+                <input name="email" id="exampleEmail" placeholder="Email ici..." type="email" class="form-control"  required ngModel>
+                </div>
+                </div>
+                <div class="col-12  mb-3">
+                <div class="form-group">
+                <input name="password" id="examplePassword" placeholder="Mot de passe ici..." type="password" class="form-control"  required ngModel>
+                </div>
+                </div>
+                </div>
+                <div class="divider row"></div>
+                <div class="text-center mb-5">
+                    <button class="btn btn-danger btn-lg" [disabled]="loginForm.invalid || loading">Se connecter <app-loading [isVisible]="loading"></app-loading></button>
+                </div>
+
+                <p class="text-center mb-3">
+                    <span>Avez vous oublié votre mot de passe ? </span>
+                     <span class="ag-text-danger"><a routerLink="/forget-password" class="text-decoration-none pointer ag-text-red "><b>Cliquez ici</b></a></span>
+                </p>
+
+                <p class="text-center mb-3">
+                    <a class="text-decoration-none pointer ag-text-red " routerLink="/">Retourner à l'accueil</a>
+                </p>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<mat-toolbar color="">
+    <button mat-icon-button (click)="toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>PDA</span>
+    <button class="btn btn-sm btn-danger" (click)="logout()">Déconnexion</button>
+  </mat-toolbar>
+  
+  <mat-sidenav-container class="">
+    <mat-sidenav #sidenav mode="side" [(opened)]="menuOpen" class="bg-white">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/admin/dashboard">Accueil</a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="p-3">
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
