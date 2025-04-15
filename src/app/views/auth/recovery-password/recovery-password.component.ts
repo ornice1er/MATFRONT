@@ -4,12 +4,19 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
 
 @Component({
   selector: 'app-recovery-password',
   templateUrl: './recovery-password.component.html',
-  standalone:true,
-  imports:[LoadingComponent,FormsModule,],
+  // standalone:true,
+  // imports:[LoadingComponent,FormsModule,],
+  standalone: true,
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   styleUrls: ['./recovery-password.component.css']
 })
 export class RecoveryPasswordComponent implements OnInit {

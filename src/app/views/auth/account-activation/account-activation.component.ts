@@ -6,12 +6,19 @@ import { GlobalName } from '../../../core/utils/global-name';
 import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
 
 @Component({
   selector: 'app-account-activation',
+  standalone: true,
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   templateUrl: './account-activation.component.html',
-  standalone:true,
-  imports:[LoadingComponent,FormsModule],
+  // standalone:true,
+  // imports:[LoadingComponent,FormsModule],
   styleUrls: ['./account-activation.component.css']
 })
 export class AccountActivationComponent implements OnInit {
