@@ -10,6 +10,7 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { animate } from '@angular/animations';
+import { SettingService } from '../../../../core/services/setting.service';
 
 @Component({
   selector: 'app-settings',
@@ -41,7 +42,7 @@ settingRecup:any
 
 
     if(this.settingRecup==undefined || this.settingRecup=="null"){
-      this.settingService.create(value).subscribe((res:any)=>{
+      this.settingService.store(value).subscribe((res:any)=>{
         localStorage.setItem('mataccueilSettings',JSON.stringify(res.data))
         AppSweetAlert.simpleAlert("Paramètre général","Paramètre crée avec succès")
 

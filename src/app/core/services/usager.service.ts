@@ -10,7 +10,7 @@ export class UsagerService {
   constructor(private http:HttpClient) { }
  
 
-  getAll(search=null,page){
+  getAll(search:any,page:any){
     if(search==null){
       return this.http.get<any[]>(`${ConfigService.toApiUrl("usager")}?page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }else{

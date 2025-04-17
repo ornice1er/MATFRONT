@@ -232,7 +232,7 @@ export class AttributcomComponent implements OnInit {
       AppSweetAlert.simpleAlert("Suppression", "Impossible de supprimé cet élément", 'error')
       return
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.delete(this.selected_data.id).subscribe((res: any) => {
@@ -255,7 +255,7 @@ export class AttributcomComponent implements OnInit {
     }
     this.selected_data.submited=true
     this.selected_data.published=false
-    AlertNotif.finishConfirm("Soummettre cette prestation",
+    AppSweetAlert.confirmBox("Soummettre cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {

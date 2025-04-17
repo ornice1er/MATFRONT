@@ -526,7 +526,7 @@ export class ListRequeteServicesComponent implements OnInit {
       return;
     }
     
-    AlertNotif.finishConfirm("Transférer cette préoccupation à la structure",
+    AppSweetAlert.confirmBox("Transférer cette préoccupation à la structure",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
         this.requeteService.transfertRequetInterne(param,this.selected_data.id).subscribe((rest: any) => {

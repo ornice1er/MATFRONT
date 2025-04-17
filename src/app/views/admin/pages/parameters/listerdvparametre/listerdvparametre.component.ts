@@ -37,7 +37,7 @@ export class ListerdvparametreComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -46,7 +46,7 @@ export class ListerdvparametreComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data={dateProchainRdv:"",nombrePoste:0,id:null}
+  selected_data={dateProchainRdv:"",nombrePoste:0,id:0}
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -143,7 +143,7 @@ export class ListerdvparametreComponent implements OnInit {
 
 
   archive(){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.rdvParamService.delete(this.selected_data.id).subscribe((res:any)=>{

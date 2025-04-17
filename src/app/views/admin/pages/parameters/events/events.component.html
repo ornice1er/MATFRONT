@@ -117,10 +117,10 @@
                         <input class="form-control form-control-sm" #question="ngModel" maxlength="250" required name="question"
                           ngModel>
                         <span *ngIf="question.invalid && (question.dirty || question.touched)" class="text-danger">
-                          <small *ngIf="question.errors?.required">
+                          <small *ngIf="question.errors?.['required']">
                             question est requis
                           </small>
-                          <small *ngIf="question.errors.maxlength">
+                          <small *ngIf="question.errors?.['maxlength']">
                             question ,pas plus de 250 caractères.
                           </small>
                         </span>
@@ -133,10 +133,10 @@
                                 ngModel>
                                 </textarea>
                               <span *ngIf="reponses.invalid && (reponses.dirty || reponses.touched)" class="text-danger">
-                                <small *ngIf="reponses.errors?.required">
+                                <small *ngIf="reponses.errors?.['required']">
                                         reponses est requis
                                 </small>
-                                <small *ngIf="reponses.errors.maxlength">
+                                <small *ngIf="reponses.errors?.['maxlength']">
                                         reponses ,pas plus de 250 caractères.
                                 </small>
                               </span>
@@ -169,10 +169,10 @@
                         <input class="form-control form-control-sm" #question="ngModel" maxlength="250" required name="question"
                           [(ngModel)]="selected_data.question">
                         <span *ngIf="question.invalid && (question.dirty || question.touched)" class="text-danger">
-                          <small *ngIf="question.errors?.required">
+                          <small *ngIf="question.errors?.['required']">
                             question est requis
                           </small>
-                          <small *ngIf="question.errors.maxlength">
+                          <small *ngIf="question.errors?.['maxlength']">
                             question ,pas plus de 250 caractères.
                           </small>
                         </span>
@@ -185,10 +185,10 @@
                                 [(ngModel)]="selected_data.reponses">
                                 </textarea>
                               <span *ngIf="reponses.invalid && (reponses.dirty || reponses.touched)" class="text-danger">
-                                <small *ngIf="reponses.errors?.required">
+                                <small *ngIf="reponses.errors?.['required']">
                                         reponses est requis
                                 </small>
-                                <small *ngIf="reponses.errors.maxlength">
+                                <small *ngIf="reponses.errors?.['maxlength']">
                                         reponses ,pas plus de 250 caractères.
                                 </small>
                               </span>

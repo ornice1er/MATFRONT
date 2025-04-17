@@ -37,7 +37,7 @@ export class UsersComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -46,7 +46,7 @@ export class UsersComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:User
+  selected_data:any
   is_active=null
 
 
@@ -102,8 +102,8 @@ export class UsersComponent implements OnInit {
     private localStorageService : LocalService
     ) {}
 
-    acteurs:[]=[]
-    profils:[]=[]
+    acteurs:any[]=[]
+    profils:any[]=[]
 
   user:any
   ngOnInit() {
@@ -166,7 +166,7 @@ export class UsersComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.finishConfirm("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.userService.delete(this.selected_data.id).subscribe((res:any)=>{
@@ -203,7 +203,7 @@ export class UsersComponent implements OnInit {
       },
       (err:any)=>{
         console.log(err)
-        AlertNotif.simpleAlert("error","Utilisateur",err.error.message)
+        AppSweetAlert.simpleAlert("error","Utilisateur",err.error.message)
       })
   }
 

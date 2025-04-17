@@ -221,7 +221,7 @@ export class EspaceusagerComponent implements OnInit {
         this.canSentNew = true;
       }else{
         this.canSentNew = false
-        AlertNotif.finishConfirm("Important", " Nous vous prions de nous laisser votre appréciation sur votre dernière préoccupation satisfait ").then((res:any)=>
+        AppSweetAlert.confirmBox("Important", " Nous vous prions de nous laisser votre appréciation sur votre dernière préoccupation satisfait ").then((res:any)=>
         {
           if(res.isConfirmed){
               this.openNoteModal(this.note, el)
@@ -252,7 +252,7 @@ export class EspaceusagerComponent implements OnInit {
         this.canSentNew = true;
       }else{
         this.canSentNew = false
-        AlertNotif.finishConfirm("Important", " Nous vous prions de nous laisser votre appréciation sur la prise en charge de votre dernière préoccupation.").then((res:any)=>
+        AppSweetAlert.confirmBox("Important", " Nous vous prions de nous laisser votre appréciation sur la prise en charge de votre dernière préoccupation.").then((res:any)=>
         {
           if(res.isConfirmed){
               this.openNoteModal(this.note, check)
@@ -582,7 +582,7 @@ export class EspaceusagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Vous ne pouvez plus supprimer cette requête. Elle est déjà en cours de traitement.", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression requete",
+    AppSweetAlert.confirmBox("Suppression requete",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.requeteService.delete(this.selected_data.id).subscribe((res: any) => {
@@ -621,7 +621,7 @@ export class EspaceusagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Votre de demande est déjà en cours de traitement.", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Transmettre rdv",
+    AppSweetAlert.confirmBox("Transmettre rdv",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           var param = {
@@ -649,7 +649,7 @@ export class EspaceusagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Vous ne pouvez plus supprimer cet element. Elle est déjà en cours de traitement.", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression rdv",
+    AppSweetAlert.confirmBox("Suppression rdv",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.rdvService.delete(this.selected_data2.id).subscribe((res: any) => {

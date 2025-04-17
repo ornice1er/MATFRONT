@@ -42,7 +42,7 @@ export class ListRatioPlaintePrestaionComponent implements OnInit {
   
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];

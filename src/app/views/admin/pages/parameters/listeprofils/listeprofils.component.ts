@@ -36,7 +36,7 @@ export class ListeprofilsComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -45,7 +45,7 @@ export class ListeprofilsComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:Profil
+  selected_data:any
 
   file: string | Blob =""
   onFileChange(event:any) {
@@ -169,7 +169,7 @@ export class ListeprofilsComponent implements OnInit {
 
 
   archive(){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.profilService.delete(this.selected_data.id).subscribe((res:any)=>{

@@ -45,7 +45,7 @@ export class ListserviceatraiterComponent implements OnInit {
   searchText = ""
   closeResult = '';
   errorajout = ""
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -139,8 +139,8 @@ export class ListserviceatraiterComponent implements OnInit {
     }
   }
 
-  types = []
-  listepieces = []
+  types:any[] = []
+  listepieces:any[]= []
 
   constructor(
     private modalService: NgbModal,
@@ -155,7 +155,7 @@ export class ListserviceatraiterComponent implements OnInit {
     private localStorageService:LocalService
   ) { }
 
-  structures: [] = []
+  structures:any [] = []
 
   
   user:any
@@ -175,28 +175,28 @@ export class ListserviceatraiterComponent implements OnInit {
     if(this.user.agent_user!=null && (this.user.profil_user.direction==1)){
       this.prestationService.getAllByStructure(this.user.agent_user.idStructure).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
+        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
     }else if(this.user.agent_user!=null && this.user.profil_user.pointfocal==1){
       this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
+        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
     }else if(this.user.agent_user!=null && this.user.profil_user.saisie_adjoint==1){
       this.prestationService.getAllByCreator().subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
+        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
     }else{
       this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
+        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true) && (e.published==0 || e.published==false)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
@@ -247,7 +247,7 @@ export class ListserviceatraiterComponent implements OnInit {
     if(state=="all"){
       this.data=this._temp
     }else{
-      this.data=this._temp.filter(e=>(e.published==+state))
+      this.data=this._temp.filter((e:any)=>(e.published==+state))
     }
     this.collectionSize = this.data.length
   }
@@ -257,7 +257,7 @@ export class ListserviceatraiterComponent implements OnInit {
       AppSweetAlert.simpleAlert("Suppression", "Impossible de supprimé cet élément", 'error')
       return
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.delete(this.selected_data.id).subscribe((res: any) => {
@@ -280,7 +280,7 @@ export class ListserviceatraiterComponent implements OnInit {
     }
     this.selected_data.published=true
     this.selected_data.submited=true
-    AlertNotif.finishConfirm("Publier cette prestation",
+    AppSweetAlert.confirmBox("Publier cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
@@ -302,7 +302,7 @@ export class ListserviceatraiterComponent implements OnInit {
     }
     this.selected_data.submited=true
     this.selected_data.published=false
-    AlertNotif.finishConfirm("Soummettre cette prestation",
+    AppSweetAlert.confirmBox("Soummettre cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
@@ -367,7 +367,7 @@ export class ListserviceatraiterComponent implements OnInit {
       this.listepieces.push(value);
   }
 
-  removeRow(i) {
+  removeRow(i:any) {
     var msgConfirm = "Souhaitez-vous vraiment supprimer la ligne ?";
     var confirmResult = confirm(msgConfirm);
     if (confirmResult === false) return;

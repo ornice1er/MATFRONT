@@ -412,7 +412,7 @@ export class ListRequeteUpdateComponent implements OnInit {
       idEntiteReceive: value.idEntiteReceive,
       idPrestation: value.idPrestation,
     };
-    AlertNotif.finishConfirm("Transférer cette préoccupation à un autre ministère/institution",
+    AppSweetAlert.confirmBox("Transférer cette préoccupation à un autre ministère/institution",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
         this.requeteService.transfertRequet(param,this.selected_data.id).subscribe((rest: any) => {
@@ -449,7 +449,7 @@ export class ListRequeteUpdateComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez sélectionner la prestation", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Transférer cette préoccupation à la structure",
+    AppSweetAlert.confirmBox("Transférer cette préoccupation à la structure",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
         this.requeteService.transfertRequetInterne(param,this.selected_data.id).subscribe((rest: any) => {
@@ -483,7 +483,7 @@ export class ListRequeteUpdateComponent implements OnInit {
       idEntite: this.user.idEntite,
       idPrestation: value.idPrestation,
     };
-    AlertNotif.finishConfirm("Réorienter cette préoccupation",
+    AppSweetAlert.confirmBox("Réorienter cette préoccupation",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
         this.requeteService.transfertRequetInterne(param,this.selected_data.id).subscribe((rest: any) => {

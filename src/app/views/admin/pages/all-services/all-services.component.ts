@@ -253,7 +253,7 @@ export class AllServicesComponent implements OnInit {
   }
 
   archive() {
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.delete(this.selected_data.id).subscribe((res: any) => {
@@ -276,7 +276,7 @@ export class AllServicesComponent implements OnInit {
     }
     this.selected_data.submited=true
     this.selected_data.published=false
-    AlertNotif.finishConfirm("Soummettre cette prestation",
+    AppSweetAlert.confirmBox("Soummettre cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
@@ -298,7 +298,7 @@ export class AllServicesComponent implements OnInit {
     }
     this.selected_data.published=true
     this.selected_data.submited=true
-    AlertNotif.finishConfirm("Publier cette prestation",
+    AppSweetAlert.confirmBox("Publier cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {

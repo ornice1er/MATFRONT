@@ -96,10 +96,10 @@
                                         <input type="number" class="form-control form-control-sm" #nombrePoste="ngModel" maxlength="250"
                                             required name="nombrePoste" [(ngModel)]="selected_data.nombrePoste">
                                         <span *ngIf="nombrePoste.invalid && (nombrePoste.dirty || nombrePoste.touched)" class="text-danger">
-                                            <small *ngIf="nombrePoste.errors?.required">
+                                            <small *ngIf="nombrePoste.errors?.['required']">
                                                     Nombre de poste est requis
                                             </small>
-                                            <small *ngIf="nombrePoste.errors.maxlength">
+                                            <small *ngIf="nombrePoste.errors?.['maxlength']">
                                                     Nombre de poste ,pas plus de 250 caractères.
                                             </small>
                                         </span>
@@ -111,10 +111,10 @@
                                         <input type="date" class="form-control form-control-sm" #dateProchainRdv="ngModel" maxlength="250"
                                             required name="dateProchainRdv" [(ngModel)]="selected_data.dateProchainRdv">
                                         <span *ngIf="dateProchainRdv.invalid && (dateProchainRdv.dirty || dateProchainRdv.touched)" class="text-danger">
-                                            <small *ngIf="dateProchainRdv.errors?.required">
+                                            <small *ngIf="dateProchainRdv.errors?.['required']">
                                                     Date Prochain RDV est requis
                                             </small>
-                                            <small *ngIf="dateProchainRdv.errors.maxlength">
+                                            <small *ngIf="dateProchainRdv.errors?.['maxlength']">
                                                     Date Prochain RDV ,pas plus de 250 caractères.
                                             </small>
                                         </span>

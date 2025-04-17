@@ -32,7 +32,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 @Component({
   selector: 'app-listusager',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   templateUrl: './listusager.component.html',
   styleUrls: ['./listusager.component.css']
 })
@@ -45,7 +45,7 @@ export class ListusagerComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   dataNT: any[] = [];
@@ -55,10 +55,10 @@ export class ListusagerComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:Usager
+  selected_data:any
   link_to_prestation=1
   selected_type_preoccupation=0
-  structures=[]
+  structures:any[]=[] 
 
   search(){ 
     this.data=[]
@@ -149,7 +149,7 @@ export class ListusagerComponent implements OnInit {
       this.user = this.localStorageService.getJsonValue("mataccueilUserData")
     }
 
-    this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+    this.activatedRoute.queryParams.subscribe(x => this.init(x['page'] || 1));
 
     this.subject.subscribe((val) => {
      this.pager=val
@@ -183,11 +183,11 @@ export class ListusagerComponent implements OnInit {
   
 
   natures=[]
-  services=[]
-  detailpiece=[]
+  services:any[]=[]
+  detailpiece:any[]=[]
   descrCarr=[]
-  __services=[]
-  themes=[]
+  __services:any[]=[]
+  themes:any[]=[]
     pager: any = {current_page: 0,
     data:[],
     last_page: 0,
@@ -197,7 +197,7 @@ export class ListusagerComponent implements OnInit {
   }
   subject = new Subject<any>();
   Null=null
-  rdvcreneaus=[]
+  rdvcreneaus:any[]=[]
 
   init(page:any){
 
@@ -265,7 +265,7 @@ export class ListusagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.usagersService.delete(this.selected_data.id).subscribe((res:any)=>{

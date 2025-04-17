@@ -36,10 +36,10 @@ export class ListacteursComponent implements OnInit {
   page = 1;
   pageSize = 10;
   searchText=""
-  commune = []
-  selectedDepart = null
+  commune:any[]=[]
+  selectedDepart:any
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -48,7 +48,7 @@ export class ListacteursComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:Acteur
+  selected_data:any
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -64,7 +64,9 @@ export class ListacteursComponent implements OnInit {
     this.selectedDepart=+event.target.value
     this.chargerCommune(this.selectedDepart)
   }
-  chargerCommune(idDepartt){
+  chargerCommune(idDepartt:any){
+    
+  
     this.commune = []
     this.acteursService.getAllCommune(idDepartt).subscribe((res: any) => {
       this.commune = res
@@ -72,7 +74,7 @@ export class ListacteursComponent implements OnInit {
   }
   openAddModal(content:any) {
     
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result:any) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -114,8 +116,8 @@ export class ListacteursComponent implements OnInit {
     private localStorageService:LocalService
     ) {}
 
-    structures:[]=[]
-    departement:[]=[]
+    structures:any
+    departement:any[]=[]
 
     user:any
     idDepa:any
@@ -185,7 +187,7 @@ export class ListacteursComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.acteursService.delete(this.selected_data.id).subscribe((res:any)=>{

@@ -123,8 +123,8 @@
                     <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250" required name="libelle"
                       ngModel>
                     <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                      <small *ngIf="libelle.errors?.required"> libelle est requis </small>
-                      <small *ngIf="libelle.errors.maxlength"> libelle ,pas plus de 250 caractères. </small>
+                      <small *ngIf="libelle.errors?.['required']"> libelle est requis </small>
+                      <small *ngIf="libelle.errors?.['maxlength']"> libelle ,pas plus de 250 caractères. </small>
                     </span>
                   </div>
                 </div>
@@ -134,8 +134,8 @@
                       <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" required name="sigle"
                         ngModel>
                       <span *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)" class="text-danger">
-                        <small *ngIf="sigle.errors?.required"> sigle est requis </small>
-                        <small *ngIf="sigle.errors.maxlength"> sigle ,pas plus de 250 caractères. </small>
+                        <small *ngIf="sigle.errors?.['required']"> sigle est requis </small>
+                        <small *ngIf="sigle.errors?.['maxlength']"> sigle ,pas plus de 250 caractères. </small>
                       </span>
                     </div>
                 </div>
@@ -148,8 +148,8 @@
                             <option value="INSTITUTION">INSTITUTION</option>
                     </select>
                       <span *ngIf="type.invalid && (type.dirty || type.touched)" class="text-danger">
-                        <small *ngIf="type.errors?.required"> type est requis </small>
-                        <small *ngIf="type.errors.maxlength"> type ,pas plus de 250 caractères. </small>
+                        <small *ngIf="type.errors?.['required']"> type est requis </small>
+                        <small *ngIf="type.errors?.['maxlength']"> type ,pas plus de 250 caractères. </small>
                       </span>
                     </div>
                 </div>
@@ -160,8 +160,8 @@
                     <div class="col-md-6">
                       <input class="form-control form-control-sm" #nbrjrs_relance="ngModel" maxlength="250" required name="nbrjrs_relance" type="number" ngModel>
                       <span *ngIf="nbrjrs_relance.invalid && (nbrjrs_relance.dirty || nbrjrs_relance.touched)" class="text-danger">
-                        <small *ngIf="nbrjrs_relance.errors?.required"> Intervalle est requis </small>
-                        <small *ngIf="nbrjrs_relance.errors.maxlength"> Intervalle pas plus de 250 caractères. </small>
+                        <small *ngIf="nbrjrs_relance.errors?.['required']"> Intervalle est requis </small>
+                        <small *ngIf="nbrjrs_relance.errors?.['maxlength']"> Intervalle pas plus de 250 caractères. </small>
                       </span>
                     </div>
                 </div>
@@ -173,8 +173,8 @@
                           <option value="0">Désactivé</option>
                     </select>
                       <span *ngIf="etat_relance.invalid && (etat_relance.dirty || etat_relance.touched)" class="text-danger">
-                        <small *ngIf="etat_relance.errors?.required"> Etat est requis </small>
-                        <small *ngIf="etat_relance.errors.maxlength"> Etat pas plus de 250 caractères. </small>
+                        <small *ngIf="etat_relance.errors?.['required']"> Etat est requis </small>
+                        <small *ngIf="etat_relance.errors?.['maxlength']"> Etat pas plus de 250 caractères. </small>
                       </span>
                     </div>
                 </div>
@@ -209,10 +209,10 @@
                     <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250" required name="libelle"
                       [(ngModel)]="selected_data.libelle">
                     <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                      <small *ngIf="libelle.errors?.required">
+                      <small *ngIf="libelle.errors?.['required']">
                         libelle est requis
                       </small>
-                      <small *ngIf="libelle.errors.maxlength">
+                      <small *ngIf="libelle.errors?.['maxlength']">
                         libelle ,pas plus de 250 caractères.
                       </small>
                     </span>
@@ -224,10 +224,10 @@
                       <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" required name="sigle"
                         [(ngModel)]="selected_data.sigle">
                       <span *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)" class="text-danger">
-                        <small *ngIf="sigle.errors?.required">
+                        <small *ngIf="sigle.errors?.['required']">
                             sigle est requis
                         </small>
-                        <small *ngIf="sigle.errors.maxlength">
+                        <small *ngIf="sigle.errors?.['maxlength']">
                             sigle ,pas plus de 250 caractères.
                         </small>
                       </span>
@@ -242,10 +242,10 @@
                             <option value="INSTITUTION">INSTITUTION</option>
                     </select>
                       <span *ngIf="type.invalid && (type.dirty || type.touched)" class="text-danger">
-                        <small *ngIf="type.errors?.required">
+                        <small *ngIf="type.errors?.['required']">
                             type est requis
                         </small>
-                        <small *ngIf="type.errors.maxlength">
+                        <small *ngIf="type.errors?.['maxlength']">
                             type ,pas plus de 250 caractères.
                         </small>
                       </span>
@@ -259,10 +259,10 @@
                     <input class="form-control form-control-sm" #nbrjrs_relance="ngModel" maxlength="250" type="number" required name="nbrjrs_relance"
                       [(ngModel)]="selected_data.nbrjrs_relance">
                     <span *ngIf="nbrjrs_relance.invalid && (nbrjrs_relance.dirty || nbrjrs_relance.touched)" class="text-danger">
-                      <small *ngIf="nbrjrs_relance.errors?.required">
+                      <small *ngIf="nbrjrs_relance.errors?.['required']">
                         Intervalle rela est requis
                       </small>
-                      <small *ngIf="nbrjrs_relance.errors.maxlength">
+                      <small *ngIf="nbrjrs_relance.errors?.['maxlength']">
                         Intervalle pas plus de 250 caractères.
                       </small>
                     </span>
@@ -276,10 +276,10 @@
                         <option value="0">Désactivé</option>
                   </select>
                     <span *ngIf="etat_relance.invalid && (etat_relance.dirty || etat_relance.touched)" class="text-danger">
-                      <small *ngIf="etat_relance.errors?.required">
+                      <small *ngIf="etat_relance.errors?.['required']">
                           Etat est requis
                       </small>
-                      <small *ngIf="etat_relance.errors.maxlength">
+                      <small *ngIf="etat_relance.errors?.['maxlength']">
                           Etat pas plus de 250 caractères.
                       </small>
                     </span>

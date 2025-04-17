@@ -32,4 +32,11 @@ export class LocalStorageService {
         localStorage.removeItem(key);
         }
     }
+
+    clear() {
+        if (isPlatformBrowser(this.platformId)) {
+
+        localStorage.clear();
+        }
+    }
 }

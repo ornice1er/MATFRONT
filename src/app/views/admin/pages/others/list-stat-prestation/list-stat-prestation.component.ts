@@ -43,7 +43,7 @@ export class ListStatPrestationComponent implements OnInit {
   
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   entities: any[]=[];

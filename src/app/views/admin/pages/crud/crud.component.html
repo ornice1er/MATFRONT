@@ -122,10 +122,10 @@
                 <label>Nom</label>
                 <input class="form-control" #last_name="ngModel" maxlength="250" required name="last_name" ngModel>
                 <span *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
-                  <small *ngIf="last_name.errors?.required">
+                  <small *ngIf="last_name.errors?.['required']">
                     Nom est requis
                   </small>
-                  <small *ngIf="last_name.errors.maxlength">
+                  <small *ngIf="last_name.errors?.['maxlength']">
                     Nom ,pas plus de 250 caractères.
                   </small>
                 </span>
@@ -134,10 +134,10 @@
                 <label>Prénom</label>
                 <input class="form-control" #first_name="ngModel" maxlength="250" required name="first_name" ngModel>
                 <span *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="text-danger">
-                  <small *ngIf="first_name.errors?.required">
+                  <small *ngIf="first_name.errors?.['required']">
                     Prénom est requis
                   </small>
-                  <small *ngIf="first_name.errors.maxlength">
+                  <small *ngIf="first_name.errors?.['maxlength']">
                     Prénom ,pas puls de 250 caractères.
                   </small>
                 </span>
@@ -146,7 +146,7 @@
                 <label>Email</label>
                 <input class="form-control" type="email" required #email="ngModel" name="email" ngModel pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                 <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                  <small *ngIf="email.errors?.required">
+                  <small *ngIf="email.errors?.['required']">
                     Email est requis
                   </small>
                   <small *ngIf="email.errors?.pattern">
@@ -158,7 +158,7 @@
                 <label>Contact</label>
                 <input class="form-control" type="number" required #phone="ngModel" name="phone" ngModel>
                 <span *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
-                  <small *ngIf="phone.errors?.required">
+                  <small *ngIf="phone.errors?.['required']">
                     Contact est requis
                   </small>
                   <small *ngIf="phone.errors?.pattern">
@@ -190,10 +190,10 @@
                 <label>Nom</label>
                 <input class="form-control" #last_name="ngModel" maxlength="250" required name="last_name" ngModel>
                 <span *ngIf="last_name.invalid && (last_name.dirty || last_name.touched)" class="text-danger">
-                  <small *ngIf="last_name.errors?.required">
+                  <small *ngIf="last_name.errors?.['required']">
                     Nom est requis
                   </small>
-                  <small *ngIf="last_name.errors.maxlength">
+                  <small *ngIf="last_name.errors?.['maxlength']">
                     Nom ,pas plus de 250 caractères.
                   </small>
                 </span>
@@ -202,10 +202,10 @@
                 <label>Prénom</label>
                 <input class="form-control" #first_name="ngModel" maxlength="250" required name="first_name" ngModel>
                 <span *ngIf="first_name.invalid && (first_name.dirty || first_name.touched)" class="text-danger">
-                  <small *ngIf="first_name.errors?.required">
+                  <small *ngIf="first_name.errors?.['required']">
                     Prénom est requis
                   </small>
-                  <small *ngIf="first_name.errors.maxlength">
+                  <small *ngIf="first_name.errors?.['maxlength']">
                     Prénom ,pas puls de 250 caractères.
                   </small>
                 </span>
@@ -214,7 +214,7 @@
                 <label>Email</label>
                 <input class="form-control" type="email" required #email="ngModel" name="email" ngModel pattern="^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                 <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                  <small *ngIf="email.errors?.required">
+                  <small *ngIf="email.errors?.['required']">
                     Email est requis
                   </small>
                   <small *ngIf="email.errors?.pattern">
@@ -226,7 +226,7 @@
                 <label>Contact</label>
                 <input class="form-control" type="number" required #phone="ngModel" name="phone" ngModel>
                 <span *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="text-danger">
-                  <small *ngIf="phone.errors?.required">
+                  <small *ngIf="phone.errors?.['required']">
                     Contact est requis
                   </small>
                   <small *ngIf="phone.errors?.pattern">

@@ -116,10 +116,10 @@
                                     <input type="time" class="form-control form-control-sm" #heureDebut="ngModel" maxlength="250"
                                         required name="heureDebut" ngModel>
                                     <span *ngIf="heureDebut.invalid && (heureDebut.dirty || heureDebut.touched)" class="text-danger">
-                                        <small *ngIf="heureDebut.errors?.required">
+                                        <small *ngIf="heureDebut.errors?.['required']">
                                             Heure Début est requis
                                         </small>
-                                        <small *ngIf="heureDebut.errors.maxlength">
+                                        <small *ngIf="heureDebut.errors?.['maxlength']">
                                             Heure Début ,pas plus de 250 caractères.
                                         </small>
                                     </span>
@@ -131,10 +131,10 @@
                                     <input type="time" class="form-control form-control-sm" #heureFin="ngModel" maxlength="250"
                                         required name="heureFin" ngModel>
                                     <span *ngIf="heureFin.invalid && (heureFin.dirty || heureFin.touched)" class="text-danger">
-                                        <small *ngIf="heureFin.errors?.required">
+                                        <small *ngIf="heureFin.errors?.['required']">
                                             Heure Fin est requis
                                         </small>
-                                        <small *ngIf="heureFin.errors.maxlength">
+                                        <small *ngIf="heureFin.errors?.['maxlength']">
                                             Heure Fin ,pas plus de 250 caractères.
                                         </small>
                                     </span>
@@ -168,10 +168,10 @@
                                     <input type="time" class="form-control form-control-sm" #heureDebut="ngModel" maxlength="250"
                                         required name="heureDebut" [(ngModel)]="selected_data.heureDebut">
                                     <span *ngIf="heureDebut.invalid && (heureDebut.dirty || heureDebut.touched)" class="text-danger">
-                                        <small *ngIf="heureDebut.errors?.required">
+                                        <small *ngIf="heureDebut.errors?.['required']">
                                             Heure Début est requis
                                         </small>
-                                        <small *ngIf="heureDebut.errors.maxlength">
+                                        <small *ngIf="heureDebut.errors?.['maxlength']">
                                             Heure Début ,pas plus de 250 caractères.
                                         </small>
                                     </span>
@@ -183,10 +183,10 @@
                                     <input type="time" class="form-control form-control-sm" #heureFin="ngModel" maxlength="250"
                                         required name="heureFin" [(ngModel)]="selected_data.heureFin">
                                     <span *ngIf="heureFin.invalid && (heureFin.dirty || heureFin.touched)" class="text-danger">
-                                        <small *ngIf="heureFin.errors?.required">
+                                        <small *ngIf="heureFin.errors?.['required']">
                                             Heure Fin est requis
                                         </small>
-                                        <small *ngIf="heureFin.errors.maxlength">
+                                        <small *ngIf="heureFin.errors?.['maxlength']">
                                             Heure Fin ,pas plus de 250 caractères.
                                         </small>
                                     </span>

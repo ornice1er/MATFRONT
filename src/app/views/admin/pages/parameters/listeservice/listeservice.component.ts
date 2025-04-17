@@ -43,7 +43,7 @@ export class ListeserviceComponent implements OnInit {
   searchText = ""
   closeResult = '';
   errorajout = ""
-  permissions: any[]
+  permissions: any[]=[]
   def_cost=0
   error = ""
   data: any[] = [];
@@ -138,8 +138,8 @@ export class ListeserviceComponent implements OnInit {
     }
   }
 
-  types = []
-  listepieces = []
+  types:any[] = []
+  listepieces:any[] = []
 
   constructor(
     private modalService: NgbModal,
@@ -154,7 +154,7 @@ export class ListeserviceComponent implements OnInit {
     private localStorageService:LocalService
   ) { }
 
-  structures: [] = []
+  structures: any[] = []
 
   
   user:any
@@ -183,7 +183,7 @@ export class ListeserviceComponent implements OnInit {
       this.default_data.idParent=this.user.agent_user.structure.idParent
       this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==0 || e.submited==false)))
+        this.data = res.filter((e:any)=>((e.submited==0 || e.submited==false)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
@@ -264,7 +264,7 @@ export class ListeserviceComponent implements OnInit {
       AppSweetAlert.simpleAlert("Suppression", "Impossible de supprimé cet élément", 'error')
       return
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.delete(this.selected_data.id).subscribe((res: any) => {
@@ -287,9 +287,9 @@ export class ListeserviceComponent implements OnInit {
     }
     this.selected_data.submited=true
     this.selected_data.published=false
-    AlertNotif.finishConfirm("Soummettre cette prestation",
+    AppSweetAlert.confirmBox("Soummettre cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
-        if (result.value:) {
+        if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
             AppSweetAlert.simpleAlert("Soumettre cette prestation", "Soumission effectuée avec succès", 'success')
             this.init()
@@ -310,7 +310,7 @@ export class ListeserviceComponent implements OnInit {
    
     this.selected_data.published=true
     this.selected_data.submited=true
-    AlertNotif.finishConfirm("Publier cette prestation",
+    AppSweetAlert.confirmBox("Publier cette prestation",
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
@@ -322,7 +322,7 @@ export class ListeserviceComponent implements OnInit {
         }
       })
   }
-  edit(value) {
+  edit(value: any) {
    // value.id = this.selected_data.id
     var getNbreJours=0;
     var geturl=null;
@@ -364,7 +364,7 @@ export class ListeserviceComponent implements OnInit {
       }
     })
   }
-  addPiece(value) {
+  addPiece(value:any) {
     this.listepieces.forEach(function (item) {
       if (item.libellePiece == value.libellePiece)
         AppSweetAlert.simpleAlert("Ajout piece", "Cette pièce a été déjà ajoutée.", 'error')
@@ -375,7 +375,7 @@ export class ListeserviceComponent implements OnInit {
       this.listepieces.push(value);
   }
 
-  removeRow(i) {
+  removeRow(i:any) {
     var msgConfirm = "Souhaitez-vous vraiment supprimer la ligne ?";
     var confirmResult = confirm(msgConfirm);
     if (confirmResult === false) return;

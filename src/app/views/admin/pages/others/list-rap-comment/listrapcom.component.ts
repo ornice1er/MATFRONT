@@ -36,7 +36,7 @@ export class RapCommentComponent implements OnInit {
   pageSize = 50;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -217,7 +217,7 @@ export class RapCommentComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.commentaireService.delete(this.selected_data.id_comment).subscribe((res:any)=>{

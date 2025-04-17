@@ -34,7 +34,7 @@ export class EservicesComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -150,7 +150,7 @@ export class EservicesComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.eservices.delete(this.selected_data.id).subscribe((res:any)=>{

@@ -1,5 +1,4 @@
 import { Component, OnInit,Input } from '@angular/core';
-import { LocalService } from '../../../core/_services/browser-storages/local.service';
 // import { Router } from '@angular/router';
 // import { Roles } from '../../../core/_models/roles';
 // import { UserService } from '../../../core/_services/user.service';
@@ -12,6 +11,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
+import { UserService } from '../../../../core/services/user.service';
+import { Router } from '@angular/router';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -28,13 +30,13 @@ export class ProfilComponent implements OnInit {
   errormessage=""
   current_role=""
   user:any
-  file:File
+  file:File | null | undefined
   
-  constructor(private localService:LocalService,private userService:UserService,private router:Router,private localStorageService:LocalService) { }
+  constructor(private localService:LocalStorageService,private userService:UserService,private router:Router,private localStorageService:LocalStorageService) { }
 
   ngOnInit(): void {
-      this.current_role=localStorage.getItem('mataccueilUserRole')
-      this.user=new User(this.localStorageService.getJsonValue("mataccueilUserData")) 
+      this.current_role=localStorage.getItem('mataccueilUserRole')?? ""
+      this.user=this.localStorageService.get("mataccueilUserData")
       console.log('-----------------------------------12')     
       console.log(this.user)     
   }
@@ -48,7 +50,7 @@ export class ProfilComponent implements OnInit {
         newcontacts:value.newcontacts,
     }
       this.userService.updateProfil(params).subscribe((res:any)=>{
-        this.localService.setJsonValue("mataccueilUserData",res);
+        this.localService.set("mataccueilUserData",res);
         AppSweetAlert.simpleAlert('Modification profil', 'Votre mise à jour de profil été prise en compte avec succès. A présent nous vous déconnecterons et vous reconnecterez avec votre nouveau mot de passe.', 'success')
         this.signout()
       }, (err)=>{
@@ -59,7 +61,7 @@ export class ProfilComponent implements OnInit {
   signout(){
     localStorage.removeItem('mataccueilToken')
     localStorage.removeItem('mataccueilUserRole')
-    this.localStorageService.clearToken()
+    this.localStorageService.clear()
     this.router.navigateByUrl('/login')
   }
  
@@ -76,11 +78,11 @@ export class ProfilComponent implements OnInit {
       formData.append("profil_image",this.file)
     }
     this.userService.update(value,this.user.id).subscribe((res:any)=>{
-      this.localService.setJsonValue("mataccueilUserData",res);
+      this.localService.set("mataccueilUserData",res);
       AppSweetAlert.simpleAlert('Modification de profil', 'Votre mise à jour de profil été prise en compte avec succès', 'success')
 
       this.ngOnInit()
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert('Modification de profil', 'Une erreur est survenue, verifier votre connexion internet puis reessayer', 'error')
     }) 
   }

@@ -41,7 +41,7 @@ export class ListRatioDemandeInfosPrestationComponent implements OnInit {
   
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];

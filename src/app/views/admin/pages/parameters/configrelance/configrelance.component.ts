@@ -13,14 +13,14 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 import { TranslateService } from '@ngx-translate/core';
 
-import { LocalService } from '../../../../core/_services/browser-storages/local.service';
-import { InstitutionService } from '../../../../core/_services/institution.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { InstitutionService } from '../../../../../core/services/institution.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -39,7 +39,7 @@ export class ConfigrelanceComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   selected_iduse=""
   selected_idEntite=""
@@ -48,13 +48,13 @@ export class ConfigrelanceComponent implements OnInit {
 
   data: any[]=[];
   _temp: any[]=[];
-  listuser = []
+  listuser:any[]=[]
 
   selected = [
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data={ordre_relance:"",msg_relance:"",apartir_de:"",id_user:null,idEntite:null,id:null}
+  selected_data={ordre_relance:"",msg_relance:"",apartir_de:"",id_user:null,idEntite:null,id:0}
 
   search(){
     this.data=this._temp.filter(r => {
@@ -109,7 +109,7 @@ export class ConfigrelanceComponent implements OnInit {
     private institutionService:InstitutionService,
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
-    private localStorageService:LocalService,
+    private localStorageService:LocalStorageService,
     private activatedRoute: ActivatedRoute,
     ) {}
 
@@ -117,7 +117,7 @@ export class ConfigrelanceComponent implements OnInit {
     user:any
     ngOnInit() {
       if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+        this.user = this.localStorageService.get("mataccueilUserData")
       }
       this.listuser = []
       // this.selected_idEntite
@@ -165,7 +165,7 @@ export class ConfigrelanceComponent implements OnInit {
      this.user_prin = false
 
       // this.init() 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -176,14 +176,14 @@ export class ConfigrelanceComponent implements OnInit {
   }
 
   archive(){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.institutionService.deleteRelance(this.selected_data.id).subscribe((res:any)=>{
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.init()
-      }, (err)=>{
+      }, (err:any )=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -202,7 +202,7 @@ export class ConfigrelanceComponent implements OnInit {
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

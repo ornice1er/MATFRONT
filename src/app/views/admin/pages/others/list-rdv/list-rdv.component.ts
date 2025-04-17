@@ -36,7 +36,7 @@ export class ListRdvComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -222,7 +222,7 @@ export class ListRdvComponent implements OnInit {
 
 
   archive(id:any,index:any){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.rdvService.delete(id).subscribe((res:any)=>{

@@ -43,7 +43,7 @@ export class ListSuggestionComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -127,7 +127,7 @@ export class ListSuggestionComponent implements OnInit {
  
 
   archive(id:any,index:any){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.suggestionService.delete(id).subscribe((res:any)=>{

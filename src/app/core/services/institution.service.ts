@@ -32,7 +32,7 @@ export class InstitutionService {
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
       );
   }
-  delete(id:number){
+  delete(id:){
     return this.http.delete<any[]>(`${ConfigService.toApiUrl("institution/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }
   // -- Relance 

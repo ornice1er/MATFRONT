@@ -39,7 +39,7 @@ export class ListeinstitutionComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -143,7 +143,7 @@ export class ListeinstitutionComponent implements OnInit {
 
 
   archive(){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.institutionService.delete(this.selected_data.id).subscribe((res:any)=>{

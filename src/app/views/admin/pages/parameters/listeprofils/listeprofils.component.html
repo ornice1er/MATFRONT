@@ -146,10 +146,10 @@
                   <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250" required name="libelle"
                     ngModel>
                   <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                    <small *ngIf="libelle.errors?.required">
+                    <small *ngIf="libelle.errors?.['required']">
                       libelle est requis
                     </small>
-                    <small *ngIf="libelle.errors.maxlength">
+                    <small *ngIf="libelle.errors?.['maxlength']">
                       libelle ,pas plus de 250 caractères.
                     </small>
                   </span>
@@ -276,10 +276,10 @@
                   <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250" required name="libelle"
                     [(ngModel)]="selected_data.LibelleProfil">
                   <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                    <small *ngIf="libelle.errors?.required">
+                    <small *ngIf="libelle.errors?.['required']">
                       libelle est requis
                     </small>
-                    <small *ngIf="libelle.errors.maxlength">
+                    <small *ngIf="libelle.errors?.['maxlength']">
                       libelle ,pas plus de 250 caractères.
                     </small>
                   </span>

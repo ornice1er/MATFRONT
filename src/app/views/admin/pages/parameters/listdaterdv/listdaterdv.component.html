@@ -117,10 +117,10 @@
                                     <input type="date" class="form-control form-control-sm" #dateChoisi="ngModel"
                                         maxlength="250" required name="dateChoisi" ngModel>
                                     <span *ngIf="dateChoisi.invalid && (dateChoisi.dirty || dateChoisi.touched)" class="text-danger">
-                                        <small *ngIf="dateChoisi.errors?.required">
+                                        <small *ngIf="dateChoisi.errors?.['required']">
                                             Date Prochain RDV est requis
                                         </small>
-                                        <small *ngIf="dateChoisi.errors.maxlength">
+                                        <small *ngIf="dateChoisi.errors?.['maxlength']">
                                             Date Prochain RDV ,pas plus de 250 caractères.
                                         </small>
                                     </span>
@@ -155,10 +155,10 @@
                                     <input type="date" class="form-control form-control-sm" #dateChoisi="ngModel" maxlength="250"
                                         required name="dateChoisi" [(ngModel)]="selected_data.dateChoisi">
                                     <span *ngIf="dateChoisi.invalid && (dateChoisi.dirty || dateChoisi.touched)" class="text-danger">
-                                        <small *ngIf="dateChoisi.errors?.required">
+                                        <small *ngIf="dateChoisi.errors?.['required']">
                                             Date Prochain RDV est requis
                                         </small>
-                                        <small *ngIf="dateChoisi.errors.maxlength">
+                                        <small *ngIf="dateChoisi.errors?.['maxlength']">
                                             Date Prochain RDV ,pas plus de 250 caractères.
                                         </small>
                                     </span>

@@ -37,7 +37,7 @@ export class ListetapesComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -46,7 +46,7 @@ export class ListetapesComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:Etape
+  selected_data:any
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -146,7 +146,7 @@ export class ListetapesComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.etapeService.delete(this.selected_data.id).subscribe((res:any)=>{

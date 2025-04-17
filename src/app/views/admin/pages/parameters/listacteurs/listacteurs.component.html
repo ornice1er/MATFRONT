@@ -131,10 +131,10 @@
                                         <input class="form-control form-control-sm" #nomprenoms="ngModel" maxlength="250"
                                             required name="nomprenoms" ngModel>
                                         <span *ngIf="nomprenoms.invalid && (nomprenoms.dirty || nomprenoms.touched)" class="text-danger">
-                                            <small *ngIf="nomprenoms.errors?.required">
+                                            <small *ngIf="nomprenoms.errors?.['required']">
                                                 nom et prenoms est requis
                                             </small>
-                                            <small *ngIf="nomprenoms.errors.maxlength">
+                                            <small *ngIf="nomprenoms.errors?.['maxlength']">
                                                 nom et prenoms ,pas plus de 250 caractères.
                                             </small>
                                         </span>
@@ -152,10 +152,10 @@
                                             <option value="4">Guichet SRU</option>
                                         </select>
                                         <span *ngIf="idTypeacteur.invalid && (idTypeacteur.dirty || idTypeacteur.touched)" class="text-danger">
-                                            <small *ngIf="idTypeacteur.errors?.required">
+                                            <small *ngIf="idTypeacteur.errors?.['required']">
                                                     Type acteur est requis
                                             </small>
-                                            <small *ngIf="idTypeacteur.errors.maxlength">
+                                            <small *ngIf="idTypeacteur.errors?.['maxlength']">
                                                     Type acteur ,pas plus de 250 caractères.
                                             </small>
                                         </span>
@@ -170,7 +170,7 @@
                                             <option [value]="e.id" *ngFor="let e of structures">{{e.libelle}}</option>
                                         </select>
                                         <span *ngIf="idStructure.invalid && (idStructure.dirty || idStructure.touched)" class="text-danger">
-                                            <small *ngIf="idStructure.errors?.required">
+                                            <small *ngIf="idStructure.errors?.['required']">
                                                 structure est requis
                                             </small>
                                         </span>
@@ -186,7 +186,7 @@
                                             <option [value]="d.id" *ngFor="let d of departement">{{d.libelle}}</option>
                                         </select>
                                         <span *ngIf="idDepart.invalid && (idDepart.dirty || idDepart.touched)" class="text-danger">
-                                            <small *ngIf="idDepart.errors?.required">
+                                            <small *ngIf="idDepart.errors?.['required']">
                                                 Département est requis
                                             </small>
                                         </span>
@@ -202,7 +202,7 @@
                                             <option [value]="c.id" *ngFor="let c of commune">{{c.libellecom}}</option>
                                         </select>
                                         <span *ngIf="idComm.invalid && (idComm.dirty || idComm.touched)" class="text-danger">
-                                            <small *ngIf="idComm.errors?.required">
+                                            <small *ngIf="idComm.errors?.['required']">
                                                 Commune est requis
                                             </small>
                                         </span>
@@ -236,10 +236,10 @@
                                             <input class="form-control form-control-sm" #nomprenoms="ngModel" maxlength="250"
                                                 required name="nomprenoms" [(ngModel)]="selected_data.nomprenoms">
                                             <span *ngIf="nomprenoms.invalid && (nomprenoms.dirty || nomprenoms.touched)" class="text-danger">
-                                                <small *ngIf="nomprenoms.errors?.required">
+                                                <small *ngIf="nomprenoms.errors?.['required']">
                                                     nom et prenoms est requis
                                                 </small>
-                                                <small *ngIf="nomprenoms.errors.maxlength">
+                                                <small *ngIf="nomprenoms.errors?.['maxlength']">
                                                     nom et prenoms ,pas plus de 250 caractères.
                                                 </small>
                                             </span>
@@ -257,10 +257,10 @@
                                                 <option value="4">Guichet SRU</option>
                                             </select>
                                             <span *ngIf="idTypeacteur.invalid && (idTypeacteur.dirty || idTypeacteur.touched)" class="text-danger">
-                                                <small *ngIf="idTypeacteur.errors?.required">
+                                                <small *ngIf="idTypeacteur.errors?.['required']">
                                                         Type acteur est requis
                                                 </small>
-                                                <small *ngIf="idTypeacteur.errors.maxlength">
+                                                <small *ngIf="idTypeacteur.errors?.['maxlength']">
                                                         Type acteur ,pas plus de 250 caractères.
                                                 </small>
                                             </span>
@@ -275,10 +275,10 @@
                                                 <option [value]="e.id" *ngFor="let e of structures">{{e.libelle}}</option>
                                             </select>
                                             <span *ngIf="idStructure.invalid && (idStructure.dirty || idStructure.touched)" class="text-danger">
-                                                <small *ngIf="idStructure.errors?.required">
+                                                <small *ngIf="idStructure.errors?.['required']">
                                                     structure est requis
                                                 </small>
-                                                <small *ngIf="idStructure.errors.maxlength">
+                                                <small *ngIf="idStructure.errors?.['maxlength']">
                                                     structure ,pas plus de 250 caractères.
                                                 </small>
                                             </span>
@@ -293,7 +293,7 @@
                                                 <option [value]="d.id" *ngFor="let d of departement">{{d.libelle}}</option>
                                             </select>
                                             <span *ngIf="idDepart.invalid && (idDepart.dirty || idDepart.touched)" class="text-danger">
-                                                <small *ngIf="idDepart.errors?.required">
+                                                <small *ngIf="idDepart.errors?.['required']">
                                                     Département est requis
                                                 </small>
                                             </span>
@@ -309,7 +309,7 @@
                                                 <option [value]="c.id" *ngFor="let c of commune">{{c.libellecom}}</option>
                                             </select>
                                             <span *ngIf="idComm.invalid && (idComm.dirty || idComm.touched)" class="text-danger">
-                                                <small *ngIf="idComm.errors?.required">
+                                                <small *ngIf="idComm.errors?.['required']">
                                                     Commune est requis
                                                 </small>
                                             </span>

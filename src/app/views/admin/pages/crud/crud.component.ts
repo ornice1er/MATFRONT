@@ -36,7 +36,7 @@ export class CrudComponent implements OnInit {
   pageSize = 4;
   searchText=""
   closeResult = '';
-  permissions:any[]
+   permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -154,7 +154,7 @@ export class CrudComponent implements OnInit {
       })
    }
   archive(id,index){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.userService.delete(id).subscribe((res:any)=>{

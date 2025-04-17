@@ -107,8 +107,8 @@
                   <div class="col-md-6">
                     <textarea class="form-control form-control-sm has-error"  rows="10" #msg_relance="ngModel" id="msg_relance" ngModel name="msg_relance"></textarea>
                     <span *ngIf="msg_relance.invalid && (msg_relance.dirty || msg_relance.touched)" class="text-danger">
-                      <small *ngIf="msg_relance.errors?.required"> Message est requis </small>
-                      <small *ngIf="msg_relance.errors.maxlength"> Message pas plus de 250 caractères. </small>
+                      <small *ngIf="msg_relance.errors?.['required']"> Message est requis </small>
+                      <small *ngIf="msg_relance.errors?.['maxlength']"> Message pas plus de 250 caractères. </small>
                     </span>
                   </div>
                 </div>
@@ -118,8 +118,8 @@
                       <input class="form-control form-control-sm" #apartir_de="ngModel" type="number" required name="apartir_de"
                         ngModel>
                       <span *ngIf="apartir_de.invalid && (apartir_de.dirty || apartir_de.touched)" class="text-danger">
-                        <small *ngIf="apartir_de.errors?.required"> à partir de est requis </small>
-                        <small *ngIf="apartir_de.errors.maxlength"> à partir de ,pas plus de 250 caractères. </small>
+                        <small *ngIf="apartir_de.errors?.['required']"> à partir de est requis </small>
+                        <small *ngIf="apartir_de.errors?.['maxlength']"> à partir de ,pas plus de 250 caractères. </small>
                       </span>
                     </div>
                 </div>
@@ -159,8 +159,8 @@
                   <div class="col-md-8">
                     <textarea class="form-control form-control-sm has-error" required [(ngModel)]="selected_data.msg_relance" rows="5" #msg_relance="ngModel" id="msg_relance" ngModel name="msg_relance"></textarea>
                     <span *ngIf="msg_relance.invalid && (msg_relance.dirty || msg_relance.touched)" class="text-danger">
-                      <small *ngIf="msg_relance.errors?.required"> Message est requis </small>
-                      <small *ngIf="msg_relance.errors.maxlength"> Message pas plus de 250 caractères. </small>
+                      <small *ngIf="msg_relance.errors?.['required']"> Message est requis </small>
+                      <small *ngIf="msg_relance.errors?.['maxlength']"> Message pas plus de 250 caractères. </small>
                     </span>
                   </div>
                 </div>
@@ -170,8 +170,8 @@
                     <input class="form-control form-control-sm"  required [(ngModel)]="selected_data.apartir_de" #apartir_de="ngModel" type="number" required name="apartir_de"
                       ngModel>
                     <span *ngIf="apartir_de.invalid && (apartir_de.dirty || apartir_de.touched)" class="text-danger">
-                      <small *ngIf="apartir_de.errors?.required"> à partir de est requis </small>
-                      <small *ngIf="apartir_de.errors.maxlength"> à partir de ,pas plus de 250 caractères. </small>
+                      <small *ngIf="apartir_de.errors?.['required']"> à partir de est requis </small>
+                      <small *ngIf="apartir_de.errors?.['maxlength']"> à partir de ,pas plus de 250 caractères. </small>
                     </span>
                   </div>
               </div>

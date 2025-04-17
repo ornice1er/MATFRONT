@@ -36,14 +36,14 @@ export class EventsComponent implements OnInit {
   pageSize = 10;
   searchText=""
   closeResult = '';
-  permissions:any[]
+  permissions:any[]=[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
   selected = [];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data:Event
+  selected_data:any
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -138,7 +138,7 @@ export class EventsComponent implements OnInit {
 
 
   archive(){
-    AlertNotif.finishConfirm("Suppression",
+    AppSweetAlert.finishConfirm("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.eventService.delete(this.selected_data.id).subscribe((res:any)=>{
@@ -151,7 +151,7 @@ export class EventsComponent implements OnInit {
     }
    })
   }
-  edit(value) {
+  edit(value:any) {
     value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
     
