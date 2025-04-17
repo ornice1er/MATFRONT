@@ -46,7 +46,7 @@ export class AttributcomComponent implements OnInit {
   searchText = ""
   closeResult = '';
   errorajout = ""
-  permissions: any[]
+  permissions: any[]=[]
   def_cost=0
   error = ""
   listComm = []
@@ -152,8 +152,8 @@ export class AttributcomComponent implements OnInit {
   ) { }
 
   structures: [] = []
-  selectedDepart = null
-  commune = []
+  selectedDepart:any
+  commune:any = []
   idDepa:any
 
   user:any
@@ -292,7 +292,7 @@ export class AttributcomComponent implements OnInit {
     }
   }
 
-  removeRow(i) {
+  removeRow(i:any) {
     var msgConfirm = "Souhaitez-vous vraiment supprimer la ligne ?";
     var confirmResult = confirm(msgConfirm);
     if (confirmResult === false) return;

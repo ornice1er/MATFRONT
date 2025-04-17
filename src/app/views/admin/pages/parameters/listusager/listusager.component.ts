@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -32,7 +32,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 @Component({
   selector: 'app-listusager',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './listusager.component.html',
   styleUrls: ['./listusager.component.css']
 })
@@ -139,7 +139,7 @@ export class ListusagerComponent implements OnInit {
     private localStorageService:LocalService
     ) {}
 
-    departements:[]=[]
+    departements:any[]=[]
     profils:[]=[]
   
   user:any
@@ -182,7 +182,7 @@ export class ListusagerComponent implements OnInit {
   }
   
 
-  natures=[]
+  natures:any[]=[]
   services:any[]=[]
   detailpiece:any[]=[]
   descrCarr=[]

@@ -44,7 +44,7 @@ export class ConfigrelanceComponent implements OnInit {
   selected_iduse=""
   selected_idEntite=""
   selected_Entite=""
-  ministere = []
+  ministere:any[] = []
 
   data: any[]=[];
   _temp: any[]=[];
