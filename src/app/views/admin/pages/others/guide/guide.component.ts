@@ -15,12 +15,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
-import { LocalService } from '../../../../../core/services/local.service';
 import { ProfilService } from '../../../../../core/services/profil.service';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -61,7 +61,7 @@ export class GuideComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService,
+    private localStorageService:LocalStorageService,
     private profilService:ProfilService
     ) {}
 
@@ -70,7 +70,7 @@ export class GuideComponent implements OnInit {
     user:any
     ngOnInit() {
       if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+        this.user = this.localStorageService.get("mataccueilUserData")
         
       }
      this.init()

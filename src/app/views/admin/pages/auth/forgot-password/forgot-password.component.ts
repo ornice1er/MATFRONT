@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {TranslateService} from '@ngx-translate/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -17,8 +17,8 @@ import { AuthentificationService } from '../../../../../core/services/authentifi
   selector: 'app-forgot-password',
   templateUrl: './forgot-password.component.html',
     standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
-  styleUrls: ['./forgot-password.component.css']
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
+  styleUrls: ['./forgot-password.component.css'],
 })
 export class ForgotPasswordComponent implements OnInit {
 

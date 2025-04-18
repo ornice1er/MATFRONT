@@ -15,7 +15,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
-import { LocalService } from '../../../../../core/services/local.service';
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { ProfilService } from '../../../../../core/services/profil.service';
 import { RdvCreneauService } from '../../../../../core/services/rdv-creneau.service';
@@ -27,6 +26,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -136,7 +136,7 @@ export class ListusagerComponent implements OnInit {
     private rdvService:RdvService,
     private rdvCreneauService:RdvCreneauService,
     private thematiqueService:TypeService,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
     ) {}
 
     departements:any[]=[]
@@ -146,7 +146,7 @@ export class ListusagerComponent implements OnInit {
   ngOnInit() {
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
     }
 
     this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));

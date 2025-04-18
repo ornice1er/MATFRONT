@@ -16,17 +16,18 @@ import { TranslateService } from '@ngx-translate/core';
 // import { StructureService } from '../../../../core/_services/structure.service';
 // import { ActeurService } from '../../../../core/_services/acteur.service';
 // import { Acteur } from '../../../../core/_models/acteur.model';
-// import { LocalService } from '../../../../core/_services/browser-storages/local.service';
+// import { LocalStorageService } from '../../../../core/_services/browser-storages/local.service';
 // import { UsagerService } from '../../../../core/_services/usager.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { StructureService } from '../../../../../core/services/structure.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-list-suggestion',
@@ -99,7 +100,7 @@ export class ListSuggestionComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
     ) {}
 
     // structures:[]=[]
@@ -107,7 +108,7 @@ export class ListSuggestionComponent implements OnInit {
     user:any
     ngOnInit() {
       if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+        this.user = this.localStorageService.get("mataccueilUserData")
   
       }
      this.init()

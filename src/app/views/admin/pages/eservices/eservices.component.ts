@@ -10,7 +10,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 // import { AlertNotif } from 'src/app/alert';
 // import { User } from 'src/app/core/_models/user.model';
 // import { ActeurService } from 'src/app/core/_services/acteur.service';
-// import { LocalService } from 'src/app/core/_services/browser-storages/local.service';
+// import { LocalStorageService } from 'src/app/core/_services/browser-storages/local.service';
 // import { EserviceService } from 'src/app/core/_services/eservice.service';
 // import { ProfilService } from 'src/app/core/_services/profil.service';
 // import { UserService } from 'src/app/core/_services/user.service';
@@ -18,7 +18,8 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { EserviceService } from '../../../../core/services/eservice.service';
-import { LocalService } from '../../../../core/services/local.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+
 
 @Component({
   selector: 'app-eservices',
@@ -95,7 +96,7 @@ export class EservicesComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
     ) {}
 
     acteurs:[]=[]
@@ -104,7 +105,7 @@ export class EservicesComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

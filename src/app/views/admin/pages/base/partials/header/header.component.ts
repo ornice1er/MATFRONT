@@ -6,11 +6,11 @@ import { NgbModule, NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-boots
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
-import { LocalService } from '../../../../../../core/services/local.service';
 import { UserService } from '../../../../../../core/services/user.service';
 import { Roles } from '../../../../../../core/utils/global-name';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { AppSweetAlert } from '../../../../../../core/utils/app-sweet-alert';
+import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
 declare var $: any;
 
 @Component({
@@ -26,7 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private localStorageService: LocalService,
+    private localStorageService: LocalStorageService,
     private userService: UserService
   ) { }
   current_role:any = ""
@@ -70,7 +70,7 @@ export class HeaderComponent implements OnInit {
 
     this.current_role = localStorage.getItem('mataccueilUserRole')
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
     }
 
     if (this.current_role != Roles.Admin && this.current_role != Roles.SubAdmin) {
@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
 
   useLanguage(lang: string) {
     this.userService.update({ default_language: lang }, this.user.id).subscribe((res) => {
-      this.localStorageService.setJsonValue("mataccueilUserData", res);
+      this.localStorageService.set("mataccueilUserData", res);
       //this.ngOnInit()
       window.location.reload();
     })

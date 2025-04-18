@@ -16,11 +16,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { ActeurService } from '../../../../../core/services/acteur.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -98,7 +99,7 @@ export class StatspreocComponent implements OnInit {
 
     private acteurService: ActeurService,
     private requeteService: RequeteService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
@@ -256,7 +257,7 @@ export class StatspreocComponent implements OnInit {
   prepare() {
    
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       if (this.user.id == '74') { //Administrateur
         this.isAdmin = true;
       } else {

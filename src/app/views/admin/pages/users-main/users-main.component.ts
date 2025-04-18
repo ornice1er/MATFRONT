@@ -20,9 +20,10 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { ActeurService } from '../../../../core/services/acteur.service';
 import { InstitutionService } from '../../../../core/services/institution.service';
-import { LocalService } from '../../../../core/services/local.service';
+
 import { ProfilService } from '../../../../core/services/profil.service';
 import { UserService } from '../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -100,7 +101,7 @@ export class UsersMainComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private institutionService:InstitutionService,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
     ) {}
 
     acteurs:any[]=[]
@@ -109,7 +110,7 @@ export class UsersMainComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

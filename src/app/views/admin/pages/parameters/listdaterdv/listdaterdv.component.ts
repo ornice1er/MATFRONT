@@ -19,9 +19,10 @@ import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { DateRdvService } from '../../../../../core/services/date-rdv.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { StructureService } from '../../../../../core/services/structure.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-listdaterdv',
@@ -96,7 +97,7 @@ export class ListdaterdvComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
     ) {}
 
     structures:[]=[]
@@ -104,7 +105,7 @@ export class ListdaterdvComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

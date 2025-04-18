@@ -8,14 +8,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { AlertNotif } from 'src/app/alert';
-// import { LocalService } from 'src/app/core/_services/browser-storages/local.service';
+// import { LocalStorageService } from 'src/app/core/_services/browser-storages/local.service';
 // import { EserviceService } from 'src/app/core/_services/eservice.service';
 // import { NatureContractService } from 'src/app/core/_services/nature-contract.service';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-import { LocalService } from '../../../../core/services/local.service';
+
 import { NatureContractService } from '../../../../core/services/nature-contract.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-nature-contract',
@@ -92,7 +93,7 @@ export class NatureContractComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
     ) {}
 
     acteurs:[]=[]
@@ -101,7 +102,7 @@ export class NatureContractComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

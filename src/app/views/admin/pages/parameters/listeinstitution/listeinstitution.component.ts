@@ -19,8 +19,9 @@ import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { InstitutionService } from '../../../../../core/services/institution.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -96,7 +97,7 @@ export class ListeinstitutionComponent implements OnInit {
     private institutionService:InstitutionService,
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
-    private localStorageService:LocalService,
+    private localStorageService:LocalStorageService,
     private activatedRoute: ActivatedRoute,
     ) {}
 
@@ -104,7 +105,7 @@ export class ListeinstitutionComponent implements OnInit {
     user:any
     ngOnInit() {
       if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+        this.user = this.localStorageService.get("mataccueilUserData")
   
       }
      this.init()

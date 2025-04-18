@@ -10,9 +10,10 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from 'express';
-import { LocalService } from '../../../../core/services/local.service';
+
 import { ServiceService } from '../../../../core/services/service.service';
 import { UserService } from '../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-list-stat-prestation-structure',
@@ -45,7 +46,7 @@ export class ListStatPrestationStructureComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router:Router,
-    private localService:LocalService,
+    private localService:LocalStorageService,
     private prestationService:ServiceService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
@@ -62,7 +63,7 @@ export class ListStatPrestationStructureComponent implements OnInit {
   ngOnInit(): void {
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.prepare()
      
     }

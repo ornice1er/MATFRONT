@@ -16,9 +16,10 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -93,14 +94,14 @@ export class ListenatureComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
     ) {}
 
 
     user:any
     ngOnInit() {
       if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+        this.user = this.localStorageService.get("mataccueilUserData")
   
       }
      this.init()

@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { ServiceService } from '../../../../../core/services/service.service';
@@ -26,6 +26,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -152,7 +153,7 @@ export class ParcoursRegistreComponent implements OnInit {
 
     private etapeService: EtapeService,
     private requeteService: RequeteService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private prestationService: ServiceService,
     private structureService: StructureService,
     private natureService: NatureRequeteService,
@@ -229,7 +230,7 @@ export class ParcoursRegistreComponent implements OnInit {
   prepare() {
    
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {

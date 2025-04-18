@@ -25,7 +25,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
-import { LocalService } from '../../../../../core/services/local.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-graphiquestructure',
@@ -70,7 +70,7 @@ export class GraphiquestructureComponent implements OnInit {
     private translate: TranslateService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private prestationService: ServiceService,
     private structureService: StructureService,
     private natureService: NatureRequeteService,
@@ -122,7 +122,7 @@ export class GraphiquestructureComponent implements OnInit {
   ngOnInit(): void {
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.prepare()
 
       this.router.events

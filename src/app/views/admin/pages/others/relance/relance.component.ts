@@ -16,15 +16,15 @@ import { TranslateService } from '@ngx-translate/core';
 // import { Roles } from '../../../../core/_models/roles';
 // import { RelanceService } from '../../../../core/_services/relance.service';
 // import { Event } from '../../../../core/_models/event.model';
-// import { LocalService } from '../../../../core/_services/browser-storages/local.service';
+// import { LocalStorageService } from '../../../../core/_services/browser-storages/local.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { RelanceService } from '../../../../../core/services/relance.service';
-import { LocalService } from '../../../../../core/services/local.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -88,14 +88,14 @@ export class RelanceComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
     ) {}
 
 
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
    this.init()

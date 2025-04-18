@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { ServiceService } from '../../../../../core/services/service.service';

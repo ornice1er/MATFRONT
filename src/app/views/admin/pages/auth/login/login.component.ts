@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { AuthentificationService } from '../../../../core/_services/authentification.service';
-// import { LocalService } from '../../../../core/_services/browser-storages/local.service';
+// import { LocalStorageService } from '../../../../core/_services/browser-storages/local.service';
 // import {TranslateService} from '@ngx-translate/core';
 // import { Roles } from '../../../../core/_models/roles';
 // import { SettingService } from 'src/app/core/_services/setting.service';
@@ -14,8 +14,8 @@ import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthentificationService } from '../../../../../core/services/authentification.service';
-import { LocalService } from '../../../../../core/services/local.service';
 import { SettingService } from '../../../../../core/services/setting.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
   loading=false
   error=''
 
-  constructor(private activatedRoute:ActivatedRoute,private translateService: TranslateService,private localStorageService:LocalService,private route:ActivatedRoute,private router:Router, private auth:AuthentificationService, private settingService: SettingService ) { }
+  constructor(private activatedRoute:ActivatedRoute,private translateService: TranslateService,private localStorageService:LocalStorageService,private route:ActivatedRoute,private router:Router, private auth:AuthentificationService, private settingService: SettingService ) { }
   lang="fr"
   ngOnInit(): void {
 

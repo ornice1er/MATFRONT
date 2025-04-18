@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RelanceService } from '../../../../../core/services/relance.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
@@ -27,6 +27,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -81,7 +82,7 @@ export class ListauxDigitComponent implements OnInit {
     private etapeService: EtapeService,
     private requeteService: RequeteService,
     private relanceService: RelanceService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private prestationService: ServiceService,
     private structureService: StructureService,
     private natureService: NatureRequeteService,
@@ -96,7 +97,7 @@ export class ListauxDigitComponent implements OnInit {
   ngOnInit(): void {
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.prepare()
 
       this.router.events

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { AuthentificationService } from '../../../../core/_services/authentification.service';
-// import { LocalService } from '../../../../core/_services/browser-storages/local.service';
+// import { LocalStorageService } from '../../../../core/_services/browser-storages/local.service';
 // import { UserService } from '../../../../core/_services/user.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -11,8 +11,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { AuthentificationService } from '../../../../../core/services/authentification.service';
-import { LocalService } from '../../../../../core/services/local.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-login-check',
@@ -26,7 +26,7 @@ export class LoginCheckComponent implements OnInit {
 	returnUrl = ''
 	loading = false
 	error = ''
-  constructor(private route:ActivatedRoute,private userService: UserService, private localService: LocalService, private router: Router, private auth: AuthentificationService) { 
+  constructor(private route:ActivatedRoute,private userService: UserService, private localService: LocalStorageService, private router: Router, private auth: AuthentificationService) { 
 
   }
 

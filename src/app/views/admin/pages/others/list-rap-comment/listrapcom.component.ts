@@ -13,11 +13,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { CommentaireService } from '../../../../../core/services/commentaire.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { UserService } from '../../../../../core/services/user.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { ConfigService } from '../../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-listrapcom',
@@ -118,14 +119,14 @@ export class RapCommentComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
     ) {}
 
 
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

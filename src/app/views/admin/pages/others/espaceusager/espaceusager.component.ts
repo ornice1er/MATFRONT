@@ -22,7 +22,7 @@ import { AuthentificationService } from '../../../../../core/services/authentifi
 import { DateRdvService } from '../../../../../core/services/date-rdv.service';
 import { EtapeService } from '../../../../../core/services/etape.service';
 import { InstitutionService } from '../../../../../core/services/institution.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RdvCreneauService } from '../../../../../core/services/rdv-creneau.service';
 import { RdvService } from '../../../../../core/services/rdv.service';
@@ -33,6 +33,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-espaceusager',
@@ -157,7 +158,7 @@ export class EspaceusagerComponent implements OnInit {
     private rdvService: RdvService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private prestationService: ServiceService,
     private structureService: StructureService,
     private natureService: NatureRequeteService,
@@ -313,7 +314,7 @@ export class EspaceusagerComponent implements OnInit {
     console.log(localStorage.getItem('mataccueilUserData'))
     
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.user.full_name=this.user.nom+" "+this.user.prenoms
       this.selectedEntie=this.user.institu_id
       //Controle ajouter pour les premiers users qui n'ont pas renseigné leur identite

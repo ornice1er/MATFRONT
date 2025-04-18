@@ -21,7 +21,7 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { ActeurService } from '../../../../core/services/acteur.service';
 import { EtapeService } from '../../../../core/services/etape.service';
-import { LocalService } from '../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../core/services/nature-requete.service';
 import { RequeteService } from '../../../../core/services/requete.service';
 import { ServiceService } from '../../../../core/services/service.service';
@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
   private translate:TranslateService,
   private etapeService:EtapeService,
   private requeteService:RequeteService,
-  private localService:LocalService,
+  private localService:LocalStorageService,
   private prestationService:ServiceService,
   private structureService:StructureService,
   private acteurService: ActeurService,
@@ -117,7 +117,7 @@ checkType(){
 ngOnInit(): void {
 
   if (localStorage.getItem('mataccueilUserData') != null) {
-    this.user = this.localService.getJsonValue('mataccueilUserData')
+    this.user = this.localService.get('mataccueilUserData')
       console.log('ssssssssssssssss')
       console.log(this.user)
       this.isAdmin = true;

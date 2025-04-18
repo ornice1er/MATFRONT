@@ -15,11 +15,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { RdvService } from '../../../../../core/services/rdv.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -93,7 +94,7 @@ export class ListRdvComponent implements OnInit {
     private rdvService:RdvService,
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
-    private localService : LocalService,
+    private localService : LocalStorageService,
     private activatedRoute: ActivatedRoute,
     ) {}
 
@@ -102,7 +103,7 @@ export class ListRdvComponent implements OnInit {
   ngOnInit() {
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
     }
 
     this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x.page || 1));

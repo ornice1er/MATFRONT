@@ -4,10 +4,19 @@ import { ActivatedRoute } from '@angular/router';
 import {TranslateService} from '@ngx-translate/core';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { AuthService } from '../../../../../core/services/auth.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import { LoadingComponent } from '../../../../components/loading/loading.component';
 
 
 @Component({
   selector: 'app-reset-password',
+  standalone: true,
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   templateUrl: './reset-password.component.html',
   styleUrls: ['./reset-password.component.css']
 })

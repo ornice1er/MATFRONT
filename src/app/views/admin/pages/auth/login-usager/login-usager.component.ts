@@ -5,18 +5,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 // import { AuthentificationService } from '../../../../core/_services/authentification.service';
-// import { LocalService } from '../core/_services/browser-storages/local.service';
+// import { LocalStorageService } from '../core/_services/browser-storages/local.service';
 import {TranslateService} from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AuthentificationService } from '../../../../../core/services/authentification.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-login-usager',
   templateUrl: './login-usager.component.html',
-  styleUrls: ['./login-usager.component.css']
+  styleUrls: ['./login-usager.component.css'],
     standalone: true,
 	imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
 })
@@ -26,7 +27,7 @@ export class LoginUsagerComponent implements OnInit {
   loading=false
   error=''
 
-  constructor(private activatedRoute:ActivatedRoute,private translateService: TranslateService,private localStorageService:LocalService,private route:ActivatedRoute,private router:Router, private auth:AuthentificationService) { }
+  constructor(private activatedRoute:ActivatedRoute,private translateService: TranslateService,private localStorageService:LocalStorageService,private route:ActivatedRoute,private router:Router, private auth:AuthentificationService) { }
   lang="fr"
   ngOnInit(): void {
 
@@ -40,7 +41,7 @@ export class LoginUsagerComponent implements OnInit {
 				console.log(res)
 				this.loading = false;
 				if (res) {
-          this.localStorageService.setJsonValue('mataccueilUserData',res);
+          this.localStorageService.set('mataccueilUserData',res);
           
 					this.router.navigateByUrl('/usager/espace'); 
 				}

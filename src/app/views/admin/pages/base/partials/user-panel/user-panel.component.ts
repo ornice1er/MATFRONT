@@ -7,10 +7,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
-import { LocalService } from '../../../../../../core/services/local.service';
 import { UserService } from '../../../../../../core/services/user.service';
 import { Roles } from '../../../../../../core/utils/global-name';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
+import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
 
 
 
@@ -24,14 +24,14 @@ import { LoadingComponent } from '../../../../../components/loading/loading.comp
 })
 export class UserPanelComponent implements OnInit {
 
-  constructor(private userService:UserService,private router:Router,private localStorageService:LocalService,private translateService: TranslateService) { }
+  constructor(private userService:UserService,private router:Router,private localStorageService:LocalStorageService,private translateService: TranslateService) { }
   
   current_role:any=""
   user:any
  
   ngOnInit(): void {
     this.current_role=localStorage.getItem('mataccueilUserRole')
-      this.user=this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user=this.localStorageService.get("mataccueilUserData")
       if(this.current_role!=Roles.Admin && this.current_role!=Roles.SubAdmin){
       }
      
@@ -45,7 +45,7 @@ export class UserPanelComponent implements OnInit {
   signout(){
     localStorage.removeItem('mataccueilToken')
     localStorage.removeItem('mataccueilUserRole')
-    this.localStorageService.clearToken()
+    this.localStorageService.clear()
     this.router.navigateByUrl('/login')
   }
 

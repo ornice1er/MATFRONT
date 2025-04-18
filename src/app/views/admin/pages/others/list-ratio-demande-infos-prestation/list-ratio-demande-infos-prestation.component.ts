@@ -16,7 +16,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
-import { LocalService } from '../../../../../core/services/local.service';
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { ServiceService } from '../../../../../core/services/service.service';
@@ -25,6 +24,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -73,7 +73,7 @@ export class ListRatioDemandeInfosPrestationComponent implements OnInit {
     private translate:TranslateService,
     private etapeService:EtapeService,
     private requeteService:RequeteService,
-    private localService:LocalService,
+    private localService:LocalStorageService,
     private prestationService:ServiceService,
     private structureService:StructureService,
     private natureService:NatureRequeteService,
@@ -89,7 +89,7 @@ export class ListRatioDemandeInfosPrestationComponent implements OnInit {
 
     
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.init()
     }
   

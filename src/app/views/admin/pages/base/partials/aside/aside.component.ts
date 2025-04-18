@@ -7,10 +7,10 @@ import { Router } from 'express';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
 import { AuthentificationService } from '../../../../../../core/services/authentification.service';
-import { LocalService } from '../../../../../../core/services/local.service';
 import { ProfilService } from '../../../../../../core/services/profil.service';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { Roles } from '../../../../../../core/utils/global-name';
+import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
 
 declare var $: any;
 
@@ -30,7 +30,7 @@ export class AsideComponent implements OnInit {
   hotel_r=Roles.Hotel
   tour_operator_r=Roles.TourOperateur
   current_user_role:any=''
-  constructor(private router:Router,private localStorageService:LocalService,private authService:AuthentificationService,private profilService:ProfilService) { }
+  constructor(private router:Router,private localStorageService:LocalStorageService,private authService:AuthentificationService,private profilService:ProfilService) { }
 
   @Input()
   get_user: any;
@@ -45,7 +45,7 @@ export class AsideComponent implements OnInit {
     }
 
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
       // console.log(this.user)
     }
  

@@ -9,13 +9,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerService } from 'ngx-spinner';
 // import { Config } from 'src/app/app.config';
 // import { AdvancedStatisticsService } from 'src/app/core/_services/advanced-statistics.service';
-// import { LocalService } from 'src/app/core/_services/browser-storages/local.service';
+// import { LocalStorageService } from 'src/app/core/_services/browser-storages/local.service';
 // import { CcspServiceService } from 'src/app/core/_services/ccsp-service.service';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { AdvancedStatisticsService } from '../../../../core/services/advanced-statistics.service';
-import { LocalService } from '../../../../core/services/local.service';
 import { ConfigService } from '../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-avanced-statistics',
@@ -39,7 +39,7 @@ export class AvancedStatisticsComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
   ) { }
 
   ngOnInit(): void {

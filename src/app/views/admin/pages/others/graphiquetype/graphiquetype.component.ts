@@ -16,7 +16,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
-import { LocalService } from '../../../../../core/services/local.service';
+
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { ServiceService } from '../../../../../core/services/service.service';
@@ -27,6 +27,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions, ChartType } from 'chart.js';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 
 @Component({
@@ -73,7 +74,7 @@ export class GraphiquetypeComponent implements OnInit {
     private translate: TranslateService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,
-    private localService: LocalService,
+    private localService: LocalStorageService,
     private prestationService: ServiceService,
     private structureService: StructureService,
     private natureService: NatureRequeteService,
@@ -128,7 +129,7 @@ export class GraphiquetypeComponent implements OnInit {
 
     
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+      this.user = this.localService.get('mataccueilUserData')
       this.prepare()
       
       // alert('eeeeee')
