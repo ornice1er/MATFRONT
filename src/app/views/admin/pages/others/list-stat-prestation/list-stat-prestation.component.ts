@@ -25,6 +25,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 @Component({
@@ -110,7 +111,7 @@ export class ListStatPrestationComponent implements OnInit {
 
   }
 
-  param_stat={startDate:"",endDate:"",idUser:'',stats:[]}
+  param_stat:any={startDate:"",endDate:"",idUser:'',stats:[]}
 
   searchStats(){
     this.param_stat.idUser=this.user.id
@@ -128,7 +129,7 @@ export class ListStatPrestationComponent implements OnInit {
     this.param_stat.stats=this.data
     this.param_stat['entiteId']=this.entiteId
     this.prestationService.genPdfStat(this.param_stat).subscribe((res:any)=>{
-      window.open(Config.toFile('statistiques/'+res.url),'_blank') 
+      window.open(ConfigService.toFile('statistiques/'+res.url),'_blank') 
     })
   }
 

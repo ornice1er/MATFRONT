@@ -26,6 +26,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 
@@ -44,7 +45,7 @@ export class ListauxDigitComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -112,7 +113,7 @@ export class ListauxDigitComponent implements OnInit {
 
   prepare() {
     this.init()
-    // this.activatedRoute.queryParams.subscribe(x => this.init());
+    // this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
     // this.subject.subscribe((val) => {
     //   this.data = val
     // })
@@ -137,7 +138,7 @@ export class ListauxDigitComponent implements OnInit {
     // this.all_structures = []
     // this.structureService.getAll(0, this.user.idEntite).subscribe((list: any) => {
     //   this.all_structures = list
-    //   list.forEach((e) => { 
+    //   list.forEach((e:any) => { 
     //     if (e.services.length!=0) { this.structures.push(e) } 
     //   })
     //   this._temp = []
@@ -154,12 +155,12 @@ export class ListauxDigitComponent implements OnInit {
   filterAll(event:any) {
     if (event.target.value != "all") {
       this.data = []
-      this.data = this._temp.filter((e) => e.id == +event.target.value)
+      this.data = this._temp.filter((e:any) => e.id == +event.target.value)
       this.collectionSize = this.data.length
     }
   }
   print(){
-    var url= Config.toApiUrl('structure/'+this.user.idEntite)
+    var url= ConfigService.toApiUrl('structure/'+this.user.idEntite)
     if(this.user) url+="?imp=giwu" 
     window.open(url, "_blank")  
   }
@@ -169,7 +170,7 @@ export class ListauxDigitComponent implements OnInit {
     this.data = []
     this.requeteService.filterStatByStructure('','').subscribe((res: any) => {
       this.spinner.hide();
-      res.forEach((e) => { if (e.idParent == 0) { this.data.push(e) } })
+      res.forEach((e:any) => { if (e.idParent == 0) { this.data.push(e) } })
       this._temp = this.data
       this.collectionSize = this.data.length
     })

@@ -32,6 +32,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 @Component({
   selector: 'app-espaceusager',
@@ -48,7 +49,7 @@ export class EspaceusagerComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[] 
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   dataNT: any[] = [];
@@ -64,16 +65,16 @@ export class EspaceusagerComponent implements OnInit {
   selected_data_note: any
   isSended = false
   notes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  daterdvs = []
-  rdvcreneaus = []
+  daterdvs : any[] = []
+  rdvcreneaus : any[] = []
   visible = 0
   selected_service: any
   link_to_prestation=1
   selected_type_preoccupation=0
-  structures=[]
-  entities=[]
-  selectedIdEntite=null
-  NULL=null
+  structures:any=[]
+  entities: any[] =[]
+  selectedIdEntite:any=null
+  NULL:any=null
   loading=false
   entite_vis = false
   mat_aff = false
@@ -121,7 +122,7 @@ export class EspaceusagerComponent implements OnInit {
       }, (reason) => {
         this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
       });
-    } else {import { UserService } from '../../../../core/_services/user.service';
+    } else {
 
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error')
     }
@@ -175,17 +176,17 @@ export class EspaceusagerComponent implements OnInit {
     window.location.href="https://api.mataccueil.gouv.bj/api/downloadFile?file="+file
     // window.location.href="http://localhost:8003/api/downloadFile?file="+file
   }
-  etapes = []
-  services = []
-  g_services = []
-  __services = []
-  departements = []
-  structureservices = []
-  themes = []
-  natures = []
-  institutions = []
-  rdvs = []
-  detailpiece=[]
+  etapes:any[] = []
+  services:any[] = []
+  g_services:any[]  = []
+  __services:any[]  = []
+  departements:any [] = []
+  structureservices:any[]  = []
+  themes:any [] = []
+  natures:any[]  = []
+  institutions:any [] = []
+  rdvs:any[] = []
+  detailpiece:any[] =[]
 
   isGeneralDirector = false
   typeRequete = "Préoccupation"
@@ -200,12 +201,14 @@ export class EspaceusagerComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+
+    return
   }
 
   setVisible() {
     this.visible = 1
   }
-  selected_data2=null
+  selected_data2:any=null
 
   show_actions2=true;
   checked2(event:any, el:any){
@@ -289,7 +292,7 @@ export class EspaceusagerComponent implements OnInit {
   }
 
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   url="https://demarchesmtfp.gouv.bj?client_id=26d9d6be-d676-465f-b92c-369b72442c7f&client_secret=f5034b6c80a13d411fa03a8d1f14"
@@ -303,7 +306,7 @@ export class EspaceusagerComponent implements OnInit {
     window.location.href =this.url;
   }
 
-  selectedEntie=null
+  selectedEntie:any=null
 
   ngOnInit(): void {
     
@@ -418,9 +421,9 @@ export class EspaceusagerComponent implements OnInit {
     
     let service = null
     if (this.link_to_prestation==1 || this.selected_type_preoccupation==0) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.g_services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.g_services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
     if(service == null){
       AppSweetAlert.simpleAlert("Erreur","Aucune prestation (Service Usager) par défaut n'est lié à cet entité", 'error')
@@ -494,9 +497,9 @@ export class EspaceusagerComponent implements OnInit {
   saveRequeteusager(value:any) {
     let service = null
     if ( this.selected_data.link_to_prestation==1) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
       var param = {
         id: this.selected_data.id,
@@ -546,7 +549,7 @@ export class EspaceusagerComponent implements OnInit {
   }
   chargerPrestation(event:any) {
     // this.services=[]
-    // this.__services.forEach(item => {
+    // this.__services.forEach((item:any) => {
     //   if (item.idType == event.target.value)
     //     this.services.push(item);
     // });
@@ -607,7 +610,7 @@ export class EspaceusagerComponent implements OnInit {
       }else{
         AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
       }
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
@@ -670,7 +673,7 @@ export class EspaceusagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 
@@ -793,7 +796,7 @@ export class EspaceusagerComponent implements OnInit {
   selectRequest(event:any) {
     if(event.target.value!="0"){
       this.show_structures=false
-      this.selected_el_obj = this.data.find(e => (e.codeRequete == event.target.value)).objet
+      this.selected_el_obj = this.data.find((e:any) => (e.codeRequete == event.target.value)).objet
     }else{
       this.show_structures=true
       this.selected_el_obj = ""

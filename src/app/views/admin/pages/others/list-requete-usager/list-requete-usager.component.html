@@ -259,7 +259,7 @@
                   <label for="idPrestation" class="col-sm-2 control-label">Prestation :</label>
                   <div class="col-sm-10">
                     <select name="idPrestation" required id="idPrestation" class="form-control form-control-sm form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option disabled selected>Choisir</option>
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
@@ -352,7 +352,7 @@
                   <label for="idPrestation" class="col-md-2 ">Prestation :</label>
                   <div class="col-md-10">
                     <select disabled="disabled" name="idPrestation" id="idPrestation" class="form-control form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
                   </div>
@@ -423,7 +423,7 @@
                   <label for="idPrestation" class="col-md-2 ">Prestation </label>
                   <div class="col-md-10">
                     <select disabled="disabled" name="idPrestation" id="idPrestation" class="form-control form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
                   </div>

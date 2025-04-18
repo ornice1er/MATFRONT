@@ -40,9 +40,7 @@
                                 Rdv</button> -->
                         </div>
                     </div>
-                    <ngb-tabset>
-                        <ngb-tab title="Vos préoccupations">
-                            <ng-template ngbTabContent>
+                      <h1>Vos préoccupations</h1>
                                 <div class="card-toolbar d-flex justify-content-between mt-4">
                                     <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
                                         <li class="nav-item">
@@ -203,96 +201,6 @@
                                 </div>
                                 <!--end::Table-->
 
-                            </ng-template>
-                        </ngb-tab>
-
-                        <!-- 
-                        
-                        <ngb-tab title="Mes rdv">
-                            <ng-template ngbTabContent>
-                                <table class="datatable table table-striped primary mt-4" cellspacing="0" width="100%">
-                                    <thead>
-
-                                        <tr>
-                                                    <td class="left text-left" colspan="15">
-    
-                                                        <button *ngIf="show_actions2" (click)="openEditModal2(editrdv)" title="Modifier"
-                                                            class="btn mx-1 btn-xs btn-warning edit">
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil"
-                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                            </svg>
-                                                        </button>
-    
-                                                        <button *ngIf="show_actions2" title="Supprimer" (click)="dropRDV()"
-                                                            class="btn mx-1 btn-xs btn-danger edit">
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash"
-                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                                                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                                                            </svg>
-                                                        </button>
-    
-                                                        <button *ngIf="show_actions2" title="Transmettre le rendez-vous" (click)="sendRDV()"
-                                                            class="btn mx-1 btn-xs btn-success">
-                                                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-90deg-right"
-                                                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                                <path fill-rule="evenodd" d="M14.854 4.854a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 4H3.5A2.5 2.5 0 0 0 1 6.5v8a.5.5 0 0 0 1 0v-8A1.5 1.5 0 0 1 3.5 5h9.793l-3.147 3.146a.5.5 0 0 0 .708.708l4-4z" />
-                                                            </svg>
-                                                        </button>
-    
-    
-                                                    </td>
-                                        </tr>
-                                        <tr>
-                                            <th></th>
-                                            <th>Date Rdv</th>
-                                            <th>Créneau</th>
-                                            <th>objet</th>
-                                            <th>Code Préoccupation</th>
-                                            <th>Mes attentes</th>
-                                            <th>statut</th>
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-
-                                        <tr class="" *ngFor="let s of rdvs">
-
-                                            <td>
-                                                <input type="radio" [value]="s" ngModel name="getrequete" (change)="checked2($event,s)">
-                                            </td>
-                                            <td>{{s.dateRdv | date:'dd/MM/yyy'}} </td>
-                                            <td>{{s.rdvcreneau.heureDebut}} - {{s.rdvcreneau.heureFin}}</td>
-                                            <td>{{s.objet}} </td>
-                                            <td>{{s.codeRequete}} </td>
-                                            <td>
-                                                <div style="max-height: 100px;overflow-y: scroll;">{{s.attente}} </div>
-                                            </td>
-                                            <td>
-                                                <span *ngIf="s.statut==0">En attente de transmission</span>
-                                                <span *ngIf="s.statut==1">Transmis à la Structure</span>
-                                                <span *ngIf="s.statut==2">Confirmé</span>
-                                                <span *ngIf="s.statut==3">Rejeté</span>
-                                                <span *ngIf="s.statut==4">Effectué</span>
-                                                <span *ngIf="s.statut==5">Annulé</span>
-                                            </td>
-
-
-                                        </tr>
-                                        <tr *ngIf="rdvs.length==0">
-                                            <td colspan="10" class="text-center bg-gray-100">Aucun elements</td>
-                                        </tr>
-
-                                    </tbody>
-
-                                </table>
-                            </ng-template>
-                        </ngb-tab> -->
-
-                    </ngb-tabset>
 
 
                 </div>
@@ -756,7 +664,7 @@
                         <div class="col-sm-8">
                             <input readonly="" type="text" class="form-control form-control-sm has-error"
                                 id="nom" name="nom" placeholder="" value="{{selected_data.usager.nom+' '+selected_data.usager.prenoms}}"
-                                [(ngModel)]="selected_data.usager.nom+' '+selected_data.usager.prenoms">
+                                [(ngModel)]="selected_data.usager.nom">
                         </div>
                     </div>
                     
@@ -856,7 +764,7 @@
                         <label for="idPrestation" class="col-sm-4 control-label">Prestation :</label>
                         <div class="col-sm-8">
                             <select name="idPrestation" required id="idPrestation" class="form-control form-control-sm form-control-sm"
-                            [(ngModel)]="selected_data.service==null?'':selected_data.service.id"  (change)="openDetailModal($event, detailPresta)">
+                            [(ngModel)]="selected_data.service"  (change)="openDetailModal($event, detailPresta)">
                                 <option disabled selected>Choisir</option>
                                 <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                             </select>

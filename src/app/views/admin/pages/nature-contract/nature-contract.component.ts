@@ -153,7 +153,7 @@ export class NatureContractComponent implements OnInit {
       this.ncService.delete(this.selected_data.id).subscribe((res:any)=>{
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }

@@ -14,13 +14,13 @@ export class NatureContractService {
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("nature-contracts")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("nature-contracts")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     ressource['_method']="patch"
     return this.http.post<any>(`${ConfigService.toApiUrl("nature-contracts/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(

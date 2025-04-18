@@ -132,7 +132,7 @@ export class EservicesComponent implements OnInit {
         this.modalService.dismissAll()
         AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
          this.init() 
-       },(err)=>{
+       },(err:any)=>{
          
          if(err.error.detail!=null){    
            AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -156,7 +156,7 @@ export class EservicesComponent implements OnInit {
       this.eservices.delete(this.selected_data.id).subscribe((res:any)=>{
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -168,11 +168,11 @@ export class EservicesComponent implements OnInit {
       value.password=""
     }
     value.idEntite=this.user.idEntite
-    this.eservices.update(value,this.selected_data.id).subscribe((res)=>{
+    this.eservices.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
@@ -184,7 +184,7 @@ export class EservicesComponent implements OnInit {
       this.modalService.dismissAll()
       AppSweetAlert.simpleAlert("Nouvel MAJ","MAJ effectué avec succès" , 'success')
        this.init() 
-     },(err)=>{
+     },(err:any)=>{
        
        if(err.error.detail!=null){    
          AppSweetAlert.simpleAlert("Nouvel MAJ", err.error.detail, 'error')

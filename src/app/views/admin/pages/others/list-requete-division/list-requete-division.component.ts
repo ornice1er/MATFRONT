@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,12 +24,13 @@ import { RequeteService } from '../../../../../core/services/requete.service';
 import { ServiceService } from '../../../../../core/services/service.service';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 @Component({
   selector: 'app-list-requete-division',
   standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './list-requete-division.component.html',
   styleUrls: ['./list-requete-division.component.css']
 })
@@ -40,7 +41,7 @@ export class ListRequeteDivisionComponent implements OnInit {
   erroraffectation = ""
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -62,10 +63,10 @@ export class ListRequeteDivisionComponent implements OnInit {
     this.data = []
     this._temp = []
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, "Division",
-      this.checkType().id, this.page).subscribe((res: any) => {
+      this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data
-        this.data = res.data.filter(e=>{
+        this.data = res.data.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                     (e.lastparcours.idEtape==3 && e.lastparcours.idStructure == this.user.agent_user.idStructure);
@@ -125,15 +126,15 @@ export class ListRequeteDivisionComponent implements OnInit {
     private etapeService: EtapeService
   ) { }
 
-  etapes = []
-  services = []
+  etapes:any[] = []
+  services:any[] = []
   departements = []
   structureservices = []
   user: any
   compteData = 0
   isGeneralDirector = false
   isSended = false
-  typeRequete = "requetes"
+  typeRequete:any = "requetes"
   hide_reponse_form_action=false
   usager_full_name=""
   
@@ -145,7 +146,7 @@ export class ListRequeteDivisionComponent implements OnInit {
       this.usager_full_name=this.selected_data.usager.nom+" "+this.selected_data.usager.prenoms
     }
     if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach(item => {
+      this.selected_data.reponse.forEach((item:any) => {
           if (item.typeStructure == 'Division')
           {
             this.selected_data.texteReponseApportee = item.texteReponse;
@@ -161,12 +162,12 @@ export class ListRequeteDivisionComponent implements OnInit {
 
   }
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   key_type_req = ""
   checkType() {
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req')
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? ""
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -176,6 +177,7 @@ export class ListRequeteDivisionComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+    return
   }
 
   ngOnInit(): void {
@@ -203,13 +205,13 @@ export class ListRequeteDivisionComponent implements OnInit {
     }
     this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
       this.etapes = res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x.page || 1));
     })
 
-    this.typeRequete = this.checkType().name;
+    this.typeRequete = this.checkType()?.name;
 
     this.subject.subscribe((val) => {
-      this.typeRequete = this.checkType().name;
+      this.typeRequete = this.checkType()?.name;
     
       this.pager = val
       this.page = this.pager.current_page
@@ -246,11 +248,11 @@ export class ListRequeteDivisionComponent implements OnInit {
   init(page:any) {
     this._temp = []
     this.data = []
-    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure,this.checkType().id,page).subscribe((res: any) => {
+    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure,this.checkType()?.id,page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         // this.data = res.data
-        this.data = res.data.filter(e=>{
+        this.data = res.data.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                     (e.lastparcours.idEtape==3 && e.lastparcours.idStructure == this.user.agent_user.idStructure);
@@ -267,7 +269,7 @@ export class ListRequeteDivisionComponent implements OnInit {
     })
     this.services = []
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
     })
 
     this.structureservices = []
@@ -389,7 +391,7 @@ export class ListRequeteDivisionComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 }

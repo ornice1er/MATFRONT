@@ -14,13 +14,13 @@ export class EserviceService {
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("e-services")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("e-services")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     ressource['_method']="patch"
     return this.http.post<any>(`${ConfigService.toApiUrl("e-services/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(

@@ -129,7 +129,7 @@ export class ListtypeComponent implements OnInit {
      //this.translate.instant('HOME.TITLE')
      AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
       this.init() 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -151,7 +151,7 @@ export class ListtypeComponent implements OnInit {
       this.typeService.delete(this.selected_data.id).subscribe((res:any)=>{
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -160,11 +160,11 @@ export class ListtypeComponent implements OnInit {
   edit(value:any) {
     value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
-    this.typeService.update(value,this.selected_data.id).subscribe((res)=>{
+    this.typeService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

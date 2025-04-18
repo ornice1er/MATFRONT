@@ -208,7 +208,7 @@
                       {{parc.dateArrivee }}
                     </td>
                     <td>
-                      {{ show_step(parc.idEtape)==null ? '' : show_step(parc.idEtape).LibelleEtape }}
+                      {{ show_step(parc.idEtape)?.LibelleEtape }} 
                     </td>
                   </tr>
                 </tbody>

@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -27,6 +26,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { LocalService } from '../../../../../core/services/local.service';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
+import { UserService } from '../../../../../core/services/user.service';
 
 @Component({
   selector: 'app-list-suggestion',
@@ -62,7 +62,7 @@ export class ListSuggestionComponent implements OnInit {
     this.collectionSize=this.data.length
   }
   
-  openAddModal(content) {
+  openAddModal(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -70,7 +70,7 @@ export class ListSuggestionComponent implements OnInit {
     });
   }
 
-  openEditModal(content,el){
+  openEditModal(content:any,el:any){
     this.selected_data=el
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -134,7 +134,7 @@ export class ListSuggestionComponent implements OnInit {
         this.data.splice(index,1)
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.init()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -143,11 +143,11 @@ export class ListSuggestionComponent implements OnInit {
   edit(value:any) {
     value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
-    this.suggestionService.update(value,this.selected_data.id).subscribe((res)=>{
+    this.suggestionService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

@@ -123,7 +123,7 @@ export class ListDenonciationComponent implements OnInit {
   
  
 
-  archive(id,index:any){
+  archive(id:any,index:any){
     AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
@@ -131,7 +131,7 @@ export class ListDenonciationComponent implements OnInit {
         this.data.splice(index,1)
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.init()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -140,11 +140,11 @@ export class ListDenonciationComponent implements OnInit {
   edit(value:any) {
     value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
-    this.denonciationService.update(value,this.selected_data.id).subscribe((res)=>{
+    this.denonciationService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../utils/config-service';
 import { catchError, tap, map } from 'rxjs/operators';
-import { Roles } from '../_models/roles';
+import { Roles } from '../../../_models/roles';
  
 
 
@@ -21,32 +21,32 @@ export class UserService {
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("utilisateurs/all/main")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getAll(idEntite){
+  getAll(idEntite:any){
    
     return this.http.get<any[]>(`${this.url}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getAllActeur(idEntite){
+  getAllActeur(idEntite:any){
     return this.http.get<any[]>(`${this.url_act}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  get(id){
+  get(id:any){
    
     return this.http.get<any[]>(`${this.url}/${id}/`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  update_last_logout(id){
+  update_last_logout(id:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("user_last_logout")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
  
 
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(ConfigService.toApiUrl("utilisateur"), ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
 
-  soumettreSuggest(ressource){
+  soumettreSuggest(ressource:any){
     return this.http.post<any>(ConfigService.toApiUrl("requetecomment/transmettre"), ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
@@ -54,12 +54,12 @@ export class UserService {
   }
 
   
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${this.url}/${id}`, ressource,  ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`updated ressource ${ressource}`))
     );
   }
-  updateProfil(ressource){
+  updateProfil(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("utilisateur/profil/update")}`, ressource,  ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`updated ressource ${ressource}`))
     );
@@ -67,7 +67,7 @@ export class UserService {
 
   
 
-  set_password(ressource,id){
+  set_password(ressource:any,id:any){
     return this.http.patch<any>(`${this.url}${id}/set_password/`, ressource,  ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`updated ressource ${ressource}`))
     );
@@ -78,7 +78,7 @@ export class UserService {
   }
 
  
-  change_password(value){
+  change_password(value:any){
     return this.http.put<any[]>(`${this.url}/change/password`,value,ConfigService.httpHeader());
   }
 

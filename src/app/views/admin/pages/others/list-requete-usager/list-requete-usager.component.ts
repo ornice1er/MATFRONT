@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, NavigationEnd, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -27,6 +27,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
 import { animate } from '@angular/animations';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 
@@ -34,7 +35,7 @@ import { animate } from '@angular/animations';
 @Component({
   selector: 'app-list-requete-usager',
   standalone: true,
-      imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+      imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './list-requete-usager.component.html',
   styleUrls: ['./list-requete-usager.component.css']
 })
@@ -47,7 +48,7 @@ export class ListRequeteUsagerComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -65,7 +66,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     this._temp = []
     this.requeteService.getAll(this.user.idEntite,
       this.searchText,
-      this.checkType().id, this.page).subscribe((res: any) => {
+      this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -94,17 +95,17 @@ export class ListRequeteUsagerComponent implements OnInit {
   ) { }
 
 
-  institutions=[]
-  etapes = []
-  services = []
-  __services=[]
-  departements = []
-  structureservices = []
-  themes = []
-  natures = []
+  institutions:any[]=[]
+  etapes:any[] = []
+  services:any[] = []
+  __services:any[]=[]
+  departements:any[] = []
+  structureservices:any[] = []
+  themes:any[] = []
+  natures:any[] = []
   file: string | Blob =""
   isGeneralDirector = false
-  typeRequete = "requetes"
+  typeRequete:any = "requetes"
 
   usager_full_name=""
 
@@ -150,7 +151,7 @@ export class ListRequeteUsagerComponent implements OnInit {
       this.usager_full_name=this.selected_data.usager.nom+" "+this.selected_data.usager.prenoms
     }
     if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach(item =>{
+      this.selected_data.reponse.forEach((item:any) =>{
         if (item.typeStructure == 'SRU')
           this.selected_data.texteReponseApportee = item.texteReponse;
 
@@ -161,11 +162,11 @@ export class ListRequeteUsagerComponent implements OnInit {
 
   }
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
-  key_type_req = ""
+  key_type_req : any 
   checkType() {
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req')
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? ""
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -175,6 +176,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+    return
   }
 
   ngOnInit(): void {
@@ -202,14 +204,14 @@ export class ListRequeteUsagerComponent implements OnInit {
   this.etapes = []
   this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
     this.etapes = res
-    this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
   })
   
-  this.typeRequete = this.checkType().name;
+  this.typeRequete = this.checkType()?.name;
     
   this.subject.subscribe((val) => {
  
-    this.typeRequete = this.checkType().name;
+    this.typeRequete = this.checkType()?.name;
 
     this.pager = val
     this.page = this.pager.current_page
@@ -225,6 +227,7 @@ export class ListRequeteUsagerComponent implements OnInit {
       for (let index = start; index <= end; index++) {
         pages.push(index)
       }
+      return
     }
 
     this.pager.pages = pages
@@ -242,8 +245,8 @@ export class ListRequeteUsagerComponent implements OnInit {
   Null = null
 
 
-  _temp2 = []
-  data2 = []
+  _temp2:any[] = []
+  data2: any[] = []
 
   init(page:any) {
 
@@ -251,7 +254,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     this.data = []
     this.requeteService.getAll(this.user.idEntite,
       null,
-      this.checkType().id
+      this.checkType()?.id
       , page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
@@ -263,7 +266,7 @@ export class ListRequeteUsagerComponent implements OnInit {
 
     this._temp2 = []
     this.data2 = []
-    this.requeteService.getAllAffectation(this.user.id, "SRU Secondaire", this.checkType().id, page).subscribe((res: any) => {
+    this.requeteService.getAllAffectation(this.user.id, "SRU Secondaire", this.checkType()?.id, page).subscribe((res: any) => {
       this.spinner.hide();
       if(Array.isArray(res)){
         this.data2 = res
@@ -281,7 +284,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     this.services = []
     this.__services=[]
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
       this.__services=this.services
     })
 
@@ -315,7 +318,7 @@ export class ListRequeteUsagerComponent implements OnInit {
       idRequete: this.selected_data.id,
       idStructure: value.idStructure,
       idEntite:this.user.idEntite,
-      listeemails: this.structureservices.find(e => (e.id == value.idStructure)).contact,
+      listeemails: this.structureservices.find((e:any) => (e.id == value.idStructure)).contact,
       typeStructure: 'SRU Secondaire',
       idEtape: 2,
     }
@@ -337,9 +340,9 @@ export class ListRequeteUsagerComponent implements OnInit {
   saveRequeteusager(value:any) {
     let service = null
     if ( this.selected_data.link_to_prestation==1) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
     var param = {
       id: this.selected_data.id,
@@ -367,7 +370,7 @@ export class ListRequeteUsagerComponent implements OnInit {
   chargerPrestation(event:any) {
     this.services=[]
     
-    this.__services.forEach(item => {
+    this.__services.forEach((item:any) => {
       if (item.idType == event.target.value)
         this.services.push(item);
     });
@@ -415,7 +418,7 @@ export class ListRequeteUsagerComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
   transmettreReponse(){
@@ -531,7 +534,7 @@ export class ListRequeteUsagerComponent implements OnInit {
      }
   }
  
-  structures=[]
+  structures:any[]=[]
   onEntiteChange(event:any){
  
     this.structures = []
@@ -542,7 +545,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     this.services = []
     this.__services=[]
     this.prestationService.getAll(+event.target.value).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
       this.__services= this.services
     }) 
 
@@ -550,7 +553,7 @@ export class ListRequeteUsagerComponent implements OnInit {
 
   onStructureChange(event:any){
     this.services=[]
-    this.__services.forEach(item => {
+    this.__services.forEach((item:any) => {
       if (item.idParent == event.target.value)
         this.services.push(item);
     });
@@ -667,7 +670,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     })
     
   }
-fichierAEnvoyer: File = null;
+fichierAEnvoyer: File | null = null;
 
 onFileChange(event:any) {
   if (event.target.files.length > 0) {

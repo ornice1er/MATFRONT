@@ -50,7 +50,7 @@ export class AttributcomComponent implements OnInit {
   def_cost=0
   error = ""
   listComm = []
-  listUsers = []
+  listUsers: any[] = []
   data: any[] = [];
   _temp: any[] = [];
   showNbreJour = false
@@ -135,7 +135,7 @@ export class AttributcomComponent implements OnInit {
 
   types = []
   listepieces = []
-  departement:[]=[]
+  departement:any[]=[]
 
   constructor(
     private modalService: NgbModal,
@@ -216,7 +216,7 @@ export class AttributcomComponent implements OnInit {
        this.selected_data = null
        this.modalService.dismissAll() 
        this.search() 
-      },(err)=>{
+      },(err:any)=>{
         if(err.error.detail!=null){    
           AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
         }else{
@@ -277,7 +277,7 @@ export class AttributcomComponent implements OnInit {
     }else{
       value.id= this.selected_data.id
       value.id_user= this.selected_data.id_user
-      this.acteursService.updateAttri(value,this.selected_data.id).subscribe((res)=>{
+      this.acteursService.updateAttri(value,this.selected_data.id).subscribe((res:any)=>{
         if(res.success == false){
           AppSweetAlert.simpleAlert("Erreur","Cette commune est déjà ajouté à cet acteur", 'error')
         }else{
@@ -286,7 +286,7 @@ export class AttributcomComponent implements OnInit {
         this.selected_data = null
         this.modalService.dismissAll()
         this.search()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }

@@ -7,26 +7,23 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { UserService } from '../../../../core/_services/user.service';
-
-import { NgxSpinnerService } from 'ngx-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { CommentaireService } from '../../../../../core/services/commentaire.service';
 import { LocalService } from '../../../../../core/services/local.service';
-import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
-
-
+import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 @Component({
   selector: 'app-listrapcom',
-  standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   templateUrl: './listrapcom.component.html',
+  standalone: true,
+      imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
   styleUrls: ['./listrapcom.component.css']
 })
 export class RapCommentComponent implements OnInit {
@@ -36,7 +33,7 @@ export class RapCommentComponent implements OnInit {
   pageSize = 50;
   searchText=""
   closeResult = '';
-   permissions:any[]=[]
+  permissions:any[] =[]
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -46,8 +43,8 @@ export class RapCommentComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
-  dated:''
-  datef:''
+  dated:any=''
+  datef:any=''
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -57,31 +54,28 @@ export class RapCommentComponent implements OnInit {
     this.collectionSize=this.data.length
   }
   print_rapp(libdate:any){
-    var url= Config.toApiUrl('rapportconsult?date='+libdate)
+    var url= ConfigService.toApiUrl('rapportconsult?date='+libdate)
     window.open(url, "_blank")  
   }
   print_rapp_periode(){
     if(this.dated && this.datef){
-      var url= Config.toApiUrl('rapportconsult?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
-      window.open(url, "_blank")  import { UserService } from '../../../../core/_services/user.service';
-
+      var url= ConfigService.toApiUrl('rapportconsult?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
+      window.open(url, "_blank")  
     }else{
-      AppSweetAlert.simpleAlert("Error", "Date début et fin sont obligatoire", 'error')
+      AppSweetAlert.finish("Error", "Date début et fin sont obligatoire", 'error')
     }
   }
   print_graphe_periode(){
-    if(this.dated && this.datef){import { UserService } from '../../../../core/_services/user.service';
-
-      var url= Config.toApiUrl('rapportGraph?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
+    if(this.dated && this.datef){
+      var url= ConfigService.toApiUrl('rapportGraph?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
       window.open(url, "_blank")  
     }else{
-      AppSweetAlert.simpleAlert("Error", "Date début et fin sont obligatoire", 'error')
+      AppSweetAlert.finish("Error", "Date début et fin sont obligatoire", 'error')
     }
   }
 
   graphe_rapp(libdate:any){
-    var url= Config.toApiUrl('rapportGraph?date='+libdatimport { UserService } from '../../../../core/_services/user.service';
-      e)
+    var url= ConfigService.toApiUrl('rapportGraph?date='+libdate)
     window.open(url, "_blank")  
   }
   openAddModal(content:any) {
@@ -91,11 +85,10 @@ export class RapCommentComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }
-  import { UserService } from '../../../../core/_services/user.service';
 
   openEditModal(content:any){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.finish("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -176,17 +169,17 @@ export class RapCommentComponent implements OnInit {
 
     this.commentaireService.create(formData).subscribe((res:any)=>{
       if(res.status == 'error'){
-        AppSweetAlert.simpleAlert("Nouvel ajout",res.message , 'error')
+        AppSweetAlert.finish("Nouvel ajout",res.message , 'error')
       }else{
         this.modalService.dismissAll()
-        AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
+        AppSweetAlert.finish("Nouvel ajout","Ajout effectué avec succès" , 'success')
          this.init() 
       }
-    },(err)=>{
+    },(err:any)=>{
       if(err.error.detail!=null){    
-        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.finish("Nouvel ajout", err.error.detail, 'error')
       }else{
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.finish("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       }
     })
   }
@@ -199,33 +192,33 @@ export class RapCommentComponent implements OnInit {
     formData.append('id_comment', this.selected_data.id_comment)
     formData.append('commentaire', value.comment)
 
-    this.commentaireService.update(formData,this.selected_data.id_comment).subscribe((res)=>{
+    this.commentaireService.update(formData,this.selected_data.id_comment).subscribe((res:any)=>{
       if(res.status == 'error'){
-        AppSweetAlert.simpleAlert("Nouvelle modification",res.message , 'error')
+        AppSweetAlert.finish("Nouvelle modification",res.message , 'error')
       }else{
         this.modalService.dismissAll()
-        AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
+        AppSweetAlert.finish("Nouvelle modification",  "Motification effectué avec succès", 'success')
          this.init() 
       }
-    }, (err)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+    }, (err:any)=>{
+      AppSweetAlert.finish("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
 
   archive(){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.finish("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
       return;
     }
-    AppSweetAlert.confirmBox("Suppression",
+    AppSweetAlert.finishConfirm("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
       this.commentaireService.delete(this.selected_data.id_comment).subscribe((res:any)=>{
       
-        AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
+        AppSweetAlert.finish("Suppression", "Suppression effectuée avec succès", 'success')
         this.init()
-      }, (err)=>{
-        AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      }, (err:any)=>{
+        AppSweetAlert.finish("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
    })

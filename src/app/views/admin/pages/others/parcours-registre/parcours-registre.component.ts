@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,6 +25,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 
@@ -32,7 +33,7 @@ import { UserService } from '../../../../../core/services/user.service';
 @Component({
   selector: 'app-parcours-registre',
     standalone: true,
-        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule, RouterModule],
   
   templateUrl: './parcours-registre.component.html',
   styleUrls: ['./parcours-registre.component.css']
@@ -46,7 +47,7 @@ export class ParcoursRegistreComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -62,6 +63,22 @@ export class ParcoursRegistreComponent implements OnInit {
   selected_Status=""
   nbre: number = 0
 
+  etapes : any[]= []
+  services: any[] = []
+  departements : any[]= []
+  structureservices : any[]= []
+  listpfc : any[]= []
+  listComm : any[] = []
+  listuser : any[] = []
+  list_parcours :any[]=[]
+  // themes = []
+  // natures = []
+
+  isGeneralDirector = false
+  isAdmin = false
+  RelanceAWho = ""
+  ValStruRelance = ""
+
   // checked(event, el) {
   //   console.log(el)
   //   this.selected_data = el
@@ -73,7 +90,7 @@ export class ParcoursRegistreComponent implements OnInit {
   //   }
   //   this.cpt = 0
   //   if (this.selected_data.affectation.length > 0) {
-  //     this.selected_data.affectation.forEach(item => {
+  //     this.selected_data.affectation.forEach((item:any) => {
   //       this.cpt++;
   //       if (this.cpt == this.selected_data.affectation.length && item.idStructure != this.selected_pfc){
   //            this.RelanceAWho = item.typeStructure;
@@ -83,7 +100,7 @@ export class ParcoursRegistreComponent implements OnInit {
   //   }
   //   this.cpt = 0
   //   if (this.selected_data.parcours.length > 0) {
-  //     this.selected_data.parcours.forEach(item => {
+  //     this.selected_data.parcours.forEach((item:any) => {
   //       this.cpt++;
   //       if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.selected_pfc){
   //         this.RelanceAWho = ""
@@ -104,9 +121,9 @@ export class ParcoursRegistreComponent implements OnInit {
       })
   }
 
-  list_parcours=[]
+  
 
-  openEditModal(content,el){
+  openEditModal(content:any,el:any){
     this.list_parcours=el
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
@@ -146,23 +163,10 @@ export class ParcoursRegistreComponent implements OnInit {
   ) { }
 
 
-  etapes = []
-  services = []
-  departements = []
-  structureservices = []
-  listpfc = []
-  listComm = []
-  listuser = []
-  // themes = []
-  // natures = []
 
-  isGeneralDirector = false
-  isAdmin = false
-  RelanceAWho = ""
-  ValStruRelance = ""
   
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   key_type_req = ""
@@ -181,7 +185,7 @@ export class ParcoursRegistreComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "La date début et fin doivent être identique pour faire un aperçu du régistre physique d'une journée", 'error');
       return
     }
-    var url= Config.toApiUrl('apercuimage')
+    var url= ConfigService.toApiUrl('apercuimage')
     if(this.selected_idcom) url+="?idcom="+this.selected_idcom //Statut de satisfaction
     if(this.select_date_start) url+="&date="+this.select_date_start //Entite
     if(this.selected_iduse) url+="&iduser="+this.selected_iduse //Rechercher 
@@ -189,7 +193,7 @@ export class ParcoursRegistreComponent implements OnInit {
   }
 
   print(){
-    var url= Config.toApiUrl('print-registre')
+    var url= ConfigService.toApiUrl('print-registre')
     if(this.user) url+="?ie="+this.user.idEntite //Entite
     if(this.selected_iduse) url+="&iduser="+this.selected_iduse //Rechercher 
     if(this.selected_idcom) url+="&ic="+this.selected_idcom //
@@ -200,7 +204,7 @@ export class ParcoursRegistreComponent implements OnInit {
   }
 
   printstat(){
-    var url= Config.toApiUrl('print-registre-stat')
+    var url= ConfigService.toApiUrl('print-registre-stat')
     // if(this.user) url+="?ie="+this.user.idEntite //ie = Entite
     // if(this.searchText) url+="&se="+this.searchText //Rechercher
     if(this.user) url+="?u="+this.user.idagent //id_user

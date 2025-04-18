@@ -149,7 +149,7 @@
                   <small *ngIf="email.errors?.['required']">
                     Email est requis
                   </small>
-                  <small *ngIf="email.errors?.pattern">
+                  <small *ngIf="email.errors?.['pattern']">
                     Email invalid
                   </small>
                 </span>
@@ -161,7 +161,7 @@
                   <small *ngIf="phone.errors?.['required']">
                     Contact est requis
                   </small>
-                  <small *ngIf="phone.errors?.pattern">
+                  <small *ngIf="phone.errors?.['pattern']">
                     Contact invalid
                   </small>
                 </span>
@@ -217,7 +217,7 @@
                   <small *ngIf="email.errors?.['required']">
                     Email est requis
                   </small>
-                  <small *ngIf="email.errors?.pattern">
+                  <small *ngIf="email.errors?.['pattern']">
                     Email invalid
                   </small>
                 </span>
@@ -229,7 +229,7 @@
                   <small *ngIf="phone.errors?.['required']">
                     Contact est requis
                   </small>
-                  <small *ngIf="phone.errors?.pattern">
+                  <small *ngIf="phone.errors?.['pattern']">
                     Contact invalid
                   </small>
                 </span>

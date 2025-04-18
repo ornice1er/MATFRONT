@@ -254,7 +254,7 @@ export class ListeserviceComponent implements OnInit {
     if(state=="all"){
       this.data=this._temp
     }else{
-      this.data=this._temp.filter(e=>(e.published==+state))
+      this.data=this._temp.filter((e:any)=>(e.published==+state))
     }
     this.collectionSize = this.data.length
   }

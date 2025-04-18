@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,12 +25,13 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 @Component({
   selector: 'app-list-requete-structures',
   standalone: true,
-      imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+      imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule, RouterModule],
   templateUrl: './list-requete-structures.component.html',
   styleUrls: ['./list-requete-structures.component.css']
 })
@@ -42,7 +43,7 @@ export class ListRequeteStructuresComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -65,10 +66,10 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.data = []
     this._temp = []
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, this.user.agent_user.idStructure,
-      this.checkType().id, this.page).subscribe((res: any) => {
+      this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data;
-        this.data = res.data.filter(e=>{
+        this.data = res.data.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                       (e.lastparcours.idEtape==5) || 
@@ -134,13 +135,13 @@ export class ListRequeteStructuresComponent implements OnInit {
   ) { }
 
 
-  etapes = []
-  services = []
-  departements = []
-  structureservices = []
+  etapes: any[] = []
+  services: any[] = []
+  departements: any[] = []
+  structureservices : any[] = []
 
   isGeneralDirector = false
-  typeRequete = "requetes"
+  typeRequete:any = "requetes"
   usager_full_name=""
   hide_actions=false
   action_transmettre = true
@@ -160,7 +161,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     // console.log(this.user)
     // console.log(this.user)
     if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach(item => {
+      this.selected_data.reponse.forEach((item:any) => {
         if (item.typeStructure == 'Direction')
           this.selected_data.texteReponseApportee = item.texteReponse;
 
@@ -182,7 +183,7 @@ export class ListRequeteStructuresComponent implements OnInit {
 
     this.hide_actions=false
     if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach(item => {
+      this.selected_data.affectation.forEach((item:any) => {
         if (item.typeStructure == 'Service'){ this.hide_actions=true;}
       })
 
@@ -192,7 +193,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.ValStruRelance = ""
     this.cpt = 0
     if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach(item => {
+      this.selected_data.affectation.forEach((item:any) => {
         this.cpt++;
         // console.log("Cpt : "+this.cpt,"Nombre : "+this.selected_data.affectation.length,"itemStruc : "+item.idStructure,"UserStructure : "+this.user.agent_user.idStructure)
         if (this.cpt == this.selected_data.affectation.length && item.idStructure != this.user.agent_user.idStructure){
@@ -203,7 +204,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     }
     this.cpt = 0
     if (this.selected_data.parcours.length > 0) {
-      this.selected_data.parcours.forEach(item => {
+      this.selected_data.parcours.forEach((item:any) => {
         this.cpt++;
         if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.user.agent_user.idStructure){
           this.RelanceAWho = ""
@@ -219,7 +220,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     }
     this.cpt = 0
     if (this.selected_data.parcours.length > 0) {
-      this.selected_data.parcours.forEach(item => {
+      this.selected_data.parcours.forEach((item:any) => {
         this.cpt++;
         // console.log("Cpt : "+this.cpt,"Nombre : "+this.selected_data.parcours.length,"itemStruc : "+item.idStructure,"UserStructure : "+this.user.agent_user.idStructure)
         if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.user.agent_user.idStructure){
@@ -252,14 +253,14 @@ export class ListRequeteStructuresComponent implements OnInit {
     
   }
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
  
 
   key_type_req = ""
 
   checkType() {
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req')
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? ""
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -269,6 +270,8 @@ export class ListRequeteStructuresComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+
+    return
   }
 
   ngOnInit(): void {
@@ -295,12 +298,12 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.etapes = []
     this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
       this.etapes = res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
     })
     
-    this.typeRequete = this.checkType().name;
+    this.typeRequete = this.checkType()?.name;
     this.subject.subscribe((val) => {
-      this.typeRequete = this.checkType().name;
+      this.typeRequete = this.checkType()?.name;
       
       this.pager = val
       this.page = this.pager.current_page
@@ -334,7 +337,7 @@ export class ListRequeteStructuresComponent implements OnInit {
   subject = new Subject<any>();
   Null = null
 
-  institutions=[]
+  institutions:any[]=[]
   _cpt = 0;
   _data_affect = 0
 
@@ -343,11 +346,11 @@ export class ListRequeteStructuresComponent implements OnInit {
 
     this._temp = []
     this.data = []
-    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure, this.checkType().id, page).subscribe((res: any) => {
+    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure, this.checkType()?.id, page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         // this.data = res.data;
-        this.data = res.data.filter(e=>{
+        this.data = res.data.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                       (e.lastparcours.idEtape==5) || 
@@ -361,7 +364,7 @@ export class ListRequeteStructuresComponent implements OnInit {
       })
     this._temp2 = []
     this.data2 = []
-    this.requeteService.getAllAffectation(this.user.id, "Service", this.checkType().id, page).subscribe((res: any) => {
+    this.requeteService.getAllAffectation(this.user.id, "Service", this.checkType()?.id, page).subscribe((res: any) => {
       this.spinner.hide();
       if (Array.isArray(res)) {
         this.data2 = res
@@ -377,7 +380,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.services = []
     this.__services=[]
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
       this.__services= this.services
     })
 
@@ -409,7 +412,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     let val = {
       idRequete: this.selected_data.id,
       idStructure: value.idStructure,
-      listeemails: this.structureservices.find(e => (e.id == value.idStructure)).contact,
+      listeemails: this.structureservices.find((e:any) => (e.id == value.idStructure)).contact,
       typeStructure: 'Service',
       idEntite:this.user.idEntite,
       idEtape: 2,
@@ -473,7 +476,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     formData.append('raisonRejet', value.raisonRejet)
     formData.append('fichier', this.file)
     /*if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach(item => {
+      this.selected_data.reponse.forEach((item:any) => {
         if (item.typeStructure == 'Direction')
           this.selected_data.texteReponseApportee = item.texteReponse;
         if (item.typeStructure == 'Service')
@@ -635,13 +638,13 @@ export class ListRequeteStructuresComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 
 
-  __services=[]
-  structures=[]
+  __services:any[]=[]
+  structures:any[]=[]
   onEntiteChange(event:any){
  
     this.structures = []
@@ -652,7 +655,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.services = []
     this.__services=[]
     this.prestationService.getAll(+event.target.value).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
       this.__services= this.services
     }) 
 
@@ -660,7 +663,7 @@ export class ListRequeteStructuresComponent implements OnInit {
 
   onStructureChange(event:any){
     this.services=[]
-    this.__services.forEach(item => {
+    this.__services.forEach((item:any) => {
       if (item.idParent == event.target.value)
         this.services.push(item);
     });

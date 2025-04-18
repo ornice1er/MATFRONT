@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,7 +25,7 @@ import { UserService } from '../../../../../core/services/user.service';
 @Component({
   selector: 'app-list-rdv',
   standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './list-rdv.component.html',
   styleUrls: ['./list-rdv.component.css']
 })
@@ -105,7 +105,7 @@ export class ListRdvComponent implements OnInit {
       this.user = this.localService.getJsonValue('mataccueilUserData')
     }
 
-    this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x.page || 1));
 
     this.subject.subscribe((val) => {
      this.pager=val
@@ -144,7 +144,7 @@ export class ListRdvComponent implements OnInit {
     if(this.user.agent_user!=null && this.user.profil_user.direction==1){
       this.rdvService.getAllByStructure(this.user.agent_user.idStructure,page).subscribe((res:any)=>{
         this.spinner.hide();
-        res.data.forEach(e=>{
+        res.data.forEach((e:any)=>{
           e.check=false
           if(e.statut!=0){
             this.data.push(e)
@@ -156,7 +156,7 @@ export class ListRdvComponent implements OnInit {
     }else{
       this.rdvService.getAll(this.user.idEntite,null,page).subscribe((res:any)=>{
         this.spinner.hide();
-        res.data.forEach(e=>{
+        res.data.forEach((e:any)=>{
           e.check=false
           if(e.statut!=0){
             this.data.push(e)
@@ -169,8 +169,8 @@ export class ListRdvComponent implements OnInit {
   }
   
   setRdvStatut(pos:any){
-    let checked=[]
-    this.data.forEach(e=>{
+    let checked:any=[]
+    this.data.forEach((e:any)=>{
       if(e.check==true){
         checked.push(e.id)
       }
@@ -194,7 +194,7 @@ export class ListRdvComponent implements OnInit {
         //this.translate.instant('HOME.TITLE')
         AppSweetAlert.simpleAlert("Prise de rdv","Les statut des rdv selectionnés on été modifié" , 'success')
          this.init(this.page) 
-       },(err)=>{
+       },(err:any)=>{
         AppSweetAlert.simpleAlert("Prise de rdv", "Une erreur est survenue", 'error')
        }) 
   
@@ -210,7 +210,7 @@ export class ListRdvComponent implements OnInit {
      //this.translate.instant('HOME.TITLE')
      AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
       this.init(this.page) 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -229,7 +229,7 @@ export class ListRdvComponent implements OnInit {
         this.data.splice(index,1)
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.init(this.page)
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -237,11 +237,11 @@ export class ListRdvComponent implements OnInit {
   }
   edit(value:any) {
     value.id=this.selected_data.id
-    this.rdvService.update(value,this.selected_data.id).subscribe((res)=>{
+    this.rdvService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init(this.page)
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

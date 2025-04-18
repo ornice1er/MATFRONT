@@ -53,7 +53,7 @@ export class ProfilComponent implements OnInit {
         this.localService.set("mataccueilUserData",res);
         AppSweetAlert.simpleAlert('Modification profil', 'Votre mise à jour de profil été prise en compte avec succès. A présent nous vous déconnecterons et vous reconnecterez avec votre nouveau mot de passe.', 'success')
         this.signout()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert('Modification profil', 'Une erreur est survenue, verifier votre connexion internet puis reessayer', 'error')
       }) 
     }

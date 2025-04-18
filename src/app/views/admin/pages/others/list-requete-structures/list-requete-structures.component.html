@@ -199,7 +199,7 @@
                   <label for="idPrestation" class="col-md-2 ">Prestation :</label>
                   <div class="col-md-10">
                     <select readonly="" name="idPrestation" id="idPrestation" class="form-control form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
                   </div>
@@ -271,7 +271,7 @@
                   <label for="idPrestation" class="col-md-4 ">Prestation </label>
                   <div class="col-md-8">
                     <select readonly="" name="idPrestation" id="idPrestation" class="form-control form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
                   </div>
@@ -400,7 +400,7 @@
                   <label for="idPrestation" class="col-md-4 ">Prestation </label>
                   <div class="col-md-8">
                     <select readonly="" name="idPrestation" id="idPrestation" class="form-control form-control-sm"
-                      [(ngModel)]="selected_data.service==null?'':selected_data.service.id">
+                      [(ngModel)]="selected_data.service">
                       <option [value]="fc.id" *ngFor="let fc of services">{{fc.libelle}}</option>
                     </select>
                   </div>

@@ -32,6 +32,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 @Component({
@@ -49,7 +50,7 @@ export class EspacepointfocalcomComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[] = [];
+  permissions: any[]=[]= [];
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -57,21 +58,21 @@ export class EspacepointfocalcomComponent implements OnInit {
   page = 1;
   pageSize = 10;
 
-  selected = [];
+  selected : any[] = [];
   current_permissions: any[] = []
   selected_data: any
   selected_data_note: any
   isSended = false
-  notes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  daterdvs = []
-  rdvcreneaus = []
+  notes : any[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  daterdvs : any[] = []
+  rdvcreneaus : any[] = []
   visible = 0
   selected_service: any
   link_to_prestation=1
   selected_type_preoccupation=0
-  structures=[]
-  selectedIdEntite=null
-  NULL=null
+  structures: any[] =[]
+  selectedIdEntite:any=null
+  NULL:any=null
   loading=false
 
 
@@ -166,15 +167,15 @@ export class EspacepointfocalcomComponent implements OnInit {
   ) { }
 
 
-  etapes = []
-  services = []
-  __services = []
-  departements = []
-  structureservices = []
-  themes = []
-  natures = []
-  institutions = []
-  rdvs = []
+  etapes: any[]  = []
+  services : any[] = []
+  __services : any[] = []
+  departements : any[] = []
+  structureservices : any[] = []
+  themes: any[]  = []
+  natures : any[] = []
+  institutions : any[] = []
+  rdvs: any[]  = []
 
   isGeneralDirector = false
   typeRequete = "Préoccupation"
@@ -189,12 +190,14 @@ export class EspacepointfocalcomComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+
+    return
   }
 
   setVisible() {
     this.visible = 1
   }
-  selected_data2=null
+  selected_data2:any=null
 
   show_actions2=true;
   checked2(event:any, el:any){
@@ -217,7 +220,7 @@ export class EspacepointfocalcomComponent implements OnInit {
     this.selectedEntie=el.idEntite
   }
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   url="http://portailmtfp.hebergeappli.bj?client_id=26d9d6be-d676-465f-b92c-369b72442c7f&client_secret=f5034b6c80a13d411fa03a8d1f14"
@@ -292,7 +295,7 @@ export class EspacepointfocalcomComponent implements OnInit {
 
     this.services = []
     this.prestationService.getAll(idEntite).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
       this.__services= this.services
     })
     
@@ -324,9 +327,9 @@ export class EspacepointfocalcomComponent implements OnInit {
   addRequeteusager(value:any) {
     let service = null
     if (this.link_to_prestation==1 || this.selected_type_preoccupation==0) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
     var param = {
       objet: value.objet,
@@ -366,9 +369,9 @@ export class EspacepointfocalcomComponent implements OnInit {
   saveRequeteusager(value:any) {
     let service = null
     if ( this.selected_data.link_to_prestation==1) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
     var param = {
       id: this.selected_data.id,
@@ -402,8 +405,8 @@ export class EspacepointfocalcomComponent implements OnInit {
   }
   chargerPrestation(event:any) {
     this.services=[]
-    this.__services.forEach(item => {
-      if (item.idType: == event.target.value)
+    this.__services.forEach((item:any) => {
+      if (item.idType == event.target.value)
         this.services.push(item);
     });
   }
@@ -437,11 +440,11 @@ export class EspacepointfocalcomComponent implements OnInit {
         }
       })
   }
-  editRDV(value:) {
+  editRDV(value:any) {
     value.statut=this.selected_data2.statut
     value.id=this.selected_data2.id
     this.loading=true
-    this.rdvService.update(value,this.selected_data2.id).subscribe((res)=>{
+    this.rdvService.update(value,this.selected_data2.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       this.loading=false
@@ -450,7 +453,7 @@ export class EspacepointfocalcomComponent implements OnInit {
       }else{
         AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
       }
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
@@ -465,7 +468,7 @@ export class EspacepointfocalcomComponent implements OnInit {
       return;
     }
     AppSweetAlert.confirmBox("Transmettre rdv",
-      "Cette action est irreversible. Voulez-vous continuer ?").then((result) => {
+      "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           var param = {
             listerdv: [ this.selected_data2.id],
@@ -513,7 +516,7 @@ export class EspacepointfocalcomComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 
@@ -545,7 +548,7 @@ export class EspacepointfocalcomComponent implements OnInit {
     }*/
 
   }
-  noterRequete(value) {
+  noterRequete(value:any) {
     var param = {
       codeRequete: this.selected_data_note.codeRequete,
       noteDelai: value.noteDelai,
@@ -597,7 +600,7 @@ export class EspacepointfocalcomComponent implements OnInit {
   }
   show_structures=false
   statut=0
-  saveRdv(value) {
+  saveRdv(value:any) {
     var param = {
       idUsager: this.user.id,
       objet: this.selected_el_obj,
@@ -633,10 +636,10 @@ export class EspacepointfocalcomComponent implements OnInit {
   }
   selected_el_obj = ""
 
-  selectRequest(event) {
+  selectRequest(event:any) {
     if(event.target.value!="0"){
       this.show_structures=false
-      this.selected_el_obj = this.data.find(e => (e.codeRequete == event.target.value)).objet
+      this.selected_el_obj = this.data.find((e:any) => (e.codeRequete == event.target.value)).objet
     }else{
       this.show_structures=true
       this.selected_el_obj = ""

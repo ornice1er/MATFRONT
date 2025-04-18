@@ -25,11 +25,13 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartOptions, ChartType } from 'chart.js';
 
 
 @Component({
   selector: 'app-graphiquetype',standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,BaseChartDirective],
 
   templateUrl: './graphiquetype.component.html',
   styleUrls: ['./graphiquetype.component.css']
@@ -43,14 +45,14 @@ export class GraphiquetypeComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[] =[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
   collectionSize = 0;
   page = 1;
   pageSize = 10;
-  years = []
+  years: any[] = []
   typeGraphe="Histogramme"
 
   search() {
@@ -82,24 +84,24 @@ export class GraphiquetypeComponent implements OnInit {
   ) { }
 
 
-  barChartOptions: ChartOptions = {
+  barChartOptions: any = {
     responsive: true,
     scales: { xAxes: [{}], yAxes: [{}] },
   };
-  barChartLabels: Label[] = [];
+  barChartLabels: any[] = [];
   barChartType: ChartType = 'bar';
   barChartLegend = true;
   barChartPlugins = [];
 
-  barChartData: ChartDataSets[] = [
+  barChartData: any[] = [
     { data: [], label: '' }
   ];
-  barData = []
+  barData:any []= []
   selected_year = null
 
 
-  doughnutChartLabels: Label[] = [];
-  doughnutChartData: MultiDataSet = [
+  doughnutChartLabels: any[] = [];
+  doughnutChartData: any = [
     []
   ];
 
@@ -117,6 +119,8 @@ export class GraphiquetypeComponent implements OnInit {
     if(this.activatedRoute.snapshot.paramMap.get('type_req')=="infos"){
       return {id:2,name:"demandes d'informations"}
     }
+
+    return
   }
 
 
@@ -149,9 +153,9 @@ export class GraphiquetypeComponent implements OnInit {
 
     this.init()   
 
-    this.activatedRoute.queryParams.subscribe(x => this.init());
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
 
-    // this.typeRequete = this.checkType().name;
+    // this.typeRequete = this.checkType()?.name;
     if(this.selected_type =="0"){
       this.typeRequete = 'de requêtes'
     }else if(this.selected_type =="1"){
@@ -163,7 +167,7 @@ export class GraphiquetypeComponent implements OnInit {
     }
 
     this.subject.subscribe((val) => {
-      // this.typeRequete = this.checkType().name;
+      // this.typeRequete = this.checkType()?.name;
       this.barChartLabels = []
       this.doughnutChartLabels = []
       this.barData=[]
@@ -173,7 +177,7 @@ export class GraphiquetypeComponent implements OnInit {
         },
 
       ]
-      val.forEach(e => {
+      val.forEach((e:any) => {
         this.barChartLabels.push(e.libelle)
         this.doughnutChartLabels.push(e.libelle)
         this.barData.push(e.total)
@@ -206,7 +210,7 @@ export class GraphiquetypeComponent implements OnInit {
       this.selected_type,this.user.idEntite
     ).subscribe((res: any) => {
       this.subject.next(res);
-      /*res.forEach(e => {
+      /*res.forEach((e:any) => {
         this.barChartLabels.push(e.libelle)
         this.doughnutChartLabels.push(e.libelle)
         this.barData.push(e.total)
@@ -214,7 +218,7 @@ export class GraphiquetypeComponent implements OnInit {
       this.barChartData = [
         {
           data: this.barData, label:
-          'Nombre  de '+this.checkType().name+' par thématique'
+          'Nombre  de '+this.checkType()?.name+' par thématique'
         },
 
       ]

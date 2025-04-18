@@ -15,6 +15,7 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { AdvancedStatisticsService } from '../../../../core/services/advanced-statistics.service';
 import { LocalService } from '../../../../core/services/local.service';
+import { ConfigService } from '../../../../core/utils/config-service';
 
 @Component({
   selector: 'app-avanced-statistics',
@@ -112,7 +113,7 @@ export class AvancedStatisticsComponent implements OnInit {
       elements:this.data2?.bad_notes,
     }).subscribe((res:any)=>{
       this.spinner.hide();
-      window.open(`${Config.toFile("")}/${res.data}`,'_blank')
+      window.open(`${ConfigService.toFile("")}/${res.data}`,'_blank')
 
     },
     (error:any)=>{

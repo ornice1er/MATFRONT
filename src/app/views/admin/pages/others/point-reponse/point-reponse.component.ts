@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -25,36 +25,47 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-point-reponse',
     standalone: true,
-        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   
   templateUrl: './point-reponse.component.html',
   styleUrls: ['./point-reponse.component.css']
 })
 export class PointReponseComponent implements OnInit {
 
-  @Input() cssClasses = '';
-  errormessage=""
-  erroraffectation=""
+  @Input() cssClasses:any[]=[];
+  errormessage:any[]=[];
+  erroraffectation:any[]=[];
   
-  searchText=""
-  closeResult = '';
-   permissions:any[]=[]
-  error=""
+  searchText:any="";
+   closeResult :any[]=[];
+   permissions:any[]=[];
+  error:any[]=[];
   data: any[]=[];
   _temp: any[]=[];
   collectionSize = 0;
   page = 1;
   pageSize = 10;
 
-   selected = [];
+   selected:any[] = [];
   current_permissions:any[]=[]
   selected_data:any
   isSended=false
+  subject = new Subject<any>();
+  Null:any=null
   
+  pager: any = {current_page: 0,
+    data:[],
+    last_page: 0,
+    per_page: 0,
+    to: 0,
+    total: 0
+  }
+
   search(){ 
     this.data=[]
     this._temp=[]
@@ -85,7 +96,7 @@ export class PointReponseComponent implements OnInit {
     private translate:TranslateService,
     private etapeService:EtapeService,
     private requeteService:RequeteService,
-    private localService:LocalService,
+    private localService:LocalStorageService,
     private prestationService:ServiceService,
     private structureService:StructureService,
     private natureService:NatureRequeteService,
@@ -106,24 +117,23 @@ export class PointReponseComponent implements OnInit {
   isGeneralDirector=false
 
   show_step(id:any){
-    return this.etapes.find((e)=>(e.id==id))
+    return this.etapes.find((e: any) => (e.id == id))
   }
-
   ngOnInit(): void {
 
     
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.getJsonValue('mataccueilUserData')
+    if (this.localService.get('mataccueilUserData') != null) {
+      this.user = this.localService.get('mataccueilUserData');
       if(this.user.profil_user.CodeProfil === 12){
         this.isGeneralDirector=true;
       }else{
         this.isGeneralDirector=false;
       }
-    }
+    };
     this.etapes=[]
     this.etapeService.getAll(this.user.idEntite).subscribe((res:any)=>{
       this.etapes=res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
     })
     this.subject.subscribe((val) => {
      this.pager=val
@@ -144,17 +154,9 @@ export class PointReponseComponent implements OnInit {
     
      this.pager.pages=pages
   });
+  
   }
-
-    pager: any = {current_page: 0,
-    data:[],
-    last_page: 0,
-    per_page: 0,
-    to: 0,
-    total: 0
-  }
-  subject = new Subject<any>();
-  Null=null
+ 
 
   init(page:any){
    

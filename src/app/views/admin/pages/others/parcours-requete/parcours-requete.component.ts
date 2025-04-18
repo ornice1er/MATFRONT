@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -26,13 +26,14 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 
 @Component({
   selector: 'app-parcours-requete',
     standalone: true,
-        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   
   templateUrl: './parcours-requete.component.html',
   styleUrls: ['./parcours-requete.component.css']
@@ -46,7 +47,7 @@ export class ParcoursRequeteComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -61,6 +62,7 @@ export class ParcoursRequeteComponent implements OnInit {
   isSended = false
   selected_Status=""
   nbre: number = 0
+  list_parcours: any[]=[]
 
 
   
@@ -81,7 +83,7 @@ export class ParcoursRequeteComponent implements OnInit {
     if(this.isAdmin == false){
       this.cpt = 0
       if (this.selected_data.affectation.length > 0) {
-        this.selected_data.affectation.forEach(item => {
+        this.selected_data.affectation.forEach((item:any) => {
           this.cpt++;
           if (this.cpt == this.selected_data.affectation.length && item.idStructure != this.selected_Struct){
                this.RelanceAWho = item.typeStructure;
@@ -91,7 +93,7 @@ export class ParcoursRequeteComponent implements OnInit {
       }
       this.cpt = 0
       if (this.selected_data.parcours.length > 0) {
-        this.selected_data.parcours.forEach(item => {
+        this.selected_data.parcours.forEach((item:any) => {
           this.cpt++;
           if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.selected_Struct){
             this.RelanceAWho = ""
@@ -103,7 +105,7 @@ export class ParcoursRequeteComponent implements OnInit {
 
       this.cpt = 0
       if (this.selected_data.affectation.length > 0) {
-        this.selected_data.affectation.forEach(item => {
+        this.selected_data.affectation.forEach((item:any) => {
           this.cpt++;
           if (this.cpt == this.selected_data.affectation.length && item.idStructure != this.user.agent_user.idStructure){
                this.RelanceAWho = item.typeStructure;
@@ -113,7 +115,7 @@ export class ParcoursRequeteComponent implements OnInit {
       }
       this.cpt = 0
       if (this.selected_data.parcours.length > 0) {
-        this.selected_data.parcours.forEach(item => {
+        this.selected_data.parcours.forEach((item:any) => {
           this.cpt++;
           if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.user.agent_user.idStructure){
             this.RelanceAWho = ""
@@ -130,7 +132,7 @@ export class ParcoursRequeteComponent implements OnInit {
     this._temp = []
     this.selected_Status=""
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
-      this.checkType().id, this.page,this.selected_Struct,null,null,null,this.type_).subscribe((res: any) => {
+      this.checkType()?.id, this.page,this.selected_Struct,null,null,null,this.type_).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -138,7 +140,6 @@ export class ParcoursRequeteComponent implements OnInit {
       })
   }
 
-  list_parcours=[]
 
   openEditModal(content:any,el:any){
     this.list_parcours=el
@@ -180,25 +181,25 @@ export class ParcoursRequeteComponent implements OnInit {
   ) { }
 
 
-  etapes = []
-  services = []
-  departements = []
-  structureservices = []
-  structures = []
-  structures_pre = []
-  ministere = []
-  themes = []
-  natures = []
+  etapes:any[]=[]
+  services:any[]=[]
+  departements:any[]=[]
+  structureservices:any[]=[]
+  structures:any[]=[]
+  structures_pre:any[]=[]
+  ministere:any[]=[]
+  themes :any[]=[]
+  natures:any[]=[]
 
   isGeneralDirector = false
   isAdmin = false
   isSuperieur = false
-  typeRequete = "requetes"
+  typeRequete:any = "requetes"
   RelanceAWho = ""
   ValStruRelance = ""
   
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   key_type_req = ""
@@ -210,7 +211,7 @@ export class ParcoursRequeteComponent implements OnInit {
     }
     // this.cpt = 0
     // if (this.selected_data.parcours.length > 0) {
-    //   this.selected_data.parcours.forEach(item => {
+    //   this.selected_data.parcours.forEach((item:any) => {
     //     this.cpt++;
     //     if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.selected_Struct){
     //         AppSweetAlert.simpleAlert("Erreur", "Impossible de faire une relance car le responsable structure a déjà donnée sa réponse", 'error');
@@ -249,7 +250,7 @@ export class ParcoursRequeteComponent implements OnInit {
   }
   checkType() {
     
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req')
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? "" ?? ""
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -259,13 +260,14 @@ export class ParcoursRequeteComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+    return
   }
   print(){
-    var url= Config.toApiUrl('print-requete')
+    var url= ConfigService.toApiUrl('print-requete')
     if(this.user) url+="?ie="+this.selected_Entite
     if(this.searchText) url+="&se="+this.searchText
     if(this.user) url+="&u="+this.user.id
-    if(this.checkType()) url+="&pdir="+this.checkType().id
+    if(this.checkType()) url+="&pdir="+this.checkType()?.id
     if(this.selected_Status) url+="&s="+this.selected_Status
     if(this.select_date_start) url+="&db="+this.select_date_start
     if(this.select_date_end) url+="&df="+this.select_date_end
@@ -285,7 +287,7 @@ export class ParcoursRequeteComponent implements OnInit {
     
     this.cpt = this.selected_data.affectation.length;
     if(this.cpt >= 2){
-      this.selected_data.affectation.forEach(element => {
+      this.selected_data.affectation.forEach((element:any) => {
         this.nbr +=1
         if(this.nbr == this.cpt){
           var param = {
@@ -389,12 +391,12 @@ export class ParcoursRequeteComponent implements OnInit {
     this.etapes = []
     this.etapeService.getAll(this.selected_Entite).subscribe((res: any) => {
       this.etapes = res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any) => this.init(x.page || 1));
     })
     
 
     this.subject.subscribe((val) => {
-      this.typeRequete = this.checkType().name;
+      this.typeRequete = this.checkType()?.name ?? "";
       this.pager = val
       this.page = this.pager.current_page
 
@@ -441,7 +443,7 @@ export class ParcoursRequeteComponent implements OnInit {
     this.data = []
     
     this.requeteService.getAllParcours(this.selected_Entite,null, this.user.id,
-      this.checkType().id
+      this.checkType()?.id
       , page,this.selected_Struct,null,null,null,"").subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
@@ -499,7 +501,7 @@ export class ParcoursRequeteComponent implements OnInit {
     }
     this.data = []
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
-      this.checkType().id,0,this.selected_Struct,value.statut=="" ? null : value.statut,value.startDate,value.endDate,this.type_).subscribe((res: any) => {
+      this.checkType()?.id,0,this.selected_Struct,value.statut=="" ? null : value.statut,value.startDate,value.endDate,this.type_).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this.subject.next(res);

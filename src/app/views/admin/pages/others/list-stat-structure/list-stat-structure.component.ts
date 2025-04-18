@@ -27,6 +27,8 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
+import { animate } from '@angular/animations';
 
 
 
@@ -45,7 +47,7 @@ export class ListStatStructureComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[]=[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -126,6 +128,7 @@ export class ListStatStructureComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+    return
   }
 
   ngOnInit(): void {
@@ -152,7 +155,7 @@ export class ListStatStructureComponent implements OnInit {
   prepare() {
     this.init()
 
-    // this.typeRequete = this.checkType().name;
+    // this.typeRequete = this.checkType()?.name;
     if(this.selected_type =="0"){
       this.typeRequete = 'Requetes'
     }else if(this.selected_type =="1"){
@@ -161,26 +164,26 @@ export class ListStatStructureComponent implements OnInit {
       this.typeRequete = "Demandes d'informations"
     }
 
-    this.activatedRoute.queryParams.subscribe(x => this.init());
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
     this.subject.subscribe((val) => {
       this.data = []
-      val.forEach((e) => { 
+      val.forEach((e:any) => { 
         if (this.checkStructureHaveService(e.id, this.all_structures)) { this.data.push(e) } 
       })
-      // this.typeRequete = this.checkType().name;
+      // this.typeRequete = this.checkType()?.name;
 
     })
     this.subject2.subscribe((val) => {
       this.data2 = []
       this.data2 = val
-      // this.typeRequete = this.checkType().name;
+      // this.typeRequete = this.checkType()?.name;
 
     })
   }
 
-  param_stat_hebdo = { "user": "all", startDate: "all", endDate: "all", stats: [], typeRequete: this.typeRequete, sended: 0, typeStat: "Structure" }
+  param_stat_hebdo: any = { "user": "all", startDate: "all", endDate: "all", stats: [], typeRequete: this.typeRequete, sended: 0, typeStat: "Structure" }
 
-  checkStructureHaveService(idCheck, list:any) {
+  checkStructureHaveService(idCheck:any, list:any) {
     let result: any = list.filter((e: any) => (e.id == idCheck && e.services.length != 0))
     if (result.length!=0) {
       return true
@@ -202,7 +205,7 @@ export class ListStatStructureComponent implements OnInit {
     this.all_structures = []
     this.structureService.getAll(0, this.user.idEntite).subscribe((list: any) => {
       this.all_structures = list
-      list.forEach((e) => { 
+      list.forEach((e:any) => { 
         if (e.services.length!=0) { this.structures.push(e) } 
       })
       this._temp = []
@@ -212,7 +215,7 @@ export class ListStatStructureComponent implements OnInit {
       ).subscribe((res: any) => {
         this.spinner.hide();
         //e.idParent==0
-        res.forEach((e) => { 
+        res.forEach((e:any) => { 
           if (this.checkStructureHaveService(e.id, list)) { this.data.push(e) } 
         })
         this._temp = this.data
@@ -240,7 +243,7 @@ export class ListStatStructureComponent implements OnInit {
 
   }
 
-  structures = []
+  structures:any[] = []
   selected_type = ""
   param_stat = { "user": "all", "plainte": this.selected_type, startDate: "", endDate: "" }
 
@@ -248,10 +251,10 @@ export class ListStatStructureComponent implements OnInit {
   filterAll(event:any) {
     if (event.target.value != "all") {
       this.data = []
-      this.data = this._temp.filter((e) => e.id == +event.target.value)
+      this.data = this._temp.filter((e:any) => e.id == +event.target.value)
       this.collectionSize = this.data.length
       this.data2 = []
-      this.data2 = this._temp2.filter((e) => e.idParent == +event.target.value)
+      this.data2 = this._temp2.filter((e:any) => e.idParent == +event.target.value)
       this.collectionSize2 = this.data2.length
     } else {
       this.data = []
@@ -271,7 +274,7 @@ export class ListStatStructureComponent implements OnInit {
       this.param_stat, this.user.idEntite
     ).subscribe((res: any) => {
       this.spinner.hide();
-      res.forEach((e) => { if (e.idParent == 0) { this.data.push(e) } })
+      res.forEach((e:any) => { if (e.idParent == 0) { this.data.push(e) } })
       this._temp = this.data
       this.param_stat_hebdo.stats = this.data
       this.param_stat_hebdo.startDate = this.param_stat.startDate
@@ -279,7 +282,7 @@ export class ListStatStructureComponent implements OnInit {
       this.collectionSize = this.data.length
 
       this.data2 = []
-      res.forEach((e) => { if (e.idParent != 0) { this.data2.push(e) } })
+      res.forEach((e: any) => { if (e.idParent != 0) { this.data2.push(e) } })
       this.collectionSize2 = this.data2.length
     })
   }
@@ -294,14 +297,14 @@ export class ListStatStructureComponent implements OnInit {
   genererPDFStat(sended:any) {
     this.param_stat_hebdo.sended = sended
     this.prestationService.genPdfStatHebdo(this.param_stat_hebdo).subscribe((res: any) => {
-      window.open(Config.toFile('statistiques/' + res.url))
+      window.open(ConfigService.toFile('statistiques/' + res.url))
     })
   }
   genererPDFStatDetails(sended:any) {
     this.param_stat_hebdo.sended = sended
     this.param_stat_hebdo.stats = this.data2
     this.prestationService.genPdfStatHebdo(this.param_stat_hebdo).subscribe((res: any) => {
-      window.open(Config.toFile('statistiques/' + res.url))
+      window.open(ConfigService.toFile('statistiques/' + res.url))
     })
   }
 

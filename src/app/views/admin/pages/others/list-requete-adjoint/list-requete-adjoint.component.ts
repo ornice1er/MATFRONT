@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -24,12 +24,13 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
+import { ConfigService } from '../../../../../core/utils/config-service';
 
 
 @Component({
   selector: 'app-list-requete-adjoint',
   standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './list-requete-adjoint.component.html',
   styleUrls: ['./list-requete-adjoint.component.css']
 })
@@ -40,7 +41,7 @@ export class ListRequeteAdjointComponent implements OnInit {
   erroraffectation = ""
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions: any[] =[]
   error = ""
   data: any[] = [];
   _temp: any[] = [];
@@ -62,7 +63,7 @@ export class ListRequeteAdjointComponent implements OnInit {
     this.data = []
     this._temp = []
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, "Division",
-      this.checkType().id, this.page).subscribe((res: any) => {
+      this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -117,14 +118,14 @@ export class ListRequeteAdjointComponent implements OnInit {
     private etapeService: EtapeService
   ) { }
 
-  etapes = []
-  services = []
+  etapes:any[] = []
+  services:any[] = []
   departements = []
   structureservices = []
   user: any
   isGeneralDirector = false
   isSended = false
-  typeRequete = "requetes"
+  typeRequete:any = "requetes"
   usager_full_name=""
 
   checked(event:any, el:any) {
@@ -136,7 +137,7 @@ export class ListRequeteAdjointComponent implements OnInit {
       this.usager_full_name=this.selected_data.usager.nom+" "+this.selected_data.usager.prenoms
     }
     if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach(item => {
+      this.selected_data.reponse.forEach((item:any) => {
         if (item.typeStructure == 'SRU Secondaire')
           this.selected_data.texteReponseApportee = item.texteReponse;
 
@@ -148,12 +149,12 @@ export class ListRequeteAdjointComponent implements OnInit {
 
   }
   show_step(id:any) {
-    return this.etapes.find((e) => (e.id == id))
+    return this.etapes.find((e:any) => (e.id == id))
   }
 
   key_type_req = ""
   checkType() {
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req')
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? ""
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -163,6 +164,8 @@ export class ListRequeteAdjointComponent implements OnInit {
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
       return { id: 2, name: "Demandes d'informations" }
     }
+
+    return
   }
 
   ngOnInit(): void {
@@ -190,14 +193,14 @@ export class ListRequeteAdjointComponent implements OnInit {
     }
     this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
       this.etapes = res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x.page || 1));
     })
 
-    this.typeRequete = this.checkType().name;
+    this.typeRequete = this.checkType()?.name;
     
     this.subject.subscribe((val) => {
 
-      this.typeRequete = this.checkType().name;
+      this.typeRequete = this.checkType()?.name;
     
       this.pager = val
       this.page = this.pager.current_page
@@ -234,7 +237,7 @@ export class ListRequeteAdjointComponent implements OnInit {
     this._temp = []
     this.data = []
     this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure,
-      this.checkType().id
+      this.checkType()?.id
       , page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
@@ -248,7 +251,7 @@ export class ListRequeteAdjointComponent implements OnInit {
     })
     this.services = []
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter(e=>(e.published==1))
+      this.services = res.filter((e:any)=>(e.published==1))
     })
 
     this.structureservices = []
@@ -373,7 +376,7 @@ export class ListRequeteAdjointComponent implements OnInit {
       AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
       return;
     }
-    var filePath = Config.toFile(this.selected_data.fichier_joint);
+    var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '../utils/config-service';
 import { GlobalName } from '../utils/global-name';
 import { LocalStorageService } from '../utils/local-stoarge-service';
+import { Observable, catchError, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -81,4 +82,28 @@ export class AuthService {
 
         return this.http.get<any>(`${this.url2}api/backups`,ConfigService.addAction('list'));
         }
+
+        resetPassword(password: string,token:string): Observable<any> {
+          return this.http.post(`${ConfigService.toApiUrl("password_reset/confirm/")}`,{password:password,token:token})
+            .pipe(catchError(this.handleError('forgot-password', []))
+            );
+        }
+
+
+           /*
+   * Handle Http operation that failed.
+   * Let the app continue.
+    *
+  * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: any) {
+    return (error: any): Observable<any> => {
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // Let the app keep running by returning an empty result.
+      return of(result);
+    };
+  }
 }

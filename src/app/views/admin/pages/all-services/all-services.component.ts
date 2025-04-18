@@ -24,6 +24,7 @@ import { ServiceService } from '../../../../core/services/service.service';
 import { StructureService } from '../../../../core/services/structure.service';
 import { TypeService } from '../../../../core/services/type.service';
 import { UserService } from '../../../../core/services/user.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-all-services',
@@ -127,6 +128,7 @@ export class AllServicesComponent implements OnInit {
       this.closeResult = `Dismissed ${this.getDismissReason({ reason })}`;
     });
   }
+  }
 
   private getDismissReason({ reason }: { reason: any; }): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -138,8 +140,8 @@ export class AllServicesComponent implements OnInit {
     }
   }
 
-  types = []
-  listepieces = []
+  types:any[] = []
+  listepieces:any[] = []
 
   constructor(
     private modalService: NgbModal,
@@ -151,7 +153,7 @@ export class AllServicesComponent implements OnInit {
     private translate: TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalService
+    private localStorageService:LocalStorageService
   ) { }
 
   structures: [] = []
@@ -160,7 +162,7 @@ export class AllServicesComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
       this.init()
     }
   }
@@ -183,7 +185,7 @@ export class AllServicesComponent implements OnInit {
       this.default_data.idParent=this.user.agent_user.structure.idParent
       this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter(e=>((e.submited==1 || e.submited==true)))
+        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true)))
         this._temp = this.data
         this.collectionSize = this.data.length
       })
@@ -247,7 +249,7 @@ export class AllServicesComponent implements OnInit {
     if(state=="all"){
       this.data=this._temp
     }else{
-      this.data=this._temp.filter(e=>(e.published==+state))
+      this.data=this._temp.filter((e:any)=>(e.published==+state))
     }
     this.collectionSize = this.data.length
   }
@@ -360,16 +362,16 @@ export class AllServicesComponent implements OnInit {
     });
 
     value.id = this.listepieces.length + 1,
-      this.listepieces.push(value:any);
+      this.listepieces.push(value);
     value.id = this.listepieces.length + 1;
     this.listepieces.push(value);
-  }
+  let msgConfirm :any= "Confirmation suppression ?";
     var confirmResult = confirm(msgConfirm);
     if (confirmResult === false) return;
 
-    this.listepieces.splice(i, 1)
+   // this.listepieces.splice(i, 1)
   }
 
 
-}
+
 }

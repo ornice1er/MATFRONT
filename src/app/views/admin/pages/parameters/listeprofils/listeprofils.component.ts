@@ -133,7 +133,7 @@ export class ListeprofilsComponent implements OnInit {
      //this.translate.instant('HOME.TITLE')
      AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
       this.init() 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -157,7 +157,7 @@ export class ListeprofilsComponent implements OnInit {
          this.init() 
       }
      
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Ajout guide", err.error.detail, 'error')
@@ -175,7 +175,7 @@ export class ListeprofilsComponent implements OnInit {
       this.profilService.delete(this.selected_data.id).subscribe((res:any)=>{
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -184,11 +184,11 @@ export class ListeprofilsComponent implements OnInit {
   edit(value:any) {
     value.code=this.selected_data.CodeProfil
     value.id=this.selected_data.id
-    this.profilService.update(value,this.selected_data.id).subscribe((res)=>{
+    this.profilService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

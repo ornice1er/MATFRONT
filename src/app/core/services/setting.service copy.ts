@@ -15,7 +15,7 @@ export class SettingService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("settings")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  create(ressource){
+  create(ressource:any){
     console.log(ressource)
 
     return this.http.post<any>(`${ConfigService.toApiUrl("settings")}`, ressource,
@@ -24,7 +24,7 @@ export class SettingService {
     );
   }
 
-  update(id,ressource){
+  update(id:any,ressource:any){
     ressource['_method']="patch"
     return this.http.post<any>(`${ConfigService.toApiUrl("settings")}/${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(

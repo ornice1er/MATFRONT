@@ -151,7 +151,7 @@ export class UsersMainComponent implements OnInit {
   hide_actors=false
 
   changeProfil(event:any){
-    let profil:any=this.profils.filter(e=>(+event.target.value==e.id))[0];
+    let profil:any=this.profils.filter((e:any)=>(+event.target.value==e.id))[0];
     if(profil.admin_sectoriel==1){
       this.hide_actors=true
     }else{
@@ -167,7 +167,7 @@ export class UsersMainComponent implements OnInit {
         //this.translate.instant('HOME.TITLE')
         AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
          this.init() 
-       },(err)=>{
+       },(err:any)=>{
          
          if(err.error.detail!=null){    
            AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -194,7 +194,7 @@ export class UsersMainComponent implements OnInit {
         this.init()
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.init()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -210,7 +210,7 @@ export class UsersMainComponent implements OnInit {
       this.modalService.dismissAll()
       this.init()
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}

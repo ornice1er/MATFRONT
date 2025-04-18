@@ -41,7 +41,7 @@ export class StatspreocComponent implements OnInit {
 
   searchText = ""
   closeResult = '';
-  permissions: any[]
+  permissions:any[] = []
   error = ""
   data: any[] = [];
   data_stat: any;
@@ -105,10 +105,10 @@ export class StatspreocComponent implements OnInit {
   ) { }
 
 
-  etapes = []
-  statEservice = []
-  lastConn = []
-  statConnetivite = []
+  etapes :any[] = []
+  statEservice:any[] = []
+  lastConn:any[] = []
+  statConnetivite:any[] = []
 
   isAdmin = false
   serv_rej = ""
@@ -139,9 +139,9 @@ export class StatspreocComponent implements OnInit {
       if(idprofil == 23 ){// Directeur
         this.requeteService.getAllRequest_stat(1,iduser, idStru,this.user.id).subscribe((res: any) => {
 
-          res.data.forEach((e) => { 
+          res.data.forEach((e:any) => { 
             if (e.relance.length != 0) { 
-                e.relance.forEach((r) => { 
+                e.relance.forEach((r:any) => { 
                   if (r.idStructure == idStru) { 
                     cpt++
                   } 
@@ -150,7 +150,7 @@ export class StatspreocComponent implements OnInit {
           })
 
           this.nbreRelance = cpt
-          this.data_stat = res.data.filter(e=>{
+          this.data_stat = res.data.filter((e:any)=>{
             if(e.lastparcours != null){
               return (e.lastparcours.idEtape==1) || 
                         (e.lastparcours.idEtape==5) || 
@@ -165,9 +165,9 @@ export class StatspreocComponent implements OnInit {
         // alert("Direction User : "+iduser+" Struc : "+idStru+" profil : "+idprofil+" nombre : "+this.data_stat.length) 
       }else if(idprofil == 24){// Chef Service
         this.requeteService.getAllRequest_stat(1,iduser, idStru,this.user.id).subscribe((res: any) => {
-            res.data.forEach((e) => { 
+            res.data.forEach((e:any) => { 
               if (e.relance.length != 0) { 
-                  e.relance.forEach((r) => { 
+                  e.relance.forEach((r:any) => { 
                     if (r.idStructure == idStru) { 
                       cpt++
                     } 
@@ -176,7 +176,7 @@ export class StatspreocComponent implements OnInit {
             })
             this.nbreRelance = cpt
 
-            this.data_stat = res.data.filter(e=>{
+            this.data_stat = res.data.filter((e:any)=>{
               if(e.lastparcours != null){
                 return (e.lastparcours.idEtape==1) ||
                         (e.lastparcours.idEtape==2 && e.lastparcours.idStructure == idStru) ||
@@ -190,9 +190,9 @@ export class StatspreocComponent implements OnInit {
           })
       }else if(idprofil == 25){// Chef Division
         this.requeteService.getAllRequest_stat(1,iduser, idStru,this.user.id).subscribe((res: any) => {
-          res.data.forEach((e) => { 
+          res.data.forEach((e:any) => { 
             if (e.relance.length != 0) { 
-                e.relance.forEach((r) => { 
+                e.relance.forEach((r:any) => { 
                   if (r.idStructure == idStru) { 
                     cpt++
                   } 
@@ -201,7 +201,7 @@ export class StatspreocComponent implements OnInit {
           })
           this.nbreRelance = cpt
 
-          this.data_stat = res.data.filter(e=>{
+          this.data_stat = res.data.filter((e:any)=>{
             if(e.lastparcours != null){
               return (e.lastparcours.idEtape==1) || 
                       (e.lastparcours.idEtape==3 && e.lastparcours.idStructure == idStru);
@@ -213,9 +213,9 @@ export class StatspreocComponent implements OnInit {
         })
       }else if(idprofil == 33){// Adjoint
         this.requeteService.getAllRequest_stat(1,iduser, idStru, this.user.id).subscribe((res: any) => {
-          res.data.forEach((e) => { 
+          res.data.forEach((e:any) => { 
             if (e.relance.length != 0) { 
-                e.relance.forEach((r) => { 
+                e.relance.forEach((r:any) => { 
                   if (r.idStructure == idStru) { 
                     cpt++
                   } 

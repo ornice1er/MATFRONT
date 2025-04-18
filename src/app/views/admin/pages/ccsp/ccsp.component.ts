@@ -7,14 +7,13 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AlertNotif } from 'src/app/alert';
-import { LocalService } from 'src/app/core/_services/browser-storages/local.service';
 // import { CcspServiceService } from 'src/app/core/_services/ccsp-service.service';
 // import { EserviceService } from 'src/app/core/_services/eservice.service';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { CcspServiceService } from '../../../../core/services/ccsp-service.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 
 @Component({
   selector: 'app-ccsp',
@@ -64,7 +63,7 @@ export class CcspComponent implements OnInit {
   openEditModal(content:any){
     if (this.selected_data == null) {
       AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
-      return import { LocalService } from 'src/app/core/_services/browser-storages/local.service';
+      return 
 
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -92,7 +91,7 @@ export class CcspComponent implements OnInit {
     private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalService
+    private localStorageService : LocalStorageService
     ) {}
 
     acteurs:[]=[]
@@ -101,7 +100,7 @@ export class CcspComponent implements OnInit {
   user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.getJsonValue("mataccueilUserData")
+      this.user = this.localStorageService.get("mataccueilUserData")
 
     }
     this.init()

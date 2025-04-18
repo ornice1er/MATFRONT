@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, from, map, Observable, of, Subject } from 'rxjs';
-$import { catchError, map } from 'rxjs/operators';
+// $import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from '../utils/config-service';
 
 @Injectable({
@@ -14,10 +14,10 @@ export class AuthentificationService {
   constructor(private http: HttpClient) {
   }
 
-  GetPath(name) {
+  GetPath(name:any) {
     return ConfigService.toFile('public/Usager-mail/'+name);
   }
-  setUserData(data) {
+  setUserData(data:any) {
     this.userLoggedInData.next(data);
     console.log(data)
   }
@@ -30,17 +30,17 @@ export class AuthentificationService {
     return true;
   }
   // Authentication/Authorization
-  login(value) {
+  login(value:any) {
 
     return this.http.post(`${this.url}`, value,{headers:ConfigService.httpHeader(null,false)});
   }
-  loginUsager(value) {
+  loginUsager(value:any) {
 
     return this.http.post(`${ConfigService.toApiUrl("authusager")}`, value,{headers:ConfigService.httpHeader(null,false)});
   }
   
   
-  getUserSinceGuv(key,value){
+  getUserSinceGuv(key:any,value:any){
     const userToken = localStorage.getItem('auth/userdata');
      //return this.http.get(`http://localhost:8001/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     // return this.http.get(`http://api.guv.sevmtfp.test/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));

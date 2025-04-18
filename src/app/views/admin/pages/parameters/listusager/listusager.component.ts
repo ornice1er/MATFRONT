@@ -149,7 +149,7 @@ export class ListusagerComponent implements OnInit {
       this.user = this.localStorageService.getJsonValue("mataccueilUserData")
     }
 
-    this.activatedRoute.queryParams.subscribe(x => this.init(x['page'] || 1));
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
 
     this.subject.subscribe((val) => {
      this.pager=val
@@ -247,7 +247,7 @@ export class ListusagerComponent implements OnInit {
         //this.translate.instant('HOME.TITLE')
         AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
          this.init(this.page) 
-       },(err)=>{
+       },(err:any)=>{
          
          if(err.error.detail!=null){    
            AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -272,7 +272,7 @@ export class ListusagerComponent implements OnInit {
        this.init(this.page)
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
      
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -287,11 +287,11 @@ export class ListusagerComponent implements OnInit {
       value.password=""
       this.error="Le  mot de passe n'a pas été pris en compte car les deux ne sont pas identique"
     }else{
-      this.usagersService.update(value,this.selected_data.id).subscribe((res)=>{
+      this.usagersService.update(value,this.selected_data.id).subscribe((res:any)=>{
         this.modalService.dismissAll()
         this.init(this.page)
         AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
@@ -329,9 +329,9 @@ export class ListusagerComponent implements OnInit {
   addRequeteusager(value:any){
     let service = null
     if (this.link_to_prestation==1 || this.selected_type_preoccupation==0) {
-      service = this.services.filter(e => (e.id == value.idPrestation))[0]
+      service = this.services.filter((e:any) => (e.id == value.idPrestation))[0]
     }else{
-      service=this.services.filter(e => (e.hide_for_public == 1))[0]
+      service=this.services.filter((e:any) => (e.hide_for_public == 1))[0]
     }
     
     if(!value.objet){
@@ -388,7 +388,7 @@ export class ListusagerComponent implements OnInit {
   selectRequest(event:any) {
     if(event.target.value!="0"){
       this.show_structures=false
-      this.selected_el_obj = this.data.find(e => (e.codeRequete == event.target.value)).objet
+      this.selected_el_obj = this.data.find((e:any) => (e.codeRequete == event.target.value)).objet
     }else{
       this.show_structures=true
       this.selected_el_obj = ""

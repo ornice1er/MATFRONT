@@ -14,18 +14,18 @@ export class CommentaireService {
     //  ok
     return this.http.get<any[]>(`${ConfigService.toApiUrl("comment")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  get(id){
+  get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("etape/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("comment")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("comment/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))

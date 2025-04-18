@@ -10,6 +10,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { AppHttpInterceptor } from './core/utils/app-http-interceptor';
 import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimationsAsync(),
     provideToastr(), 
+    provideCharts(withDefaultRegisterables()),
     { provide: LOCALE_ID, useValue: 'fr' },
     AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: AppHttpInterceptor, multi: true }

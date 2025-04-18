@@ -7,7 +7,6 @@ import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -24,6 +23,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { UserService } from '../../../../../core/services/user.service';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class GraphiqueevolutionComponent implements OnInit {
   collectionSize = 0;
   page = 1;
   pageSize = 10;
-  years=[]
+  years:any[]=[]
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -78,18 +78,18 @@ export class GraphiqueevolutionComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
   ) { }
 
-    lineChartData: ChartDataSets[] = [
+    lineChartData: any[] = [
     { data: [], label: 'Evolution des requetes' },
   ];
   
-  linearData=[]
-  lineChartLabels: Label[] = [];
+  linearData:any[]=[]
+  lineChartLabels: any[] = [];
 
   lineChartOptions = {
     responsive: true,
   };
 
-  lineChartColors: Color:[] = [
+  lineChartColors: any[] = [
     {
       borderColor: 'black',
       backgroundColor: 'rgba(255,255,0,0.28)',
@@ -104,7 +104,7 @@ export class GraphiqueevolutionComponent implements OnInit {
 
   selected_year=null
 
-  typeRequete=""
+  typeRequete:any=""
 
   checkType(){
     if(this.activatedRoute.snapshot.paramMap.get('type_req')=="plaintes"){
@@ -116,6 +116,7 @@ export class GraphiqueevolutionComponent implements OnInit {
     if(this.activatedRoute.snapshot.paramMap.get('type_req')=="infos"){
       return {id:2,name:"demandes d'informations"}
     }
+    return
   }
   
   ngOnInit(): void {
@@ -145,13 +146,13 @@ export class GraphiqueevolutionComponent implements OnInit {
        this.init()   
    
      
-       this.activatedRoute.queryParams.subscribe(x => this.init());
+       this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
 
-      this.typeRequete = this.checkType().name;
+      this.typeRequete = this.checkType()?.name;
 
       
        this.subject.subscribe((val) => {
-         this.typeRequete = this.checkType().name;
+         this.typeRequete = this.checkType()?.name;
          this.lineChartLabels=[]
          this.linearData=[]
          this.lineChartData=  [
@@ -160,13 +161,13 @@ export class GraphiqueevolutionComponent implements OnInit {
           },
   
         ]
-         val.forEach(e=>{
+         val.forEach((e:any)=>{
           this.lineChartLabels.push(e.periode.toString())
           this.linearData.push(e.nbre)
         })
         this.lineChartData=[
           { data:  this.linearData, label: 
-            'Evolution des '+this.checkType().name},
+            'Evolution des '+this.checkType()?.name},
         ]
        })
      }
@@ -182,16 +183,16 @@ export class GraphiqueevolutionComponent implements OnInit {
 
     ]
     this.requeteService.getGraphiqueStatEvolutionReq(
-      this.checkType().id
+      this.checkType()?.id
       ,"all",this.user.idEntite).subscribe((res:any)=>{
       this.subject.next(res);
-      /*res.forEach(e=>{
+      /*res.forEach((e:any)=>{
         this.lineChartLabels.push(e.periode.toString())
         this.linearData.push(e.nbre)
       })
       this.lineChartData=[
         { data:  this.linearData, label: 
-          'Evolution des '+this.checkType().name},
+          'Evolution des '+this.checkType()?.name},
       ]*/
     })
 
@@ -205,15 +206,15 @@ export class GraphiqueevolutionComponent implements OnInit {
   loadGraphe(){
     if(this.selected_year!=null && this.selected_year!=""){
       this.requeteService.getGraphiqueStatEvolutionReq(
-        this.checkType().id
+        this.checkType()?.id
         ,this.selected_year,this.user.idEntite).subscribe((res:any)=>{
-        res.forEach(e=>{
+        res.forEach((e:any)=>{
           this.lineChartLabels.push(e.periode.toString())
           this.linearData.push(e.nbre)
         })
         this.lineChartData=[
           { data:  this.linearData, label: 
-            'Evolution des '+this.checkType().name},
+            'Evolution des '+this.checkType()?.name},
         ]
       })
     }

@@ -119,7 +119,7 @@ export class RelanceComponent implements OnInit {
      //this.translate.instant('HOME.TITLE')
      AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
       this.init() 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')

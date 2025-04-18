@@ -15,18 +15,18 @@ export class PermissionService {
    
     return this.http.get<any[]>(`${this.url}`,ConfigService.httpHeader());
   }
-  get(id){
+  get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("userPermissions/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("userPermissions/")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("userPermissions/")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))

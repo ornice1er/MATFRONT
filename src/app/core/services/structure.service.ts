@@ -10,17 +10,17 @@ export class StructureService {
   constructor(private http:HttpClient) { }
  
 
-  getAll(OnlyDirection,idEntite){
+  getAll(OnlyDirection:any,idEntite:any){
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("structure")}/${OnlyDirection}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getStructureParThematique(idtype){
+  getStructureParThematique(idtype:any){
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("structurethema")}/${idtype}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getStructurePreocEnAttente(idEntite){
+  getStructurePreocEnAttente(idEntite:any){
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("structurePreocc")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
@@ -29,31 +29,31 @@ export class StructureService {
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("lispfc")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getLisCommune(id){
+  getLisCommune(id:any){
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("liscommune")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getLisUsersParCommune(id){
+  getLisUsersParCommune(id:any){
 
     return this.http.get<any[]>(`${ConfigService.toApiUrl("lisuser")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getAllStructureByUser(idUser){
+  getAllStructureByUser(idUser:any){
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("structure/get/sub")}/${idUser}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  get(id){
+  get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("structure/getLine/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("structure")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("structure/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))

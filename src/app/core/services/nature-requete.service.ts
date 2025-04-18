@@ -10,22 +10,22 @@ export class NatureRequeteService {
   constructor(private http:HttpClient) { }
  
 
-  getAll(idEntite){
+  getAll(idEntite:any){
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("nature")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  get(id){
+  get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("nature/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("nature")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("nature/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))

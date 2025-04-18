@@ -9,25 +9,25 @@ export class RequeteService {
 
   constructor(private http:HttpClient) { }
  
-  getGraphiqueStatEvolutionReq(plainte,year="all",idEntite){
+  getGraphiqueStatEvolutionReq(plainte:any,year="all",idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/")}year/${plainte}/${year}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getAllGraphiqueStatStructure(plainte,idEntite){
+  getAllGraphiqueStatStructure(plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("stats/nbre/all/")}${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  filterAllGraphiqueStatStructure(param,idEntite){
+  filterAllGraphiqueStatStructure(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("stats/nbre")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
   
-  getAllGraphiqueStatSTheme(plainte,idEntite){
+  getAllGraphiqueStatSTheme(plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/type/all/")}${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  filterAllGraphiqueStatSTheme(param,idEntite){
+  filterAllGraphiqueStatSTheme(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/type")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getAllRequest(idEntite,search,traiteOuiNon,idUser,structure,plainte,page){
+  getAllRequest(idEntite:any,search:any,traiteOuiNon:any,idUser:any,structure:any,plainte:any,page:any){
     // ok &typeStructure=${type}
     if(structure == ""){
       if(search==null){
@@ -45,72 +45,72 @@ export class RequeteService {
 
   }
 
-  getAllRequest_stat(idEntite,idUser,structure,id_connUse){
+  getAllRequest_stat(idEntite:any,idUser:any,structure:any,id_connUse:any){
     // ok &typeStructure=${type} plainte
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get_stat")}/${idEntite}?idUser=${idUser}&structure=${structure}&id_connUse=${id_connUse}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getStatByTheme(plainte,idEntite){
+  getStatByTheme(plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/get/stat/all")}/${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  filterStatByTheme(param,idEntite){
+  filterStatByTheme(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/get/stat")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
   
-  getStatByStructure(plainte,idEntite){
+  getStatByStructure(plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/nbre/all")}/${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
   
-  getAll_Structure(idEntite){
+  getAll_Structure(idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("structure")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getStatAllStructure(plainte,idEntite){
+  getStatAllStructure(plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/all-strucuture")}/${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
   
 
-  filterStatByStructure(param,idEntite){
+  filterStatByStructure(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/nbre")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
   
 
-  getRationReqPrestationEncours(param,idEntite){
+  getRationReqPrestationEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/requeteprestationsencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationReqPrestation(param,idEntite){
+  getRationReqPrestation(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/requeteprestations")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationInfosPrestationEncours(param,idEntite){
+  getRationInfosPrestationEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/demandesinfosprestationsencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationInfosPrestation(param,idEntite){
+  getRationInfosPrestation(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/demandesinfosprestations")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationPlaintePrestationEncours(param,idEntite){
+  getRationPlaintePrestationEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/plainteprestationsencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationPlaintePrestation(param,idEntite){
+  getRationPlaintePrestation(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/plainteprestations")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getRationReqStructureEncours(param,idEntite){
+  getRationReqStructureEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/requeteservicesencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationReqStructure(param,idEntite){
+  getRationReqStructure(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/requeteservices")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationInfosStructureEncours(param,idEntite){
+  getRationInfosStructureEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/demandesinfosservicesencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationInfosStructure(param,idEntite){
+  getRationInfosStructure(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/demandesinfosservices")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationPlainteStructureEncours(param,idEntite){
+  getRationPlainteStructureEncours(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/plainteservicesencours")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getRationPlainteStructure(param,idEntite){
+  getRationPlainteStructure(param:any,idEntite:any){
     return this.http.post<any[]>(`${ConfigService.toApiUrl("ratio/plainteservices")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
@@ -118,22 +118,22 @@ export class RequeteService {
   
 
   
-  getStat(idUser,plainte,idEntite){
+  getStat(idUser:any,plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/nbre")}/${idUser}/${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
   
-  getStatCour(idUser,plainte,idEntite){
+  getStatCour(idUser:any,plainte:any,idEntite:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/nbreCour")}/${idUser}/${plainte}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
 
-  getAllPointReponse(search=null,idUser,page,idEntite){
+  getAllPointReponse(search=null,idUser:any,page:any,idEntite:any){
    if(search==null){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }else{
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }
   }
-  getAllPoint(search=null,idUser,page,idEntite,traiteOuiNon){
+  getAllPoint(search=null,idUser:any,page:any,idEntite:any,traiteOuiNon:any){
     if(search==null){
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&page=${page}&traiteOuiNon=${traiteOuiNon}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }else{
@@ -141,7 +141,7 @@ export class RequeteService {
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&page=${page}&traiteOuiNon=${traiteOuiNon}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }
    }
-   getAllPointStructure(search=null,idUser,page,idEntite,structure,traiteOuiNon){
+   getAllPointStructure(search=null,idUser:any,page:any,idEntite:any,structure:any,traiteOuiNon:any){
     if(search==null){
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }else{
@@ -149,7 +149,7 @@ export class RequeteService {
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }
    } 
-  getAllParcours(idEntite,search,idUser,plainte,page,idStructure,statut,startDate,endDate,type){
+  getAllParcours(idEntite:any,search:any,idUser:any,plainte:any,page:any,idStructure:any,statut:any,startDate:any,endDate:any,type:any){
    if(search==null){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&structure=${idStructure}&page=${page}&parc=oui&type=${type}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }else{
@@ -180,7 +180,7 @@ export class RequeteService {
      }
    }
   }
-  getParcoursRegistre(idEntite,search,idcomm,page,statut,startDate,endDate,iduserCom){
+  getParcoursRegistre(idEntite:any,search:any,idcomm:any,page:any,statut:any,startDate:any,endDate:any,iduserCom:any){
    if(search==null){
     if(startDate==null){
       return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&page=${page}&statut=${statut}&iduserCom=${iduserCom}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
@@ -195,7 +195,7 @@ export class RequeteService {
       }
    }
   }
-  getInfosPrint(idEntite,search,idUser,plainte,page,idStructure,statut,startDate,endDate){
+  getInfosPrint(idEntite:any,search:any,idUser:any,plainte:any,page:any,idStructure:any,statut:any,startDate:any,endDate:any){
    if(search==null){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&structure=${idStructure}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }else{
@@ -226,65 +226,65 @@ export class RequeteService {
      }
    }
   }
-  getAll(idEntite,search,plainte,page){
+  getAll(idEntite:any,search:any,plainte:any,page:any){
    if(search==null){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }else{
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&search=${search}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
    }
   }
-  getAllForUser(idEntite,search,byUser,idUser,page){
+  getAllForUser(idEntite:any,search:any,byUser:any,idUser:any,page:any){
     if(search==null){
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }else{
      return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&search=${search}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
     }
    }
-  getAllForUsager(idUsager,page){
+  getAllForUsager(idUsager:any,page:any){
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusager")}/${idUsager}?page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  getAllForUsagerNT(idUsager,page){
+  getAllForUsagerNT(idUsager:any,page:any){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusagerNT")}/${idUsager}?page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
   
-  getAllAffectation(idUser,typeStructure,plainte,page){
+  getAllAffectation(idUser:any,typeStructure:any,plainte:any,page:any){
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("affectation/get")}?idUser=${idUser}&typeStructure=${typeStructure}&plainte=${plainte}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
   }
-  createAffectation(ressource){
+  createAffectation(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("affectation")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  saveReponse(ressource){
+  saveReponse(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/savereponse")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
 
-  archiverReque(ressource){
+  archiverReque(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/archivereque")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
 
-  ModifierReque(ressource){
+  ModifierReque(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/modifierReque")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  noterRequete(ressource){
+  noterRequete(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("noter")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  transmettreRequeteExterne(ressource){
+  transmettreRequeteExterne(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transmettre/externe")}`, ressource,
     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
      tap((ressource: any) => console.log(`added ressource ${ressource}`))
@@ -292,7 +292,7 @@ export class RequeteService {
   }
   
   
-  genPdf(ressource){
+  genPdf(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("genererpdf")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
@@ -300,7 +300,7 @@ export class RequeteService {
   }
 
   
-  transmettreReponse(ressource){
+  transmettreReponse(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transmettre/reponse")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
@@ -308,58 +308,58 @@ export class RequeteService {
   }
    
   
-  mailrelance(ressource){
+  mailrelance(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transmettre/relance")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
    
-  transfertRequet(ressource,id){
+  transfertRequet(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transfert/entite")}/${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  transfertRequetInterne(ressource,id){
+  transfertRequetInterne(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transfert/structure")}/${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  relanceRequet(id){
+  relanceRequet(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("requeteusager/relance")}/${id}`,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  relanceRequetType(id,idStru,idStrRelan){
+  relanceRequetType(id:any,idStru:any,idStrRelan:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("requeteusager/relanceType")}/${id}/${idStru}/${idStrRelan}`,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
 
-  mailUsager(ressource){
+  mailUsager(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/transmettre/reponse/rapide")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  getReponseRapide(id){
+  getReponseRapide(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("requeteusager/mail/rapide/reponse")}/${id}/get`,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   
-  mailStructure(ressource){
+  mailStructure(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/mail/rapide/structure")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  complementReponse(ressource){
+  complementReponse(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/mail/rapide/reponse/complement")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
@@ -368,18 +368,18 @@ export class RequeteService {
   
   
   
-  get(id){
+  get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("requeteusager/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
-  create(ressource){
+  create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager")}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
-  update(ressource,id){
+  update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("requeteusager/")}${id}`, ressource,
      ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))

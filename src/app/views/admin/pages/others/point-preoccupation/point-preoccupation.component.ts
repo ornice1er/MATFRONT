@@ -6,7 +6,7 @@ import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -30,7 +30,7 @@ import { UserService } from '../../../../../core/services/user.service';
 @Component({
   selector: 'app-point-preoccupation',
     standalone: true,
-        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   
   templateUrl: './point-preoccupation.component.html',
   styleUrls: ['./point-preoccupation.component.css']
@@ -39,11 +39,11 @@ export class PointPreoccupationComponent implements OnInit {
 
   @Input() cssClasses = '';
   errormessage=""
-  erroraffectation=""
+  erroraffectation:any[]=[];
   
-  searchText=""
+  searchText:any="";
   closeResult = '';
-   permissions:any[]=[]
+   permissions:any[]=[];
   error=""
   data: any[]=[];
   _temp: any[]=[];
@@ -52,7 +52,7 @@ export class PointPreoccupationComponent implements OnInit {
   pageSize = 10;
 
    selected = [];
-  current_permissions:any[]=[]
+  current_permissions:any[]=[];
   selected_data:any
   isSended=false
   
@@ -107,7 +107,7 @@ export class PointPreoccupationComponent implements OnInit {
   isGeneralDirector=false
 
   show_step(id:any){
-    return this.etapes.find((e)=>(e.id==id))
+    return this.etapes.find((e:any)=>(e.id==id))
   }
 
   ngOnInit(): void {
@@ -124,7 +124,7 @@ export class PointPreoccupationComponent implements OnInit {
     this.etapes=[]
     this.etapeService.getAll(this.user.idEntite).subscribe((res:any)=>{
       this.etapes=res
-      this.activatedRoute.queryParams.subscribe(x => this.init(x.page || 1));
+      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
     })
     this.subject.subscribe((val) => {
      this.pager=val

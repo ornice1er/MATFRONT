@@ -93,6 +93,7 @@ export class ListStatThemeComponent implements OnInit {
     if(this.activatedRoute.snapshot.paramMap.get('type_req')=="infos"){
       return {id:2,name:"Demandes d'informations"}
     }
+    return
   }
 
   ngOnInit(): void {
@@ -115,7 +116,7 @@ export class ListStatThemeComponent implements OnInit {
 
   prepare(){
     this.init()    
-    // this.typeRequete = this.checkType().name;
+    // this.typeRequete = this.checkType()?.name;
     if(this.selected_type =="0"){
       this.typeRequete = 'Requetes'
     }else if(this.selected_type =="1"){
@@ -124,10 +125,10 @@ export class ListStatThemeComponent implements OnInit {
       this.typeRequete = "Demandes d'informations"
     }
     
-    this.activatedRoute.queryParams.subscribe(x => this.init());
+    this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
     this.subject.subscribe((val) => {
       this.data=[]
-      // this.typeRequete = this.checkType().name;
+      // this.typeRequete = this.checkType()?.name;
       this.data=val
     })
   }
@@ -135,10 +136,10 @@ export class ListStatThemeComponent implements OnInit {
     if(this.selected_type == ""){
       this.selected_type = "0"
     }
-    // this.typeRequete=this.checkType().name;
+    // this.typeRequete=this.checkType()?.name;
     this._temp=[]
     this.data=[]
-    // this.requeteService.getStatByTheme(this.checkType().id,this.user.idEntite).subscribe((res:any)=>{
+    // this.requeteService.getStatByTheme(this.checkType()?.id,this.user.idEntite).subscribe((res:any)=>{
     this.requeteService.getStatByTheme(this.selected_type,this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res
@@ -151,7 +152,7 @@ export class ListStatThemeComponent implements OnInit {
 
 
   param_stat={"type":"all","plainte":this.selected_type,startDate:"",endDate:""}
-  // param_stat={"type":"all","plainte":this.checkType().id,startDate:"",endDate:""}
+  // param_stat={"type":"all","plainte":this.checkType()?.id,startDate:"",endDate:""}
 
   
   searchStats(){

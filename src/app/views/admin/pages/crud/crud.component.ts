@@ -45,7 +45,7 @@ export class CrudComponent implements OnInit {
   ];
   current_permissions:any[]=[]
   collectionSize = 0;
-  selected_data=new User()
+  selected_data:any
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -118,7 +118,7 @@ export class CrudComponent implements OnInit {
   
   create(value:any){
     value.username=value.last_name+" "+value.first_name 
-    value.role=Roles.SubAdmin
+  //  value.role=Roles.SubAdmin
     value.permissions=this.selected
     value.password="default"
     this.userService.create(value).subscribe((res:any)=>{
@@ -127,7 +127,7 @@ export class CrudComponent implements OnInit {
      //this.translate.instant('HOME.TITLE')
      AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
       this.ngOnInit() 
-    },(err)=>{
+    },(err:any)=>{
       
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
@@ -136,24 +136,24 @@ export class CrudComponent implements OnInit {
       }
     })
   }
-  lock(id,index) {
+  lock(id:any,index:any) {
     this.userService.update(id,{is_active:false}).subscribe((res:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", this.translate.instant('back.account_success_lock'), 'success')
       this.ngOnInit()
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
    
    }
-    unlock(id,index){
-      this.userService.update(id,{is_active:true}).subscribe((res)=>{
+    unlock(id:any,index:any){
+      this.userService.update(id,{is_active:true}).subscribe((res:any)=>{
         AppSweetAlert.simpleAlert("Nouvelle modification",  this.translate.instant('back.account_success_unlock'), 'success')
         this.ngOnInit()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
    }
-  archive(id,index){
+  archive(id:any,index:any){
     AppSweetAlert.confirmBox("Suppression",
     "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
       if (result.value) {
@@ -161,17 +161,17 @@ export class CrudComponent implements OnInit {
         this.data.splice(index,1)
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.ngOnInit()
-      }, (err)=>{
+      }, (err:any)=>{
         AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
       })
     }
    })
   }
   edit(value:any) {
-    this.userService.update(value,value.id).subscribe((res)=>{
+    this.userService.update(value,value.id).subscribe((res:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
       this.ngOnInit()
-    }, (err)=>{
+    }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
