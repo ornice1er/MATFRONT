@@ -27,8 +27,6 @@ mailSent=false;
   ngOnInit(): void {
     
   }
-
-
   sendMail(value:any){
     this.loading=true
     this.authService.sendMail(value).subscribe((res:any)=>{
