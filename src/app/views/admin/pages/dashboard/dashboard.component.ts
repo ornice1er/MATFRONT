@@ -1,12 +1,24 @@
 import { Component } from '@angular/core';
+<<<<<<< HEAD
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+=======
+// import { Router } from 'express';
+// import { ToastrService } from 'ngx-toastr';
+// import { AuthService } from '../../../../core/services/auth.service';
+import { GlobalName } from '../../../../core/utils/global-name';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import {NgSelectModule} from '@ng-select/ng-select'
 import {NgxPaginationModule} from 'ngx-pagination'
+<<<<<<< HEAD
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActeurService } from '../../../../core/services/acteur.service';
@@ -17,16 +29,23 @@ import { ServiceService } from '../../../../core/services/service.service';
 import { StructureService } from '../../../../core/services/structure.service';
 import { TypeService } from '../../../../core/services/type.service';
 import { UsagerService } from '../../../../core/services/usager.service';
+=======
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterOutlet],
+=======
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+<<<<<<< HEAD
   
   
    /* lineChartData: ChartDataSets[] = [
@@ -178,5 +197,18 @@ export class DashboardComponent {
     })
   }
   
+=======
+  user:any
+
+ constructor(
+    private lsService:LocalStorageService
+  ) { }
+
+  ngOnInit(): void {
+  
+     this.user=this.lsService.get(GlobalName.userName)
+    // this.role=this.user.roles[0].name
+}
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 
 }

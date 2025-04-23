@@ -7,7 +7,21 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
+<<<<<<< HEAD
 import { NgxSpinnerService } from 'ngx-spinner';
+=======
+
+import { NgxSpinnerService } from 'ngx-spinner';
+
+import { TranslateService } from '@ngx-translate/core';
+// import { User } from '../../../../core/_models/user.model';
+// import { Roles } from '../../../../core/_models/roles';
+// import { StructureService } from '../../../../core/_services/structure.service';
+// import { ActeurService } from '../../../../core/_services/acteur.service';
+// import { Acteur } from '../../../../core/_models/acteur.model';
+// import { LocalStorageService } from '../../../../core/_services/browser-storages/local.service';
+// import { UsagerService } from '../../../../core/_services/usager.service';
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';

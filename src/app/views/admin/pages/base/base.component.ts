@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
+=======
+import { TranslateService } from '@ngx-translate/core';
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 // import { Roles } from '../../../core/_models/roles';
 // import { AuthentificationService } from '../../../core/_services/authentification.service';
 import { CommonModule } from '@angular/common';
@@ -28,7 +32,11 @@ import { HeaderComponent } from './partials/header/header.component';
 export class BaseComponent  {
 
   user: any
+<<<<<<< HEAD
   constructor(private userService: UserService, private authService: AuthentificationService, private localService: LocalStorageService) { }
+=======
+  constructor(private userService: UserService, private authService: AuthentificationService, private localService: LocalStorageService, private translateService: TranslateService) { }
+>>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 
   ngOnInit(): void {
     if (localStorage.getItem('mataccueilUserData') != null) {
