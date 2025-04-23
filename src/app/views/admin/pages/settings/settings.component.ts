@@ -42,7 +42,7 @@ settingRecup:any
 
 
     if(this.settingRecup==undefined || this.settingRecup=="null"){
-      this.settingService.store(value).subscribe((res:any)=>{
+      this.settingService.create(value).subscribe((res:any)=>{
         localStorage.setItem('mataccueilSettings',JSON.stringify(res.data))
         AppSweetAlert.simpleAlert("Paramètre général","Paramètre crée avec succès")
 

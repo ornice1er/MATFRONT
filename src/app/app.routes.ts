@@ -14,7 +14,7 @@ import { LayoutComponent } from './views/auth/layout/layout.component';
 import { PublicRoutes } from './views/public/public-routing.module';
 
 export const routes: Routes = [
-    {path: '', redirectTo: '',pathMatch:'full'},
+    {path: '', redirectTo: 'auth/login',pathMatch:'full'},
     ...AdminRoutes,
     ...PublicRoutes,
     {
