@@ -15,11 +15,12 @@ import { AuthentificationService } from '../../../../../core/services/authentifi
 
 @Component({
   selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
+  templateUrl:'./forgot-password.component.html',
     standalone: true,
     imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
   styleUrls: ['./forgot-password.component.css'],
 })
+
 export class ForgotPasswordComponent implements OnInit {
 
   error=""
