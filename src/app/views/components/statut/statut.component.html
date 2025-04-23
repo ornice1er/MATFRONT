@@ -1,0 +1,19 @@
+<div class="my-3" [ngSwitch]="status">
+<span *ngSwitchCase="'success'" class="text-white bg-success py-1 px-2 ">
+    {{message}}
+</span>
+<span *ngSwitchCase="'warning'" class="text-white bg-warning py-1 px-2">
+    {{message}}
+
+</span>
+<span *ngSwitchCase="'danger'" class="text-white bg-danger py-1 px-2  ">
+    {{message}}
+
+</span>
+<span *ngSwitchCase="'secondary'" class="text-white bg-secondary py-1 px-2 ">
+    {{message}}
+</span>
+<span *ngSwitchDefault>
+    -----
+</span>
+</div>
