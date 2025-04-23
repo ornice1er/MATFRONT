@@ -89,6 +89,10 @@ export class AllServicesComponent implements OnInit {
     submited: 0,
     textesRegissantPrestation: ""
   }
+  types:any[] = []
+  listepieces:any[] = []
+  structures: any[] = []
+  user:any
 
   search() {
     this.data = this._temp.filter(r => {
@@ -140,9 +144,7 @@ export class AllServicesComponent implements OnInit {
     }
   }
 
-  types:any[] = []
-  listepieces:any[] = []
-
+ 
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
@@ -156,10 +158,7 @@ export class AllServicesComponent implements OnInit {
     private localStorageService:LocalStorageService
   ) { }
 
-  structures: [] = []
 
-  
-  user:any
   ngOnInit() {
     if (localStorage.getItem('mataccueilUserData') != null) {
       this.user = this.localStorageService.get("mataccueilUserData")
@@ -373,5 +372,8 @@ export class AllServicesComponent implements OnInit {
   }
 
 
+  removeRow(i:any){
+
+  }
 
 }
