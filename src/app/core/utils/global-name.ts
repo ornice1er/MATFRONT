@@ -2,10 +2,9 @@
 
  export const GlobalName:any ={
     tokenName:"mataccueilToken",
-    settingName:"mataccueilToken",
-    currentRoleIndex:"mataccueilRoleIndex",
-    refreshTokenName:"mataccueilRefreshToken",
-    userName:"mataccueilUserConnected",
+    settingName:"mataccueilSetting",
+    userRole:"mataccueilUserRole",
+    userName:"mataccueilUserData",
     expireIn:'mataccueilExpireIn',
     features:'mataccueilFeatures'
  }

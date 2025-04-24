@@ -33,6 +33,8 @@ export class LayoutComponent {
   menuOpen = false;
   user:any
   role:any
+  current_user_role:any=''
+  get_user: any;
 
 
   constructor(
@@ -46,7 +48,16 @@ export class LayoutComponent {
   ngOnInit(): void {
   
      this.user=this.lsService.get(GlobalName.userName)
-    // this.role=this.user.roles[0].name
+
+     this.current_user_role=this.lsService.get(GlobalName.userRole)
+    
+     if(this.get_user!=null && this.get_user!=undefined){
+       this.user=this.get_user
+     }
+ 
+     if (this.lsService.get(GlobalName.userName) != null) {
+       this.user = this.lsService.get(GlobalName.userName)
+     }  
 }
 
 toggleMenu() {
