@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-// import { Router } from 'express';
-// import { ToastrService } from 'ngx-toastr';
-// import { AuthService } from '../../../../core/services/auth.service';
 import { GlobalName } from '../../../../core/utils/global-name';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { CommonModule } from '@angular/common';
@@ -11,8 +8,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import {NgSelectModule} from '@ng-select/ng-select'
 import {NgxPaginationModule} from 'ngx-pagination'
-import { ActivatedRoute } from '@angular/router';
-import { Router } from 'express';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActeurService } from '../../../../core/services/acteur.service';
 import { EtapeService } from '../../../../core/services/etape.service';

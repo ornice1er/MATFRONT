@@ -3,7 +3,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Router } from 'express';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
 import { AuthentificationService } from '../../../../../../core/services/authentification.service';
@@ -11,6 +10,7 @@ import { ProfilService } from '../../../../../../core/services/profil.service';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { Roles } from '../../../../../../core/utils/global-name';
 import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
+import { Router } from '@angular/router';
 
 declare var $: any;
 

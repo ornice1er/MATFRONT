@@ -17,6 +17,5 @@
    Hotel= 'hotel',
    TourOperateur= 'tour-operateur',
    AgenceLocationVoiture= 'agence-location-voiture',
-   SubAdmin= 'sous-admin',
- 
+   SubAdmin= 'sous-admin'
  }
