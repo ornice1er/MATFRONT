@@ -126,7 +126,7 @@ export class ListRequeteServicesComponent implements OnInit {
     private prestationService: ServiceService,
     private structureService: StructureService,
     private usagersService: UsagerService,
-    private translate: TranslateService,
+
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private etapeService: EtapeService

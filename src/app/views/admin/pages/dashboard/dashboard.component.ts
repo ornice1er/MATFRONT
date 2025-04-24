@@ -168,15 +168,15 @@ export class DashboardComponent {
     })
   
     this.statEservice = []
-    this.acteurService.Recup_Stat_E_Service("").subscribe((res:any)=>{
-      this.statEservice = res.data.stats.forEach((e:any)=>{
-        this.total_e += e.total
-        this.traite_e += e.treated
-        this.non_traite_e_news += e.news
-        this.rejete_e += e.rejected
-        this.pending_e += e.pending
-      })
-    })
+    // this.acteurService.Recup_Stat_E_Service("").subscribe((res:any)=>{
+    //   this.statEservice = res.data.stats.forEach((e:any)=>{
+    //     this.total_e += e.total
+    //     this.traite_e += e.treated
+    //     this.non_traite_e_news += e.news
+    //     this.rejete_e += e.rejected
+    //     this.pending_e += e.pending
+    //   })
+    // })
   }
   
 

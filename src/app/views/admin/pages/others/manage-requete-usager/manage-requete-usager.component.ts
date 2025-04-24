@@ -126,7 +126,7 @@ export class ManageRequeteUsagerComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
-    private translate: TranslateService,
+
     private institutionService:InstitutionService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,

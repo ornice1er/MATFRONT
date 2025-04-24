@@ -148,7 +148,6 @@ export class EspacepointfocalcomComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
-    private translate: TranslateService,
     private rdvService: RdvService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,

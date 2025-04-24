@@ -4,15 +4,23 @@
   mat-toolbar {
     display: flex;
     justify-content: space-between;
+    background-color: white !important;
   }
   mat-sidenav {
     width: 250px;
+    background-color: #42358C;
   }
 
   mat-toolbar{
-    background-color: black;
+    background-color: rgb(21, 15, 54);
     color: orange;
   }
 
+  mat-sidenav-container{
+    min-height: 100vh
+  }
 
+ mdc-list-item__primary-text {
+    color: white !important;
+  }
   

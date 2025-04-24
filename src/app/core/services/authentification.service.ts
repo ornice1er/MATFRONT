@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, from, map, Observable, of, Subject } from 'rxjs';
 // $import { catchError, map } from 'rxjs/operators';
 import { ConfigService } from '../utils/config-service';
+import { LocalStorageService } from '../utils/local-stoarge-service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class AuthentificationService {
 
   url=ConfigService.toApiUrl("auth");
   userLoggedInData = new Subject<any>();
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private localStorageService:LocalStorageService) {
   }
 
   GetPath(name:any) {
@@ -41,15 +42,15 @@ export class AuthentificationService {
   
   
   getUserSinceGuv(key:any,value:any){
-    const userToken = localStorage.getItem('auth/userdata');
-     //return this.http.get(`http://localhost:8001/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
-    // return this.http.get(`http://api.guv.sevmtfp.test/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
-    return this.http.get(`https://back.guvmtfp.gouv.bj/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    const userToken = this.localStorageService.get('auth/userdata');
+     //return this.http.get(`http://localhost:8001/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(this.localStorageService.get("mataccueilToken"),true));
+    // return this.http.get(`http://api.guv.sevmtfp.test/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(this.localStorageService.get("mataccueilToken"),true));
+    return this.http.get(`https://back.guvmtfp.gouv.bj/api/user/data?key=${key}&value=${value}`, ConfigService.httpHeader(this.localStorageService.get("mataccueilToken"),true));
   }
 
   getUserByToken(){
-    const userToken = localStorage.getItem('auth/userdata');
-    return this.http.get(`${ConfigService.toApiUrl('auth/userdata')}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    const userToken = this.localStorageService.get('auth/userdata');
+    return this.http.get(`${ConfigService.toApiUrl('auth/userdata')}`);
   }
   loginV2(code:any): Observable<any> {
 

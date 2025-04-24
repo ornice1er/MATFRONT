@@ -45,7 +45,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
                     this.lsService.remove(GlobalName.userName)
                     this.lsService.remove(GlobalName.exercice)
                     this.modalService.dismissAll()
-                    this.router.navigate(['//login'])
+                    this.router.navigate(['/auth/login'])
                     break;
                   case 403:
                     break;

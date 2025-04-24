@@ -95,7 +95,7 @@ export class StatspreocComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
-    private translate: TranslateService,
+
 
     private acteurService: ActeurService,
     private requeteService: RequeteService,

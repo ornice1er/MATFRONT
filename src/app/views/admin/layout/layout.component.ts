@@ -31,7 +31,7 @@ import { AuthentificationService } from '../../../core/services/authentification
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
-  menuOpen = false;
+  menuOpen = true;
   user:any
   role:any
   current_user_role:any=''
