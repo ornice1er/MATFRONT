@@ -11,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../core/services/auth.service';
 import { GlobalName } from '../../../core/utils/global-name';
 import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
+import { AuthentificationService } from '../../../core/services/authentification.service';
 
 @Component({
   selector: 'app-layout',
@@ -39,25 +40,30 @@ export class LayoutComponent {
 
   constructor(
     
-    private authService:AuthService,
+    private authService:AuthentificationService,
     private router: Router,
     private toastr:ToastrService,
     private lsService:LocalStorageService
   ) { }
 
   ngOnInit(): void {
-  
-     this.user=this.lsService.get(GlobalName.userName)
-
-     this.current_user_role=this.lsService.get(GlobalName.userRole)
     
-     if(this.get_user!=null && this.get_user!=undefined){
-       this.user=this.get_user
-     }
- 
-     if (this.lsService.get(GlobalName.userName) != null) {
+    this.current_user_role=this.lsService.get(GlobalName.userRole)
+    
+    if (this.lsService.get(GlobalName.userName) != null) {
        this.user = this.lsService.get(GlobalName.userName)
-     }  
+     }else{
+      this.getUser()
+     }
+}
+
+
+getUser(){
+  this.authService.getUserByToken().subscribe((res: any) => {
+    console.log(res)
+   this.user=res
+   this.lsService.set(GlobalName.userName, res)
+  })
 }
 
 toggleMenu() {

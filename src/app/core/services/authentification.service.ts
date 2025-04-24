@@ -103,4 +103,9 @@ export class AuthentificationService {
     };
   }
 
+
+  logout(){
+    return this.http.get<any>(`${this.url}`);
+  }
+
 }
