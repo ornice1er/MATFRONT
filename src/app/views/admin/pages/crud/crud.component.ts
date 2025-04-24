@@ -89,7 +89,6 @@ export class CrudComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router:Router,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     ) {}
@@ -138,7 +137,7 @@ export class CrudComponent implements OnInit {
   }
   lock(id:any,index:any) {
     this.userService.update(id,{is_active:false}).subscribe((res:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", this.translate.instant('back.account_success_lock'), 'success')
+      AppSweetAlert.simpleAlert("Nouvelle modification",  'success')
       this.ngOnInit()
     }, (err:any)=>{
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
@@ -147,7 +146,7 @@ export class CrudComponent implements OnInit {
    }
     unlock(id:any,index:any){
       this.userService.update(id,{is_active:true}).subscribe((res:any)=>{
-        AppSweetAlert.simpleAlert("Nouvelle modification",  this.translate.instant('back.account_success_unlock'), 'success')
+        AppSweetAlert.simpleAlert("Nouvelle modification", 'success')
         this.ngOnInit()
       }, (err:any)=>{
         AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')

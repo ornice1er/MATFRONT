@@ -97,7 +97,6 @@ export class UsersMainComponent implements OnInit {
     private router:Router,
     private profilService:ProfilService,
     private acteursService:ActeurService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private institutionService:InstitutionService,

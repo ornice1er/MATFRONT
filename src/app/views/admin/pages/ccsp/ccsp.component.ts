@@ -88,7 +88,6 @@ export class CcspComponent implements OnInit {
     private modalService: NgbModal,
     private ccspService: CcspServiceService,
     private router:Router,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService

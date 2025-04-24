@@ -116,7 +116,6 @@ export class RapCommentComponent implements OnInit {
     private router:Router,
     // private etapeService:EtapeService,
     private commentaireService:CommentaireService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService

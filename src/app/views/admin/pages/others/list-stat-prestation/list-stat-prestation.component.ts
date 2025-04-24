@@ -68,7 +68,6 @@ export class ListStatPrestationComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router:Router,
-    private translate:TranslateService,
     private etapeService:EtapeService,
     private requeteService:RequeteService,
     private localService:LocalStorageService,
@@ -78,13 +77,14 @@ export class ListStatPrestationComponent implements OnInit {
     private thematiqueService:TypeService,
     private usagersService:UsagerService,
     private spinner: NgxSpinnerService,
+    private lsService:LocalStorageService,
     private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
 
     
-    if (localStorage.getItem('mataccueilUserData') != null) {
+    if (this.lsService.get('mataccueilUserData') != null) {
       this.user = this.localService.get('mataccueilUserData')
       this.init()
     }

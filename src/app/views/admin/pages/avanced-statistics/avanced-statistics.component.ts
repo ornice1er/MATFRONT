@@ -36,7 +36,6 @@ export class AvancedStatisticsComponent implements OnInit {
     private modalService: NgbModal,
     private statisticService: AdvancedStatisticsService,
     private router:Router,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService

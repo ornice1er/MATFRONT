@@ -126,7 +126,7 @@ export class ListRequeteServicesComponent implements OnInit {
     private prestationService: ServiceService,
     private structureService: StructureService,
     private usagersService: UsagerService,
-
+    private lsService:LocalStorageService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private etapeService: EtapeService
@@ -282,7 +282,7 @@ export class ListRequeteServicesComponent implements OnInit {
   prepare() {
 
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
+    if (this.lsService.get('mataccueilUserData') != null) {
       this.user = this.localService.get('mataccueilUserData')
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;

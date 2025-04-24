@@ -90,7 +90,6 @@ export class NatureContractComponent implements OnInit {
     private modalService: NgbModal,
     private ncService: NatureContractService,
     private router:Router,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService

@@ -89,7 +89,6 @@ export class TypeStructureComponent implements OnInit {
     private modalService: NgbModal,
     private tsService: TypeStructureService,
     private router:Router,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService

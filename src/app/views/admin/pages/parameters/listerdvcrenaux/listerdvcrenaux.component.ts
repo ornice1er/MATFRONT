@@ -92,7 +92,6 @@ export class ListerdvcrenauxComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private rdvCreneauService:RdvCreneauService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService:LocalStorageService

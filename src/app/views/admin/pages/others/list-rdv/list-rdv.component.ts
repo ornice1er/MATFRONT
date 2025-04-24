@@ -92,7 +92,6 @@ export class ListRdvComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private rdvService:RdvService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private localService : LocalStorageService,
     private activatedRoute: ActivatedRoute,

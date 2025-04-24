@@ -58,7 +58,6 @@ export class GuideComponent implements OnInit {
     private router:Router,
     private structureService:StructureService,
     private suggestionService:UsagerService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService:LocalStorageService,

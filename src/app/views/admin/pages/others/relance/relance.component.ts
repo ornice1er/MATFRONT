@@ -85,7 +85,6 @@ export class RelanceComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private relanceService:RelanceService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService:LocalStorageService

@@ -127,7 +127,6 @@ export class ListusagerComponent implements OnInit {
     private profilService:ProfilService,
     private usagersService:UsagerService,
     private prestationService:ServiceService,
-    private translate:TranslateService,
     private natureService:NatureRequeteService,
     private structureService:StructureService,
     private spinner: NgxSpinnerService,

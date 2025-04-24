@@ -102,7 +102,6 @@ export class ListeprofilsComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private profilService:ProfilService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     ) {}

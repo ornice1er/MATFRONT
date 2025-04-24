@@ -93,7 +93,6 @@ export class PointReponseComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router:Router,
-    private translate:TranslateService,
     private etapeService:EtapeService,
     private requeteService:RequeteService,
     private localService:LocalStorageService,

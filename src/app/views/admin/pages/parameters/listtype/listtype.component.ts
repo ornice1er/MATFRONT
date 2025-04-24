@@ -91,7 +91,6 @@ export class ListtypeComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private typeService:TypeService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private localStorageService:LocalStorageService,
     private activatedRoute: ActivatedRoute,

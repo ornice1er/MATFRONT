@@ -91,7 +91,6 @@ export class ListestructuresComponent implements OnInit {
     private userService: UserService,
     private router:Router,
     private structureService:StructureService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
 

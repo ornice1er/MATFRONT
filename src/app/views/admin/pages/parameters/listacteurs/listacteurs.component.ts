@@ -110,7 +110,6 @@ export class ListacteursComponent implements OnInit {
     private router:Router,
     private structureService:StructureService,
     private acteursService:ActeurService,
-    private translate:TranslateService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService:LocalStorageService
