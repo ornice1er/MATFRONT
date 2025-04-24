@@ -40,6 +40,79 @@
             <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLink="/admin/settings">Paramètre générale</a>
           </mat-nav-list>
         </mat-expansion-panel>
+
+
+        <mat-expansion-panel *ngIf="user.profil_user.ratio==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Ratio des prestations
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a  mat-list-item routerLink="/admin/ratioplainteprestation">Plaintes</a>
+            <a  mat-list-item routerLink="/admin/ratiorequeteprestation">Requêtes</a>
+            <a  mat-list-item routerLink="/admin/ratiodemandeinfosprestation">Demande infos</a>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel *ngIf="user.profil_user.ratio==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Ratio des structures
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+            <a  mat-list-item routerLink="/admin/ratioplaintestructure">Plaintes</a>
+            <a  mat-list-item routerLink="/admin/ratiorequetestructure">Requêtes</a>
+            <a  mat-list-item routerLink="/admin/ratiodemandeinfosstructure">Demande infos</a>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+
+        <a *ngIf="user.profil_user.superadmin!=1 && user.profil_user.admin_sectoriel!=1 && (user.profil_user.saisie_adjoint==1 || user.profil_user.saisie==1 || user.profil_user.pointfocal==1)" mat-list-item routerLink="/admin/listservices">Prestations par structure</a>
+
+        <mat-expansion-panel *ngIf="user?.profil_user?.parametre==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Paramètres
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="user?.profil_user?.parametre==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Paramètres
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="user?.profil_user?.parametre==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Paramètres
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+        <mat-expansion-panel *ngIf="user?.profil_user?.parametre==1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Paramètres
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-nav-list>
+
+          </mat-nav-list>
+        </mat-expansion-panel>
+
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="p-3">
