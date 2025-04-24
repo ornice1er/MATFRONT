@@ -8,12 +8,8 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-<<<<<<< HEAD
-import { ActivatedRoute, Router } from '@angular/router';
-=======
 import { ActivatedRoute } from '@angular/router';
 import { Router } from 'express';
->>>>>>> eaace58d9d0de27e263457452c62d9d9a052a476
 
 import { ServiceService } from '../../../../core/services/service.service';
 import { UserService } from '../../../../core/services/user.service';
