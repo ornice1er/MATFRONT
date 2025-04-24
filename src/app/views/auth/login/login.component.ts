@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
             this.settingService.get().subscribe((result:any)=>{
              this.localStorageService.set(GlobalName.settingName,JSON.stringify(result.data));
              this.localStorageService.set(GlobalName.tokenName,res.token);
-              //this.router.navigateByUrl("/admin/dashboard"); 
+              this.router.navigateByUrl("/admin/dashboard"); 
               // setTimeout(function(){
               //   window.location.reload()
               // },1000)	
