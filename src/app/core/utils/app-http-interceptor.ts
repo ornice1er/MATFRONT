@@ -31,9 +31,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error instanceof HttpErrorResponse) {
-              if (error.error instanceof ErrorEvent) {
-                console.log("Error Event");
-              } else {
+            
                 console.log(
                   `error status : ${error.status} ${JSON.stringify(error.error)}`
                 );
@@ -57,7 +55,7 @@ export class AppHttpInterceptor implements HttpInterceptor {
                   case 500:
                     break;
                 }
-              }
+              
             } else {
               console.error("Une erreur non identifiée s'est produit.");
             }

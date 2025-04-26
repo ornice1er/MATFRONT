@@ -249,7 +249,7 @@ export class ParcoursRequeteComponent implements OnInit {
   }
   checkType() {
     
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? "" ?? ""
+    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? "" 
     if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
       return { id: 1, name: "Plaintes" }
     }
@@ -361,7 +361,7 @@ export class ParcoursRequeteComponent implements OnInit {
   prepare() {
    
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
+    if (this.localService.get('mataccueilUserData') != null) {
       this.user = this.localService.get('mataccueilUserData')
       // console.log('eeeeeeeeeeee') 
       // console.log(this.user)
