@@ -61,7 +61,7 @@ export class LayoutComponent {
 getUser(){
   this.authService.getUserByToken().subscribe((res: any) => {
     console.log(res)
-   this.user=res
+   this.user=res.data
    this.lsService.set(GlobalName.userName, res)
   })
 }
