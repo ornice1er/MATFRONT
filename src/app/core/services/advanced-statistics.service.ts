@@ -11,26 +11,26 @@ export class AdvancedStatisticsService {
 
   getTogetherViews(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-together-views")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-together-views")}`);
   }
 
   getTogetherViews2(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-together-views2")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-together-views2")}`);
   }
   getPerformances(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances")}`);
   }
   
   getPerformancesVisits(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances-visists")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances-visists")}`);
   }
   
   printView(resource:any){
    
-    return this.http.post<any[]>(`${ConfigService.toApiUrl("print-view")}`,resource, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.post<any[]>(`${ConfigService.toApiUrl("print-view")}`,resource, );
   }
   
 }

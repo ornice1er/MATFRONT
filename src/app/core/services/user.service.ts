@@ -18,23 +18,23 @@ export class UserService {
 
   getAllMain(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("utilisateurs/all/main")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("utilisateurs/all/main")}`);
   }
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${this.url}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${this.url}/${idEntite}`);
   }
   getAllActeur(idEntite:any){
-    return this.http.get<any[]>(`${this.url_act}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${this.url_act}/${idEntite}`);
   }
 
   get(id:any){
    
-    return this.http.get<any[]>(`${this.url}/${id}/`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${this.url}/${id}/`);
   }
 
   update_last_logout(id:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("user_last_logout")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("user_last_logout")}/${id}`);
   }
  
 
@@ -73,7 +73,7 @@ export class UserService {
   }
   
   delete(id:number){
-    return this.http.delete<any[]>(`${this.url}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.delete<any[]>(`${this.url}/${id}`);
   }
 
  

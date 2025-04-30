@@ -12,18 +12,18 @@ export class ActeurService {
 
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("acteur")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("acteur")}/${idEntite}`);
   }
 
   getAllDepart(){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("departement")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("departement")}`);
   }
 
   getAllCommune(idDepar:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("commune")}/${idDepar}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("commune")}/${idDepar}`);
   }
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("acteur/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("acteur/getprofil/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
@@ -39,32 +39,32 @@ export class ActeurService {
   }
 
   getAllConnection(idEntite:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("acteur_stat")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("acteur_stat")}/${idEntite}`);
   }
 
 
   createGra(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("acteur")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   createAttri(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("attri")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("acteur/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }
   updateAttri(ressource:any,id:any){
     
     return this.http.post<any>(`${ConfigService.toApiUrl("attri/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

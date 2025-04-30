@@ -12,23 +12,23 @@ export class InstitutionService {
 
   getAll(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("institution")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("institution")}`, );
   }
 
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("institution/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("institution/")}${id}`, ).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("institution")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
       );
     }
   update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("institution/")}${id}`, ressource,
-    ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
       );
   }
@@ -38,25 +38,25 @@ export class InstitutionService {
   // -- Relance 
 
   getAll_Relance(id:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("relanceconfig")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("relanceconfig")}/${id}`, );
   }
   getLisUsersParEntite(id:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("lisuserRelance")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("lisuserRelance")}/${id}`, );
   }
   createRelance(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("relanceconfig")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
       );
     }
     
   getAllEntite(){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("allministere")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("allministere")}`, );
   }
   updateRelance(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("relanceconfig/")}${id}`, ressource,
-    ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
       );
   }

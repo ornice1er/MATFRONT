@@ -12,18 +12,18 @@ export class EserviceService {
 
   getAll(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("e-services")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("e-services")}`, );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("e-services")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   update(ressource:any,id:any){
     ressource['_method']="patch"
     return this.http.post<any>(`${ConfigService.toApiUrl("e-services/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

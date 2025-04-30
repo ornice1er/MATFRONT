@@ -12,23 +12,23 @@ export class EventService {
 
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("evt")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("evt")}/${idEntite}`, );
   }
   
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("evt/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("evt/getprofil/")}${id}`, ).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("evt")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("evt/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

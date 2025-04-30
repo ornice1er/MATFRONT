@@ -12,11 +12,11 @@ export class TypeService {
 
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("type")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("type")}/${idEntite}`);
   }
 
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("type/getLine/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("type/getLine/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }

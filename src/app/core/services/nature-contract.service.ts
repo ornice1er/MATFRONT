@@ -12,18 +12,18 @@ export class NatureContractService {
 
   getAll(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("nature-contracts")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("nature-contracts")}`, );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("nature-contracts")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   update(ressource:any,id:any){
     ressource['_method']="patch"
     return this.http.post<any>(`${ConfigService.toApiUrl("nature-contracts/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

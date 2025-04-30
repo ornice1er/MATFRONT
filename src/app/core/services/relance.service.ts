@@ -12,7 +12,7 @@ export class RelanceService {
 
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("relance")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("relance")}/${idEntite}`, );
   }
   
  

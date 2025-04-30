@@ -12,38 +12,38 @@ export class StructureService {
 
   getAll(OnlyDirection:any,idEntite:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("structure")}/${OnlyDirection}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("structure")}/${OnlyDirection}/${idEntite}`);
   }
 
   getStructureParThematique(idtype:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("structurethema")}/${idtype}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("structurethema")}/${idtype}`);
   }
 
   getStructurePreocEnAttente(idEntite:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("structurePreocc")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("structurePreocc")}/${idEntite}`);
   }
 
   getPfc(){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("lispfc")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("lispfc")}`);
   }
   getLisCommune(id:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("liscommune")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("liscommune")}/${id}`);
   }
   getLisUsersParCommune(id:any){
 
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("lisuser")}/${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("lisuser")}/${id}`);
   }
 
   getAllStructureByUser(idUser:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("structure/get/sub")}/${idUser}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("structure/get/sub")}/${idUser}`);
   }
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("structure/getLine/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("structure/getLine/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }

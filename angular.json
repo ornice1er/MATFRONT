@@ -35,8 +35,7 @@
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "node_modules/ngx-ui-switch/ui-switch.component.css",
               "src/styles.css",
-              "src/custom-theme.scss",
-              "src/styles.css"
+              "src/custom-theme.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

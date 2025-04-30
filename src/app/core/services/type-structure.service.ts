@@ -12,7 +12,7 @@ export class TypeStructureService {
 
   getAll(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("type-structures")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("type-structures")}`);
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("type-structures")}`, ressource,

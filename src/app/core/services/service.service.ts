@@ -12,48 +12,48 @@ export class ServiceService {
 
   getAll(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}`);
   }
 
   getAllEntite(){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("ministere")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("ministere")}`);
   }
   getAllAttrib(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("attri")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("attri")}/${idEntite}`);
   }
   getAllType(type:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/type")}/${type}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/type")}/${type}`);
   }
   getServPiece(idSer:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("servicePiece")}/${idSer}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("servicePiece")}/${idSer}`);
   }
   getAllStatByStrcutre(idEntite:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/prestations-par-structure")}/${idEntite}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/prestations-par-structure")}/${idEntite}`);
   }
   getAllByStructure(idStructure:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byStructure")}/${idStructure}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byStructure")}/${idStructure}`);
   }
   getAllByCreator(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byCreator")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byCreator")}`);
   }
   getStat(param:any,idEntite: any){
    
-    return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/prestations")}/${idEntite}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/prestations")}/${idEntite}`,param);
   }
   genPdfStat(param:any){
    
-    return this.http.post<any[]>(`${ConfigService.toApiUrl("genererpdfstat")}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.post<any[]>(`${ConfigService.toApiUrl("genererpdfstat")}`,param);
   }
   
   genPdfStatHebdo(param:any){
    
-    return this.http.post<any[]>(`${ConfigService.toApiUrl("genererpdfstathebdo")}`,param, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.post<any[]>(`${ConfigService.toApiUrl("genererpdfstathebdo")}`,param);
   }
   
   
@@ -62,7 +62,7 @@ export class ServiceService {
  
 
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("service/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("service/getprofil/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }

@@ -12,17 +12,17 @@ export class CcspServiceService {
 
   getAll(){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("ccsps")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("ccsps")}`, );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("ccsps")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("ccsps/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

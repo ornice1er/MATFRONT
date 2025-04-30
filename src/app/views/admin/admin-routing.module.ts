@@ -18,7 +18,6 @@ import { ListStatPrestationStructureComponent } from "./pages/list-stat-prestati
 import { NatureContractComponent } from "./pages/nature-contract/nature-contract.component";
 import { ComplementInformationComponent } from "./pages/others/complement-information/complement-information.component";
 import { EspacepointfocalcomComponent } from "./pages/others/espacepointfocalcom/espacepointfocalcom.component";
-import { EspaceusagerComponent } from "./pages/others/espaceusager/espaceusager.component";
 import { GraphiqueevolutionComponent } from "./pages/others/graphiqueevolution/graphiqueevolution.component";
 import { GraphiquestructureComponent } from "./pages/others/graphiquestructure/graphiquestructure.component";
 import { GraphiquetypeComponent } from "./pages/others/graphiquetype/graphiquetype.component";
@@ -125,18 +124,7 @@ export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
           path:"forgot-password/:lang",
           component:ForgotPasswordComponent
         },
-        {
-          path: 'usager',
-          component: BaseUsagerComponent,
-          // canActivate: [AuthUsagerGuard],
-          children: [
-            {
-              path: 'espace',
-              component:EspaceusagerComponent,
-              //canActivate:[AuthUsagerGuard] 
-            },
-          ]
-        },
+       
     
           
             {

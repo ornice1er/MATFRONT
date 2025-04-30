@@ -12,40 +12,40 @@ export class RdvService {
 
   getAll(idEntite:any,seach:any,page:any){
     if(seach==null){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?page=${page}`, );
     }else{
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?seach=${seach}&page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?seach=${seach}&page=${page}`, );
     }
   }
   getAllByStructure(idStructure:any,page:any){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/byStructure")}/${idStructure}?page=${page}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/byStructure")}/${idStructure}?page=${page}`, );
   }
   
   getAllForUsager(idUsager:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/usager")}/${idUsager}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/usager")}/${idUsager}`, );
   }
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("rdv/getprofil/")}${id}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+    return this.http.get<any>(`${ConfigService.toApiUrl("rdv/getprofil/")}${id}`, ).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
   create(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("rdv")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   saveRdvStatut(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("rdv/statut")}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
   }
   
   update(ressource:any,id:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("rdv/")}${id}`, ressource,
-     ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true)).pipe(
+     ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }

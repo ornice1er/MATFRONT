@@ -8,8 +8,8 @@ export const environment = {
   isMockEnabled: false, // You have to switch this, when your real back-end is done
   authTokenKey: 'authce9d77b308c149d5992a80073637e4d5',
   API_SCHEME: 'http',
-  API_DOMAIN: 'localhost:8000/api',
-  API_FILE: 'localhost:8000',
+  API_DOMAIN: 'localhost:8001/api',
+  API_FILE: 'localhost:8001',
   API_VERSION: 'v1'
 };
 

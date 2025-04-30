@@ -13,7 +13,7 @@ export class SettingService {
   
  get(){
   
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("settings")}`, ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),true));
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("settings")}`);
   }
 
   create(ressource:any){

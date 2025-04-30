@@ -25,7 +25,7 @@
                 <div class="card-body pt-3 pb-0">
                     <div class="row col-md-12 d-flex justify-content-between">
                         <div>
-                            Vous êtes connecté en tant que : {{user.nom}} {{user.prenoms}}
+                            Vous êtes connecté en tant que : {{user?.full_name ?? user?.name }}
                         </div>
                         <a (click)="openAddModal(profil)"><u>Voir profil</u></a>
                         <a (click)="logout()"><u>Déconnexion</u></a>
@@ -257,7 +257,7 @@
                 <div class="form-group row" *ngIf="entite_vis">
                     <label for="idEntite" class="col-sm-4">Structure destinatrice</label>
                     <div class="col-sm-7" style="padding-right:0px;">
-                        <select name="idEntite" id="idEntite" class="form-control form-control-sm" ngModel={{user.institu_id}}
+                        <select name="idEntite" id="idEntite" class="form-control form-control-sm" ngModel={{user?.institu_id}}
                             (change)="onEntiteChange($event)">
                             <option [value]="fc.id" *ngFor="let fc of institutions">{{fc.libelle}}</option>
                         </select>
@@ -526,7 +526,7 @@
 
                     <div class="col-sm-9">
 
-                        <input type="text" class="form-control has-error" id="nom1" name="nom" value="{{user.nom}}"
+                        <input type="text" class="form-control has-error" id="nom1" name="nom" value="{{user?.nom}}"
                             [(ngModel)]="user.nom" required>
 
 
@@ -540,7 +540,7 @@
 
                     <div class="col-sm-9">
 
-                        <input type="text" class="form-control has-error" id="prenoms" name="prenoms" value="{{user.prenoms}}"
+                        <input type="text" class="form-control has-error" id="prenoms" name="prenoms" value="{{user?.prenoms}}"
                             [(ngModel)]="user.prenoms" required>
 
 
@@ -555,7 +555,7 @@
 
                     <div class="col-sm-9">
 
-                        <input type="email" class="form-control has-error" id="email1" name="email" value="{{user.email}}"
+                        <input type="email" class="form-control has-error" id="email1" name="email" value="{{user?.email}}"
                             [(ngModel)]="user.email" required>
                     </div>
 
@@ -568,7 +568,7 @@
                     <div class="col-sm-9">
 
                         <input type="text" numbers-only="numbers-only" class="form-control has-error" id="tel2"
-                            name="tel" value="{{user.tel}}" [(ngModel)]="user.tel" required>
+                            name="tel" value="{{user?.tel}}" [(ngModel)]="user.tel" required>
 
 
 
@@ -864,14 +864,14 @@
                         <!--label for="email" class="col-sm-2 control-label">Email</label>
                         <div class="col-sm-4">
                             <input type="text" readonly class="form-control form-control-sm has-error" id="email"
-                                name="email" placeholder="" value="{{user.email}}" [(ngModel)]="user.email">
+                                name="email" placeholder="" value="{{user?.email}}" [(ngModel)]="user.email">
                         </div-->
 
                         <label for="nom" class="col-sm-4 control-label">Nom et prénoms</label>
 
                         <div class="col-sm-8">
                             <input readonly="" type="text" class="form-control form-control-sm has-error"
-                                id="nom" name="nom" placeholder="" value="{{user.full_name}}" [(ngModel)]="user.full_name">
+                                id="nom" name="nom" placeholder="" value="{{user?.full_name}}" [(ngModel)]="user.full_name">
                         </div>
 
                     </div>
@@ -881,7 +881,7 @@
 
                         <div class="col-sm-4">
                             <input readonly="" type="text" class="form-control form-control-sm has-error"
-                                id="tel" name="tel" placeholder="" value="{{user.tel}}" [(ngModel)]="user.tel">
+                                id="tel" name="tel" placeholder="" value="{{user?.tel}}" [(ngModel)]="user.tel">
                         </div>
 
                         <label for="email" class="col-sm-2 control-label">Département</label>
@@ -940,7 +940,7 @@
                         <label for="idEntite" class="col-sm-4">Structure destinatrice</label>
                         <div class="col-sm-8">
                             <select name="idEntite" id="idEntite" class="form-control form-control-sm"
-                                ngModel={{user.institu_id}} (change)="onEntiteChange($event)">
+                                ngModel={{user?.institu_id}} (change)="onEntiteChange($event)">
                                 <option [value]="fc.id" *ngFor="let fc of institutions">{{fc.libelle}}</option>
                             </select>
 

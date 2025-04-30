@@ -15,25 +15,26 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
-import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
-import { LoadingComponent } from '../../../../components/loading/loading.component';
-import { AuthentificationService } from '../../../../../core/services/authentification.service';
-import { DateRdvService } from '../../../../../core/services/date-rdv.service';
-import { EtapeService } from '../../../../../core/services/etape.service';
-import { InstitutionService } from '../../../../../core/services/institution.service';
+import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
+import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
+import { LoadingComponent } from '../../../components/loading/loading.component';
+import { AuthentificationService } from '../../../../core/services/authentification.service';
+import { DateRdvService } from '../../../../core/services/date-rdv.service';
+import { EtapeService } from '../../../../core/services/etape.service';
+import { InstitutionService } from '../../../../core/services/institution.service';
 
-import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
-import { RdvCreneauService } from '../../../../../core/services/rdv-creneau.service';
-import { RdvService } from '../../../../../core/services/rdv.service';
-import { RequeteService } from '../../../../../core/services/requete.service';
-import { ServiceService } from '../../../../../core/services/service.service';
-import { StructureService } from '../../../../../core/services/structure.service';
-import { TypeService } from '../../../../../core/services/type.service';
-import { UsagerService } from '../../../../../core/services/usager.service';
-import { UserService } from '../../../../../core/services/user.service';
-import { ConfigService } from '../../../../../core/utils/config-service';
-import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { NatureRequeteService } from '../../../../core/services/nature-requete.service';
+import { RdvCreneauService } from '../../../../core/services/rdv-creneau.service';
+import { RdvService } from '../../../../core/services/rdv.service';
+import { RequeteService } from '../../../../core/services/requete.service';
+import { ServiceService } from '../../../../core/services/service.service';
+import { StructureService } from '../../../../core/services/structure.service';
+import { TypeService } from '../../../../core/services/type.service';
+import { UsagerService } from '../../../../core/services/usager.service';
+import { UserService } from '../../../../core/services/user.service';
+import { ConfigService } from '../../../../core/utils/config-service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-espaceusager',
@@ -169,7 +170,8 @@ export class EspaceusagerComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authService: AuthentificationService,
     private activatedRoute: ActivatedRoute,
-    private institutionService:InstitutionService
+    private institutionService:InstitutionService,
+    private route:ActivatedRoute
   ) { }
 
   ChangerFile(file:any){
@@ -301,36 +303,35 @@ export class EspaceusagerComponent implements OnInit {
 
 
   logout() {
-    localStorage.removeItem('guvUserToken')
-    localStorage.removeItem('guvUserData')
-    localStorage.removeItem('mataccueilUserData')
+    this.localService.remove('guvUserToken')
+    this.localService.remove('guvUserData')
+    this.localService.remove('mataccueilUserData')
     window.location.href =this.url;
   }
-
+  token:any
   selectedEntie:any=null
 
   ngOnInit(): void {
     
-    console.log(localStorage.getItem('mataccueilUserData'))
-    
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
-      this.user.full_name=this.user.nom+" "+this.user.prenoms
-      this.selectedEntie=this.user.institu_id
-      //Controle ajouter pour les premiers users qui n'ont pas renseigné leur identite
-      if(this.selectedEntie == null || this.selectedEntie == "null"){
-        this.selectedEntie = 1 //MTFP par défaut 
+    this.token=this.route.snapshot.paramMap.get('token')
+
+    if (this.token!=undefined) {
+      if (this.localService.get(GlobalName.tokenName)==null) {
+        this.getToken()
+
+      } else {
+        this.init()
       }
-      if(this.selectedEntie != null && this.selectedEntie != "" ){
-        this.prepare(this.selectedEntie)
+    }else{
+      if (this.localService.get(GlobalName.tokenName)==null) {
+        alert("Vous devez vous connecter pour accéder à cette page");
+
+      } else {
+        this.init()
       }
-      this.institutions=[]
-      this.institutionService.getAll().subscribe((res: any) => {
-       this.institutions = res
-       this.init()
-       })
-    } 
+    }
     
+  
   }
   
   loadRequest() {
@@ -361,6 +362,24 @@ export class EspaceusagerComponent implements OnInit {
     })
   }
   init() {
+    if (this.localService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
+      this.user.full_name=this.user.nom+" "+this.user.prenoms
+      this.selectedEntie=this.user.institu_id
+      console.log('user',this.user);
+      //Controle ajouter pour les premiers users qui n'ont pas renseigné leur identite
+      if(this.selectedEntie == null || this.selectedEntie == "null"){
+        this.selectedEntie = 1 //MTFP par défaut 
+      }
+      if(this.selectedEntie != null && this.selectedEntie != "" ){
+        this.prepare(this.selectedEntie)
+      }
+      this.institutions=[]
+      this.institutionService.getAll().subscribe((res: any) => {
+       this.institutions = res
+       })
+    } 
+    
     this.loadRequest()
     this.departements = []
     this.usagersService.getAllDepartement().subscribe((res: any) => {
@@ -804,4 +823,19 @@ export class EspaceusagerComponent implements OnInit {
     }
   }
 
+
+  getToken(){
+    this.usagersService.getToken({uuid:this.token}).subscribe((res:any)=>{
+      console.log("token check",res)
+      this.localService.set(GlobalName.tokenName,res.token)
+      this.localService.set(GlobalName.userName,res.userData)
+      this.user=res.userData
+    //  this.init()
+    },
+    (err:any)=>{
+      console.log(err)
+
+    }
+  )
+  }
 }
