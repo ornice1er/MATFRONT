@@ -53,15 +53,13 @@
     "/admin/relances",
     "/admin/settings",
     "/admin/type-structures",
-    "/admin/usager",
-    "/admin/usager/espace",
     "/admin/users",
     "/admin/users-main",
     "/auth",
     "/auth/activate-account",
     "/auth/forget-password",
     "/auth/login",
-    "/public",
+    "/espace-usager",
     "/user-account",
     "/user-settinngs"
   ]
