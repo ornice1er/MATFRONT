@@ -116,8 +116,8 @@ checkType(){
 
 ngOnInit(): void {
 
-  if (localStorage.getItem('mataccueilUserData') != null) {
-    this.user = this.localService.get('mataccueilUserData')
+  if (this.localStorageService.get(GlobalName.userName) != null) {
+    this.user = this.localService.get(GlobalName.userName)
       console.log('ssssssssssssssss')
       console.log(this.user)
       this.isAdmin = true;

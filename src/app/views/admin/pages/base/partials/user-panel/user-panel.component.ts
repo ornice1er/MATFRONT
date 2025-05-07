@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
 import { UserService } from '../../../../../../core/services/user.service';
-import { Roles } from '../../../../../../core/utils/global-name';
+import { GlobalName, Roles } from '../../../../../../core/utils/global-name';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
 
@@ -31,7 +31,7 @@ export class UserPanelComponent implements OnInit {
  
   ngOnInit(): void {
     this.current_role=localStorage.getItem('mataccueilUserRole')
-      this.user=this.localStorageService.get("mataccueilUserData")
+      this.user=this.localStorageService.get(GlobalName.userName)
       if(this.current_role!=Roles.Admin && this.current_role!=Roles.SubAdmin){
       }
      
@@ -43,10 +43,9 @@ export class UserPanelComponent implements OnInit {
   
 
   signout(){
-    localStorage.removeItem('mataccueilToken')
-    localStorage.removeItem('mataccueilUserRole')
+    this.localStorageService.remove(GlobalName.tokenName)
     this.localStorageService.clear()
-    this.router.navigateByUrl('/login')
+    this.router.navigateByUrl('/auht/login')
   }
 
 }

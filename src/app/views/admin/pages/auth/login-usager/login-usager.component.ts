@@ -13,6 +13,7 @@ import { AuthentificationService } from '../../../../../core/services/authentifi
 
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-login-usager',
@@ -41,7 +42,7 @@ export class LoginUsagerComponent implements OnInit {
 				console.log(res)
 				this.loading = false;
 				if (res) {
-          this.localStorageService.set('mataccueilUserData',res);
+          this.localStorageService.set(GlobalName.userName,res);
           
 					this.router.navigateByUrl('/usager/espace'); 
 				}

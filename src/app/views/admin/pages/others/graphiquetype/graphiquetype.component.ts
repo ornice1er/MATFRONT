@@ -28,6 +28,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions, ChartType } from 'chart.js';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 @Component({
@@ -81,6 +82,8 @@ export class GraphiquetypeComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -127,8 +130,8 @@ export class GraphiquetypeComponent implements OnInit {
   ngOnInit(): void {
 
     
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.prepare()
       
       // alert('eeeeee')

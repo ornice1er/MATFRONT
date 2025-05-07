@@ -305,7 +305,7 @@ export class EspaceusagerComponent implements OnInit {
   logout() {
     this.localService.remove('guvUserToken')
     this.localService.remove('guvUserData')
-    this.localService.remove('mataccueilUserData')
+    this.localService.remove(GlobalName.userName)
     window.location.href =this.url;
   }
   token:any

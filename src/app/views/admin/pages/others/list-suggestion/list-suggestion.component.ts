@@ -28,6 +28,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-list-suggestion',
@@ -106,8 +107,8 @@ export class ListSuggestionComponent implements OnInit {
 
     user:any
     ngOnInit() {
-      if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localStorageService.get("mataccueilUserData")
+      if (this.localStorageService.get(GlobalName.userName) != null) {
+        this.user = this.localStorageService.get(GlobalName.userName)
   
       }
      this.init()

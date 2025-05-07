@@ -107,8 +107,8 @@ export class DashboardComponent {
   
   ngOnInit(): void {
   
-    if (this.localService.get('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
         console.log('ssssssssssssssss')
         console.log(this.user)
         this.isAdmin = true;
@@ -119,7 +119,6 @@ export class DashboardComponent {
       }
       this.init()
     }
-    console.log(this.user)
   }
   total_e = 0
   traite_e = 0

@@ -27,6 +27,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 @Component({
@@ -84,8 +85,8 @@ export class ListStatPrestationComponent implements OnInit {
   ngOnInit(): void {
 
     
-    if (this.lsService.get('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.lsService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.init()
     }
    

@@ -16,6 +16,7 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { TypeStructureService } from '../../../../core/services/type-structure.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-type-structure',
@@ -99,8 +100,8 @@ export class TypeStructureComponent implements OnInit {
 
   user:any
   ngOnInit() {
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.get("mataccueilUserData")
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localStorageService.get(GlobalName.userName)
 
     }
     this.init()

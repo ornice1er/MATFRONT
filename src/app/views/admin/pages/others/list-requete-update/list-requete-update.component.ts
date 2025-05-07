@@ -25,6 +25,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 
@@ -117,7 +118,7 @@ export class ListRequeteUpdateComponent implements OnInit {
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
-
+    private localStorageService:LocalStorageService,
     private institutionService:InstitutionService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,
@@ -242,8 +243,8 @@ export class ListRequeteUpdateComponent implements OnInit {
       })
   }
   prepare() {
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {

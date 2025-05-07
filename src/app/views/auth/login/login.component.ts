@@ -45,18 +45,16 @@ export class LoginComponent implements OnInit {
 
   submit(value:any,event?: Event):any {
    // if (event) event.preventDefault();
-
-    this.localStorageService.remove("mataccueilToken")
-    this.localStorageService.remove("mataccueilUserData")
     this.loading = true;
     this.auth
       .login(value)
       .subscribe((res:any) => {
         this.loading = false;
         if (res) {
+          this.localStorageService.set(GlobalName.tokenName,res.data.token);
+          this.localStorageService.set(GlobalName.userName,res.data.user);
             this.settingService.get().subscribe((result:any)=>{
-             this.localStorageService.set(GlobalName.settingName,JSON.stringify(result.data));
-             this.localStorageService.set(GlobalName.tokenName,res.data.token);
+              this.localStorageService.set(GlobalName.settingName,JSON.stringify(result.data));
               this.router.navigateByUrl("/admin/dashboard"); 
               // setTimeout(function(){
               //   window.location.reload()

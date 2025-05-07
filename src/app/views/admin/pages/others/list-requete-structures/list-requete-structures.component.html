@@ -106,7 +106,7 @@
                   <td>{{el.created_at  | date:'dd/MM/yyy hh:mm:ss'}}</td>
                   <!--<td >{{el.codeRequete}} </td>-->
                   <td class="no-display">{{el.nature==null ? '' : el.nature.libelle}} </td>
-                  <td>{{el.service==null ? '' : el.service.libelle}} </td>
+                  <td>{{el.service==null ? '' : el.service?.libelle}} </td>
                   <td *ngIf="el.usager==null? '' : el.usager.id=='91586'">
                     <dl>
                       <dt>Matricule</dt>
@@ -835,11 +835,11 @@
                 <tr *ngFor="let el of data2 ; index as i">
                   <td>{{el.dateAffectation  | date:'dd/MM/yyy hh:mm:ss' }} </td>
                   <td>{{el.structure.libelle}} </td>
-                  <td>{{el.requetes.service==null ? '' : el.requetes.service.libelle}} </td>
-                  <td>{{el.requetes.objet}} </td>
-                  <td>{{el.requetes.usager==null ? '' : el.requetes.usager.nom}} {{el.requetes.usager==null ? '' : el.requetes.usager.prenoms}}</td>
+                  <td>{{el.requetes?.service==null ? '' : el.requetes?.service?.libelle}} </td>
+                  <td>{{el.requetes?.objet}} </td>
+                  <td>{{el.requetes?.usager==null ? '' : el.requetes?.usager.nom}} {{el.requetes?.usager==null ? '' : el.requetes?.usager.prenoms}}</td>
                   <td>
-                    <div *ngFor="let parc of el.requetes.parcours; let i=index">
+                    <div *ngFor="let parc of el.requetes?.parcours; let i=index">
                       {{i+1}}. {{ show_step(parc.idEtape)==null ? '' : show_step(parc.idEtape).LibelleEtape }}
                     </div>
                   </td>

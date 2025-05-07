@@ -39,7 +39,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let el of data | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+                                <tr *ngFor="let el of data; index as i">
 
                                     <td>{{el.libelle}}</td>
                                     <td>{{el.ratio}} </td>

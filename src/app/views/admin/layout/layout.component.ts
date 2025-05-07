@@ -53,7 +53,7 @@ export class LayoutComponent {
     if (this.lsService.get(GlobalName.userName) != null) {
        this.user = this.lsService.get(GlobalName.userName)
      }else{
-      this.getUser()
+    //   this.getUser()
      }
 }
 

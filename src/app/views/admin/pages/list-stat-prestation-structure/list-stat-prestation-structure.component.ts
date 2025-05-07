@@ -13,6 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ServiceService } from '../../../../core/services/service.service';
 import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-list-stat-prestation-structure',
@@ -49,6 +50,8 @@ export class ListStatPrestationStructureComponent implements OnInit {
     private prestationService:ServiceService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+        private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -61,8 +64,8 @@ export class ListStatPrestationStructureComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.prepare()
      
     }

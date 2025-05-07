@@ -28,6 +28,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 
@@ -361,8 +362,8 @@ export class ParcoursRequeteComponent implements OnInit {
   prepare() {
    
 
-    if (this.localService.get('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       // console.log('eeeeeeeeeeee') 
       // console.log(this.user)
       if (this.user.profil_user.CodeProfil === 12) {

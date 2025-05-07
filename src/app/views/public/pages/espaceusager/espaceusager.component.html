@@ -128,7 +128,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngFor="let el of data | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+                                            <tr *ngFor="let el of data; index as i">
                                                 <td>
                                                     <input type="radio" [value]="el" ngModel name="getrequete" (change)="checked($event,el)">
                                                 </td>

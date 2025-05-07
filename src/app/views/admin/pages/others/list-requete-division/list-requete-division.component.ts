@@ -26,6 +26,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 @Component({
@@ -121,7 +122,7 @@ export class ListRequeteDivisionComponent implements OnInit {
     private prestationService: ServiceService,
     private structureService: StructureService,
     private usagersService: UsagerService,
-
+    private localStorageService:LocalStorageService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private etapeService: EtapeService
@@ -196,8 +197,8 @@ export class ListRequeteDivisionComponent implements OnInit {
   }
   prepare() {
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {

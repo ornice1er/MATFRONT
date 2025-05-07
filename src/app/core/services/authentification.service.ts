@@ -49,7 +49,6 @@ export class AuthentificationService {
   }
 
   getUserByToken(){
-    const userToken = this.localStorageService.get('auth/userdata');
     return this.http.get(`${ConfigService.toApiUrl('auth/userdata')}`);
   }
   loginV2(code:any): Observable<any> {

@@ -17,6 +17,7 @@ import { FooterComponent } from './partials/footer/footer.component';
 import { RouterOutlet } from '@angular/router';
 import { AsideComponent } from './partials/aside/aside.component';
 import { HeaderComponent } from './partials/header/header.component';
+import { GlobalName } from '../../../../core/utils/global-name';
 // import { TranslateService } from '@ngx-translate/core';
 
 
@@ -30,17 +31,23 @@ import { HeaderComponent } from './partials/header/header.component';
 export class BaseComponent  {
 
   user: any
-  constructor(private userService: UserService, private authService: AuthentificationService, private localService: LocalStorageService, private translateService: TranslateService) { }
+  constructor(
+    private userService: UserService, 
+    private authService: AuthentificationService, 
+    private localService: LocalStorageService, 
+    private localStorageService:LocalStorageService,
+    private translateService: TranslateService
+  ) { }
 
   ngOnInit(): void {
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
     }else{
-      this.authService.getUserByToken().subscribe((res: any) => {
-        console.log(res)
-       this.user=res
-       this.localService.set('mataccueilUserData', res)
-      })
+      // this.authService.getUserByToken().subscribe((res: any) => {
+      //   console.log(res)
+      //  this.user=res
+      //  this.localService.set(GlobalName.userName, res)
+      // })
 
     }
   }

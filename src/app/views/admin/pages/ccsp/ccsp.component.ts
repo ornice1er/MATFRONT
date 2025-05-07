@@ -14,6 +14,7 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { CcspServiceService } from '../../../../core/services/ccsp-service.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-ccsp',
@@ -98,8 +99,8 @@ export class CcspComponent implements OnInit {
 
   user:any
   ngOnInit() {
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.get("mataccueilUserData")
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localStorageService.get(GlobalName.userName)
 
     }
     this.init()

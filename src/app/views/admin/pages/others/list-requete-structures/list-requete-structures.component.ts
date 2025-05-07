@@ -27,6 +27,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 @Component({
@@ -70,7 +71,7 @@ export class ListRequeteStructuresComponent implements OnInit {
       this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data;
-        this.data = res.data.filter((e:any)=>{
+        this.data = res.data?.data?.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                       (e.lastparcours.idEtape==5) || 
@@ -132,6 +133,8 @@ export class ListRequeteStructuresComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+        private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -287,17 +290,20 @@ export class ListRequeteStructuresComponent implements OnInit {
       })
   }
   prepare() {
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {
         this.isGeneralDirector = false;
       }
     }
+
+    console.log("userwwwwww",this.localStorageService.get(GlobalName.userName))
+
     this.etapes = []
-    this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.etapes = res
+    this.etapeService.getAll(this.user?.idEntite).subscribe((res: any) => {
+      this.etapes = res.data
       this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
     })
     
@@ -350,7 +356,7 @@ export class ListRequeteStructuresComponent implements OnInit {
         this.spinner.hide();
         this.subject.next(res);
         // this.data = res.data;
-        this.data = res.data.filter((e:any)=>{
+        this.data = res.data?.data?.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) || 
                       (e.lastparcours.idEtape==5) || 
@@ -369,7 +375,7 @@ export class ListRequeteStructuresComponent implements OnInit {
       if (Array.isArray(res)) {
         this.data2 = res
       } else {
-        this.data2 = res.data
+        this.data2 = res.data?.data
       }
       this._temp2 = this.data2
     })
@@ -380,7 +386,7 @@ export class ListRequeteStructuresComponent implements OnInit {
     this.services = []
     this.__services=[]
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter((e:any)=>(e.published==1))
+      this.services = res.data?.filter((e:any)=>(e.published==1))
       this.__services= this.services
     })
 

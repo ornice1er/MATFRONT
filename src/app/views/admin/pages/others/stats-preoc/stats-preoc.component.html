@@ -136,7 +136,7 @@
                 </tr>
               </thead>
               <tbody>
-                  <tr *ngFor="let el of statConnetivite | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; index as i">
+                  <tr *ngFor="let el of statConnetivite; index as i">
                       <td>{{el.nomprenoms}} </td>
                       <td>{{el.structure?.sous_structure?.sigle== null ? '' : el.structure.sous_structure.sigle+' / '}} {{el.structure?.libelle}} </td>
                       <td>{{el.user_agent?.last_connect?.last_connect == null ? '-' : el.user_agent?.last_connect?.last_connect}} </td>

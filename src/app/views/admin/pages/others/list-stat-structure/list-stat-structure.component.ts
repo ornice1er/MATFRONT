@@ -30,6 +30,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { animate } from '@angular/animations';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 
@@ -114,6 +115,8 @@ export class ListStatStructureComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+        private localStorageService:LocalStorageService
+  
   ) { }
 
 
@@ -134,8 +137,8 @@ export class ListStatStructureComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.prepare()
 
       this.router.events

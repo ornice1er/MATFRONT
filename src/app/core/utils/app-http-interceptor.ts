@@ -31,10 +31,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         if (error instanceof HttpErrorResponse) {
-            
-                console.log(
-                  `error status : ${error.status} ${JSON.stringify(error.error)}`
-                );
                 switch (error.status) {
                   case 401:
                     this.lsService.remove(GlobalName.tokenName)

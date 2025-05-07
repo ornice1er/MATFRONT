@@ -33,6 +33,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 @Component({
@@ -162,7 +163,8 @@ export class EspacepointfocalcomComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authService: AuthentificationService,
     private activatedRoute: ActivatedRoute,
-    private institutionService:InstitutionService
+    private institutionService:InstitutionService,
+    private localStorageService:LocalStorageService
   ) { }
 
 
@@ -227,9 +229,9 @@ export class EspacepointfocalcomComponent implements OnInit {
 
 
   logout() {
-    localStorage.removeItem('guvUserToken')
-    localStorage.removeItem('guvUserData')
-    localStorage.removeItem('mataccueilUserData')
+    this.localStorageService.remove(GlobalName.tokenNameGuv)
+    this.localStorageService.remove(GlobalName.userNameGuv)
+    this.localStorageService.remove(GlobalName.userName)
     window.location.href =this.url;
   }
 
@@ -237,9 +239,9 @@ export class EspacepointfocalcomComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log(localStorage.getItem('mataccueilUserData'))
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    console.log(this.localStorageService.get(GlobalName.userName))
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.user.full_name=this.user.nom+" "+this.user.prenoms
       this.institutions=[]
       this.institutionService.getAll().subscribe((res: any) => {

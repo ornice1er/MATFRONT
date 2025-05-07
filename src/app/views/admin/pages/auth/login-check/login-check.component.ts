@@ -13,6 +13,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { AuthentificationService } from '../../../../../core/services/authentification.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-login-check',
@@ -41,8 +42,7 @@ export class LoginCheckComponent implements OnInit {
     
   }
   submit(value:any) {
-		localStorage.removeItem("mataccueilToken")
-		localStorage.removeItem("mataccueilUserData")
+	this.localService.remove(GlobalName.userName)
 		this.loading = true;
 		this.auth
 			.login(value)

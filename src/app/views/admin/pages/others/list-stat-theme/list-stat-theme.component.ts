@@ -26,6 +26,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 
@@ -78,6 +79,8 @@ export class ListStatThemeComponent implements OnInit {
     private usagersService:UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+        private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -97,8 +100,8 @@ export class ListStatThemeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-      if (localStorage.getItem('mataccueilUserData') != null) {
-        this.user = this.localService.get('mataccueilUserData')
+      if (this.localStorageService.get(GlobalName.userName) != null) {
+        this.user = this.localService.get(GlobalName.userName)
 
         this.prepare()
 

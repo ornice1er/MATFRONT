@@ -9,6 +9,12 @@
   mat-sidenav {
     width: 250px;
     background-color: #42358C;
+    border-radius: none !important;
+  }
+
+  mat-expansion-panel{
+    border-radius: none !important;
+
   }
 
   mat-toolbar{

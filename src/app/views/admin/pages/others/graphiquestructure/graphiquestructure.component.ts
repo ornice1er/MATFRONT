@@ -26,6 +26,7 @@ import { TypeService } from '../../../../../core/services/type.service';
 import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-graphiquestructure',
@@ -78,6 +79,8 @@ export class GraphiquestructureComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -121,8 +124,8 @@ export class GraphiquestructureComponent implements OnInit {
 
   ngOnInit(): void {
 
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       this.prepare()
 
       this.router.events

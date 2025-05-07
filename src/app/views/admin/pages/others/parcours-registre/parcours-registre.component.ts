@@ -27,6 +27,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 
 
@@ -161,6 +162,8 @@ export class ParcoursRegistreComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+        private localStorageService:LocalStorageService
+    
   ) { }
 
 
@@ -229,8 +232,8 @@ export class ParcoursRegistreComponent implements OnInit {
 
   prepare() {
    
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localService.get('mataccueilUserData')
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localService.get(GlobalName.userName)
       if (this.user.profil_user.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {

@@ -12,6 +12,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { AuthentificationService } from '../../../../../core/services/authentification.service';
 import { PORTAL_CONFIG } from '../../../../../core/utils/eservice.config';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-login-v2',
@@ -28,7 +29,13 @@ export class LoginV2Component implements OnInit {
   loading=false
   error=''
   code:any
-  constructor(private userService: UserService, private localService: LocalStorageService,private activatedRoute:ActivatedRoute,private localStorageService:LocalStorageService,private route:ActivatedRoute,private router:Router, private auth:AuthentificationService) { }
+  constructor(
+	private userService: UserService, 
+	private localService: LocalStorageService,
+	private activatedRoute:ActivatedRoute,
+	private localStorageService:LocalStorageService,
+	private route:ActivatedRoute,
+	private router:Router, private auth:AuthentificationService) { }
   lang="fr"
   ngOnInit(): void {
 	  this.code=this.activatedRoute.snapshot.paramMap.get('code');
@@ -48,8 +55,6 @@ export class LoginV2Component implements OnInit {
   }
 
   submit() {
-    localStorage.removeItem("mataccueilToken")
-		localStorage.removeItem("mataccueilUserData")
 		this.loading = true;
 		this.auth
 			.loginV2(this.code)

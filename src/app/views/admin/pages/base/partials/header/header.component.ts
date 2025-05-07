@@ -7,7 +7,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../../core/pipes/sample-search.pipe';
 import { UserService } from '../../../../../../core/services/user.service';
-import { Roles } from '../../../../../../core/utils/global-name';
+import { GlobalName, Roles } from '../../../../../../core/utils/global-name';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { AppSweetAlert } from '../../../../../../core/utils/app-sweet-alert';
 import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
@@ -40,8 +40,8 @@ export class HeaderComponent implements OnInit {
   logout(){
     //Mettre a jour dans la table activity_log la derniere deconnection 
     this.userService.update_last_logout(this.user.id).subscribe((res) => {
-      localStorage.removeItem("mataccueilToken")
-      localStorage.removeItem("mataccueilUserData")
+      this.localStorageService.remove(GlobalName.tokenName)
+      this.localStorageService.remove(GlobalName.userName)
       this.router.navigateByUrl('/login-v2')
     })
 
@@ -69,8 +69,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
 
     this.current_role = localStorage.getItem('mataccueilUserRole')
-    if (localStorage.getItem('mataccueilUserData') != null) {
-      this.user = this.localStorageService.get("mataccueilUserData")
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+      this.user = this.localStorageService.get(GlobalName.userName)
     }
 
     if (this.current_role != Roles.Admin && this.current_role != Roles.SubAdmin) {
@@ -82,7 +82,7 @@ export class HeaderComponent implements OnInit {
 
   useLanguage(lang: string) {
     this.userService.update({ default_language: lang }, this.user.id).subscribe((res) => {
-      this.localStorageService.set("mataccueilUserData", res);
+      this.localStorageService.set(GlobalName.userName, res);
       //this.ngOnInit()
       window.location.reload();
     })

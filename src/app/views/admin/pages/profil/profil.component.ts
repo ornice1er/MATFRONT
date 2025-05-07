@@ -14,6 +14,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { UserService } from '../../../../core/services/user.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 
 @Component({
@@ -36,7 +37,7 @@ export class ProfilComponent implements OnInit {
 
   ngOnInit(): void {
       this.current_role=localStorage.getItem('mataccueilUserRole')?? ""
-      this.user=this.localStorageService.get("mataccueilUserData")
+      this.user=this.localStorageService.get(GlobalName.userName)
       console.log('-----------------------------------12')     
       console.log(this.user)     
   }
@@ -50,7 +51,7 @@ export class ProfilComponent implements OnInit {
         newcontacts:value.newcontacts,
     }
       this.userService.updateProfil(params).subscribe((res:any)=>{
-        this.localService.set("mataccueilUserData",res);
+        this.localService.set(GlobalName.userName,res);
         AppSweetAlert.simpleAlert('Modification profil', 'Votre mise à jour de profil été prise en compte avec succès. A présent nous vous déconnecterons et vous reconnecterez avec votre nouveau mot de passe.', 'success')
         this.signout()
       }, (err:any)=>{
@@ -59,8 +60,7 @@ export class ProfilComponent implements OnInit {
     }
   }
   signout(){
-    localStorage.removeItem('mataccueilToken')
-    localStorage.removeItem('mataccueilUserRole')
+    this.localService.remove(GlobalName.tokenName)
     this.localStorageService.clear()
     this.router.navigateByUrl('/login')
   }
@@ -78,7 +78,7 @@ export class ProfilComponent implements OnInit {
       formData.append("profil_image",this.file)
     }
     this.userService.update(value,this.user.id).subscribe((res:any)=>{
-      this.localService.set("mataccueilUserData",res);
+      this.localService.set(GlobalName.userName,res);
       AppSweetAlert.simpleAlert('Modification de profil', 'Votre mise à jour de profil été prise en compte avec succès', 'success')
 
       this.ngOnInit()
