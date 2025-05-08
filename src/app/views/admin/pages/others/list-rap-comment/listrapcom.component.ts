@@ -48,6 +48,13 @@ export class RapCommentComponent implements OnInit {
   selected_data:any
   dated:any=''
   datef:any=''
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -229,6 +236,8 @@ export class RapCommentComponent implements OnInit {
     }
    })
   }
-  
+    getPage(event:any){
+    this.pg.p=event
+  }
 
 }

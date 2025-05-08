@@ -57,6 +57,13 @@ export class ConfigrelanceComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data={ordre_relance:"",msg_relance:"",apartir_de:"",id_user:null,idEntite:null,id:0}
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){
     this.data=this._temp.filter(r => {
@@ -210,6 +217,8 @@ export class ConfigrelanceComponent implements OnInit {
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 
 }

@@ -12,9 +12,9 @@ export class UsagerService {
 
   getAll(search:any,page:any){
     if(search==null){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("usager")}?page=${page}`);
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("usager")}?per_page=${page}`);
     }else{
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("usager")}?search=${search}&page=${page}`);
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("usager")}?search=${search}&per_page=${page}`);
       
     }
     

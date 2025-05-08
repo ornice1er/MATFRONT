@@ -49,6 +49,13 @@ export class EservicesComponent implements OnInit {
   collectionSize = 0;
   selected_data:any
   is_external_service=false
+  search_text:any=""
+  pg:any={
+      pageSize:10,
+      p:0,
+      total:0
+    }
+  isPaginate:any=false
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -197,4 +204,7 @@ export class EservicesComponent implements OnInit {
   
 }
 
+getPage(event:any){
+  this.pg.p=event
+}
 }

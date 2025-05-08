@@ -50,6 +50,13 @@ export class ListdaterdvComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -183,6 +190,8 @@ export class ListdaterdvComponent implements OnInit {
       AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
     })
 	}
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 
 }

@@ -61,7 +61,13 @@ export class ListRequeteDivisionComponent implements OnInit {
   selected = [];
   current_permissions: any[] = []
   selected_data: any
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   search() {
     this.data = []
     this._temp = []
@@ -265,8 +271,13 @@ export class ListRequeteDivisionComponent implements OnInit {
             return (e.lastparcours == null);
           }
         })
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
     this.departements = []
     this.usagersService.getAllDepartement().subscribe((res: any) => {
@@ -398,5 +409,9 @@ export class ListRequeteDivisionComponent implements OnInit {
     }
     var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

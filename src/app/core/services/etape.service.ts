@@ -12,7 +12,7 @@ export class EtapeService {
 
   getAll(idEntite:any){
     //  ok
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("etape")}/${idEntite}`, );
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("etape")}/${idEntite}`);
   }
   get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("etape/getprofil/")}${id}`, ).pipe(

@@ -55,7 +55,13 @@ export class ListRatioPlainteStructureComponent implements OnInit {
   collectionSize2 = 0;
   page2 = 1;
   pageSize2 = 10;
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   search(){ 
     this.data=this._temp.filter(r => {
       const term = this.searchText.toLowerCase();
@@ -121,6 +127,8 @@ export class ListRatioPlainteStructureComponent implements OnInit {
 
   }
 
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 
 }

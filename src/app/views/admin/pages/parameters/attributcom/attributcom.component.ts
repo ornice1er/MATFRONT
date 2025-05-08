@@ -85,6 +85,13 @@ export class AttributcomComponent implements OnInit {
     submited: 0,
     textesRegissantPrestation: ""
   }
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search() {
     
@@ -191,9 +198,13 @@ export class AttributcomComponent implements OnInit {
     this.data = []
       this.prestationService.getAllAttrib(this.user.id).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
       this.listUsers = []
       this.userService.getAllActeur(this.user.idEntite).subscribe((res:any)=>{
@@ -304,5 +315,9 @@ export class AttributcomComponent implements OnInit {
     if (confirmResult === false) return;
 
     this.listepieces.splice(i, 1)
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

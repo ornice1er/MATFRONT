@@ -95,6 +95,13 @@ export class AllServicesComponent implements OnInit {
   listepieces:any[] = []
   structures: any[] = []
   user:any
+  search_text:any=""
+  pg:any={
+      pageSize:10,
+      p:0,
+      total:0
+    }
+  isPaginate:any=false
 
   search() {
     this.data = this._temp.filter(r => {
@@ -180,31 +187,49 @@ export class AllServicesComponent implements OnInit {
       this.default_data.idParent=this.user.agent_user.idStructure
       this.prestationService.getAllByStructure(this.user.agent_user.idStructure).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
     }else if(this.user.agent_user!=null && this.user.profil_user.pointfocal==1){
       this.default_data.idParent=this.user.agent_user.structure.idParent
       this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true)))
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
+       // this.data = res.filter((e:any)=>((e.submited==1 || e.submited==true)))
+       
       })
     }else if(this.user.agent_user!=null && this.user.profil_user.saisie_adjoint==1){
       this.prestationService.getAllByCreator().subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
     }else{
       this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
     }
    
@@ -378,6 +403,10 @@ export class AllServicesComponent implements OnInit {
 
   removeRow(i:any){
 
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 
 }

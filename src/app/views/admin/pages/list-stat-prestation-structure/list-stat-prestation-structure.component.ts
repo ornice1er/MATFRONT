@@ -38,7 +38,13 @@ export class ListStatPrestationStructureComponent implements OnInit {
   collectionSize = 0;
   page = 1;
   pageSize = 10;
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
 
   user:any
@@ -95,5 +101,7 @@ export class ListStatPrestationStructureComponent implements OnInit {
 
    
   }
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 }

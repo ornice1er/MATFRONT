@@ -58,7 +58,13 @@ export class ListStatStructureComponent implements OnInit {
   page = 1;
   pageSize = 20;
 
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   data2: any[] = [];
   _temp2: any[] = [];
@@ -230,7 +236,13 @@ export class ListStatStructureComponent implements OnInit {
         this.param_stat_hebdo.stats = this.data
         this.param_stat_hebdo.startDate = "all"
         this.param_stat_hebdo.endDate = "all"
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
 
       })
 
@@ -323,5 +335,9 @@ export class ListStatStructureComponent implements OnInit {
       AppSweetAlert.simpleAlert("Relance", "Relance envoyée avec succès", 'success');
     })
 
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

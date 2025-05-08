@@ -82,6 +82,13 @@ export class EspaceusagerComponent implements OnInit {
   mat_aff = false
   idEntite:any
   canSentNew=false
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   
   search() {
     this.data = this._temp.filter(r => {
@@ -348,9 +355,13 @@ export class EspaceusagerComponent implements OnInit {
       this.user.id
       , 1).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
       
       this.ChechEtape();
@@ -837,5 +848,9 @@ export class EspaceusagerComponent implements OnInit {
 
     }
   )
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

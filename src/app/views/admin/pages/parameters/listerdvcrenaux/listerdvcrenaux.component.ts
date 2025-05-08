@@ -42,7 +42,13 @@ export class ListerdvcrenauxComponent implements OnInit {
   error=""
   data: any[]=[];
   _temp: any[]=[];
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   selected = [
   ];
   current_permissions:any[]=[]
@@ -171,6 +177,8 @@ export class ListerdvcrenauxComponent implements OnInit {
     })
 	}
 
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 
 }

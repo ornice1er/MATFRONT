@@ -47,7 +47,13 @@ export class ListeprofilsComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   file: string | Blob =""
   onFileChange(event:any) {
     if (event.target.files.length > 0) {
@@ -195,5 +201,7 @@ export class ListeprofilsComponent implements OnInit {
     })
 	}
 
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 }

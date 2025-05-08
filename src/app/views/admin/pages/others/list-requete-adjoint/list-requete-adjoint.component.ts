@@ -61,7 +61,13 @@ export class ListRequeteAdjointComponent implements OnInit {
   selected = [];
   current_permissions: any[] = []
   selected_data: any
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   search() {
     this.data = []
     this._temp = []
@@ -248,9 +254,13 @@ export class ListRequeteAdjointComponent implements OnInit {
       , page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
-        this.data = res.data
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
     this.departements = []
     this.usagersService.getAllDepartement().subscribe((res: any) => {
@@ -387,4 +397,7 @@ export class ListRequeteAdjointComponent implements OnInit {
     window.open(filePath);
   }
 
+  getPage(event:any){
+    this.pg.p=event
+  }
 }

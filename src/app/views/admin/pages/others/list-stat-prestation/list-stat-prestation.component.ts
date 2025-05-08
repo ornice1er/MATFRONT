@@ -63,7 +63,13 @@ export class ListStatPrestationComponent implements OnInit {
     })
     this.collectionSize=this.data.length
   }
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   user:any
 
   constructor(
@@ -141,5 +147,9 @@ export class ListStatPrestationComponent implements OnInit {
   resetStats(){
     this.init()
     this.param_stat={startDate:"all",endDate:"all",idUser:'',stats:[]}
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

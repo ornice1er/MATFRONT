@@ -76,7 +76,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let el of data; index as i">
+                  <tr *ngFor="let el of data | sampleSearch:search_text:'forUsers' | paginate: {
+                                id:'ngxP1',
+                                itemsPerPage: pg.pageSize,
+                                currentPage: pg.p,
+                                totalItems: pg.total }; index as i">
                     <td>{{el.libelle}}</td>
                     <td>{{el.total}} </td>
                     <td>{{el.totalEnCours}} </td>
@@ -91,18 +95,19 @@
                   </tr>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-between p-2">
-                <ngb-pagination class="" [collectionSize]="collectionSize" [(page)]="page" [maxSize]="5" [pageSize]="pageSize"
-                  [rotate]="true" [ellipses]="false" [boundaryLinks]="true">
-                </ngb-pagination>
-  
-                <select class="custom-select custom-select-sm float-right" style="width: auto" [(ngModel)]="pageSize">
-                  <option selected disabled>Filtrer</option>
-                  <option [ngValue]="3">3 elements par page</option>
-                  <option [ngValue]="5">5 elements par par page</option>
-                  <option [ngValue]="10">10 elements par par page</option>
-                </select>
-              </div>
+              <pagination-controls 
+                        id="ngxP1"
+                        (pageChange)="getPage($event)"
+                      [maxSize]="9"
+                      [directionLinks]="true"
+                      [autoHide]="true"
+                      [responsive]="true"
+                      [previousLabel]="'Précédent'"
+                      [nextLabel]="'Suivant'"
+                      [screenReaderPaginationLabel]="'Pagination'"
+                      [screenReaderPageLabel]="'page'"
+                      [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+                     </pagination-controls>
             </div>
             <!--end::Table-->
           </div>

@@ -76,7 +76,13 @@ export class ListRequeteUsagerComponent implements OnInit {
         this.subject.next(res);
       })
   }
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   user: any
 
   constructor(
@@ -267,8 +273,13 @@ export class ListRequeteUsagerComponent implements OnInit {
         this.spinner.hide();
         this.data = res.data
         this.subject.next(res);
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
 
 

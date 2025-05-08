@@ -60,6 +60,13 @@ export class StatspreocComponent implements OnInit {
   isSended = false
   selected_Status=""
   nbre: number = 0
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){ 
     this.statConnetivite=this._temp.filter(r => {
@@ -328,6 +335,8 @@ export class StatspreocComponent implements OnInit {
   filter(value:any){
     
   }
-  
+    getPage(event:any){
+    this.pg.p=event
+  }
 
 }

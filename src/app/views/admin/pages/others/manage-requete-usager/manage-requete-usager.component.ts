@@ -75,10 +75,14 @@ export class ManageRequeteUsagerComponent implements OnInit {
       "true",this.user.id
       , this.page).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
         this.subject.next(res);
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
 
   }
@@ -121,7 +125,13 @@ export class ManageRequeteUsagerComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   user: any
 
   constructor(
@@ -274,10 +284,14 @@ export class ManageRequeteUsagerComponent implements OnInit {
       "true",this.user.id
       , page).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
         this.subject.next(res);
-        this._temp = this.data
-        this.collectionSize = this.data.length
+        if (res.data.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+
+        }
       })
 
 

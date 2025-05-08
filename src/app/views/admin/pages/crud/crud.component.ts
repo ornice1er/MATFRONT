@@ -46,6 +46,13 @@ export class CrudComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
+  search_text:any=""
+  pg:any={
+      pageSize:10,
+      p:0,
+      total:0
+    }
+  isPaginate:any=false
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -175,5 +182,7 @@ export class CrudComponent implements OnInit {
     })
 	}
 
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 }

@@ -64,6 +64,13 @@ export class ListRequeteStructuresComponent implements OnInit {
   current_permissions: any[] = []
   selected_data: any
   isSended = false
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search() {
     this.data = []
@@ -281,12 +288,9 @@ export class ListRequeteStructuresComponent implements OnInit {
 
   ngOnInit(): void {
     this.observerService.setTitle(`Gestion des ${this.typeRequete}`)
-
-    this.prepare()
     this.RelanceAWho = ""
     this.router.events
       .subscribe(event => {
-
         if (event instanceof NavigationStart) {
           this.prepare()
         }
@@ -301,8 +305,7 @@ export class ListRequeteStructuresComponent implements OnInit {
         this.isGeneralDirector = false;
       }
     }
-
-    console.log("userwwwwww",this.localStorageService.get(GlobalName.userName))
+    console.log("userwwwwww",this.user?.idEntite)
 
     this.etapes = []
     this.etapeService.getAll(this.user?.idEntite).subscribe((res: any) => {
@@ -778,5 +781,9 @@ export class ListRequeteStructuresComponent implements OnInit {
         })
       }
     })
+  }
+
+  getPage(event:any){
+    this.pg.p=event
   }
 }

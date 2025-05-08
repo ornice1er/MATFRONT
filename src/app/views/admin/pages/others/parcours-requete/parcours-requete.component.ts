@@ -9,7 +9,7 @@ import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-boots
 import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -36,7 +36,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-parcours-requete',
     standalone: true,
-        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
+        imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule,NgxSpinnerModule],
   
   templateUrl: './parcours-requete.component.html',
   styleUrls: ['./parcours-requete.component.css']
@@ -66,7 +66,13 @@ export class ParcoursRequeteComponent implements OnInit {
   selected_Status=""
   nbre: number = 0
   list_parcours: any[]=[]
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   
   ChangerFile(file:any){
@@ -135,7 +141,7 @@ export class ParcoursRequeteComponent implements OnInit {
     this._temp = []
     this.selected_Status=""
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
-      this.checkType()?.id, this.page,this.selected_Struct,null,null,null,this.type_).subscribe((res: any) => {
+      this.checkType()?.id,this.pg.pageSize, this.page,this.selected_Struct,null,null,null,this.type_).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data?.data
         this._temp = this.data
@@ -312,7 +318,6 @@ export class ParcoursRequeteComponent implements OnInit {
 
   ngOnInit(): void {
     this.observerService.setTitle(`Parcours des ${this.typeRequete}`)
-
     this.prepare()
     this.router.events
       .subscribe(event => {
@@ -392,6 +397,7 @@ export class ParcoursRequeteComponent implements OnInit {
         this.selected_Struct = this.user?.agent_user?.idStructure
       }
     }
+    this.selected_Entite=this.user?.idEntite
     this.etapes = []
     this.etapeService.getAll(this.selected_Entite).subscribe((res: any) => {
       this.etapes = res.data
@@ -421,11 +427,12 @@ export class ParcoursRequeteComponent implements OnInit {
     });
     this.ministere = []
     this.prestationService.getAllEntite().subscribe((res: any) => {
-      this.ministere = res
+      this.ministere = res.data
     })
+
     this.structures_pre = []
-    this.structureService.getStructurePreocEnAttente(this.user.idEntite).subscribe((res:any)=>{
-      this.structures_pre = res
+    this.structureService.getStructurePreocEnAttente(this.user?.idEntite).subscribe((res:any)=>{
+      this.structures_pre = res.data
     })
  
   }
@@ -444,14 +451,19 @@ export class ParcoursRequeteComponent implements OnInit {
 
   init(page:any) {
     this._temp = []
-    this.data = []
-    
+    this.data = []    
+    this.spinner.show();
     this.requeteService.getAllParcours(this.selected_Entite,null, this.user.id,
       this.checkType()?.id
-      , page,this.selected_Struct,null,null,null,"").subscribe((res: any) => {
+      ,this.pg.pageSize, page,this.selected_Struct,null,null,null,"").subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data?.data
-        this._temp = this.data
+        if (res.isPaginate) {
+          this.data = res.data.data
+          this.pg.total=res.data.total
+        }else{
+          this.data = res.data
+        }
+        console.log( this.data)
         this.subject.next(res);
       })
       this.RelanceAWho = ''
@@ -476,13 +488,17 @@ export class ParcoursRequeteComponent implements OnInit {
     // this.structureService.getAll(1,this.selected_Entite).subscribe((res:any)=>{
     //   this.structures = res
     // })
-    this.structures = []
-    this.structureService.getStructureParThematique(this.selected_Idtype).subscribe((res:any)=>{
-      this.structures = res
-    })
+
+    if (this.selected_Idtype) {
+      this.structures = []
+      this.structureService.getStructureParThematique(this.selected_Idtype).subscribe((res:any)=>{
+        this.structures = res.data
+      })
+    }
+   
     this.themes = []
     this.thematiqueService.getAll(this.selected_Entite).subscribe((res: any) => {
-      this.themes = res
+      this.themes = res.data
     })
 
 
@@ -505,7 +521,7 @@ export class ParcoursRequeteComponent implements OnInit {
     }
     this.data = []
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
-      this.checkType()?.id,0,this.selected_Struct,value.statut=="" ? null : value.statut,value.startDate,value.endDate,this.type_).subscribe((res: any) => {
+      this.checkType()?.id,this.pg.pageSize,0,this.selected_Struct,value.statut=="" ? null : value.statut,value.startDate,value.endDate,this.type_).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this.subject.next(res);
@@ -569,6 +585,11 @@ export class ParcoursRequeteComponent implements OnInit {
     var ratio = dayDifference / delaiTh;
 
     return ratio;
+  }
+
+  getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
   }
 
 }

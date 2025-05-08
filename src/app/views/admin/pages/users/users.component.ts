@@ -51,7 +51,13 @@ export class UsersComponent implements OnInit {
   collectionSize = 0;
   selected_data:any
   is_active=null
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -212,5 +218,8 @@ export class UsersComponent implements OnInit {
       })
   }
 
+  getPage(event:any){
+    this.pg.p=event
+  }
 
 }

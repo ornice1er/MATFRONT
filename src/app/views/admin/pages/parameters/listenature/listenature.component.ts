@@ -48,6 +48,13 @@ export class ListenatureComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any;
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -176,5 +183,7 @@ export class ListenatureComponent implements OnInit {
     })
 	}
 
-
+  getPage(event:any){
+    this.pg.p=event
+  }
 }

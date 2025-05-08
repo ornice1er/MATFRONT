@@ -12,13 +12,13 @@ export class RdvService {
 
   getAll(idEntite:any,seach:any,page:any){
     if(seach==null){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?page=${page}`, );
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?per_page=${page}`, );
     }else{
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?seach=${seach}&page=${page}`, );
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv")}/${idEntite}?seach=${seach}&per_page=${page}`, );
     }
   }
   getAllByStructure(idStructure:any,page:any){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/byStructure")}/${idStructure}?page=${page}`, );
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("rdv/byStructure")}/${idStructure}?per_page=${page}`, );
   }
   
   getAllForUsager(idUsager:any){
