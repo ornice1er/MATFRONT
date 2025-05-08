@@ -72,7 +72,7 @@ search_text:any=""
     this.data = []
     this._temp = []
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, "Division",
-      this.checkType()?.id, this.page).subscribe((res: any) => {
+      this.checkType()?.id, this.pg.pageSize,this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -251,7 +251,7 @@ search_text:any=""
     this.data = []
     this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure,
       this.checkType()?.id
-      , page).subscribe((res: any) => {
+      ,this.pg.pageSize, page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         if (res.data.isPaginate) {

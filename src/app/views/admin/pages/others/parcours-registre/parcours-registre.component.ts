@@ -81,6 +81,13 @@ export class ParcoursRegistreComponent implements OnInit {
   isAdmin = false
   RelanceAWho = ""
   ValStruRelance = ""
+   pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   // checked(event, el) {
   //   console.log(el)
@@ -116,7 +123,7 @@ export class ParcoursRegistreComponent implements OnInit {
   search() {
     this.data = []
     this._temp = []
-    this.requeteService.getParcoursRegistre(this.user.idEntite,this.searchText, this.selected_idcom,this.page,this.selected_Status,null,null,this.selected_iduse).subscribe((res: any) => {
+    this.requeteService.getParcoursRegistre(this.user.idEntite,this.searchText, this.selected_idcom,this.pg.pageSize,this.page,this.selected_Status,null,null,this.selected_iduse).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -302,7 +309,7 @@ export class ParcoursRegistreComponent implements OnInit {
   init(page:any) {
     this._temp = []
     this.data = []
-    this.requeteService.getParcoursRegistre(this.user.idEntite,null, this.selected_idcom,page,this.selected_Status,null,null,this.selected_iduse).subscribe((res: any) => {
+    this.requeteService.getParcoursRegistre(this.user.idEntite,null, this.selected_idcom,this.pg.pageSize,page,this.selected_Status,null,null,this.selected_iduse).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -329,7 +336,7 @@ export class ParcoursRegistreComponent implements OnInit {
     
     this.data = []
 
-    this.requeteService.getParcoursRegistre(this.user.idEntite,null,value.listComm,this.page,value.statut,this.select_date_start,this.select_date_end,value.listuser).subscribe((res: any) => {
+    this.requeteService.getParcoursRegistre(this.user.idEntite,null,value.listComm,this.pg.pageSize,this.page,value.statut,this.select_date_start,this.select_date_end,value.listuser).subscribe((res: any) => {
       this.spinner.hide();
       this.data = res.data
       this._temp = this.data
@@ -397,4 +404,8 @@ export class ParcoursRegistreComponent implements OnInit {
     return ratio;
   }
 
+     getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
+  }
 }

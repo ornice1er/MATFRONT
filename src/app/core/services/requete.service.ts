@@ -27,19 +27,19 @@ export class RequeteService {
     return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/type")}/${idEntite}`,param);
   }
 
-  getAllRequest(idEntite:any,search:any,traiteOuiNon:any,idUser:any,structure:any,plainte:any,page:any){
+  getAllRequest(idEntite:any,search:any,traiteOuiNon:any,idUser:any,structure:any,plainte:any,per_page:any,page:any){
     // ok &typeStructure=${type}
     if(structure == ""){
       if(search==null){
-       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&per_page=${page}`);
+       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&per_page=${per_page}&page=${page}`);
       }else{
-       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&search=${search}&per_page=${page}`);
+       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&search=${search}&per_page=${per_page}&page=${page}`);
       }
     }else{
       if(search==null){
-       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&structure=${structure}&plainte=${plainte}&per_page=${page}`);
+       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&structure=${structure}&plainte=${plainte}&per_page=${per_page}&page=${page}`);
       }else{
-       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&structure=${structure}&plainte=${plainte}&search=${search}&per_page=${page}`);
+       return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?traiteOuiNon=${traiteOuiNon}&idUser=${idUser}&structure=${structure}&plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}`);
       }
     }
 
@@ -126,27 +126,27 @@ export class RequeteService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/nbreCour")}/${idUser}/${plainte}/${idEntite}`);
   }
 
-  getAllPointReponse(search=null,idUser:any,page:any,idEntite:any){
+  getAllPointReponse(search=null,idUser:any,per_page:any,page:any,idEntite:any){
    if(search==null){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${per_page}&page=${page}`);
    }else{
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${per_page}&page=${page}`);
    }
   }
-  getAllPoint(search=null,idUser:any,page:any,idEntite:any,traiteOuiNon:any){
+  getAllPoint(search=null,idUser:any,per_page:any,page:any,idEntite:any,traiteOuiNon:any){
     if(search==null){
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${page}&traiteOuiNon=${traiteOuiNon}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${per_page}&page=${page}&traiteOuiNon=${traiteOuiNon}`);
     }else{
 
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${page}&traiteOuiNon=${traiteOuiNon}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${per_page}&page=${page}&traiteOuiNon=${traiteOuiNon}`);
     }
    }
-   getAllPointStructure(search=null,idUser:any,page:any,idEntite:any,structure:any,traiteOuiNon:any){
+   getAllPointStructure(search=null,idUser:any,per_page:any,page:any,idEntite:any,structure:any,traiteOuiNon:any){
     if(search==null){
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&per_page=${per_page}&page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`);
     }else{
 
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&search=${search}&per_page=${per_page}&page=${page}&traiteOuiNon=${traiteOuiNon}&structure=${structure}`);
     }
    } 
   getAllParcours(idEntite:any,search:any,idUser:any,plainte:any,per_page:any,page:any,idStructure:any,statut:any,startDate:any,endDate:any,type:any){
@@ -155,102 +155,102 @@ export class RequeteService {
    }else{
       if(idStructure!=null && statut!=null){
         if(startDate==null){
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${page}&parc=oui&type=${type}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&parc=oui&type=${type}`);
         }else{
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
         }
       }else if(idStructure==null && statut!=null){
       if(startDate==null){
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${page}&parc=oui&type=${type}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&parc=oui&type=${type}`);
       }else{
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
       }
      }else if(idStructure!=null && statut==null){
       if(startDate==null){
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${page}&parc=oui&type=${type}`);       
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${per_page}&page=${page}&parc=oui&type=${type}`);       
       }else{
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);       
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${per_page}&page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);       
       }
      }else{
         if(startDate==null){
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${page}&parc=oui&type=${type}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}&parc=oui&type=${type}`);
         }else{
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}&parc=oui&startDate=${startDate}&endDate=${endDate}&type=${type}`);
         }
      }
    }
   }
-  getParcoursRegistre(idEntite:any,search:any,idcomm:any,page:any,statut:any,startDate:any,endDate:any,iduserCom:any){
+  getParcoursRegistre(idEntite:any,search:any,idcomm:any,per_page:any,page:any,statut:any,startDate:any,endDate:any,iduserCom:any){
    if(search==null){
     if(startDate==null){
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&per_page=${page}&statut=${statut}&iduserCom=${iduserCom}`);
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&per_page=${per_page}&page=${page}&statut=${statut}&iduserCom=${iduserCom}`);
     }else{
-      return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&per_page=${page}&startDate=${startDate}&endDate=${endDate}&statut=${statut}&iduserCom=${iduserCom}`);
+      return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}&statut=${statut}&iduserCom=${iduserCom}`);
     }
    }else{
       if(startDate==null){
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&search=${search}&per_page=${page}&statut=${statut}&iduserCom=${iduserCom}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&search=${search}&per_page=${per_page}&page=${page}&statut=${statut}&iduserCom=${iduserCom}`);
       }else{
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&search=${search}&per_page=${page}&startDate=${startDate}&endDate=${endDate}&statut=${statut}&iduserCom=${iduserCom}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("registreusager/get")}/${idEntite}?communue=${idcomm}&search=${search}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}&statut=${statut}&iduserCom=${iduserCom}`);
       }
    }
   }
-  getInfosPrint(idEntite:any,search:any,idUser:any,plainte:any,page:any,idStructure:any,statut:any,startDate:any,endDate:any){
+  getInfosPrint(idEntite:any,search:any,idUser:any,plainte:any,per_page:any,page:any,idStructure:any,statut:any,startDate:any,endDate:any){
    if(search==null){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&structure=${idStructure}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&structure=${idStructure}&per_page=${per_page}&page=${page}`);
    }else{
       if(idStructure!=null && statut!=null){
         if(startDate==null){
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${page}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}`);
         }else{
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${page}&startDate=${startDate}&endDate=${endDate}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}`);
         }
       }else if(idStructure==null && statut!=null){
       if(startDate==null){
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${page}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}`);
       }else{
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${page}&startDate=${startDate}&endDate=${endDate}`);
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&traiteOuiNon=${statut}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}`);
       }
      }else if(idStructure!=null && statut==null){
       if(startDate==null){
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${page}`);       
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${per_page}&page=${page}`);       
       }else{
-        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${page}&startDate=${startDate}&endDate=${endDate}`);       
+        return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&structure=${idStructure}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}`);       
       }
      }else{
         if(startDate==null){
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${page}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}`);
         }else{
-          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${page}&startDate=${startDate}&endDate=${endDate}`);
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?idUser=${idUser}&plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}&startDate=${startDate}&endDate=${endDate}`);
         }
      }
    }
   }
-  getAll(idEntite:any,search:any,plainte:any,page:any){
+  getAll(idEntite:any,search:any,plainte:any,per_page:any,page:any){
    if(search==null){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&per_page=${per_page}&page=${page}`);
    }else{
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&search=${search}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager")}/${idEntite}?plainte=${plainte}&search=${search}&per_page=${per_page}&page=${page}`);
    }
   }
-  getAllForUser(idEntite:any,search:any,byUser:any,idUser:any,page:any){
+  getAllForUser(idEntite:any,search:any,byUser:any,idUser:any,per_page:any,page:any){
     if(search==null){
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&per_page=${page}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&per_page=${per_page}&page=${page}`);
     }else{
-     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&search=${search}&per_page=${page}`);
+     return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/get")}/${idEntite}?byUser=${byUser}&idUser=${idUser}&search=${search}&per_page=${per_page}&page=${page}`);
     }
    }
-  getAllForUsager(idUsager:any,page:any){
+  getAllForUsager(idUsager:any,per_page:any,page:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusager")}/${idUsager}?per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusager")}/${idUsager}?per_page=${per_page}&page=${page}`);
   }
-  getAllForUsagerNT(idUsager:any,page:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusagerNT")}/${idUsager}?per_page=${page}`);
+  getAllForUsagerNT(idUsager:any,per_page:any,page:any){
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("requeteusager/getrequetebyusagerNT")}/${idUsager}?per_page=${per_page}&page=${page}`);
   }
   
-  getAllAffectation(idUser:any,typeStructure:any,plainte:any,page:any){
+  getAllAffectation(idUser:any,typeStructure:any,plainte:any,per_page:any,page:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("affectation/get")}?idUser=${idUser}&typeStructure=${typeStructure}&plainte=${plainte}&per_page=${page}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("affectation/get")}?idUser=${idUser}&typeStructure=${typeStructure}&plainte=${plainte}&per_page=${per_page}&page=${page}`);
   }
   createAffectation(ressource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("affectation")}`, ressource,

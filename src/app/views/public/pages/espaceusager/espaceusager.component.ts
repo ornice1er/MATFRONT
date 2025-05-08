@@ -347,13 +347,14 @@ search_text:any=""
     this.dataNT = []
     
     this.requeteService.getAllForUsagerNT(
-      this.user.id
-      , 1).subscribe((res: any) => {
+      this.user.id,
+      this.pg.pageSize,this.pg.p).subscribe((res: any) => {
         this.dataNT = res
       })
     this.requeteService.getAllForUsager(
-      this.user.id
-      , 1).subscribe((res: any) => {
+      this.user.id,
+      this.pg.pageSize,
+       this.pg.p).subscribe((res: any) => {
         this.spinner.hide();
         if (res.data.isPaginate) {
           this.data = res.data.data
@@ -852,5 +853,6 @@ search_text:any=""
 
   getPage(event:any){
     this.pg.p=event
+    this.loadRequest()
   }
 }

@@ -69,7 +69,7 @@ export class ListRequeteUsagerComponent implements OnInit {
     this._temp = []
     this.requeteService.getAll(this.user.idEntite,
       this.searchText,
-      this.checkType()?.id, this.page).subscribe((res: any) => {
+      this.checkType()?.id,this.pg.pageSize, this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this._temp = this.data
@@ -269,7 +269,7 @@ search_text:any=""
     this.requeteService.getAll(this.user.idEntite,
       null,
       this.checkType()?.id
-      , page).subscribe((res: any) => {
+      , this.pg.pageSize,page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data
         this.subject.next(res);
@@ -285,7 +285,7 @@ search_text:any=""
 
     this._temp2 = []
     this.data2 = []
-    this.requeteService.getAllAffectation(this.user.id, "SRU Secondaire", this.checkType()?.id, page).subscribe((res: any) => {
+    this.requeteService.getAllAffectation(this.user.id, "SRU Secondaire", this.checkType()?.id,this.pg.pageSize, page).subscribe((res: any) => {
       this.spinner.hide();
       if(Array.isArray(res)){
         this.data2 = res
@@ -756,5 +756,8 @@ mailStructure(value:any) {
   })
 }
 
-  
+    getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
+  }
 }

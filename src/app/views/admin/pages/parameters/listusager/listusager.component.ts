@@ -61,7 +61,13 @@ export class ListusagerComponent implements OnInit {
   link_to_prestation=1
   selected_type_preoccupation=0
   structures:any[]=[] 
-
+ pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
   search(){ 
     this.data=[]
     this._temp=[]
@@ -100,8 +106,7 @@ export class ListusagerComponent implements OnInit {
       return;
     }
     this.requeteService.getAllForUsager(
-      this.selected_data.id
-      , 1).subscribe((res: any) => {
+      this.selected_data.id,this.pg.pageSize,this.pg.p).subscribe((res: any) => {
           this.requetes = res
           this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
@@ -178,7 +183,7 @@ export class ListusagerComponent implements OnInit {
     this.selected_data = el
     console.log(el)
     
-    this.requeteService.getAllForUsagerNT(el.id,1).subscribe((res: any) => {
+    this.requeteService.getAllForUsagerNT(el.id,this.pg.pageSize,this.pg.p).subscribe((res: any) => {
       this.dataNT = res
     })
     
@@ -396,5 +401,9 @@ export class ListusagerComponent implements OnInit {
       this.show_structures=true
       this.selected_el_obj = ""
     }
+  }
+   getPage(event:any){
+    this.pg.p=event
+    this.ngOnInit()
   }
 }

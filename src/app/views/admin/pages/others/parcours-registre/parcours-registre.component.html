@@ -119,7 +119,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let elrv of data; index as i">
+                <tr *ngFor="let elrv of data | sampleSearch:search_text:'forUsers' | paginate: {
+                                id:'ngxP1',
+                                itemsPerPage: pg.pageSize,
+                                currentPage: pg.p,
+                                totalItems: pg.total }; index as i">
                     <td>{{elrv.created_at | date:'dd/MM/yyy hh:mm:ss'}} </td>
                     <td>
                         <span *ngIf="elrv.plainte==0">Requête</span>
@@ -143,35 +147,19 @@
               </tbody>
             </table>
             <div class="d-flex justify-content-end p-2">
-
-              <div *ngIf="pager!=Null">
-                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-                  <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item first-item">
-                    <a routerLink="/listrequeteparcours/{{key_type_req}}" [queryParams]="{ page: 1 }" class="page-link">Début</a>
-                  </li>
-
-                  <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item previous-item">
-                    <a routerLink="/listrequeteparcours/{{key_type_req}}" [queryParams]="{ page: pager.current_page - 1 }"
-                      class="page-link">Précédent</a>
-                  </li>
-
-                  <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.current_page === page}" class="page-item number-item">
-                    <a routerLink="/listrequeteparcours/{{key_type_req}}" [queryParams]="{ page: page }" class="page-link">{{page}}</a>
-                  </li>
-
-                  <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item next-item">
-                    <a routerLink="/listrequeteparcours/{{key_type_req}}" [queryParams]="{ page: pager.current_page + 1 }"
-                      class="page-link">Suivant</a>
-                  </li>
-                  <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item next-item">
-                    <a routerLink="/listrequeteparcours/{{key_type_req}}" [queryParams]="{ page: pager.last_page }"
-                      class="page-link">Fin</a>
-                  </li>
-                  <li class="page-item last-item disabled">
-                    <a class="page-link">{{pager.last_page}} page(s)</a>
-                  </li>
-                </ul>
-              </div>
+             <pagination-controls 
+                  id="ngxP1"
+                  (pageChange)="getPage($event)"
+                [maxSize]="9"
+                [directionLinks]="true"
+                [autoHide]="true"
+                [responsive]="true"
+                [previousLabel]="'Précédent'"
+                [nextLabel]="'Suivant'"
+                [screenReaderPaginationLabel]="'Pagination'"
+                [screenReaderPageLabel]="'page'"
+                [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+               </pagination-controls>
 
             </div>
           </div>

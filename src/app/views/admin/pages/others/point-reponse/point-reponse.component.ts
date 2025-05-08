@@ -72,14 +72,14 @@ export class PointReponseComponent implements OnInit {
     this.data=[]
     this._temp=[]
     if(this.user.agent_user!=null && (this.user.profil_user.direction==1)){
-    this.requeteService.getAllPointStructure(this.searchText,this.user.id,this.page,this.user.idEntite,this.user.agent_user.idStructure,1).subscribe((res:any)=>{
+    this.requeteService.getAllPointStructure(this.searchText,this.user.id,this.pg.pageSize,this.page,this.user.idEntite,this.user.agent_user.idStructure,1).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data?.data
       this._temp=this.data
       this.subject.next(res);
     })
     }else{
-      this.requeteService.getAllPoint(this.searchText,this.user.id,this.page,this.user.idEntite,1).subscribe((res:any)=>{
+      this.requeteService.getAllPoint(this.searchText,this.user.id,this.pg.pageSize,this.page,this.user.idEntite,1).subscribe((res:any)=>{
         this.spinner.hide();
         this.data=res.data
         this._temp=this.data
@@ -87,7 +87,13 @@ export class PointReponseComponent implements OnInit {
       })
     }
   }
-  
+   pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   user:any
 
@@ -166,14 +172,14 @@ export class PointReponseComponent implements OnInit {
     this._temp=[]
     this.data=[]
     if(this.user.agent_user!=null && (this.user.profil_user.direction==1)){
-      this.requeteService.getAllPointStructure(null,this.user.id,page,this.user.idEntite,this.user.agent_user.idStructure,1).subscribe((res:any)=>{
+      this.requeteService.getAllPointStructure(null,this.user.id,this.pg.pageSize,page,this.user.idEntite,this.user.agent_user.idStructure,1).subscribe((res:any)=>{
         this.spinner.hide();
         this.data=res.data?.data
         this._temp=this.data
         this.subject.next(res);
       })
     }else{
-      this.requeteService.getAllPoint(null,this.user.id,page,this.user.idEntite,1).subscribe((res:any)=>{
+      this.requeteService.getAllPoint(null,this.user.id,this.pg.pageSize,page,this.user.idEntite,1).subscribe((res:any)=>{
         this.spinner.hide();
         this.data=res.data?.data
         this._temp=this.data
@@ -301,4 +307,9 @@ ratioTodayFromDate(delaiTh:any, date:any) {
   return ratio;
 }
 
+
+ getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
+  }
 }

@@ -58,12 +58,19 @@ export class ListRequeteUpdateComponent implements OnInit {
   current_permissions: any[] = []
   selected_data: any
   isSended = false
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
 
   search() {
     this.data = []
     this._temp = []
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, "",
-      "", this.page).subscribe((res: any) => {
+      "", this.pg.pageSize,this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data;
         // this.data = res.data.filter((e:any)=>{
@@ -304,7 +311,7 @@ export class ListRequeteUpdateComponent implements OnInit {
     console.log(this.user)
     this._temp = []
     this.data = []
-    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, "", "", page).subscribe((res: any) => {
+    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, "", "",this.pg.pageSize, page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         this.data = res.data;
@@ -499,5 +506,9 @@ export class ListRequeteUpdateComponent implements OnInit {
         })
       }
     })
+  }
+    getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
   }
 }

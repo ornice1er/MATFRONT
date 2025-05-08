@@ -73,7 +73,7 @@ export class ManageRequeteUsagerComponent implements OnInit {
     this.requeteService.getAllForUser(this.user.idEntite,
       this.searchText,
       "true",this.user.id
-      , this.page).subscribe((res: any) => {
+      ,this.pg.pageSize, this.page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         if (res.data.isPaginate) {
@@ -282,7 +282,7 @@ search_text:any=""
     this.requeteService.getAllForUser(this.user.idEntite,
       null,
       "true",this.user.id
-      , page).subscribe((res: any) => {
+      ,this.pg.pageSize, page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         if (res.data.isPaginate) {
@@ -655,4 +655,9 @@ addRequeteusager(value:any){
   AppSweetAlert.simpleAlert("Ajout requête",  "Requête ajoutée avec succès", 'success')
 })     
 }
+
+    getPage(event:any){
+    this.pg.p=event
+    this.init(this.pg.p)
+  }
 }

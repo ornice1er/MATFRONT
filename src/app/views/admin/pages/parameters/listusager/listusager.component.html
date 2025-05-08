@@ -72,7 +72,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let el of data ; index as i">
+                                <tr *ngFor="let el of data | sampleSearch:search_text:'forUsers' | paginate: {
+                                id:'ngxP1',
+                                itemsPerPage: pg.pageSize,
+                                currentPage: pg.p,
+                                totalItems: pg.total }; index as i">
                                     <td>
                                             <input type="radio" [value]="el" ngModel name="get" (change)="checked($event,el)">
                                     </td>
@@ -100,34 +104,19 @@
                         </table>
                         <div class="d-flex justify-content-end p-2">
 
-                            <div *ngIf="pager!=Null">
-                                <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-                                    <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item first-item">
-                                        <a routerLink="/listusager" [queryParams]="{ page: 1 }" class="page-link">Début</a>
-                                    </li>
-
-                                    <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item previous-item">
-                                        <a routerLink="/listusager" [queryParams]="{ page: pager.current_page - 1 }"
-                                            class="page-link">Précédent</a>
-                                    </li>
-
-                                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.current_page === page}"
-                                        class="page-item number-item">
-                                        <a routerLink="/listusager" [queryParams]="{ page: page }" class="page-link">{{page}}</a>
-                                    </li>
-
-                                    <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item next-item">
-                                        <a routerLink="/listusager" [queryParams]="{ page: pager.current_page + 1 }"
-                                            class="page-link">Suivant</a>
-                                    </li>
-                                    <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item  next-item">
-                                        <a routerLink="/listusager" [queryParams]="{ page: pager.last_page }" class="page-link">Fin</a>
-                                    </li>
-                                    <li class="page-item last-item disabled">
-                                        <a class="page-link">{{pager.last_page}} page(s)</a>
-                                    </li>
-                                </ul>
-                            </div>
+                          <pagination-controls 
+                  id="ngxP1"
+                  (pageChange)="getPage($event)"
+                [maxSize]="9"
+                [directionLinks]="true"
+                [autoHide]="true"
+                [responsive]="true"
+                [previousLabel]="'Précédent'"
+                [nextLabel]="'Suivant'"
+                [screenReaderPaginationLabel]="'Pagination'"
+                [screenReaderPageLabel]="'page'"
+                [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+               </pagination-controls>
 
                         </div>
                     </div>
