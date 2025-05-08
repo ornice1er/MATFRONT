@@ -28,6 +28,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -80,9 +81,11 @@ export class ListStatPrestationComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private lsService:LocalStorageService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
   ) { }
 
   ngOnInit(): void {
+    this.observerService.setTitle('STATISTIQUES PRESTATIONS')
 
     
     if (this.lsService.get(GlobalName.userName) != null) {

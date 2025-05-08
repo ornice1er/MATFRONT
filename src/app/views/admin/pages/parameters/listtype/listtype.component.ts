@@ -21,6 +21,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-listtype',
@@ -95,11 +96,14 @@ export class ListtypeComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private localStorageService:LocalStorageService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
     ) {}
 
 
     user:any
     ngOnInit() {
+      this.observerService.setTitle('')
+
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
   

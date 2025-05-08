@@ -22,6 +22,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -113,7 +114,8 @@ export class ListacteursComponent implements OnInit {
     private acteursService:ActeurService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
     structures:any
@@ -122,6 +124,8 @@ export class ListacteursComponent implements OnInit {
     user:any
     idDepa:any
     ngOnInit() {
+      this.observerService.setTitle('')
+
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
       }

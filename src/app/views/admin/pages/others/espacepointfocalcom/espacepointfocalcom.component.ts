@@ -34,6 +34,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -164,7 +165,8 @@ export class EspacepointfocalcomComponent implements OnInit {
     private authService: AuthentificationService,
     private activatedRoute: ActivatedRoute,
     private institutionService:InstitutionService,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
   ) { }
 
 
@@ -238,6 +240,7 @@ export class EspacepointfocalcomComponent implements OnInit {
   selectedEntie=0
 
   ngOnInit(): void {
+    this.observerService.setTitle("ENREGISTREMENT D'UNE REQUÊTE")
 
     console.log(this.localStorageService.get(GlobalName.userName))
     if (this.localStorageService.get(GlobalName.userName) != null) {

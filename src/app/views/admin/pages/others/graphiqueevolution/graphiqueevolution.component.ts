@@ -26,6 +26,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -77,7 +78,8 @@ export class GraphiqueevolutionComponent implements OnInit {
     private usagersService:UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -123,6 +125,7 @@ export class GraphiqueevolutionComponent implements OnInit {
   }
   
   ngOnInit(): void {
+    this.observerService.setTitle("Graphe évolutif")
 
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)

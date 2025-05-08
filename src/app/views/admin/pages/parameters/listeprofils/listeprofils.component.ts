@@ -19,6 +19,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { ProfilService } from '../../../../../core/services/profil.service';
 import { UserService } from '../../../../../core/services/user.service';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
@@ -104,11 +105,13 @@ export class ListeprofilsComponent implements OnInit {
     private profilService:ProfilService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
     ) {}
 
 
   ngOnInit() {
-    
+    this.observerService.setTitle('')
+
    this.init()
   }
   init(){

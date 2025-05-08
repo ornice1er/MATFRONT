@@ -28,6 +28,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
@@ -162,7 +163,8 @@ export class ParcoursRegistreComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -221,6 +223,8 @@ export class ParcoursRegistreComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.observerService.setTitle('REGISTRE DE VISITE')
+
     this.prepare()
     this.router.events
       .subscribe(event => {

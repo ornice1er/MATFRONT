@@ -14,6 +14,7 @@ import { ServiceService } from '../../../../core/services/service.service';
 import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-list-stat-prestation-structure',
@@ -50,7 +51,8 @@ export class ListStatPrestationStructureComponent implements OnInit {
     private prestationService:ServiceService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -63,6 +65,7 @@ export class ListStatPrestationStructureComponent implements OnInit {
     this.collectionSize=this.data.length
   }
   ngOnInit(): void {
+    this.observerService.setTitle('Liste des prestations par structure')
 
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)

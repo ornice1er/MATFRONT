@@ -26,6 +26,7 @@ import { TypeService } from '../../../../core/services/type.service';
 import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-all-services',
@@ -155,11 +156,14 @@ export class AllServicesComponent implements OnInit {
     private typesService: TypeService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+        private observerService:ObserverService,
+  
   ) { }
 
 
   ngOnInit() {
+    this.observerService.setTitle('TOUS LES SERVICES')
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
       this.init()

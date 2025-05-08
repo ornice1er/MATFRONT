@@ -29,6 +29,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-list-suggestion',
@@ -100,13 +101,16 @@ export class ListSuggestionComponent implements OnInit {
     private suggestionService:UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
     // structures:[]=[]
 
     user:any
     ngOnInit() {
+      this.observerService.setTitle('SUGGESTIONS / QUESTIONS')
+
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
   

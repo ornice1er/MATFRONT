@@ -27,6 +27,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -118,7 +119,8 @@ export class ListRequeteAdjointComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private etapeService: EtapeService,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -173,6 +175,7 @@ export class ListRequeteAdjointComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
 
     this.prepare()
 

@@ -16,6 +16,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { AdvancedStatisticsService } from '../../../../core/services/advanced-statistics.service';
 import { ConfigService } from '../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-avanced-statistics',
@@ -38,10 +39,13 @@ export class AvancedStatisticsComponent implements OnInit {
     private router:Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalStorageService
+    private localStorageService : LocalStorageService,
+    private observerService:ObserverService
   ) { }
 
   ngOnInit(): void {
+    this.observerService.setTitle('Statistiques Avancées')
+
     this.getTogetherViews()
     this.getTogetherViews2()
     this.getPerformances()

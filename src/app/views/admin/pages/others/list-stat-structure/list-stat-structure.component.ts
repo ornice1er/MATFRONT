@@ -31,6 +31,7 @@ import { ConfigService } from '../../../../../core/utils/config-service';
 import { animate } from '@angular/animations';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
@@ -115,7 +116,8 @@ export class ListStatStructureComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
   
   ) { }
 
@@ -136,6 +138,7 @@ export class ListStatStructureComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle('STATISTIQUES - STRUCTURES')
 
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)

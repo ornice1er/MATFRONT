@@ -20,6 +20,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-listrapcom',
@@ -119,12 +120,15 @@ export class RapCommentComponent implements OnInit {
     private commentaireService:CommentaireService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalStorageService
+    private localStorageService : LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
 
   user:any
   ngOnInit() {
+    this.observerService.setTitle("Gestion des rapports d'exploitation")
+
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
 

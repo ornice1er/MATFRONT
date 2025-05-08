@@ -27,6 +27,7 @@ import { UsagerService } from '../../../../../core/services/usager.service';
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-graphiquestructure',
@@ -79,7 +80,8 @@ export class GraphiquestructureComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     
   ) { }
 
@@ -123,6 +125,7 @@ export class GraphiquestructureComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle("Graphe structure")
 
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)

@@ -22,6 +22,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -62,13 +63,16 @@ export class GuideComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService:LocalStorageService,
-    private profilService:ProfilService
+    private profilService:ProfilService,
+    private observerService:ObserverService
     ) {}
 
     // structures:[]=[]
 
     user:any
     ngOnInit() {
+      this.observerService.setTitle("Guide")
+
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
         

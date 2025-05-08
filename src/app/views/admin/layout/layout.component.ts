@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -12,6 +12,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { GlobalName } from '../../../core/utils/global-name';
 import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
 import { AuthentificationService } from '../../../core/services/authentification.service';
+import { ObserverService } from '../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-layout',
@@ -36,19 +37,27 @@ export class LayoutComponent {
   role:any
   current_user_role:any=''
   get_user: any;
-
+  title:any=""
 
   constructor(
     
     private authService:AuthentificationService,
     private router: Router,
     private toastr:ToastrService,
-    private lsService:LocalStorageService
+    private lsService:LocalStorageService,
+    private observerService:ObserverService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     
+    this.observerService.title$.subscribe(newTitle => {
+      this.title = newTitle;
+      this.cdr.detectChanges(); // Force Angular à mettre à jour le DOM correctement
+    });
+
     this.current_user_role=this.lsService.get(GlobalName.userRole)
+    
     
     if (this.lsService.get(GlobalName.userName) != null) {
        this.user = this.lsService.get(GlobalName.userName)

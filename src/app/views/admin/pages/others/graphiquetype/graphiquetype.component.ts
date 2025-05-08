@@ -29,6 +29,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartOptions, ChartType } from 'chart.js';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -82,7 +83,8 @@ export class GraphiquetypeComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     
   ) { }
 
@@ -129,7 +131,8 @@ export class GraphiquetypeComponent implements OnInit {
 
   ngOnInit(): void {
 
-    
+    this.observerService.setTitle("Graphe type")
+
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)
       this.prepare()

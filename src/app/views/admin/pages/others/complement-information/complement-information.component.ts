@@ -10,6 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-complement-information',
@@ -20,13 +21,19 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 })
 export class ComplementInformationComponent implements OnInit {
 
-  constructor(private requeteService:RequeteService,private activatedRoute:ActivatedRoute) { }
+  constructor(
+    private requeteService:RequeteService,
+    private activatedRoute:ActivatedRoute,
+    private observerService:ObserverService
+  ) { }
   data:any={
     message:"",
     id:""
   }
   Null=null
   ngOnInit(): void {
+    this.observerService.setTitle("Complément d'information")
+
     if (this.activatedRoute.snapshot.paramMap.get('id') !=null) {
       this.requeteService.getReponseRapide(this.activatedRoute.snapshot.paramMap.get('id')).subscribe((res: any) => {
         this.data=res.data

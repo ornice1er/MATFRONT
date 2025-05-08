@@ -6,6 +6,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-list-synthes-structure',
@@ -16,9 +17,13 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 })
 export class ListSynthesStructureComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private observerService:ObserverService
+  ) { }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
+
   }
 
 }

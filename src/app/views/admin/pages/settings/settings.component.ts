@@ -11,6 +11,7 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { animate } from '@angular/animations';
 import { SettingService } from '../../../../core/services/setting.service';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-settings',
@@ -25,10 +26,13 @@ setting:any={
 }
 settingRecup:any
   constructor(  
-  private settingService:SettingService
+  private settingService:SettingService,
+  private observerService:ObserverService
   ) { }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
+
    this.settingRecup= localStorage.getItem('mataccueilSettings');
    if(this.settingRecup != "null"){
     console.log(this.settingRecup)

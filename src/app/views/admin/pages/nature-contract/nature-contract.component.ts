@@ -18,6 +18,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { NatureContractService } from '../../../../core/services/nature-contract.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-nature-contract',
@@ -93,7 +94,8 @@ export class NatureContractComponent implements OnInit {
     private router:Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalStorageService
+    private localStorageService : LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
     acteurs:[]=[]
@@ -101,6 +103,8 @@ export class NatureContractComponent implements OnInit {
 
   user:any
   ngOnInit() {
+    this.observerService.setTitle('Liste des natures de contrat')
+
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
 

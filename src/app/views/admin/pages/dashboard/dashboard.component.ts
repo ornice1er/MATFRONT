@@ -18,6 +18,7 @@ import { ServiceService } from '../../../../core/services/service.service';
 import { StructureService } from '../../../../core/services/structure.service';
 import { TypeService } from '../../../../core/services/type.service';
 import { UsagerService } from '../../../../core/services/usager.service';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 
 @Component({
@@ -85,6 +86,7 @@ export class DashboardComponent {
     private usagersService:UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
   ) { }
   
   
@@ -106,7 +108,8 @@ export class DashboardComponent {
   }
   
   ngOnInit(): void {
-  
+    this.observerService.setTitle('Tableau de bord')
+
     if (this.localService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)
         console.log('ssssssssssssssss')

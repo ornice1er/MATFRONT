@@ -27,6 +27,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -130,7 +131,8 @@ export class ListRequeteServicesComponent implements OnInit {
     private lsService:LocalStorageService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private etapeService: EtapeService
+    private etapeService: EtapeService,
+    private observerService:ObserverService
   ) { }
 
   etapes :any[] = []
@@ -267,6 +269,7 @@ export class ListRequeteServicesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle(`Gestion des ${this.typeRequete}`)
 
     this.prepare()
     this.RelanceAWho = ""

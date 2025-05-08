@@ -26,6 +26,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
@@ -128,6 +129,7 @@ export class ListRequeteUpdateComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
   ) { }
 
 
@@ -231,6 +233,7 @@ export class ListRequeteUpdateComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
 
     this.prepare()
     this.RelanceAWho = ""

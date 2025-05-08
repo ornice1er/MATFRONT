@@ -24,6 +24,7 @@ import { StructureService } from '../../../../../core/services/structure.service
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-listdaterdv',
@@ -97,13 +98,16 @@ export class ListdaterdvComponent implements OnInit {
     private dateRdvService:DateRdvService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
     structures:[]=[]
 
   user:any
   ngOnInit() {
+    this.observerService.setTitle('')
+
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
 

@@ -27,6 +27,7 @@ import { LoadingComponent } from '../../../../components/loading/loading.compone
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-point-reponse',
@@ -104,6 +105,7 @@ export class PointReponseComponent implements OnInit {
     private usagersService:UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private observerService:ObserverService
   ) { }
   
   
@@ -120,6 +122,7 @@ export class PointReponseComponent implements OnInit {
     return this.etapes.find((e: any) => (e.id == id))
   }
   ngOnInit(): void {
+    this.observerService.setTitle('POINTS DES REPONSES')
 
     
     if (this.localService.get(GlobalName.userName) != null) {

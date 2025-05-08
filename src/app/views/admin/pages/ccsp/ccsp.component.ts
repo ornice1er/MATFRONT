@@ -15,6 +15,7 @@ import { LoadingComponent } from '../../../components/loading/loading.component'
 import { CcspServiceService } from '../../../../core/services/ccsp-service.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 @Component({
   selector: 'app-ccsp',
@@ -91,7 +92,8 @@ export class CcspComponent implements OnInit {
     private router:Router,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService : LocalStorageService
+    private localStorageService : LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
     acteurs:[]=[]
@@ -99,6 +101,8 @@ export class CcspComponent implements OnInit {
 
   user:any
   ngOnInit() {
+    this.observerService.setTitle('CCSP')
+
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
 

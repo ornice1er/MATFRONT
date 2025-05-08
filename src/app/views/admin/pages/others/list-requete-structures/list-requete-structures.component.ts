@@ -28,6 +28,7 @@ import { UserService } from '../../../../../core/services/user.service';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -133,7 +134,8 @@ export class ListRequeteStructuresComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -278,6 +280,7 @@ export class ListRequeteStructuresComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle(`Gestion des ${this.typeRequete}`)
 
     this.prepare()
     this.RelanceAWho = ""

@@ -15,6 +15,7 @@ import { UserService } from '../../../../core/services/user.service';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { ObserverService } from '../../../../core/utils/observer.service';
 
 
 @Component({
@@ -33,9 +34,11 @@ export class ProfilComponent implements OnInit {
   user:any
   file:File | null | undefined
   
-  constructor(private localService:LocalStorageService,private userService:UserService,private router:Router,private localStorageService:LocalStorageService) { }
+  constructor(private localService:LocalStorageService,private userService:UserService,private router:Router,private localStorageService:LocalStorageService, private observerService:ObserverService) { }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
+
       this.current_role=localStorage.getItem('mataccueilUserRole')?? ""
       this.user=this.localStorageService.get(GlobalName.userName)
       console.log('-----------------------------------12')     

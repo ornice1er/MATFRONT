@@ -21,6 +21,7 @@ import { NatureRequeteService } from '../../../../../core/services/nature-requet
 import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 @Component({
@@ -94,12 +95,15 @@ export class ListenatureComponent implements OnInit {
     private natureService:NatureRequeteService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private localStorageService:LocalStorageService
+    private localStorageService:LocalStorageService,
+    private observerService:ObserverService
     ) {}
 
 
     user:any
     ngOnInit() {
+      this.observerService.setTitle('')
+
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
   

@@ -105,7 +105,7 @@ export class AuthentificationService {
 
 
   logout(){
-    return this.http.get<any>(`${this.url}`);
+    return this.http.get<any>(`${ConfigService.toApiUrl("logout")}`);
   }
 
 }

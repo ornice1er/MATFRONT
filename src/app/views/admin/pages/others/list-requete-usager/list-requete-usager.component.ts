@@ -30,6 +30,7 @@ import { animate } from '@angular/animations';
 import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
+import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
@@ -94,7 +95,8 @@ export class ListRequeteUsagerComponent implements OnInit {
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService
+        private localStorageService:LocalStorageService,
+        private observerService:ObserverService
     
   ) { }
 
@@ -184,6 +186,8 @@ export class ListRequeteUsagerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.observerService.setTitle('')
+
     this.prepare()
     
     this.router.events
