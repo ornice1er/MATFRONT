@@ -271,7 +271,7 @@ export class StatspreocComponent implements OnInit {
 
       this.statConnetivite = []
       this.acteurService.getAllConnection(1).subscribe((res:any)=>{
-        this.statConnetivite = res
+        this.statConnetivite = res.data
         this._temp = this.statConnetivite
         this.collectionSize=this.statConnetivite.length
         console.log("sssssssssssssssss")

@@ -9,13 +9,23 @@
   mat-sidenav {
     width: 250px;
     background-color: #42358C;
-    border-radius: none !important;
+    border-radius: unset !important;
   }
 
   mat-expansion-panel{
-    border-radius: none !important;
+    border-radius: unset !important;
+    background-color: unset;
 
   }
+
+  mat-panel-title{
+    color: white !important;
+
+  }
+
+.white-icon path {
+  fill: #c8d4f1;
+}
 
   mat-toolbar{
     background-color: rgb(21, 15, 54);
@@ -28,5 +38,12 @@
 
  mdc-list-item__primary-text {
     color: white !important;
+  }
+
+
+  .active, .active span{
+    background-color: white !important;
+    color: black !important;
+    border-radius: unset !important;
   }
   

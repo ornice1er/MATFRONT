@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { LocalStorageService } from "./local-stoarge-service";
 import { GlobalName } from "./global-name";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { ConfigService } from "./config-service";
 
 
 @Injectable()
@@ -33,13 +34,16 @@ export class AppHttpInterceptor implements HttpInterceptor {
         if (error instanceof HttpErrorResponse) {
                 switch (error.status) {
                   case 401:
-                    this.lsService.remove(GlobalName.tokenName)
-                    this.lsService.remove(GlobalName.refreshTokenName)
-                    this.lsService.remove(GlobalName.expireIn)
-                    this.lsService.remove(GlobalName.userName)
-                    this.lsService.remove(GlobalName.exercice)
-                    this.modalService.dismissAll()
-                    this.router.navigate(['/auth/login'])
+                    if (error.url && error.url.includes(ConfigService.toApiUrl())) {
+                      this.lsService.remove(GlobalName.tokenName)
+                      this.lsService.remove(GlobalName.refreshTokenName)
+                      this.lsService.remove(GlobalName.expireIn)
+                      this.lsService.remove(GlobalName.userName)
+                      this.lsService.remove(GlobalName.exercice)
+                      this.modalService.dismissAll()
+                      this.router.navigate(['/auth/login'])
+                    }
+                   
                     break;
                   case 403:
                     break;

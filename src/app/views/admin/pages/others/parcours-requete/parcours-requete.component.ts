@@ -136,7 +136,7 @@ export class ParcoursRequeteComponent implements OnInit {
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
       this.checkType()?.id, this.page,this.selected_Struct,null,null,null,this.type_).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
+        this.data = res.data?.data
         this._temp = this.data
         this.subject.next(res);
       })
@@ -356,7 +356,7 @@ export class ParcoursRequeteComponent implements OnInit {
     this.selected_Idtype = event.target.value
     this.structures = []
     this.structureService.getStructureParThematique(this.selected_Idtype).subscribe((res:any)=>{
-      this.structures = res
+      this.structures = res.data
     })
   }
   prepare() {
@@ -390,7 +390,7 @@ export class ParcoursRequeteComponent implements OnInit {
     }
     this.etapes = []
     this.etapeService.getAll(this.selected_Entite).subscribe((res: any) => {
-      this.etapes = res
+      this.etapes = res.data
       this.activatedRoute.queryParams.subscribe((x:any) => this.init(x.page || 1));
     })
     
@@ -446,7 +446,7 @@ export class ParcoursRequeteComponent implements OnInit {
       this.checkType()?.id
       , page,this.selected_Struct,null,null,null,"").subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
+        this.data = res.data?.data
         this._temp = this.data
         this.subject.next(res);
       })

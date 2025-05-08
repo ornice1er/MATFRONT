@@ -70,7 +70,7 @@ export class ListRequeteServicesComponent implements OnInit {
       this.checkType()?.id, this.page).subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data;
-        this.data = res.data.filter((e:any)=>{
+        this.data = res.data.data?.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) ||
                     (e.lastparcours.idEtape==2 && e.lastparcours.idStructure == this.user.agent_user.idStructure) ||
@@ -343,7 +343,7 @@ export class ListRequeteServicesComponent implements OnInit {
          page).subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data; 
-        this.data = res.data.filter((e:any)=>{
+        this.data = res.data.data?.filter((e:any)=>{
           if(e.lastparcours != null){
             return (e.lastparcours.idEtape==1) ||
                     (e.lastparcours.idEtape==2 && e.lastparcours.idStructure == this.user.agent_user.idStructure) ||
@@ -365,7 +365,7 @@ export class ListRequeteServicesComponent implements OnInit {
       if (Array.isArray(res)) {
         this.data2 = res
       } else {
-        this.data2 = res.data
+        this.data2 = res.data?.data
       }
       this._temp2 = this.data2
 
@@ -373,21 +373,21 @@ export class ListRequeteServicesComponent implements OnInit {
 
     this.departements = []
     this.usagersService.getAllDepartement().subscribe((res: any) => {
-      this.departements = res
+      this.departements = res.data
     })
     this.structures = []
     this.structureService.getAll(1,this.user.idEntite).subscribe((res:any)=>{
-      this.structures = res
+      this.structures = res.data
     })
     this.services = []
     this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.filter((e:any)=>(e.published==1))
+      this.services = res.data?.filter((e:any)=>(e.published==1))
       this.services= this.services
     })
 
     this.structureservices = []
     this.structureService.getAllStructureByUser(this.user.id).subscribe((res: any) => {
-      this.structureservices = res
+      this.structureservices = res.data
     })
 
   }

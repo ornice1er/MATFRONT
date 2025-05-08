@@ -135,8 +135,9 @@ export class RapCommentComponent implements OnInit {
     this._temp=[]
     this.data=[]
     this.commentaireService.getAll().subscribe((res:any)=>{
+      console.log( this.data)
       this.spinner.hide();
-      this.data=res
+      this.data=res.data
       this._temp=this.data
       this.collectionSize=this.data.length
     })
