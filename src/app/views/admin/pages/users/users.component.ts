@@ -9,7 +9,7 @@ import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstr
 import { Router, ActivatedRoute } from '@angular/router';
 // import { UserService } from '../../../core/_services/user.service';
 
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -29,7 +29,7 @@ import { ObserverService } from '../../../../core/utils/observer.service';
 @Component({
   selector: 'app-users',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
@@ -50,6 +50,7 @@ export class UsersComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
+  loading:any=false
   is_active=null
   pg:any={
     pageSize:10,
@@ -78,7 +79,7 @@ search_text:any=""
 
   openEditModal(content:any){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert('error',"Erreur", "Veuillez selectionnez un élément puis réessayer");
       return;
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -116,7 +117,7 @@ search_text:any=""
 
   user:any
   ngOnInit() {
-    this.observerService.setTitle('')
+    this.observerService.setTitle('PARAMETRES - UTILISATEURS')
 
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
@@ -130,39 +131,40 @@ search_text:any=""
   }
   
   init(){
-    this._temp=[]
     this.data=[]
-    this.userService.getAll(this.user.idEntite).subscribe((res:any)=>{
+          this.spinner.show();
+
+    this.userService.getAll(this.user?.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
-      this.data=res
-      this._temp=this.data
-      this.collectionSize=this.data.length
+      this.data=res.data
     })
     this.profils=[]
     this.profilService.getAll().subscribe((res:any)=>{
-      this.profils=res
+      this.profils=res.data
     })
     this.acteurs=[]
-    this.acteursService.getAll(this.user.idEntite).subscribe((res:any)=>{
-      this.acteurs=res
+    this.acteursService.getAll(this.user?.idEntite).subscribe((res:any)=>{
+      this.acteurs=res.data
     })
   }
   
   create(value:any){
     value.idEntite=this.user.idEntite
     if(value.password==value.conf_password){
+      this.loading=true
       this.userService.create(value).subscribe((res:any)=>{
-      
+      this.loading=false
         this.modalService.dismissAll()
         //this.translate.instant('HOME.TITLE')
-        AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
+        AppSweetAlert.simpleAlert('success',"Nouvel ajout","Ajout effectué avec succès")
          this.init() 
        },(err:any)=>{
+        this.loading=false
          
          if(err.error.detail!=null){    
-           AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+           AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.detail)
          }else{
-           AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+           AppSweetAlert.simpleAlert('error',"Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet")
          }
        })
     }else{
@@ -174,7 +176,7 @@ search_text:any=""
 
   archive(){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert('error',"Erreur", "Veuillez selectionnez un élément puis réessayer");
       return;
     }
     AppSweetAlert.finishConfirm("Suppression",
@@ -182,9 +184,9 @@ search_text:any=""
       if (result.value) {
       this.userService.delete(this.selected_data.id).subscribe((res:any)=>{
         this.init()
-        AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
+        AppSweetAlert.simpleAlert('success',"Suppression", "Suppression effectuée avec succès")
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert('error',"Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet")
       })
     }
    })
@@ -196,19 +198,22 @@ search_text:any=""
     }
     value.idEntite=this.user.idEntite
     this.error="Le  mot de passe n'a pas été pris en compte car les deux ne sont pas identique"
+    this.loading=true
     this.userService.update(value,this.selected_data.id).subscribe((res:any)=>{
+      this.loading=false
       this.modalService.dismissAll()
       this.init()
-      AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
+      AppSweetAlert.simpleAlert('success',"Nouvelle modification",  "Motification effectué avec succès")
     }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      this.loading=false
+      AppSweetAlert.simpleAlert('error',"Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet")
     })
 	}
 
   setStatus(value:any){
   
         this.userService.setState(this.selected_data.id,value).subscribe((res:any)=>{
-          AppSweetAlert.simpleAlert("Nouvelle modification", res.message, 'success')
+          AppSweetAlert.simpleAlert('success',"Nouvelle modification", res.message)
 
           this.init()
       },

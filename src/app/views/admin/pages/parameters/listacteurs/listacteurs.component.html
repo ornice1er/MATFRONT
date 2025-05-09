@@ -1,9 +1,7 @@
 <!-- Container Fluid-->
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
 <div class="container-fluid" id="container-wrapper">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h3 class="h3 mb-0 text-gray-800">PARAMETRES ACTEUR</h3>
-    
-        </div>
         <div class="row d-flex">
             <div class="col-md-12">
                 <div class="card my-2">
@@ -130,7 +128,7 @@
                                             aria-hidden="true">×</span>
                                     </button>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Nom et Prénoms</label>
                                     <div class="col-md-6">
                                         <input class="form-control form-control-sm" #nomprenoms="ngModel" maxlength="250"
@@ -145,7 +143,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Type acteur</label>
                                     <div class="col-md-6">
                                         <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="idTypeacteur"
@@ -167,7 +165,7 @@
                                     </div>
                                 </div>
       
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Structure :</label>
                                     <div class="col-md-6">
                                         <select class="form-control form-control-sm" #idStructure="ngModel" maxlength="250"
@@ -182,7 +180,7 @@
                                     </div>
                                 </div>
     
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Département :</label>
                                     <div class="col-md-6">
                                         <select class="form-control form-control-sm" #idDepart="ngModel" 
@@ -198,7 +196,7 @@
                                     </div>
                                 </div>
     
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Commune :</label>
                                     <div class="col-md-6">
                                         <select class="form-control form-control-sm" #idComm="ngModel" 
@@ -216,7 +214,7 @@
     
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                                <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                             </div>
                         </form>
                     </ng-template>
@@ -235,7 +233,7 @@
                                             aria-hidden="true">×</span>
                                     </button>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                         <label class="col-md-4">Nom et Prénoms</label>
                                         <div class="col-md-6">
                                             <input class="form-control form-control-sm" #nomprenoms="ngModel" maxlength="250"
@@ -250,7 +248,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Type acteur</label>
                                         <div class="col-md-6">
                                             <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="idTypeacteur"
@@ -272,7 +270,7 @@
                                         </div>
                                     </div>
           
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Structure :</label>
                                         <div class="col-md-6">
                                             <select class="form-control form-control-sm" #idStructure="ngModel" maxlength="250"
@@ -289,7 +287,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Département :</label>
                                         <div class="col-md-6">
                                             <select class="form-control form-control-sm" #idDepart="ngModel" 
@@ -305,7 +303,7 @@
                                         </div>
                                     </div>
         
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Commune :</label>
                                         <div class="col-md-6">
                                             <select class="form-control form-control-sm" #idComm="ngModel" 
@@ -323,7 +321,7 @@
         
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                                <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                             </div>
                         </form>
                     </ng-template>

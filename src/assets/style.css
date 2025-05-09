@@ -626,7 +626,7 @@ dt {
 }
 
 .bg-pattern {
-  background-image: url("../images/bg-pattern.html");
+  background-image: url("images/bg-pattern.html");
   background-size: cover;
   background-position: bottom;
 }
@@ -3292,7 +3292,7 @@ table.focus-on tbody tr.focused td {
 }
 
 .accountbg {
-  background: url("../images/restaurant.png");
+  background: url("images/restaurant.png");
   position: absolute;
   background-position: center center;
   height: 100%;
@@ -3378,7 +3378,7 @@ table.focus-on tbody tr.focused td {
 }
 
 .error-bg {
-  background: url("../images/error.png");
+  background: url("images/error.png");
   position: absolute;
   background-position: center center;
   height: 100%;

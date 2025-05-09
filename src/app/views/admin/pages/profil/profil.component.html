@@ -18,7 +18,7 @@
                 <form #frmAddUser="ngForm" (ngSubmit)="saveUpdateProfil(frmAddUser.value)" class="form-horizontal" novalidate="">
                 	
 
-                  <div class="form-group row">
+                  <div class="form-group row mb-3">
                     <label class="col-sm-4 control-label">Nom </label>
                     <div class="col-sm-7">
                     {{user.agent_user==null ? '' : user.agent_user.nom}}

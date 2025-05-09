@@ -267,7 +267,7 @@
             </div>
             <div class="modal-body">
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label for="idEntite" class="col-sm-4">Structure de provenance</label>
                     <div class="col-sm-7" style="padding-right:0px;">
                         <select name="idEntite" id="idEntite" class="form-control form-control-sm" ngModel
@@ -277,7 +277,7 @@
 
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label for="dateRdv" class="col-sm-4">Date du prochain RDV</label>
                     <div class="col-sm-7" style="padding-right:0px;">
                             <input name="dateRdv" required type="date" id="dateRdv" class="form-control form-control-sm" ngModel />
@@ -287,7 +287,7 @@
                 <br>
 
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label class="col-sm-4" style="margin-right:15px;">Préoccupation concernée: </label>
 
                     <div class="col-sm-7" style="padding-left:0px;">
@@ -300,7 +300,7 @@
                         </select>
                     </div>
                 </div>
-                <div *ngIf="show_structures" class="form-group row" style="margin-top: 30px;">
+                <div *ngIf="show_structures" class="form-group row mb-3" style="margin-top: 30px;">
                     <label class="col-sm-4" style="margin-right:15px;">Structure </label>
 
                     <div class="col-sm-7" style="padding-left:0px;">
@@ -313,7 +313,7 @@
                 </div>
 
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
 
                     <label for="objet" class="col-sm-4">Objet du RDV</label>
                     <div class="col-sm-7" style="padding-right: 0px;">
@@ -323,7 +323,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label class="col-sm-4" style="margin-right:15px;">Créneaux : </label>
                     <div class="col-sm-7" style="padding-left: 0px;">
                         <select name="idRdvCreneau" id="idRdvCreneau" class="form-control form-control-sm"
@@ -334,7 +334,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label for="attente" class="col-sm-4">Vos attentes à l'issue de l'entretion :</label>
                     <div class="col-sm-8">
                         <textarea class="form-control form-control-sm has-error" id="attente" name="attente"
@@ -368,7 +368,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="idEntite" class="col-sm-4">Structure de provenance</label>
                         <div class="col-sm-7" style="padding-right:0px;">
                             <select name="idEntite" id="idEntite" class="form-control form-control-sm" [(ngModel)]="selected_data2.idEntite"
@@ -378,7 +378,7 @@
 
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="dateRdv" class="col-sm-4">Date du prochain RDV</label>
                         <div class="col-sm-7" style="padding-right:0px;">
                             <input name="dateRdv" required type="date" id="dateRdv" class="form-control form-control-sm" [(ngModel)]="selected_data2.dateRdv" />
@@ -387,7 +387,7 @@
                     <br>
 
 
-                    <div class="form-group row" style="margin-top: 30px;">
+                    <div class="form-group row mb-3" style="margin-top: 30px;">
                         <label class="col-sm-4" style="margin-right:15px;">Préoccupation concernée: </label>
 
                         <div class="col-sm-7" style="padding-left:0px;">
@@ -399,7 +399,7 @@
                             </select>
                         </div>
                     </div>
-                    <div *ngIf="show_structures" class="form-group row" style="margin-top: 30px;">
+                    <div *ngIf="show_structures" class="form-group row mb-3" style="margin-top: 30px;">
                         <label class="col-sm-4" style="margin-right:15px;">Structure </label>
 
                         <div class="col-sm-7" style="padding-left:0px;">
@@ -412,7 +412,7 @@
                     </div>
 
 
-                    <div class="form-group row" style="margin-top: 30px;">
+                    <div class="form-group row mb-3" style="margin-top: 30px;">
 
                         <label for="objet" class="col-sm-4">Objet du RDV</label>
                         <div class="col-sm-7" style="padding-right: 0px;">
@@ -422,7 +422,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row" style="margin-top: 30px;">
+                    <div class="form-group row mb-3" style="margin-top: 30px;">
                         <label class="col-sm-4" style="margin-right:15px;">Créneaux : </label>
                         <div class="col-sm-7" style="padding-left: 0px;">
                             <select name="idRdvCreneau" id="idRdvCreneau" class="form-control form-control-sm"
@@ -433,7 +433,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row" style="margin-top: 30px;">
+                    <div class="form-group row mb-3" style="margin-top: 30px;">
                         <label for="attente" class="col-sm-4">Vos attentes à l'issue de l'entretion :</label>
                         <div class="col-sm-8">
                             <textarea class="form-control form-control-sm has-error" id="attente" name="attente"
@@ -469,7 +469,7 @@
                     requête/plainte.</span>
                 <span class="help-inline has-error-col">{{errormessage}}</span>
                 <br><br>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label for="objet2" class="col-sm-4">Objet de la requête </label>
                     <div class="col-sm-8">
                         <input readonly="" type="text" class="form-control  form-control-sm has-error" id="objet2"
@@ -479,7 +479,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label class="col-sm-8" style="margin-right:15px;">Quel est votre degré de satisfaction
                         par rapport au délai de traitement de votre demande ? * </label>
                     <select name="noteDelai" style="width: 100px; height: 35px;" id="noteDelai" class="form-control form-control-sm"
@@ -490,7 +490,7 @@
 
 
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label class="col-sm-8" style="margin-right:15px;">Quel est votre degré de satisfaction
                         par rapport au résultat du traitement de votre sollicitation ? * </label>
                     <select name="noteResultat" style="width: 100px; height: 35px;" id="noteResultat" class="form-control form-control-sm"
@@ -504,7 +504,7 @@
 
 
 
-                <div class="form-group row" style="margin-top: 30px;">
+                <div class="form-group row mb-3" style="margin-top: 30px;">
                     <label for="commentaireNotation" class="col-sm-4">Commentaire :</label>
                     <div class="col-sm-8">
                         <textarea class="form-control form-control-sm has-error" id="commentaireNotation"
@@ -671,7 +671,7 @@
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager</h4>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!--label for="email" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-4">
@@ -691,7 +691,7 @@
 
                     </div>
 
-                    <!--div class="form-group row">
+                    <!--div class="form-group row mb-3">
                         <label for="tel" class="col-sm-2 control-label">Téléphone</label>
 
                         <div class="col-sm-4">
@@ -720,7 +720,7 @@
 
 
 
-                    <!--div class="form-group row">
+                    <!--div class="form-group row mb-3">
                         <label for="plainte" class="col-sm-2 control-label">Plainte <br>(oui ou non)
                         </label>
                         <div class="col-sm-1">
@@ -729,7 +729,7 @@
                         </div>
                     </div-->
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
 
                         <label for="plainte" class="col-sm-2 control-label">Type :</label>
                         <div class="col-sm-10">
@@ -742,7 +742,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                             <label for="idEntite" class="col-sm-4">Structure de provenance</label>
                             <div class="col-sm-7" style="padding-right:0px;">
                                 <select name="idEntite" id="idEntite" class="form-control form-control-sm"
@@ -752,7 +752,7 @@
     
                             </div>
                     </div>
-                    <div class="form-group row" *ngIf="selected_data.visible==0 && selected_data.plainte!=0">
+                    <div class="form-group row mb-3" *ngIf="selected_data.visible==0 && selected_data.plainte!=0">
 
                         <label for="link_to_prestation" class="col-sm-4 control-label">Préoccupation liée à une
                             prestation :</label>
@@ -767,7 +767,7 @@
                     </div>
 
 
-                    <!--div class="form-group row" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
+                    <!--div class="form-group row mb-3" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
 
                         <label for="idType" class="col-sm-2 control-label">Thématique :</label>
                         <div class="col-sm-10">
@@ -780,7 +780,7 @@
                     </div-->
                   
 
-                    <div class="form-group row" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
+                    <div class="form-group row mb-3" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
                         <label for="idPrestation" class="col-sm-2 control-label">Prestation :</label>
                         <div class="col-sm-10">
                             <select name="idPrestation" required id="idPrestation" class="form-control form-control-sm form-control-sm"
@@ -793,7 +793,7 @@
 
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="objet" class="col-sm-2 control-label">Objet :</label>
 
                         <div class="col-sm-10">
@@ -804,7 +804,7 @@
                     </div>
 
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="msgrequest" class="col-sm-2 control-label">Message :</label>
                         <div class="col-sm-10">
                             <textarea class="form-control form-control-sm has-error" id="msgrequest" name="msgrequest"
@@ -825,7 +825,7 @@
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Appréciation
                         de l'usager</h4>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="noteUsager" class="col-sm-2 control-label">Note :</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control form-control-sm has-error" id="noteUsager"
@@ -834,7 +834,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="commentaireNotation" class="col-sm-2 control-label">Commentaire de
                             l'usager :</label>
                         <div class="col-sm-10">
@@ -880,7 +880,7 @@
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager</h4>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <!--label for="email" class="col-sm-2 control-label">Email</label>
 
                         <div class="col-sm-4">
@@ -898,7 +898,7 @@
 
                     </div>
 
-                    <!--div class="form-group row">
+                    <!--div class="form-group row mb-3">
                         <label for="tel" class="col-sm-2 control-label">Téléphone</label>
 
                         <div class="col-sm-4">
@@ -925,7 +925,7 @@
 
 
 
-                    <!--div class="form-group row">
+                    <!--div class="form-group row mb-3">
                         <label for="plainte" class="col-sm-2 control-label">Plainte <br>(oui ou non)
                         </label>
                         <div class="col-sm-1">
@@ -933,7 +933,7 @@
 
                         </div>
                     </div-->
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
 
                         <label for="plainte" class="col-sm-2 control-label">Type :</label>
                         <div class="col-sm-10">
@@ -946,7 +946,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="idEntite" class="col-sm-4">Structure de provenance</label>
                         <div class="col-sm-7" style="padding-right:0px;">
                             <select name="idEntite" id="idEntite" class="form-control form-control-sm"
@@ -956,7 +956,7 @@
 
                         </div>
                     </div>
-                    <div class="form-group row" *ngIf="selected_type_preoccupation!=0">
+                    <div class="form-group row mb-3" *ngIf="selected_type_preoccupation!=0">
 
                         <label for="plainte" class="col-sm-4 control-label">Préoccupation liée à une
                             prestation :</label>
@@ -973,7 +973,7 @@
                             </label>
                         </div>
                     </div>
-                    <!--div class="form-group row" *ngIf="link_to_prestation==1 || selected_type_preoccupation==0">
+                    <!--div class="form-group row mb-3" *ngIf="link_to_prestation==1 || selected_type_preoccupation==0">
 
                         <label for="idType" class="col-sm-2 control-label">Thématique :</label>
                         <div class="col-sm-10">
@@ -985,7 +985,7 @@
                         </div>
                     </div-->
 
-                    <div class="form-group row" *ngIf="link_to_prestation==1 || selected_type_preoccupation==0">
+                    <div class="form-group row mb-3" *ngIf="link_to_prestation==1 || selected_type_preoccupation==0">
                         <label for="idPrestation" required class="col-sm-2 control-label">Prestation :</label>
                         <div class="col-sm-10">
                             <select name="idPrestation" id="idPrestation" class="form-control form-control-sm form-control-sm"
@@ -998,7 +998,7 @@
 
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="objet" class="col-sm-2 control-label">Objet :</label>
 
                         <div class="col-sm-10">
@@ -1008,7 +1008,7 @@
                     </div>
 
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                         <label for="msgrequest" class="col-sm-2 control-label">Message :</label>
                         <div class="col-sm-10">
                             <textarea class="form-control form-control-sm has-error" id="msgrequest" name="msgrequest"

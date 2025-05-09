@@ -1,9 +1,8 @@
 <!-- Container Fluid-->
-<div class="container-fluid" id="container-wrapper">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h3 class="h3 mb-0 text-gray-800">PARAMETRES / STRUCTURES</h3>
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
-    </div>
+<div class="container-fluid" id="container-wrapper">
+
     <div class="row d-flex">
         <div class="col-md-12">
             <div class="card my-2">
@@ -136,7 +135,7 @@
                                         aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Type de structure</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-group" required name="type_s" id="type_s" #type_s="ngModel" ngModel>
@@ -157,7 +156,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Libellé *</label>
                                 <div class="col-md-6">
                                     <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
@@ -172,7 +171,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Sigle</label>
                                 <div class="col-md-6">
                                     <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" name="sigle"
@@ -187,7 +186,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Email</label>
                                 <div class="col-md-6">
                                     <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
@@ -202,13 +201,13 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Sous tutelle de :</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-control-sm" #structure="ngModel" maxlength="250"
                                         name="idParent" ngModel>
                                         <option value=""></option>
-                                        <option [value]="e.id" *ngFor="let e of _temp">{{e.libelle}}</option>
+                                        <option [value]="e.id" *ngFor="let e of data">{{e.libelle}}</option>
                                     </select>
                                     <span *ngIf="structure.invalid && (structure.dirty || structure.touched)" class="text-danger">
                                         <small *ngIf="structure.errors?.['required']">
@@ -220,7 +219,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Activé</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-group" required name="active" id="active" #active="ngModel" ngModel>
@@ -240,7 +239,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
                         </div>
                     </form>
                 </ng-template>
@@ -259,7 +258,7 @@
                                         aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Type de structure</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-group" required name="type_s" id="type_s" #type_s="ngModel" [(ngModel)]="selected_data.type_s">
@@ -280,7 +279,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Libellé</label>
                                 <div class="col-md-6">
                                     <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
@@ -296,7 +295,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Sigle</label>
                                 <div class="col-md-6">
                                     <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" name="sigle"
@@ -311,7 +310,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Email</label>
                                 <div class="col-md-6">
                                     <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
@@ -326,13 +325,13 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Sous tutelle de :</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-control-sm" #structure="ngModel" maxlength="250"
                                         name="idParent" [(ngModel)]="selected_data.idParent">
                                         <option value=""></option>
-                                        <option [value]="e.id" *ngFor="let e of _temp">{{e.libelle}}</option>
+                                        <option [value]="e.id" *ngFor="let e of data">{{e.libelle}}</option>
                                     </select>
                                     <span *ngIf="structure.invalid && (structure.dirty || structure.touched)" class="text-danger">
                                         <small *ngIf="structure.errors?.['required']">
@@ -345,7 +344,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Activé</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-control-sm" required name="active" id="active" #active="ngModel" [(ngModel)]="selected_data.active">
@@ -365,7 +364,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
                         </div>
                     </form>
                 </ng-template>

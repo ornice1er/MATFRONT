@@ -139,7 +139,7 @@
                                     <a ngbNavLink>Générales</a>
                                     <ng-template ngbNavContent>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="libelle" class="col-sm-3 control-label">Libellé * </label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control form-control-sm has-error" id="libelle"
@@ -153,7 +153,7 @@
     margin-bottom: 12px;"
                                                 class="col-sm-12 control-label">Description</label> </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="consiste"
                                                     name="consiste" placeholder="En quoi consiste la
@@ -161,7 +161,7 @@ prestation ?"
                                                     value="{{default_data.consiste}}" [(ngModel)]="default_data.consiste"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="interetDemandeur"
                                                     name="interetDemandeur" placeholder="Quel est l’intérêt pour
@@ -169,14 +169,14 @@ le demandeur ?"
                                                     value="{{default_data.interetDemandeur}}" [(ngModel)]="default_data.interetDemandeur"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="obligatoire "
                                                     name="obligatoire " placeholder="Est-elle obligatoire ?" value="{{default_data.obligatoire }}"
                                                     [(ngModel)]="default_data.obligatoire "></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="echeance"
                                                     name="echeance" placeholder="A-t-elle une échéance
@@ -184,7 +184,7 @@ le demandeur ?"
                                                     value="{{default_data.echeance}}" [(ngModel)]="default_data.echeance"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="interetDemanderTot"
                                                     name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
@@ -199,7 +199,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row ">
+                                        <div class="form-group row mb-3 ">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
@@ -211,7 +211,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="idType" class="col-sm-3 control-label">Type service *</label>
                                             <div class="col-sm-9">
 
@@ -223,7 +223,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="piecesAFournir" class="col-sm-3 control-label">Pièces à fournir
                                             </label>
                                             <div class="col-sm-9">
@@ -233,7 +233,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="dateredac" class="col-sm-5 control-label">Date de rédaction</label>
                                             <div class="col-sm-7">
                                                 <div class="form-group">
@@ -246,7 +246,7 @@ demander plus tôt ?"
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="delai" class="col-sm-3 control-label">Délai à afficher à
                                                 l'usager</label>
                                             <div class="col-sm-9">
@@ -256,7 +256,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="delaiFixe" class="col-sm-3 control-label">Délai fixe </label>
                                             <div class="col-sm-1">
                                                 <input type="checkbox" id="delaiFixe" name="delaiFixe" [(ngModel)]="default_data.delaiFixe">
@@ -275,7 +275,7 @@ demander plus tôt ?"
 
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="access_online" class="col-sm-3 control-label">Disponible en
                                                 ligne </label>
                                             <div class="col-sm-1">
@@ -285,7 +285,7 @@ demander plus tôt ?"
                                             </div>
 
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
 
                                             <label style="margin-left:40px;" for="access_url" class="col-sm-4 control-label"
                                                 *ngIf="default_data.access_online">Url de sollicitation</label>
@@ -295,7 +295,7 @@ demander plus tôt ?"
                                             </div>
 
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
 
                                             <label style="margin-left:40px;" for="view_url" class="col-sm-4 control-label"
                                                 *ngIf="default_data.access_online">Url de consultation</label>
@@ -312,7 +312,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Autres</a>
                                     <ng-template ngbNavContent>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="cout" class="col-sm-3 control-label">Coût (FCFA) </label>
                                             <div class="col-sm-9">
                                                 <input type="number" required class="form-control form-control-sm has-error"
@@ -324,7 +324,7 @@ demander plus tôt ?"
                                         </div>
 
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="lieuDepot" class="col-sm-3 control-label">Lieu de dépôt</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuDepot"
@@ -334,7 +334,7 @@ demander plus tôt ?"
                                         </div>
 
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de retrait</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuRetrait"
@@ -345,7 +345,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="textesRegissantPrestation" class="col-sm-3 control-label">Textes
                                                 régissant
                                                 la prestation</label>
@@ -357,7 +357,7 @@ demander plus tôt ?"
 
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="hide_for_public" class="col-sm-3 control-label">Cacher au
                                                 public </label>
                                             <div class="col-sm-1">
@@ -375,7 +375,7 @@ demander plus tôt ?"
                             <div [ngbNavOutlet]="nav" class="mt-2"></div>
 
 
-                            <!--div class="form-group row">
+                            <!--div class="form-group row mb-3">
                                 <label for="nomSousG" class="col-sm-6 control-label">Nom du sous-groupe ayant rédigé</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm has-error" id="nomSousG"
@@ -383,7 +383,7 @@ demander plus tôt ?"
                                         ngModel >
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label for="nomPresidentSG" class="col-sm-6 control-label">Nom du président du
                                     sous-groupe</label>
                                 <div class="col-sm-6">
@@ -392,7 +392,7 @@ demander plus tôt ?"
                                         ngModel>
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label for="contactPresidentSG" class="col-sm-6 control-label">Contact du président du
                                     sous-groupe</label>
                                 <div class="col-sm-6">
@@ -429,7 +429,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Générales</a>
                                     <ng-template ngbNavContent>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="libelle" class="col-sm-3 control-label">Libellé * </label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control form-control-sm has-error" id="libelle"
@@ -443,7 +443,7 @@ demander plus tôt ?"
     margin-bottom: 12px;"
                                                 class="col-sm-12 control-label">Description</label> </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="consiste"
                                                     name="consiste" placeholder="En quoi consiste la
@@ -451,7 +451,7 @@ prestation ?"
                                                     value="{{selected_data.consiste}}" [(ngModel)]="selected_data.consiste"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="interetDemandeur"
                                                     name="interetDemandeur" placeholder="Quel est l’intérêt pour
@@ -459,14 +459,14 @@ le demandeur ?"
                                                     value="{{selected_data.interetDemandeur}}" [(ngModel)]="selected_data.interetDemandeur"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="obligatoire "
                                                     name="obligatoire " placeholder="Est-elle obligatoire ?" value="{{selected_data.obligatoire }}"
                                                     [(ngModel)]="selected_data.obligatoire "></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="echeance"
                                                     name="echeance" placeholder="A-t-elle une échéance
@@ -474,7 +474,7 @@ le demandeur ?"
                                                     value="{{selected_data.echeance}}" [(ngModel)]="selected_data.echeance"></textarea>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="interetDemanderTot"
                                                     name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
@@ -489,7 +489,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row " *ngIf="user.profil_user.pointfocal!=1 && user.profil_user.direction!=1">
+                                        <div class="form-group row mb-3 " *ngIf="user.profil_user.pointfocal!=1 && user.profil_user.direction!=1">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
@@ -501,7 +501,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="idType" class="col-sm-3 control-label">Type service *</label>
                                             <div class="col-sm-9">
 
@@ -513,7 +513,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="piecesAFournir" class="col-sm-3 control-label">Pièces à fournir
                                             </label>
                                             <div class="col-sm-9">
@@ -523,7 +523,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="dateredac" class="col-sm-5 control-label">Date de rédaction</label>
                                             <div class="col-sm-7">
                                                 <div class="form-group">
@@ -536,7 +536,7 @@ demander plus tôt ?"
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="delai" class="col-sm-3 control-label">Délai à afficher à
                                                 l'usager</label>
                                             <div class="col-sm-9">
@@ -546,7 +546,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="delaiFixe" class="col-sm-3 control-label">Délai fixe </label>
                                             <div class="col-sm-1">
                                                 <input type="checkbox" id="delaiFixe" name="delaiFixe" [(ngModel)]="selected_data.delaiFixe">
@@ -565,7 +565,7 @@ demander plus tôt ?"
 
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="access_online" class="col-sm-3 control-label">Disponible en
                                                 ligne </label>
                                             <div class="col-sm-1">
@@ -575,7 +575,7 @@ demander plus tôt ?"
                                             </div>
 
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
 
                                             <label style="margin-left:40px;" for="access_url" class="col-sm-4 control-label"
                                                 *ngIf="selected_data.access_online">Url de sollicitation</label>
@@ -586,7 +586,7 @@ demander plus tôt ?"
 
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
 
                                             <label style="margin-left:40px;" for="view_url" class="col-sm-4 control-label"
                                                 *ngIf="selected_data.access_online">Url de consultation</label>
@@ -603,7 +603,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Autres</a>
                                     <ng-template ngbNavContent>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="cout" class="col-sm-3 control-label">Coût (FCFA) </label>
                                             <div class="col-sm-9">
                                                 <input type="number" required class="form-control form-control-sm has-error"
@@ -615,7 +615,7 @@ demander plus tôt ?"
                                         </div>
 
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="lieuDepot" class="col-sm-3 control-label">Lieu de dépôt</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuDepot"
@@ -625,7 +625,7 @@ demander plus tôt ?"
                                         </div>
 
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de retrait</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuRetrait"
@@ -636,7 +636,7 @@ demander plus tôt ?"
                                             </div>
                                         </div>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="textesRegissantPrestation" class="col-sm-3 control-label">Textes
                                                 régissant
                                                 la prestation</label>
@@ -648,7 +648,7 @@ demander plus tôt ?"
 
                                             </div>
                                         </div>
-                                        <div class="form-group row">
+                                        <div class="form-group row mb-3">
                                             <label for="hide_for_public" class="col-sm-3 control-label">Cacher au
                                                 public </label>
                                             <div class="col-sm-1">
@@ -665,13 +665,13 @@ demander plus tôt ?"
 
                             <div [ngbNavOutlet]="nav" class="mt-2"></div>
 
-                            <!-- <div class="form-group row">
+                            <!-- <div class="form-group row mb-3">
                                     <div class="col-sm-12">
                                         <textarea class="form-control form-control-sm has-error" id="description" name="description" placeholder="Date" value="{{selected_data.description}}" [(ngModel)]="selected_data.description" ></textarea>
                                     </div>
                                 </div> -->
 
-                            <!--div class="form-group row">
+                            <!--div class="form-group row mb-3">
                                 <label for="nomSousG" class="col-sm-6 control-label">Nom du sous-groupe ayant rédigé</label>
                                 <div class="col-sm-6">
                                     <input type="text" class="form-control form-control-sm has-error" id="nomSousG"
@@ -679,7 +679,7 @@ demander plus tôt ?"
                                         [(ngModel)]="selected_data.nomSousG" >
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label for="nomPresidentSG" class="col-sm-6 control-label">Nom du président du
                                     sous-groupe</label>
                                 <div class="col-sm-6">
@@ -688,7 +688,7 @@ demander plus tôt ?"
                                         [(ngModel)]="selected_data.nomPresidentSG" >
                                 </div>
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-3">
                                 <label for="contactPresidentSG" class="col-sm-6 control-label">Contact du président du
                                     sous-groupe</label>
                                 <div class="col-sm-6">
@@ -716,7 +716,7 @@ demander plus tôt ?"
                             <form #frmpiece="ngForm" (ngSubmit)="addPiece(frmpiece.value)" class="form-horizontal"
                                 novalidate="">
 
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label for="libelle" class="col-sm-3 control-label">Prestation * </label>
                                     <div class="col-sm-8">
                                         <input readonly="" type="text" class="form-control form-control-sm has-error"
@@ -727,7 +727,7 @@ demander plus tôt ?"
                                 </div>
                                 <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
 
-                                    <div class="form-group row ">
+                                    <div class="form-group row mb-3 ">
                                         <label class="col-sm-2 control-label">Pièce : </label>
                                         <span style="color:red;">{{errorajout}}</span>
                                         <div class="col-sm-7">

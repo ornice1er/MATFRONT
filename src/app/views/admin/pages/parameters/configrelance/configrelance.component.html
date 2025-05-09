@@ -107,7 +107,7 @@
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span>
                   </button>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label class="col-md-4">Message</label>
                   <div class="col-md-6">
                     <textarea class="form-control form-control-sm has-error"  rows="10" #msg_relance="ngModel" id="msg_relance" ngModel name="msg_relance"></textarea>
@@ -117,7 +117,7 @@
                     </span>
                   </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label class="col-md-4">à partir de (précisez le niveau de relance)</label>
                     <div class="col-md-6">
                       <input class="form-control form-control-sm" #apartir_de="ngModel" type="number" required name="apartir_de"
@@ -128,7 +128,7 @@
                       </span>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                     <label class="col-md-4">Acteur </label>
                     <div class="col-md-6">
                       <select class="form-control " name="listuser" id="" [(ngModel)]="selected_iduse">
@@ -159,7 +159,7 @@
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span>
                   </button>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label class="col-md-4">Message</label>
                   <div class="col-md-8">
                     <textarea class="form-control form-control-sm has-error" required [(ngModel)]="selected_data.msg_relance" rows="5" #msg_relance="ngModel" id="msg_relance" ngModel name="msg_relance"></textarea>
@@ -169,7 +169,7 @@
                     </span>
                   </div>
                 </div>
-                <div  *ngIf="!user_prin" class="form-group row">
+                <div  *ngIf="!user_prin" class="form-group row mb-3">
                   <label class="col-md-4">à partir de (précisez le niveau de relance)</label>
                   <div class="col-md-8">
                     <input class="form-control form-control-sm"  required [(ngModel)]="selected_data.apartir_de" #apartir_de="ngModel" type="number" required name="apartir_de"
@@ -180,7 +180,7 @@
                     </span>
                   </div>
               </div>
-              <div  *ngIf="!user_prin" class="form-group row">
+              <div  *ngIf="!user_prin" class="form-group row mb-3">
                   <label class="col-md-4">Acteur</label>
                   <div class="col-md-8">
                     <select class="form-control" name="listuser" required id="" [(ngModel)]="selected_data.id_user">

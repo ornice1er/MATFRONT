@@ -20,7 +20,7 @@ export class ActeurService {
   }
 
   getAllCommune(idDepar:any){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("commune")}/${idDepar}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("departement-commune")}/${idDepar}`);
   }
   get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("acteur/getprofil/")}${id}`).pipe(
@@ -44,7 +44,7 @@ export class ActeurService {
 
 
   createGra(ressource:any){
-    return this.http.post<any>(`${ConfigService.toApiUrl("acteur")}`, ressource,
+    return this.http.post<any>(`${ConfigService.toApiUrl("acteurs/store")}`, ressource,
      ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
@@ -56,7 +56,7 @@ export class ActeurService {
     );
   }
   update(ressource:any,id:any){
-    return this.http.post<any>(`${ConfigService.toApiUrl("acteur/")}${id}`, ressource,
+    return this.http.post<any>(`${ConfigService.toApiUrl("acteurs/")}${id}`, ressource,
      ).pipe(
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );

@@ -200,7 +200,7 @@
 
 
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label for="plainte" class="col-sm-2 control-label">Type :</label>
                   <div class="col-sm-4">
                     <select name="plainte" id="plainte" class="form-control form-control-sm" required [(ngModel)]=selected_data.plainte>
@@ -218,7 +218,7 @@
                   </div>
                 </div>
                 <!--table>selected_data.visible==0 && </table-->
-                <div class="form-group row" *ngIf="selected_data.plainte!=0">
+                <div class="form-group row mb-3" *ngIf="selected_data.plainte!=0">
 
                     <label for="link_to_prestation" class="col-sm-4 control-label">Préoccupation liée à une
                         prestation :</label>
@@ -232,7 +232,7 @@
                     </div>
                 </div>
                
-                <!--div class="form-group row" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
+                <!--div class="form-group row mb-3" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
 
                   <label for="idType" class="col-sm-2 control-label">Thématique :</label>
                   <div class="col-sm-10">
@@ -244,7 +244,7 @@
                   </div>
                 </div-->
 
-                <div class="form-group row" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
+                <div class="form-group row mb-3" *ngIf="selected_data.link_to_prestation==1 || selected_data.plainte==0">
                   <label for="idPrestation" class="col-sm-2 control-label">Prestation :</label>
                   <div class="col-sm-10">
                     <select name="idPrestation" required id="idPrestation" class="form-control form-control-sm form-control-sm"
@@ -258,7 +258,7 @@
                 </div>
               
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label for="objet" class="col-sm-2 control-label">Objet :</label>
 
                   <div class="col-sm-10">
@@ -268,7 +268,7 @@
                 </div>
 
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label for="msgrequest" class="col-sm-2 control-label">Message :</label>
                   <div class="col-sm-10">
                     <textarea class="form-control has-error" id="msgrequest" name="msgrequest" placeholder="Message de la requête"
@@ -288,7 +288,7 @@
                 <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Appréciation
                   de l'usager</h4>
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label for="noteUsager" class="col-sm-2 control-label">Note :</label>
                   <div class="col-sm-10">
                     <input type="text" class="form-control has-error" id="noteUsager" name="noteUsager" placeholder=""
@@ -296,7 +296,7 @@
                   </div>
                 </div>
 
-                <div class="form-group row">
+                <div class="form-group row mb-3">
                   <label for="commentaireNotation" class="col-sm-2 control-label">Commentaire de l'usager :</label>
                   <div class="col-sm-10">
                     <textarea class="form-control has-error" id="commentaireNotation" name="commentaireNotation" value="{{selected_data.commentaireNotation}}"
@@ -544,7 +544,7 @@
                   </div>
                 </div>
               </fieldset>
-              <div class="form-group row mt-3">
+              <div class="form-group row mb-3 mt-3">
                 <label for="idEntite" class="col-sm-4">Structure destinatrice</label>
                 <div class="col-sm-8">
                     <select name="idEntiteReceive" id="idEntite" class="form-control form-control-sm" ngModel
@@ -554,7 +554,7 @@
 
                 </div>
               </div>
-              <div  class="form-group row" style="margin-top: 30px;">
+              <div  class="form-group row mb-3" style="margin-top: 30px;">
                 <label class="col-sm-4" >Structure </label>
 
                 <div class="col-sm-8" style="padding-left:0px;">
@@ -613,7 +613,7 @@
                 </div>
               </fieldset>
             
-              <div  class="form-group row" style="margin-top: 30px;">
+              <div  class="form-group row mb-3" style="margin-top: 30px;">
                 <label class="col-sm-4" >Structure </label>
 
                 <div class="col-sm-8" style="padding-left:0px;">

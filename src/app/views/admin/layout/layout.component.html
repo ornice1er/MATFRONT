@@ -20,7 +20,7 @@
           </mat-expansion-panel-header>
       
           <mat-nav-list>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/liststructure"><span class="text-white">Accueil</span></a>
+            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/liststructure"><span class="text-white">Structure</span></a>
             <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/listacteur"><span class="text-white">Acteurs</span></a>
             <a *ngIf="user?.profil_user?.superadmin==1"  mat-list-item routerLinkActive="active" routerLink="/admin/users-main"><span class="text-white">Utilisateurs</span></a>
             <a *ngIf="user?.profil_user?.admin_sectoriel==1"  mat-list-item routerLinkActive="active" routerLink="/admin/users"><span class="text-white">Utilisateurs</span></a>

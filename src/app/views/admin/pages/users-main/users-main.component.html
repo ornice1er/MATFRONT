@@ -130,7 +130,7 @@
                                             aria-hidden="true">×</span>
                                     </button>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                         <label for="idEntite" class="col-sm-4">Ministères / Institutions</label>
                                         <div class="col-sm-7" style="padding-right:0px;">
                                             <select name="idEntite" id="idEntite" class="form-control form-control-sm" ngModel (change)="loadActeur($event)">
@@ -140,7 +140,7 @@
                                         </div>
                                 </div>
                                 
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Profil *</label>
                                     <div class="col-md-6">
                                         <select class="form-control form-control-sm" #idprofil="ngModel" maxlength="250"
@@ -158,7 +158,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row" *ngIf="!hide_actors">
+                                <div class="form-group row mb-3" *ngIf="!hide_actors">
                                         <label class="col-md-4">Sélectionner l'acteur * </label>
                                         <div class="col-md-6">
                                             <select class="form-control form-control-sm" #acteur="ngModel" maxlength="250" name="idagent"
@@ -175,7 +175,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Activé (e) *</label>
                                         <div class="col-md-6">
                                             <input type="checkbox" value="false" name="statut" ngModel>
@@ -183,7 +183,7 @@
                                     </div>
     
     
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Email</label>
                                     <div class="col-md-6">
                                         <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
@@ -198,7 +198,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Mot de passe *</label>
                                     <div class="col-md-6">
                                         <input type="password" class="form-control form-control-sm" #password="ngModel"
@@ -213,7 +213,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group row mb-3">
                                     <label class="col-md-4">Confirmer le mot de passe *</label>
                                     <div class="col-md-6">
                                         <input type="password" class="form-control form-control-sm" #conf_password="ngModel"
@@ -252,7 +252,7 @@
                                 </div>
                              
                                   
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Email</label>
                                         <div class="col-md-6">
                                             <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
@@ -267,14 +267,14 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                             <label class="col-md-4">Activé (e) *</label>
                                             <div class="col-md-6">
                                                 <input type="checkbox" value="false" name="statut" [(ngModel)]="selected_data.statut">
                                             </div>
                                     </div>
             
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Mot de passe *</label>
                                         <div class="col-md-6">
                                             <input type="password" class="form-control form-control-sm" #password="ngModel"
@@ -289,7 +289,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
+                                    <div class="form-group row mb-3">
                                         <label class="col-md-4">Confirmer le mot de passe *</label>
                                         <div class="col-md-6">
                                             <input type="password" class="form-control form-control-sm" #conf_password="ngModel"

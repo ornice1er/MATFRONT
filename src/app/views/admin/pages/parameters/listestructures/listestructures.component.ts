@@ -9,7 +9,7 @@ import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstr
 import { Router, ActivatedRoute } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -26,7 +26,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listestructures',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule],
   templateUrl: './listestructures.component.html',
   styleUrls: ['./listestructures.component.css']
 })
@@ -54,6 +54,7 @@ export class ListestructuresComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+loading:any=false
   search(){ 
     this.data=this._temp.filter(r => {
       const term = this.searchText.toLowerCase();
@@ -73,7 +74,7 @@ search_text:any=""
 
   openEditModal(content:any){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert('error',"Erreur", "Veuillez selectionnez un élément puis réessayer");
       return;
     }
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -108,22 +109,18 @@ search_text:any=""
 
   user:any
   ngOnInit() {
-    this.observerService.setTitle('')
+    this.observerService.setTitle('PARAMETRES - STRUCTURES')
 
-    if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localStorageService.get(GlobalName.userName)
-    }
+         this.user = this.localStorageService.get(GlobalName.userName)
     this.init()
   }
   init(){
     this._temp=[]
     this.data=[]
-    
-    this.structureService.getAll(0,this.user.idEntite).subscribe((res:any)=>{
+    this.spinner.show();
+    this.structureService.getAll(0,this.user?.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
-      this.data=res
-      this._temp=this.data
-      this.collectionSize=this.data.length
+      this.data=res.data
     })
   }
   checked(event:any, el:any) {
@@ -131,19 +128,22 @@ search_text:any=""
   }
   
   create(value:any){
-    value.idEntite=this.user.idEntite
+    value.idEntite=this.user?.idEntite
+    this.loading=true
     this.structureService.create(value).subscribe((res:any)=>{
-      
+          this.loading=false
+
      this.modalService.dismissAll()
      //this.translate.instant('HOME.TITLE')
-     AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
+     AppSweetAlert.simpleAlert('success',"Nouvel ajout","Ajout effectué avec succès")
       this.init() 
     },(err:any)=>{
-      
+          this.loading=false
+
       if(err.error.detail!=null){    
-        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.detail)
       }else{
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert('error',"Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet")
       }
     })
   }
@@ -151,7 +151,7 @@ search_text:any=""
 
   archive(){
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert("error","Erreur", "Veuillez selectionnez un élément puis réessayer");
       return;
     }
     AppSweetAlert.confirmBox("Suppression",
@@ -159,10 +159,10 @@ search_text:any=""
       if (result.value) {
       this.structureService.delete(this.selected_data.id).subscribe((res:any)=>{
        this.init()
-        AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
+        AppSweetAlert.simpleAlert('success',"Suppression", "Suppression effectuée avec succès")
         this.init()
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("error","Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet")
       })
     }
    })
@@ -170,12 +170,18 @@ search_text:any=""
   edit(value:any) {
     value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
+        this.loading=true
+
     this.structureService.update(value,this.selected_data.id).subscribe((res:any)=>{
+        this.loading=false
+
       this.modalService.dismissAll()
       this.init()
-      AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
+      AppSweetAlert.simpleAlert('success',"Nouvelle modification",  "Motification effectué avec succès")
     }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        this.loading=false
+
+      AppSweetAlert.simpleAlert( 'error',"Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet")
     })
 	}
 

@@ -137,14 +137,14 @@ export class DashboardComponent {
     this.requeteService.getStat(this.user.id,0,this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       if(res){
-        this.stats=res
+        this.stats=res.data
       }
     })
     this.statsCour=[]
     this.requeteService.getStatCour(this.user.id,0,this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       if(res){
-        this.statsCour=res
+        this.statsCour=res.data
       }
     })
   
@@ -155,7 +155,7 @@ export class DashboardComponent {
     ).subscribe((res:any)=>{
       this.spinner.hide();
       if(res){
-        this.stats1=res
+        this.stats1=res.data
       }
     })
     this.stats2=[]
@@ -165,7 +165,7 @@ export class DashboardComponent {
     ).subscribe((res:any)=>{
       this.spinner.hide();
       if(res){
-        this.stats2=res
+        this.stats2=res.data
       }
     })
   

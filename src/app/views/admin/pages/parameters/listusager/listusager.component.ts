@@ -153,9 +153,7 @@ search_text:any=""
   ngOnInit() {
     this.observerService.setTitle('')
 
-    if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localStorageService.get(GlobalName.userName)
-    }
+         this.user = this.localStorageService.get(GlobalName.userName)
 
     this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
 

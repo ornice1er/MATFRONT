@@ -47,3 +47,8 @@
     border-radius: unset !important;
   }
   
+
+::ng-deep  .mat-expansion-indicator svg{
+    fill:white !important;
+  }
+

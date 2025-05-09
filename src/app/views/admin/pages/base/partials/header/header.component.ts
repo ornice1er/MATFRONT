@@ -69,9 +69,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
 
     this.current_role = localStorage.getItem('mataccueilUserRole')
-    if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localStorageService.get(GlobalName.userName)
-    }
+         this.user = this.localStorageService.get(GlobalName.userName)
 
     if (this.current_role != Roles.Admin && this.current_role != Roles.SubAdmin) {
 

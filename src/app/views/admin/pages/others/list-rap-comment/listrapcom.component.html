@@ -131,24 +131,24 @@
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span>
                       </button>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Date début</label>
                       <div class="col-md-8"> <input name="datedebut" required type="date" id="datedebut" class="form-control form-control-sm" ngModel /> </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Date fin</label>
                       <div class="col-md-8"> 
                         <input name="datefin" required type="date" id="datefin" class="form-control form-control-sm" ngModel /> 
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Fichier (PDF)</label>
                       <div class="col-md-8"> 
                         <input type="file" class="form-control" required (change)="onFileChange($event)" #file="ngModel" name="fichier" ngModel>
                       </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Commentaires</label>
                       <div class="col-md-8"> 
                         <textarea class="form-control form-control-sm has-error" required id="comment" rows="4" name="comment" ngModel placeholder="Faites vos commentaires"></textarea>
@@ -175,24 +175,24 @@
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">×</span>
                       </button>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Date début</label>
                       <div class="col-md-8"> <input name="datedebut" required type="date" id="datedebut" class="form-control form-control-sm" [(ngModel)]="selected_data.date_debut_com" ngModel /> </div>
                     </div>
 
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Date fin</label>
                       <div class="col-md-8"> 
                         <input name="datefin" required type="date" id="datefin" class="form-control form-control-sm" [(ngModel)]="selected_data.date_fin_com" ngModel /> 
                       </div>
                     </div>
-                    <!-- <div class="form-group row">
+                    <!-- <div class="form-group row mb-3">
                       <label class="col-md-4">Fichier (PDF)</label>
                       <div class="col-md-8"> 
                         <input type="file" class="form-control" required (change)="onFileChange($event)" #file="ngModel" name="fichier"  ngModel>
                       </div>
                     </div> -->
-                    <div class="form-group row">
+                    <div class="form-group row mb-3">
                       <label class="col-md-4">Commentaires</label>
                       <div class="col-md-8"> 
                         <textarea class="form-control form-control-sm has-error" required id="comment" rows="4" name="comment" ngModel placeholder="Faites vos commentaires" [(ngModel)]="selected_data.commentaire"></textarea>
