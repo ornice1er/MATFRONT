@@ -1,0 +1,292 @@
+
+<div class="container-fluid" id="container-wrapper">
+    <div class="row d-flex">
+        <p>{{registresReports!.length}} élément(s)</p>
+        <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead class="">
+                <tr>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Usagers reçus</th>
+                    <th>Usagers satisfaits</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+                 <tr *ngFor="let rgr of registresReports 
+                 | sampleSearch:search_text:'registre' 
+                 | paginate: {
+                        id:'ngxP2',
+                        itemsPerPage: pg2.pageSize,
+                        currentPage: pg2.p,
+                        totalItems: pg2.total }">
+                        <td>
+                            <input type="radio" (change)="checkedRegistreReport(rgr)">
+    
+                        </td>
+                <td>{{rgr.title}} </td>
+              
+                <td>{{rgr.customer_recieved}} </td>
+                <td>{{rgr.customer_satisfied}} </td>
+                <td>
+                    <span *ngIf="rgr.status==0">Nouveau</span>
+                    <span *ngIf="rgr.status==1 && rgr?.transmission.user_down!=user.id">En attente de validation</span>
+                    <span *ngIf="rgr.status==1 && rgr?.transmission.sens!=1 && rgr?.transmission.user_down==user.id">En attente de correction</span>
+                    <span *ngIf="rgr.status==2">Validé</span>
+                    <br>
+                    <button *ngIf="rgr.status==1 && rgr?.transmission.sens!=1" class="btn btn-sm btn-primary mx-1" [disabled]="loading2" (click)="openReportShowModal(correctShowReport,rgr)"> voir le motif</button>
+
+                    
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-primary mx-1" [disabled]="loading2" (click)="openReportShowModal(showReport,rgr)"> <i class="fa fa-eye text-white"></i> </button>
+                    <ng-container *ngIf="rgr.status==0">
+                        <button class="btn btn-sm btn-warning mx-1" [disabled]="loading2" (click)="openReportEditModal(editReport,rgr)"> <i class="fa fa-edit text-white"></i> </button>
+                        <button class="btn btn-sm btn-danger mx-1" [disabled]="loading2" (click)="deleteReport(rgr.id)"> <i class="fa fa-trash text-white"></i> </button>
+                    </ng-container>
+                    <ng-container *ngIf="user.profil_user.superviseurcentrecom">
+                        <button class="btn btn-sm btn-success  mx-1" [disabled]="loading2" (click)="transmit(rgr.id)"> <i class="fa fa-arrow-up text-white"></i> </button>
+                        <button class="btn btn-sm btn-warning  mx-1" [disabled]="loading2" (click)="openReportEditModal(correctReport,rgr)"> <i class="fa fa-arrow-down text-white"></i> </button>
+                    </ng-container>
+                  
+                    
+                     <button class="btn btn-sm btn-info  mx-1" [disabled]="loading2" (click)="getFile(rgr.filename)"> <i class="fa fa-file text-white"></i> </button>
+
+                     <ng-container *ngIf="user.profil_user.validateurcentrecom || user.profil_user.coordonnateurcentrecom">
+                        <button class="btn btn-sm btn-warning  mx-1" [disabled]="loading2"  (click)="openReportEditModal(correctReport,rgr)"> <i class="fa fa-arrow-down text-white"></i> </button>
+                        <button class="btn btn-sm btn-success  mx-1" [disabled]="loading2" (click)="validate(rgr.id)"> <i class="fa fa-check text-white"></i> </button>
+                    </ng-container>
+                </td>
+                </tr>
+            
+            </tbody>
+        </table>
+    
+        </div>
+    <pagination-controls 
+            id="ngxP2"
+            (pageChange)="getPage2($event)"
+          [maxSize]="9"
+          [directionLinks]="true"
+          [autoHide]="true"
+          [responsive]="true"
+          [previousLabel]="'Précédent'"
+          [nextLabel]="'Suivant'"
+          [screenReaderPaginationLabel]="'Pagination'"
+          [screenReaderPageLabel]="'page'"
+          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+         </pagination-controls>
+    </div>
+</div>
+
+
+
+<ng-template #addReport let-modal>
+    <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
+
+        <div class="modal-header bg-secondary">
+            <h5 class="modal-title text-white" id="modal-basic-title">Générer un rapport</h5>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                X
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="color:red">{{errormessage}}</div>
+
+            <div class="row">
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Mois</label>
+                        <select name="month" ngModel class="form-control">
+                            <option value="01">Janvier</option>
+                            <option value="02">Février</option>
+                            <option value="03">Mars</option>
+                            <option value="04">Avril</option>
+                            <option value="05">Mai</option>
+                            <option value="06">Juin</option>
+                            <option value="07">Juillet</option>
+                            <option value="08">Août</option>
+                            <option value="09">Septembre</option>
+                            <option value="10">Octobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Décembre</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Synthèse Analytique</label>
+                        <textarea name="summary" ngModel class="form-control"></textarea>
+                    </div>
+                </div>
+              
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="loading2"   class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Générer</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #editReport let-modal>
+    <form #editReportForm="ngForm" (ngSubmit)="updateReport(editReportForm.value)" class="form-horizontal " novalidate="">
+
+        <div class="modal-header bg-secondary">
+            <h5 class="modal-title text-white" id="modal-basic-title">Mettre à jour le rapport</h5>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                X
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="color:red">{{errormessage}}</div>
+
+            <div class="row">
+               
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Synthèse Analytique</label>
+                        <textarea name="summary" [(ngModel)]="selected_data.summary" class="form-control"></textarea>
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="loading2"   class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Modifier</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #correctReport let-modal>
+    <form #correctForm="ngForm" (ngSubmit)="correct(correctForm.value)" class="form-horizontal " novalidate="">
+
+        <div class="modal-header bg-secondary">
+            <h5 class="modal-title text-white" id="modal-basic-title">Retourner pour correction</h5>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                X
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="color:red">{{errormessage}}</div>
+
+            <div class="row">
+               
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Instruction</label>
+                        <textarea name="instruction" ngModel class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Délai</label>
+                        <input type="datetime-local" name="delay" ngModel class="form-control">
+                    </div>
+                </div>
+           
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" [disabled]="loading2"  class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Retourner pour correction</button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #showReport let-modal>
+
+        <div class="modal-header bg-secondary">
+            <h5 class="modal-title text-white" id="modal-basic-title">Détails rapport</h5>
+            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                X
+            </button>
+        </div>
+        <div class="modal-body">
+            <div style="color:red">{{errormessage}}</div>
+
+            <div class="row">
+               
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Usagers reçus</strong></label>
+                        <p>{{selected_data.customer_recieved}}</p>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Usagers satisfaits</strong></label>
+                        <p>{{selected_data.customer_satisfied}}</p>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Principales raisons d'insatisfaction</strong></label>
+                        <p>{{selected_data.unsatified_reason}}</p>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Problèmes / difficultés rencontrées par le Point Focal </strong></label>
+                        <p>{{selected_data.difficult}}</p>
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Approches de solutions préconisées par le Point Focal</strong> </label>
+                        {{selected_data.solution}}
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Observations</strong></label>
+                        {{selected_data.observation}}
+                    </div>
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for=""><strong>Synthèse analytique</strong></label>
+                        {{selected_data.summary}}
+                    </div>
+                </div>
+            </div>
+        </div>
+</ng-template>
+<ng-template #contentPDF let-offcanvas>
+    <div class="offcanvas-header">
+    
+        <h4 class="offcanvas-title">Visualiseur de fichier</h4>
+        <button id="closePDFBtn" type="button" class="btn-close" aria-label="Close" (click)="offcanvas.dismiss('Cross click')"></button>
+    </div>
+    <div class="offcanvas-body">
+        <ngx-extended-pdf-viewer [src]="pdfSrc"
+        style="width: 100%; height: 100%"
+        ></ngx-extended-pdf-viewer>
+    </div>
+</ng-template>
+<ng-template #correctShowReport let-modal>
+
+    <div class="modal-header bg-secondary">
+        <h5 class="modal-title text-white" id="modal-basic-title">Détails instruction</h5>
+        <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            X
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row">
+           
+            <div class="col-12 mb-3">
+                <div class="form-group">
+                    <label for="">Instruction</label>
+                    <p>{{selected_data.transmission?.instruction}}</p>
+                </div>
+            </div>
+            <div class="col-12 mb-3">
+                <div class="form-group">
+                    <label for="">Delai</label>
+                    <p>{{selected_data.transmission?.delay | date:"dd-MM-yyyy"}}</p>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+</ng-template>

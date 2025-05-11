@@ -70,6 +70,8 @@ import { SettingsComponent } from "./pages/settings/settings.component";
 import { TypeStructureComponent } from "./pages/type-structure/type-structure.component";
 import { UsersMainComponent } from "./pages/users-main/users-main.component";
 import { UsersComponent } from "./pages/users/users.component";
+import { CspReportPendingComponent } from "./pages/csp-report-pending/csp-report-pending.component";
+import { CspReportOwnComponent } from "./pages/csp-report-own/csp-report-own.component";
 
 
 export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
@@ -211,6 +213,14 @@ export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
             {
               path: 'ccsps',
               component:CcspComponent
+            },
+            {
+              path: 'ccsp/reports/pending',
+              component:CspReportPendingComponent
+            },
+            {
+              path: 'ccsp/reports/own',
+              component:CspReportOwnComponent
             },
             {
               path: 'settings',

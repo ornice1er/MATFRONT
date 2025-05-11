@@ -88,6 +88,18 @@
         <a *ngIf="user?.profil_user?.parametre==1 && user?.profil_user?.admin_sectoriel==0" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteupdate"> <span class="text-white">Modifier une préoccupation</span> </a>
         <a *ngIf="user?.profil_user?.admin_sectoriel==0 && (user?.profil_user?.superadmin!=1  || user?.profil_user?.direction!=1)" mat-list-item routerLinkActive="active" routerLink="/admin/comment"> <span class="text-white">Gestion des rapports</span></a>
 
+            <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.validateurcentrecom || user?.profil_user?.superviseurcentrecom || user?.profil_user?.coordonnateurcentrecom">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Gestion des rapports CCSP
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-nav-list>
+                <a  mat-list-item routerLinkActive="active" routerLink="/admin/ccsp/reports/pending"><span class="text-white">A valider</span></a>
+                <a  mat-list-item routerLinkActive="active" routerLink="/admin/ccsp/reports/own"><span class="text-white">Mes Rapports</span></a>
+
+              </mat-nav-list>
+        </mat-expansion-panel>
 
         <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.superadmin!=1">
           <mat-expansion-panel-header>
