@@ -1,3 +1,5 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -38,7 +40,7 @@
 
                         </ul>
                         <div>
-                            <button class="btn btn-sm bg-mat-primary text-white" [disabled]="user.profil_user.decisionnel_suivi==1"
+                            <button class="btn btn-sm bg-mat-primary text-white" [disabled]="user?.profil_user?.decisionnel_suivi==1"
                                 (click)="openAddModal(content)">
                                 Ajouter un service</button>
                         </div>
@@ -61,17 +63,17 @@
                                             Gérer pièces
                                         </button>
 
-                                        <!--button *ngIf="user.profil_user.direction==1 || user.profil_user.admin_sectoriel==1"
-                                            [disabled]="user.profil_user.decisionnel_suivi==1" (click)="publish()"
+                                        <!--button *ngIf="user?.profil_user?.direction==1 || user?.profil_user?.admin_sectoriel==1"
+                                            [disabled]="user?.profil_user?.decisionnel_suivi==1" (click)="publish()"
                                             title="Publier" class="btn mx-1 btn-sm btn-success">
                                             Publier 
                                         </button-->
 
-                                        <button *ngIf="user.profil_user.pointfocal==1" [disabled]="user.profil_user.decisionnel_suivi==1"
+                                        <button *ngIf="user?.profil_user?.pointfocal==1" [disabled]="user?.profil_user?.decisionnel_suivi==1"
                                             (click)="submit()" title="Publier" class="btn mx-1 btn-sm btn-success">
                                             Soummettre
                                         </button>
-                                        <button *ngIf="user.profil_user.admin_sectoriel==1" (click)="publish()" title="Publier" class="btn mx-1 btn-sm btn-success">
+                                        <button *ngIf="user?.profil_user?.admin_sectoriel==1" (click)="publish()" title="Publier" class="btn mx-1 btn-sm btn-success">
                                             Publier
                                         </button>
                                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
@@ -92,7 +94,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let s of data; index as i">
+                                <tr *ngFor="let s of data| sampleSearch:search_text:'forUsers' | paginate: {
+                                id:'ngxP1',
+                                itemsPerPage: pg.pageSize,
+                                currentPage: pg.p,
+                                totalItems: pg.total }; index as i">
                                     <td>
                                         <input type="radio" [value]="s" ngModel name="get" (change)="checked($event,s)">
                                     </td>
@@ -219,7 +225,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row mb-3 " *ngIf="user.profil_user.pointfocal!=1 && user.profil_user.direction!=1">
+                                        <div class="form-group row mb-3 " *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
@@ -426,7 +432,7 @@ demander plus tôt ?"
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
                 </ng-template>
@@ -510,7 +516,7 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row mb-3 " *ngIf="user.profil_user.pointfocal!=1 && user.profil_user.direction!=1">
+                                        <div class="form-group row mb-3 " *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
@@ -721,7 +727,7 @@ demander plus tôt ?"
                             </div-->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
                 </ng-template>
@@ -758,7 +764,7 @@ demander plus tôt ?"
                                         </div>
 
                                         <div class="col-sm-2">
-                                            <button type="submit" [disabled]="user.profil_user.decisionnel_suivi==1"
+                                            <button type="submit" [disabled]="user?.profil_user?.decisionnel_suivi==1"
                                                 class="btn btn-info" style="padding: 5px 10px !important;">Ajouter</button>
                                         </div>
 
@@ -788,7 +794,7 @@ demander plus tôt ?"
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-primary" id="btn-save" type="submit"><i class="fas fa-save"></i>&nbsp;
-                                Enregistrer</button>
+                                Enregistrer <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
                 </ng-template>

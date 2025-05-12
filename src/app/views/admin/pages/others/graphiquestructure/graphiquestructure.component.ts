@@ -174,7 +174,7 @@ export class GraphiquestructureComponent implements OnInit {
 
       ]
 
-      val.forEach((e:any)=> {
+      val?.data?.forEach((e:any)=> {
         this.barChartLabels.push(e.libelle)
         this.doughnutChartLabels.push(e.libelle)
         this.barData.push(e.total)

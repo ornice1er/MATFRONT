@@ -78,13 +78,13 @@
                   </form>
                 </li>
                 <li class="nav-item">
-                    <div  *ngIf="user.profil_user.saisie==1">
+                    <div  *ngIf="user?.profil_user?.saisie==1">
                         <button  type="button" class="btn btn-info mx-1" id="btn-save" (click)="genererPDFStat(0)" ><i class="fas fa-file-pdf-o"></i>&nbsp; Générer</button>
                       </div>
                      
                 </li>
                 <!--li class="nav-item">
-                    <div *ngIf="user.profil_user.saisie==1">
+                    <div *ngIf="user?.profil_user?.saisie==1">
                         <button  type="button" class="btn btn-success  mx-1" id="btn-save" (click)="genererPDFStat(1)" ><i class="fas fa-file-pdf-o"></i>&nbsp; Générer et envoyer</button>
                       </div>
                 </li-->

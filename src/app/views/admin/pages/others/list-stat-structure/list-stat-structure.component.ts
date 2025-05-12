@@ -179,8 +179,9 @@ search_text:any=""
 
     this.activatedRoute.queryParams.subscribe((x:any)=> this.init());
     this.subject.subscribe((val) => {
+      console.log('val',val)
       this.data = []
-      val.forEach((e:any) => { 
+      val?.data?.forEach((e:any) => { 
         if (this.checkStructureHaveService(e.id, this.all_structures)) { this.data.push(e) } 
       })
       // this.typeRequete = this.checkType()?.name;
@@ -188,7 +189,7 @@ search_text:any=""
     })
     this.subject2.subscribe((val) => {
       this.data2 = []
-      this.data2 = val
+      this.data2 = val.data
       // this.typeRequete = this.checkType()?.name;
 
     })
@@ -217,8 +218,8 @@ search_text:any=""
     })*/
     this.all_structures = []
     this.structureService.getAll(0, this.user.idEntite).subscribe((list: any) => {
-      this.all_structures = list
-      list.forEach((e:any) => { 
+      this.all_structures = list.data
+      list.data.forEach((e:any) => { 
         if (e.services.length!=0) { this.structures.push(e) } 
       })
       this._temp = []
@@ -228,7 +229,7 @@ search_text:any=""
       ).subscribe((res: any) => {
         this.spinner.hide();
         //e.idParent==0
-        res.forEach((e:any) => { 
+        res.data.forEach((e:any) => { 
           if (this.checkStructureHaveService(e.id, list)) { this.data.push(e) } 
         })
         this._temp = this.data

@@ -1,9 +1,7 @@
+<ngx-spinner type="ball-scale-multiple"></ngx-spinner>
+
 <!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-          <h3 class="h3 mb-0 text-gray-800">PARAMETRES / THEMATIQUE</h3>
-      
-        </div>
         <div class="row d-flex">
           <div class="col-md-12">
             <div class="card my-2">
@@ -143,7 +141,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                    <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                   </div>
                 </form>
               </ng-template>
@@ -186,7 +184,7 @@
       
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                    <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                   </div>
                 </form>
               </ng-template>

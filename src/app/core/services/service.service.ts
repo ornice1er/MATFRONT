@@ -10,9 +10,9 @@ export class ServiceService {
   constructor(private http:HttpClient) { }
  
 
-  getAll(idEntite:any){
+  getAll(idEntite:any, per_page?:any,page?:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}?per_page=${per_page}&page=${page}`);
   }
 
   getAllEntite(){
@@ -30,21 +30,21 @@ export class ServiceService {
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("servicePiece")}/${idSer}`);
   }
-  getAllStatByStrcutre(idEntite:any){
+  getAllStatByStrcutre(idEntite:any,per_page?:any,page?:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/prestations-par-structure")}/${idEntite}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/prestations-par-structure")}/${idEntite}?per_page=${per_page}&page=${page}`);
   }
-  getAllByStructure(idStructure:any){
+  getAllByStructure(idStructure:any,per_page?:any,page?:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byStructure")}/${idStructure}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byStructure")}/${idStructure}?per_page=${per_page}&page=${page}`);
   }
-  getAllByCreator(){
+  getAllByCreator(per_page?:any,page?:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byCreator")}`);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service/byCreator")}?per_page=${per_page}&page=${page}`);
   }
   getStat(param:any,idEntite: any){
    
-    return this.http.post<any[]>(`${ConfigService.toApiUrl("statistiques/prestations")}/${idEntite}`,param);
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("statistiques/prestations")}/${idEntite}`,param);
   }
   genPdfStat(param:any){
    

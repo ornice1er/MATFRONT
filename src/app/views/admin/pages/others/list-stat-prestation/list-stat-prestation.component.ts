@@ -105,10 +105,10 @@ search_text:any=""
     this._temp=[]
     this.data=[]
     let param={"idUser":this.user.id,"startDate":"all","endDate":"all"}
-    this.entiteId=this.user.idEntite;
+    this.entiteId=this.user?.idEntite;
     this.prestationService.getStat(param,this.entiteId).subscribe((res:any)=>{
       this.spinner.hide();
-      this.data=res.stats
+      this.data=res.data.stats
       this.param_stat.stats=this.data
       this.param_stat.startDate="all"
       this.param_stat.endDate="all"
@@ -117,7 +117,7 @@ search_text:any=""
     })
 
     this.insService.getAll().subscribe((res:any)=>{
-      this.entities=res
+      this.entities=res.data
     })
 
   }

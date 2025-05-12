@@ -9,7 +9,7 @@ import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-boots
 import { Router, ActivatedRoute } from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
-import { NgxSpinnerService } from 'ngx-spinner';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -29,7 +29,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listeservice',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule],
   templateUrl: './listeservice.component.html',
   styleUrls: ['./listeservice.component.css']
 })
@@ -96,6 +96,7 @@ export class ListeserviceComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+loading:any=false
   search() {
     this.data = this._temp.filter(r => {
       const term = this.searchText.toLowerCase();
@@ -179,12 +180,16 @@ search_text:any=""
   }
   
   init() {
-    this._temp = []
-    this.data = []
     if(this.user.agent_user!=null && (this.user.profil_user.direction==1)){
+      console.log('test 1')
       this.default_data.idParent=this.user.agent_user.idStructure
-      this.prestationService.getAllByStructure(this.user.agent_user.idStructure).subscribe((res: any) => {
+              this.spinner.show();
+                    this.loading=true
+
+      this.prestationService.getAllByStructure(this.user.agent_user.idStructure,this.pg.pageSize,this.pg.p).subscribe((res: any) => {
         this.spinner.hide();
+              this.loading=true
+
         if (res.data.isPaginate) {
           this.data = res.data.data
           this.pg.total=res.data.total
@@ -192,10 +197,18 @@ search_text:any=""
           this.data = res.data
 
         }
+        console.log(this.data)
       })
     }else if(this.user.agent_user!=null && this.user.profil_user.pointfocal==1){
+            console.log('test 2')
+
       this.default_data.idParent=this.user.agent_user.structure.idParent
-      this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent).subscribe((res: any) => {
+                    this.spinner.show();
+                          this.loading=true
+
+      this.prestationService.getAllByStructure(this.user.agent_user.structure.idParent,this.pg.pageSize,this.pg.p).subscribe((res: any) => {
+              this.loading=false
+
         this.spinner.hide();
        // this.data = res.filter((e:any)=>((e.submited==0 || e.submited==false)))
         if (res.data.isPaginate) {
@@ -208,7 +221,12 @@ search_text:any=""
       })
      
     }else if(this.user.agent_user!=null && this.user.profil_user.saisie_adjoint==1){
-      this.prestationService.getAllByCreator().subscribe((res: any) => {
+            console.log('test 3')
+
+      this.spinner.show();
+      this.loading=true
+      this.prestationService.getAllByCreator(this.pg.pageSize,this.pg.p).subscribe((res: any) => {
+              this.loading=false
         this.spinner.hide();
         if (res.data.isPaginate) {
           this.data = res.data.data
@@ -219,28 +237,36 @@ search_text:any=""
         }
       })
     }else{
-      this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
+            console.log('test 4')
+
+        this.spinner.show();
+        this.loading=true
+      this.prestationService.getAll(this.user.idEntite,this.pg.pageSize,this.pg.p).subscribe((res: any) => {
         this.spinner.hide();
-        if (res.data.isPaginate) {
+                this.loading=false
+                console.log(res.data.isPaginate)
+        if (res.isPaginate) {
           this.data = res.data.data
           this.pg.total=res.data.total
         }else{
           this.data = res.data
 
         }
+
       })
     }
    
-    this.structures = []
+    if (this.pg.p==0) {
+      this.structures = []
     this.structureService.getAll(0  ,this.user.idEntite).subscribe((res: any) => {
-      this.spinner.hide();
-      this.structures = res
+      this.structures = res.data
     })
     this.types = []
     this.typesService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.spinner.hide();
-      this.types = res
+      this.types = res.data
     })
+    }
+    
   }
 
   create(value:any) {
@@ -411,5 +437,6 @@ search_text:any=""
   }
   getPage(event:any){
     this.pg.p=event
+    this.init()
   }
 }
