@@ -155,8 +155,9 @@ export class CspReportPendingComponent {
   
     getFile(filename:any){
       this.pdfSrc=ConfigService.toFile(`storage/${filename}`)
+            window.open(this.pdfSrc,'_blank')
       console.log(this.pdfSrc)
-      this.offcanvasService.open(this.contentPDF,{  panelClass: 'details-panel', position: 'end'  });
+      //this.offcanvasService.open(this.contentPDF,{  panelClass: 'details-panel', position: 'end'  });
     }
   
     transmit(id:any){
