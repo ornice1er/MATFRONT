@@ -2,7 +2,7 @@
 <div class="container-fluid" id="container-wrapper">
     <div class="row d-flex">
         <div class="text-end mb-3">
-            <button (click)="openReportModal(addReport)" class=" mx-1 btn btn-sm btn-info">Générer un Rapport</button>
+            <a routerLink="/admin/ccsp/reports/create" class=" mx-1 btn btn-sm btn-info">Préparer un rapport</a>
         </div>
         <p>{{registresReports!.length}} élément(s)</p>
         <div class="table-responsive">

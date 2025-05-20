@@ -1,34 +1,34 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbOffcanvas, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ReportTransmissionService } from '../../../../core/services/report-transmission.service';
+import { ReportService } from '../../../../core/services/report.service';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
-import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { ConfigService } from '../../../../core/utils/config-service';
 import { GlobalName } from '../../../../core/utils/global-name';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
-import { ReportService } from '../../../../core/services/report.service';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-import { ReportTransmissionService } from '../../../../core/services/report-transmission.service';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { RouterModule } from '@angular/router';
-
 
 @Component({
-  selector: 'app-csp-report-own',
+  selector: 'app-csp-report-create',
   standalone: true,
   imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxExtendedPdfViewerModule,FontAwesomeModule,RouterModule],
-  templateUrl: './csp-report-own.component.html',
-  styleUrl: './csp-report-own.component.css'
+  templateUrl: './csp-report-create.component.html',
+  styleUrl: './csp-report-create.component.css'
 })
-export class CspReportOwnComponent {
- @ViewChild('contentPDF') contentPDF:TemplateRef<any> | undefined
+export class CspReportCreateComponent {
+@ViewChild('contentPDF') contentPDF:TemplateRef<any> | undefined
   pdfSrc = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
 
   loading2=false
+  data:any[]=[]
   registresReports:any[]=[]
   selected_data:any
   closeResult:any
@@ -46,6 +46,7 @@ export class CspReportOwnComponent {
     private  reportService:ReportService,
     private  reportTransmissionService:ReportTransmissionService,
     private modalService: NgbModal,
+    private router: Router,
     private offcanvasService: NgbOffcanvas,
     private localStorageService:LocalStorageService
 
@@ -123,13 +124,23 @@ export class CspReportOwnComponent {
     })
   }
   
+  getDataReport(value:any){
+    this.loading2=true
+    this.reportService.getDataReport(value).subscribe((res: any) => {
+      this.data=res.data
+      this.modalService.dismissAll()
+      this.loading2=false
+    }, (err:any) => {
+      this.loading2=false
+      AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
+    })
+  }
   storeReport(value:any){
     this.loading2=true
     this.reportService.store(value).subscribe((res: any) => {
-      this.getFile(res.data)
+      this.router.navigate(['/admin/ccsp/reports/own'])
       this.modalService.dismissAll()
       this.loading2=false
-      this.getReports()
     }, (err:any) => {
       this.loading2=false
       AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
@@ -185,5 +196,4 @@ export class CspReportOwnComponent {
   getPage2(event:any){
     this.pg2.p=event
   }
-
 }

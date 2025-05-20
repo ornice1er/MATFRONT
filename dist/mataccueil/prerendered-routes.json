@@ -5,6 +5,7 @@
     "/admin/allservices",
     "/admin/attributcom",
     "/admin/avanced-statistics",
+    "/admin/ccsp/reports/create",
     "/admin/ccsp/reports/own",
     "/admin/ccsp/reports/pending",
     "/admin/ccsps",

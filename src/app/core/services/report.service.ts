@@ -28,6 +28,11 @@ url=ConfigService.toApiUrl("ccsp-reports/");
       );
   }
 
+  getDataReport(ressource:any){
+    return this.http.post<any>(`${ConfigService.toApiUrl("ccsp-reports-data")}`, ressource,
+      );
+  }
+
   update(id:any,ressource:any){
     ressource['_method']='patch';
     //ressource.append('_method','patch');
