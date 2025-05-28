@@ -289,6 +289,7 @@ search_text:any=""
   ngOnInit(): void {
     this.observerService.setTitle(`Gestion des ${this.typeRequete}`)
     this.RelanceAWho = ""
+      this.prepare()
     this.router.events
       .subscribe(event => {
         if (event instanceof NavigationStart) {
@@ -398,16 +399,16 @@ search_text:any=""
 
     this.structures = []
     this.structureService.getAll(1,this.user.idEntite).subscribe((res:any)=>{
-      this.structures = res
+      this.structures = res.data
     })
 
     this.structureservices = []
     this.structureService.getAllStructureByUser(this.user.id).subscribe((res: any) => {
-      this.structureservices = res
+      this.structureservices = res.data
     })
 
     this.institutionService.getAll().subscribe((res: any) => {
-      this.institutions = res
+      this.institutions = res.data
     })
 
 

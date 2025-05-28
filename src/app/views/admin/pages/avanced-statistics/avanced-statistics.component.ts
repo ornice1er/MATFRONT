@@ -30,6 +30,7 @@ export class AvancedStatisticsComponent implements OnInit {
   data1:any
   data2:any
   data3:any[]=[]
+  data4:any
   elements:any
 
   constructor(
@@ -50,8 +51,21 @@ export class AvancedStatisticsComponent implements OnInit {
     this.getTogetherViews2()
     this.getPerformances()
     this.getPerformancesVisits()
+    this.getStats()
   }
 
+  getStats(){
+    this.spinner.show();
+    this.statisticService.getStats().subscribe((res:any)=>{
+      this.spinner.hide();
+      this.data4=res.data
+    },
+    (error:any)=>{
+      this.spinner.hide();
+    }
+    )
+   
+  }
   getTogetherViews(){
     this.spinner.show();
     this.statisticService.getTogetherViews().subscribe((res:any)=>{
@@ -105,6 +119,42 @@ export class AvancedStatisticsComponent implements OnInit {
     this.elements=elements
     this.modalService.open(content)
   }
+
+
+  get totalRequetes(): number {
+  return this.data4?.dataMoyPrestation?.reduce((sum:any, item:any) => sum + (item.total_requetes_traitees || 0), 0) || 0;
+}
+
+get totalNotes(): number {
+  return this.data4?.dataMoyPrestation?.reduce((sum:any, item:any) => sum + (item.nb_notes_non_nulles || 0), 0) || 0;
+}
+
+get sommeTotaleNotes(): number {
+  return this.data4?.dataMoyPrestation?.reduce((sum:any, item:any) => sum + (item.somme_notes || 0), 0) || 0;
+}
+
+get noteGlobaleMoyenne(): number {
+  const totalNotes = this.totalNotes;
+  return totalNotes > 0 ? this.sommeTotaleNotes / totalNotes : 0;
+}
+
+
+  get totalRequetes2(): number {
+  return this.data4?.dataMoyStructure?.reduce((sum:any, item:any) => sum + (item.total_requetes_traitees || 0), 0) || 0;
+}
+
+get totalNotes2(): number {
+  return this.data4?.dataMoyStructure?.reduce((sum:any, item:any) => sum + (item.nb_notes_non_nulles || 0), 0) || 0;
+}
+
+get sommeTotaleNotes2(): number {
+  return this.data4?.dataMoyStructure?.reduce((sum:any, item:any) => sum + (item.somme_notes || 0), 0) || 0;
+}
+
+get noteGlobaleMoyenne2(): number {
+  const totalNotes2 = this.totalNotes2;
+  return totalNotes2 > 0 ? this.sommeTotaleNotes2 / totalNotes2 : 0;
+}
 
   printView(){
     this.spinner.show();

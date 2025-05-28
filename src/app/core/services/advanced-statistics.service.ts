@@ -28,6 +28,10 @@ export class AdvancedStatisticsService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances-visists")}`);
   }
   
+  getStats(){
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-advanced-stats")}`);
+  }
+  
   printView(resource:any){
    
     return this.http.post<any[]>(`${ConfigService.toApiUrl("print-view")}`,resource, );

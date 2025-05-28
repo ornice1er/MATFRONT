@@ -12,7 +12,13 @@ export class ServiceService {
 
   getAll(idEntite:any, per_page?:any,page?:any){
    
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}?per_page=${per_page}&page=${page}`);
+    if (per_page) {
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}?per_page=${per_page}&page=${page}`);
+
+    } else {
+          return this.http.get<any[]>(`${ConfigService.toApiUrl("service")}/${idEntite}`);
+
+    }
   }
 
   getAllEntite(){

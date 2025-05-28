@@ -11,8 +11,11 @@
             <div class="col-12 col-md-4">
                 <table class="table">
                     <thead>
-                        <th>Libellé</th>
-                        <th>Valeur</th>
+                        <tr>
+                            <th>Libellé</th>
+                            <th>Valeur</th>
+                        </tr>
+                       
                     </thead>
                     <tbody>
                         <tr>
@@ -41,7 +44,9 @@
             <div class="col-12 col-md-4">
                 <table class="table">
                     <thead>
+                        <tr>
                         <th>5 plus anciens logs sectoriels au système</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let d of data1?.last_sectoriels">
@@ -59,7 +64,9 @@
             <div class="col-12 col-md-4">
                 <table class="table">
                     <thead>
+                        <tr>
                         <th>5 plus anciens logs PF au système</th>
+                        </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let d of data1?.last_pfc">
@@ -81,8 +88,11 @@
     <div class="bg-white mb-3 p-3">
         <table class="table mb-3">
             <thead>
+                <tr>
                 <th>Libéllé</th>
                 <th>Valeur</th>
+                </tr>
+
             </thead>
             <tbody>
                 <tr>
@@ -127,7 +137,7 @@
                     <td>{{d.name}}</td>
                     <td>
                         <ol>
-                            <li *ngFor="let el of d.max_last_week; else elseContent1">
+                            <li ngForElse="elseContent1" *ngFor="let el of d.max_last_week;">
                             <dl class="mb-1">
                                 <dt>Commune: {{el.libellecom}}</dt>
                                 <dt>Valeur:  {{el?.total}}</dt>
@@ -140,7 +150,7 @@
                     </td>
                     <td>
                         <ol>
-                            <li *ngFor="let el of d.min_last_week; else elseContent2">
+                            <li ngForElse="elseContent2" *ngFor="let el of d.min_last_week;">
                             <dl class="mb-1">
                                 <dt>Commune: {{el.libellecom}}</dt>
                                 <dt>Valeur:  {{el?.total}}</dt>
@@ -153,7 +163,7 @@
                     </td>
                     <td>
                         <ol>
-                            <li *ngFor="let el of d.max_total; else elseContent3">
+                            <li ngForElse="elseContent3" *ngFor="let el of d.max_total;">
                             <dl class="mb-1">
                                 <dt>Commune: {{el.libellecom}}</dt>
                                 <dt>Valeur:  {{el?.total}}</dt>
@@ -166,7 +176,7 @@
                     </td>
                     <td>
                         <ol>
-                            <li *ngFor="let el of d.min_total; else elseContent4">
+                            <li ngForElse="elseContent4" *ngFor="let el of d.min_total;">
                             <dl class="mb-1">
                                 <dt>Commune: {{el.libellecom}}</dt>
                                 <dt>Valeur:  {{el?.total}}</dt>
@@ -181,6 +191,124 @@
             </tbody>
         </table>
     </div>
+
+
+        <h2 class="text-dark fw-bold">Note globale moyenne usager </h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Libéllé</th>
+                <th>Valeur</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nombre totale de requête traitée</td>
+                    <td>
+                  {{data4?.dataMoyGen?.nb_req_treated}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nombre total d’appréciation enregistré</td>
+                    <td>
+                        {{data4?.dataMoyGen?.nb_app_saved}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Note totale enregistrée</td>
+                    <td>
+                        {{data4?.dataMoyGen?.nb_app_total_saved}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Moyenne sur /10</td>
+                    <td>
+                        {{
+                        (data4?.dataMoyGen?.nb_app_saved > 0
+                            ? (data4?.dataMoyGen?.nb_app_total_saved / data4?.dataMoyGen?.nb_app_saved)
+                            : 0
+                        ) | number: '1.2-2'
+                        }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+       <h2 class="text-dark fw-bold">Note globale des usagers par prestation</h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Prestation</th>
+                <th>Nombre totale de requête traitée</th>
+                <th>Notre total d’appréciation enregistré</th>
+                <th>Note totale enregistrée</th>
+                <th>Moyenne / 10</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of data4?.dataMoyPrestation">
+                    <td>{{r.libelle_service}}</td>
+                    <td>{{r.total_requetes_traitees}}</td>
+                    <td>{{r.nb_notes_non_nulles}}</td>
+                    <td>{{r.somme_notes ?? 0}}</td>
+                    <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                </tr>
+               <tr>
+                <td><strong>Total</strong></td>
+                <td>{{ totalRequetes }}</td>
+                <td>{{ totalNotes }}</td>
+                <td>{{ sommeTotaleNotes }}</td>
+                <td>{{ noteGlobaleMoyenne | number: '1.2-2' }}</td>
+                </tr>
+                            
+            </tbody>
+        </table>
+    </div>
+
+
+       <h2 class="text-dark fw-bold">Note globale des usagers par structure</h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Structure</th>
+                <th>Nombre totale de requête traitée</th>
+                <th>Notre total d’appréciation enregistré</th>
+                <th>Note totale enregistrée</th>
+                <th>Moyenne / 10</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of data4?.dataMoyStructure">
+                    <td>{{r.libelle_service}}</td>
+                    <td>{{r.total_requetes_traitees}}</td>
+                    <td>{{r.nb_notes_non_nulles}}</td>
+                    <td>{{r.somme_notes ?? 0}}</td>
+                    <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                </tr>
+               <tr>
+                <td><strong>Total</strong></td>
+                <td>{{ totalRequetes2 }}</td>
+                <td>{{ totalNotes2 }}</td>
+                <td>{{ sommeTotaleNotes2 }}</td>
+                <td>{{ noteGlobaleMoyenne2 | number: '1.2-2' }}</td>
+                </tr>
+                            
+            </tbody>
+        </table>
+    </div>
+
+
 
 
    
