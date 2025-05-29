@@ -2,7 +2,7 @@
   <li ngbNavItem>
     <button ngbNavLink>Appréciations des usagers</button>
     <ng-template ngbNavContent>
-          <h2 class="text-dark fw-bold">Note globale moyenne usager </h2>
+          <h2 class="text-dark fw-bold">PERFORMANCE GLOBALE</h2>
     <hr/>
     <div class="bg-white mb-3 p-3">
         <table class="table mb-3">
@@ -15,33 +15,33 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Nombre totale de requêtes</td>
+                    <td>Nombre total de préoccupations recues</td>
                     <td>
                   {{data4?.dataMoyGen?.nb_req}}
 
                     </td>
                 </tr>
                 <tr>
-                    <td>Nombre totale de requêtes traitées</td>
+                    <td>Nombre total de préoccupations traitées</td>
                     <td>
                   {{data4?.dataMoyGen?.nb_req_treated}}
 
                     </td>
                 </tr>
                 <tr>
-                    <td>Nombre total d’appréciation enregistré</td>
+                    <td>Nombre total d'appréciations enregistrées</td>
                     <td>
                         {{data4?.dataMoyGen?.nb_app_saved}}
                     </td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td>Note totale enregistrée</td>
                     <td>
                         {{data4?.dataMoyGen?.nb_app_total_saved}}
                     </td>
-                </tr>
+                </tr> -->
                 <tr>
-                    <td>Moyenne sur /10</td>
+                    <td>note moyenne</td>
                     <td>
                         {{
                         (data4?.dataMoyGen?.nb_app_saved > 0
@@ -55,7 +55,7 @@
         </table>
     </div>
 
-       <h2 class="text-dark fw-bold">Note globale des usagers par prestation</h2>
+       <h2 class="text-dark fw-bold">Appréciations des usagers par prestation</h2>
     <hr/>
     <div class="bg-white mb-3 p-3">
         <table class="table mb-3">
@@ -90,7 +90,7 @@
     </div>
 
 
-       <h2 class="text-dark fw-bold">Note globale des usagers par structure</h2>
+       <!-- <h2 class="text-dark fw-bold">Appréciations des usagers par structure</h2>
     <hr/>
     <div class="bg-white mb-3 p-3">
         <table class="table mb-3">
@@ -122,7 +122,7 @@
                             
             </tbody>
         </table>
-    </div>
+    </div> -->
 
 
     </ng-template>
