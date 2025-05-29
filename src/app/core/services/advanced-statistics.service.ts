@@ -28,8 +28,12 @@ export class AdvancedStatisticsService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("get-performances-visists")}`);
   }
   
-  getStats(){
-    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-advanced-stats")}`);
+  getStats(idEntite:any){
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-advanced-stats")}/${idEntite}`);
+  }
+
+  getStatsRapport(idEntite:any){
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-advanced-stats-rapport")}/${idEntite}`);
   }
   
   printView(resource:any){

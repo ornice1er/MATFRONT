@@ -17,6 +17,7 @@ import { AdvancedStatisticsService } from '../../../../core/services/advanced-st
 import { ConfigService } from '../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { ObserverService } from '../../../../core/utils/observer.service';
+import { GlobalName } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-avanced-statistics',
@@ -26,6 +27,7 @@ import { ObserverService } from '../../../../core/utils/observer.service';
   styleUrls: ['./avanced-statistics.component.css']
 })
 export class AvancedStatisticsComponent implements OnInit {
+  idEntite:any
   data:any
   data1:any
   data2:any
@@ -46,7 +48,9 @@ export class AvancedStatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.observerService.setTitle('Statistiques Avancées')
-
+    if (this.localStorageService.get(GlobalName.userName) != null) {
+          this.idEntite=this.localStorageService.get(GlobalName.userName)?.idEntite
+        }
     this.getTogetherViews()
     this.getTogetherViews2()
     this.getPerformances()
@@ -56,7 +60,7 @@ export class AvancedStatisticsComponent implements OnInit {
 
   getStats(){
     this.spinner.show();
-    this.statisticService.getStats().subscribe((res:any)=>{
+    this.statisticService.getStats(this.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data4=res.data
     },

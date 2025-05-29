@@ -1,0 +1,303 @@
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li ngbNavItem>
+    <button ngbNavLink>Appréciations des usagers</button>
+    <ng-template ngbNavContent>
+          <h2 class="text-dark fw-bold">Note globale moyenne usager </h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Libéllé</th>
+                <th>Valeur</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Nombre totale de requêtes</td>
+                    <td>
+                  {{data4?.dataMoyGen?.nb_req}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nombre totale de requêtes traitées</td>
+                    <td>
+                  {{data4?.dataMoyGen?.nb_req_treated}}
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nombre total d’appréciation enregistré</td>
+                    <td>
+                        {{data4?.dataMoyGen?.nb_app_saved}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Note totale enregistrée</td>
+                    <td>
+                        {{data4?.dataMoyGen?.nb_app_total_saved}}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Moyenne sur /10</td>
+                    <td>
+                        {{
+                        (data4?.dataMoyGen?.nb_app_saved > 0
+                            ? (data4?.dataMoyGen?.nb_app_total_saved / data4?.dataMoyGen?.nb_app_saved)
+                            : 0
+                        ) | number: '1.2-2'
+                        }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+       <h2 class="text-dark fw-bold">Note globale des usagers par prestation</h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Prestation</th>
+                <th>Nombre totale de requête traitée</th>
+                <th>Notre total d’appréciation enregistré</th>
+                <th>Note totale enregistrée</th>
+                <th>Moyenne / 10</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of data4?.dataMoyPrestation">
+                    <td>{{r.libelle_service}}</td>
+                    <td>{{r.total_requetes_traitees}}</td>
+                    <td>{{r.nb_notes_non_nulles}}</td>
+                    <td>{{r.somme_notes ?? 0}}</td>
+                    <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                </tr>
+               <tr>
+                <td><strong>Total</strong></td>
+                <td>{{ totalRequetes }}</td>
+                <td>{{ totalNotes }}</td>
+                <td>{{ sommeTotaleNotes }}</td>
+                <td>{{ noteGlobaleMoyenne | number: '1.2-2' }}</td>
+                </tr>
+                            
+            </tbody>
+        </table>
+    </div>
+
+
+       <h2 class="text-dark fw-bold">Note globale des usagers par structure</h2>
+    <hr/>
+    <div class="bg-white mb-3 p-3">
+        <table class="table mb-3">
+            <thead>
+                <tr>
+                <th>Structure</th>
+                <th>Nombre totale de requête traitée</th>
+                <th>Notre total d’appréciation enregistré</th>
+                <th>Note totale enregistrée</th>
+                <th>Moyenne / 10</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of data4?.dataMoyStructure">
+                    <td>{{r.libelle_service}}</td>
+                    <td>{{r.total_requetes_traitees}}</td>
+                    <td>{{r.nb_notes_non_nulles}}</td>
+                    <td>{{r.somme_notes ?? 0}}</td>
+                    <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                </tr>
+               <tr>
+                <td><strong>Total</strong></td>
+                <td>{{ totalRequetes2 }}</td>
+                <td>{{ totalNotes2 }}</td>
+                <td>{{ sommeTotaleNotes2 }}</td>
+                <td>{{ noteGlobaleMoyenne2 | number: '1.2-2' }}</td>
+                </tr>
+                            
+            </tbody>
+        </table>
+    </div>
+
+
+    </ng-template>
+  </li>
+  <li ngbNavItem>
+    <button ngbNavLink>Rapports</button>
+    <ng-template ngbNavContent>
+        <div class="text-end">
+            <!-- <button class="btn btn-sm btn-primary" (click)="exportToWord()">Exporter en Word</button> -->
+        </div>
+        <div #exportContent>
+
+        <h5>1.	PERFORMANCE GLOBALE ET ÉVOLUTION </h5>
+        <h6>A. Volume et traitement des préoccupations :</h6>
+        <table class="table">
+            <thead>
+                <tr>
+                    <td>Indicateur</td>
+                    <td>{{evolution?.semaine_1?.au | date:"dd-MM-yyyy"}}</td>
+                    <td>{{evolution?.semaine_2?.au | date:"dd-MM-yyyy"}}</td>
+                    <td>Evolution</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cumul des Préoccupations reçues</td>
+                    <td>{{evolution?.semaine_1?.nb_req}}</td>
+                    <td>{{evolution?.semaine_2?.nb_req}}</td>
+                    <td>{{ calculateEvolution(evolution?.semaine_1?.nb_req, evolution?.semaine_2?.nb_req) }}</td>
+                </tr>
+                <tr>
+                    <td>Cumul des Préoccupations traitées</td>
+                   <td>{{evolution?.semaine_1?.nb_req_treated}}</td>
+                    <td>{{evolution?.semaine_2?.nb_req_treated}}</td>
+                    <td>{{ calculateEvolution(evolution?.semaine_1?.nb_req_treated, evolution?.semaine_2?.nb_req_treated) }}</td>
+                </tr>
+                <tr>
+                    <td>Taux de traitement</td>
+                   <td>{{evolution?.semaine_1?.taux}} %</td>
+                    <td>{{evolution?.semaine_2?.taux}} %</td>
+                    <td>{{ calculateEvolution(evolution?.semaine_1?.taux, evolution?.semaine_2?.taux, true) }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="chart1" class="">
+            <h6 class="text-center">Niveau de plaintes et demandes d'information traitées</h6>
+             <canvas
+                baseChart
+                [data]="barChartData"
+                [options]="barChartOptions"
+                [type]="barChartType"
+            >
+            </canvas>
+        </div>
+           
+
+        <h6>B. Situation des instances :</h6>
+          <table class="table">
+            <thead>
+                <tr>
+                    <td>Type d’instance</td>
+                    <td>{{evolution?.semaine_1?.au | date:"dd-MM-yyyy"}}</td>
+                    <td>{{evolution?.semaine_2?.au | date:"dd-MM-yyyy"}}</td>
+                    <td>Evolution</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cumul des Plaintes non traitées</td>
+                    <td>{{evolution?.semaine_1?.nb_req_pl_nt}}</td>
+                    <td>{{evolution?.semaine_2?.nb_req_pl_nt}}</td>
+                    <td>{{ calculateEvolution(evolution?.semaine_1?.nb_req_pl_nt, evolution?.semaine_2?.nb_req_pl_nt) }}</td>
+                </tr>
+                <tr>
+                    <td>Cumul des Demandes d'information non traitées</td>
+                   <td>{{evolution?.semaine_1?.nb_req_info_nt}}</td>
+                    <td>{{evolution?.semaine_2?.nb_req_info_nt}}</td>
+                    <td>{{ calculateEvolution(evolution?.semaine_1?.nb_req_info_nt, evolution?.semaine_2?.nb_req_info_nt) }}</td>
+                </tr>
+                <tr>
+                    <td>Total instances</td>
+                   <td>{{evolution?.semaine_1?.total}}</td>
+                    <td>{{evolution?.semaine_2?.total}}</td>
+                    <td>{{ evolution?.semaine_1?.total+ evolution?.semaine_2?.total}}</td>
+                </tr>
+            </tbody>
+        </table>
+         <div id="chart2" class="">
+            <h6 class="text-center">Niveau des instances non traitées</h6>
+             <canvas
+                baseChart
+                [data]="barChartData2"
+                [options]="barChartOptions2"
+                [type]="barChartType2"
+            >
+            </canvas>
+        </div>
+
+        <h6>C. Performance des CCSP/GSRU :</h6>
+  <table class="table">
+            <thead>
+                <tr>
+                    <th rowspan="2"></th>
+                    <th class="text-center" colspan="2">Semaine écoulé</th>
+                    <th class="text-center" colspan="2">Total</th>
+                </tr>
+                <tr>
+                    <th>Plus élevé</th>
+                    <th>Plus Faible</th>
+                    <th>Plus élevé</th>
+                    <th>Plus Faible</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr *ngFor="let d of data3; let i=index">
+                    <td>{{d.name}}</td>
+                    <td>
+                        <ol>
+                            <li ngForElse="elseContent1" *ngFor="let el of d.max_last_week;">
+                            <dl class="mb-1">
+                                <dt>Commune: {{el.libellecom}}</dt>
+                                <dt>Valeur:  {{el?.total}}</dt>
+                            </dl>
+                            </li>
+                        </ol>
+                        <ng-template #elseContent1>
+                            <p class="text-center">Aucune donnée disponible</p>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ol>
+                            <li ngForElse="elseContent2" *ngFor="let el of d.min_last_week;">
+                            <dl class="mb-1">
+                                <dt>Commune: {{el.libellecom}}</dt>
+                                <dt>Valeur:  {{el?.total}}</dt>
+                            </dl>
+                            </li>
+                        </ol>
+                        <ng-template #elseContent2>
+                            <p class="text-center">Aucune donnée disponible</p>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ol>
+                            <li ngForElse="elseContent3" *ngFor="let el of d.max_total;">
+                            <dl class="mb-1">
+                                <dt>Commune: {{el.libellecom}}</dt>
+                                <dt>Valeur:  {{el?.total}}</dt>
+                            </dl>
+                            </li>
+                        </ol>
+                        <ng-template #elseContent3>
+                            <p class="text-center">Aucune donnée disponible</p>
+                        </ng-template>
+                    </td>
+                    <td>
+                        <ol>
+                            <li ngForElse="elseContent4" *ngFor="let el of d.min_total;">
+                            <dl class="mb-1">
+                                <dt>Commune: {{el.libellecom}}</dt>
+                                <dt>Valeur:  {{el?.total}}</dt>
+                            </dl>
+                            </li>
+                        </ol>
+                        <ng-template #elseContent4>
+                            <p class="text-center">Aucune donnée disponible</p>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div>
+  

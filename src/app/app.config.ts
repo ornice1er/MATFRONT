@@ -12,6 +12,7 @@ import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { TRANSLATE_PROVIDERS } from './core/providers/translate.providers';
+
 registerLocaleData(localeFr);
 
 export const appConfig: ApplicationConfig = {

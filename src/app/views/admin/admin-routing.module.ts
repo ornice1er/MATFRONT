@@ -73,6 +73,7 @@ import { UsersComponent } from "./pages/users/users.component";
 import { CspReportPendingComponent } from "./pages/csp-report-pending/csp-report-pending.component";
 import { CspReportOwnComponent } from "./pages/csp-report-own/csp-report-own.component";
 import { CspReportCreateComponent } from "./pages/csp-report-create/csp-report-create.component";
+import { FollowTreatmentComponent } from "./pages/follow-treatment/follow-treatment.component";
 
 
 export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
@@ -388,6 +389,10 @@ export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
             {
               path: 'ratiodemandeinfosstructure',
               component:ListRatioDemandeInfosStructureComponent
+            },
+              {
+              path: 'follow-treatment',
+              component:FollowTreatmentComponent
             }
           
         
