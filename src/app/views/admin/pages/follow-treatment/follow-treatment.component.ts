@@ -44,6 +44,7 @@ Chart.register(ChartDataLabels);
 export class FollowTreatmentComponent implements OnInit {
   idEntite:any
   evolution:any
+  pendings:any
   data:any
   data3:any[]=[]
   data4:any
@@ -75,7 +76,7 @@ export class FollowTreatmentComponent implements OnInit {
   public barChartType = 'bar' as const;
 
   public barChartData: ChartData<'bar'> = {
-    labels: ['Cumul des préoccupations reçues', 'Cumul des préoccupations traitées', 'Taux de traitement'],
+    labels: ['Cumul des préoccupations reçues', 'Cumul des préoccupations traitées'],
     datasets: [],
   };
 
@@ -151,6 +152,7 @@ export class FollowTreatmentComponent implements OnInit {
         this.evolution=res.data.evolution
       this.barChartData2.datasets.push({ data: [this.evolution?.semaine_1.nb_req_pl_nt, this.evolution?.semaine_1.nb_req_info_nt, this.evolution?.semaine_1.total], label: `${ this.evolution?.semaine_1.du} au ${ this.evolution?.semaine_1.au}` })
       this.barChartData2.datasets.push({ data: [this.evolution?.semaine_2.nb_req_pl_nt, this.evolution?.semaine_2.nb_req_info_nt, this.evolution?.semaine_2.total], label: `${ this.evolution?.semaine_2.du} au ${ this.evolution?.semaine_2.au}` })
+    
     },
     (error:any)=>{
       this.spinner.hide();

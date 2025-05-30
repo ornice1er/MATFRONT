@@ -2,92 +2,108 @@
   <li ngbNavItem>
     <button ngbNavLink>Appréciations des usagers</button>
     <ng-template ngbNavContent>
-          <h2 class="text-dark fw-bold">PERFORMANCE GLOBALE</h2>
-    <hr/>
-    <div class="bg-white mb-3 p-3">
-        <table class="table mb-3">
-            <thead>
-                <tr>
-                <th>Libéllé</th>
-                <th>Valeur</th>
-                </tr>
+       <div class="container p-3">
+             <div class="d-flex align-items-start">
+            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">PERFORMANCE GLOBALE</button>
+                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">APPRECIATION DES USAGERS</button>
+            </div>
+        <div class="tab-content w-100" id="v-pills-tabContent">
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                    <h2 class="text-dark fw-bold">PERFORMANCE GLOBALE</h2>
+            <hr/>
+            <div class="bg-white mb-3 p-3">
+                <table class="table mb-3">
+                    <thead>
+                        <tr>
+                        <th>Libéllé</th>
+                        <th>Valeur</th>
+                        </tr>
 
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Nombre total de préoccupations recues</td>
-                    <td>
-                  {{data4?.dataMoyGen?.nb_req}}
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nombre total de préoccupations recues</td>
+                            <td>
+                        {{data4?.dataMoyGen?.nb_req}}
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>Nombre total de préoccupations traitées</td>
-                    <td>
-                  {{data4?.dataMoyGen?.nb_req_treated}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nombre total de préoccupations traitées</td>
+                            <td>
+                        {{data4?.dataMoyGen?.nb_req_treated}}
 
-                    </td>
-                </tr>
-                <tr>
-                    <td>Nombre total d'appréciations enregistrées</td>
-                    <td>
-                        {{data4?.dataMoyGen?.nb_app_saved}}
-                    </td>
-                </tr>
-                <!-- <tr>
-                    <td>Note totale enregistrée</td>
-                    <td>
-                        {{data4?.dataMoyGen?.nb_app_total_saved}}
-                    </td>
-                </tr> -->
-                <tr>
-                    <td>note moyenne</td>
-                    <td>
-                        {{
-                        (data4?.dataMoyGen?.nb_app_saved > 0
-                            ? (data4?.dataMoyGen?.nb_app_total_saved / data4?.dataMoyGen?.nb_app_saved)
-                            : 0
-                        ) | number: '1.2-2'
-                        }}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nombre total d'appréciations enregistrées</td>
+                            <td>
+                                {{data4?.dataMoyGen?.nb_app_saved}}
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td>Note totale enregistrée</td>
+                            <td>
+                                {{data4?.dataMoyGen?.nb_app_total_saved}}
+                            </td>
+                        </tr> -->
+                        <tr>
+                            <td>note moyenne</td>
+                            <td>
+                                {{
+                                (data4?.dataMoyGen?.nb_app_saved > 0
+                                    ? (data4?.dataMoyGen?.nb_app_total_saved / data4?.dataMoyGen?.nb_app_saved)
+                                    : 0
+                                ) | number: '1.2-2'
+                                }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-       <h2 class="text-dark fw-bold">Appréciations des usagers par prestation</h2>
-    <hr/>
-    <div class="bg-white mb-3 p-3">
-        <table class="table mb-3">
-            <thead>
-                <tr>
-                <th>Prestation</th>
-                <th>Nombre totale de requête traitée</th>
-                <th>Notre total d’appréciation enregistré</th>
-                <th>Note totale enregistrée</th>
-                <th>Moyenne / 10</th>
-                </tr>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+                <h2 class="text-dark fw-bold">Appréciations des usagers par prestation</h2>
+            <hr/>
+            <div class="bg-white mb-3 p-3">
+                <table class="table mb-3">
+                    <thead>
+                        <tr>
+                        <th>Prestation</th>
+                        <th>Nombre totale de requête traitée</th>
+                        <th>Notre total d’appréciation enregistré</th>
+                        <th>Note totale enregistrée</th>
+                        <th>Moyenne / 10</th>
+                        </tr>
 
-            </thead>
-            <tbody>
-                <tr *ngFor="let r of data4?.dataMoyPrestation">
-                    <td>{{r.libelle_service}}</td>
-                    <td>{{r.total_requetes_traitees}}</td>
-                    <td>{{r.nb_notes_non_nulles}}</td>
-                    <td>{{r.somme_notes ?? 0}}</td>
-                    <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
-                </tr>
-               <tr>
-                <td><strong>Total</strong></td>
-                <td>{{ totalRequetes }}</td>
-                <td>{{ totalNotes }}</td>
-                <td>{{ sommeTotaleNotes }}</td>
-                <td>{{ noteGlobaleMoyenne | number: '1.2-2' }}</td>
-                </tr>
-                            
-            </tbody>
-        </table>
-    </div>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let r of data4?.dataMoyPrestation">
+                            <td>{{r.libelle_service}}</td>
+                            <td>{{r.total_requetes_traitees}}</td>
+                            <td>{{r.nb_notes_non_nulles}}</td>
+                            <td>{{r.somme_notes ?? 0}}</td>
+                            <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                        </tr>
+                    <tr>
+                        <td><strong>Total</strong></td>
+                        <td>{{ totalRequetes }}</td>
+                        <td>{{ totalNotes }}</td>
+                        <td>{{ sommeTotaleNotes }}</td>
+                        <td>{{ noteGlobaleMoyenne | number: '1.2-2' }}</td>
+                        </tr>
+                                    
+                    </tbody>
+                </table>
+            </div>
+            </div>
+        </div>
+       </div>
+</div>
+      
+   
 
 
        <!-- <h2 class="text-dark fw-bold">Appréciations des usagers par structure</h2>
@@ -136,8 +152,8 @@
         <div #exportContent>
 
         <h5>1.	PERFORMANCE GLOBALE ET ÉVOLUTION </h5>
-        <h6>A. Volume et traitement des préoccupations :</h6>
-        <table class="table">
+        <h6 class="mb-3">A. Volume et traitement des préoccupations :</h6>
+        <table class="table mb-3">
             <thead>
                 <tr>
                     <td>Indicateur</td>
@@ -167,8 +183,8 @@
                 </tr>
             </tbody>
         </table>
-        <div id="chart1" class="">
-            <h6 class="text-center">Niveau de plaintes et demandes d'information traitées</h6>
+        <div id="chart1" class="mb-3">
+            <h6 class="text-center">Evolution du traitement des préoccupation</h6>
              <canvas
                 baseChart
                 [data]="barChartData"
@@ -180,7 +196,7 @@
            
 
         <h6>B. Situation des instances :</h6>
-          <table class="table">
+          <table class="table mb-3">
             <thead>
                 <tr>
                     <td>Type d’instance</td>
@@ -210,8 +226,8 @@
                 </tr>
             </tbody>
         </table>
-         <div id="chart2" class="">
-            <h6 class="text-center">Niveau des instances non traitées</h6>
+         <div id="chart2" class="mb-3">
+            <h6 class="text-center">graphe de la situation des instances</h6>
              <canvas
                 baseChart
                 [data]="barChartData2"
@@ -221,8 +237,26 @@
             </canvas>
         </div>
 
-        <h6>C. Performance des CCSP/GSRU :</h6>
-  <table class="table">
+        <h6 class="mb-3">C. Performance des Structures :</h6>
+            <table class="table mb-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Structure</th>
+                        <th>Nb. non traités</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let p of data4.pendings;let i=index">
+                        <td>{{i+1}}</td>
+                        <td>{{p.direction}}</td>
+                        <td>{{p.nontraitee}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <h6 class="mb-3">D. Performance des CCSP/GSRU :</h6>
+         <table class="table mb-3">
             <thead>
                 <tr>
                     <th rowspan="2"></th>
