@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
+import { ParticleBackgroundDirective } from './particle-background.directive';
 
 @Component({
   selector: 'app-layout',
@@ -8,7 +9,8 @@ import { RouterModule, RouterOutlet } from '@angular/router';
   imports: [
     CommonModule,
     RouterModule,
-    RouterOutlet
+    RouterOutlet,
+    ParticleBackgroundDirective
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
