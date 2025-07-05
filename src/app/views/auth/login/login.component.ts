@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthentificationService } from '../../../core/services/authentification.service';
 import { SettingService } from '../../../core/services/setting.service';
+import { PermissionService } from '../../../core/services/permission.service';
+
 
 @Component({
   selector: 'app-login',
@@ -28,7 +30,8 @@ export class LoginComponent implements OnInit {
     private localStorageService:LocalStorageService,
     private route:ActivatedRoute,
     private router:Router, 
-    private auth:AuthentificationService, 
+    private auth:AuthentificationService,
+    private permissionService: PermissionService,
     private settingService: SettingService ) { }
   lang="fr"
   ngOnInit(): void {
@@ -53,6 +56,20 @@ export class LoginComponent implements OnInit {
         if (res) {
           this.localStorageService.set(GlobalName.tokenName,res.data.token);
           this.localStorageService.set(GlobalName.userName,res.data.user);
+          // Récupérer les permissions depuis l'API
+          this.permissionService.getAll().subscribe({
+            next: (permissions: any) => {
+              this.localStorageService.set(GlobalName.features, permissions);
+              this.settingService.get().subscribe((result: any) => {
+                this.localStorageService.set(GlobalName.settingName, JSON.stringify(result.data));
+                this.router.navigateByUrl('/admin/dashboard');
+              });
+            },
+            error: (err: any) => {
+              console.error('Erreur lors de la récupération des permissions', err);
+              this.loading = false;
+            }
+          });
             this.settingService.get().subscribe((result:any)=>{
               this.localStorageService.set(GlobalName.settingName,JSON.stringify(result.data));
               this.router.navigateByUrl("/admin/dashboard"); 

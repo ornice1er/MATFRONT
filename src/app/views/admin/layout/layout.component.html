@@ -1,163 +1,36 @@
 <mat-toolbar color="">
-    <button mat-icon-button (click)="toggleMenu()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span style="color:#42358C">MATACCUEIL | {{title}}</span>
-    <button class="btn btn-sm btn-danger" (click)="logout()">Déconnexion</button>
-  </mat-toolbar>
-  
-  <mat-sidenav-container class="">
-    <mat-sidenav #sidenav mode="side" [(opened)]="menuOpen" class="bg-" style="background-color:#42358C;">
-      <mat-nav-list>
-        <a *ngIf="user?.profil_user?.superadmin!=1" style="color: aliceblue !important;"  mat-list-item routerLinkActive="active" routerLink="/admin/dashboard" ><span class="text-white">Accueil</span></a>
-        <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/listsuggestions" ><span class="text-white">Suggestions</span></a>
+  <button mat-icon-button (click)="toggleMenu()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span style="color:#42358C">MATACCUEIL | {{title}}</span>
+  <button class="btn btn-sm btn-danger" (click)="logout()">Déconnexion</button>
+</mat-toolbar>
 
-        <mat-expansion-panel class=" shadow-none rounded-0" *ngIf="user?.profil_user?.parametre==1">
+<mat-sidenav-container class="">
+  <mat-sidenav #sidenav mode="side" [(opened)]="menuOpen" style="background-color:#42358C;">
+    <mat-nav-list>
+      <ng-container *ngFor="let item of menuItems">
+        <!-- Liens simples -->
+        <a *ngIf="!item.children && canShowItem(item)" mat-list-item [routerLink]="item.route" routerLinkActive="active">
+          <span class="text-white">{{ item.label }}</span>
+        </a>
+        <!-- Panneaux d'expansion -->
+        <mat-expansion-panel *ngIf="item.children && canShowItem(item)" class="shadow-none rounded-0">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Paramètres
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-      
-          <mat-nav-list>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/liststructure"><span class="text-white">Structure</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/listacteur"><span class="text-white">Acteurs</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1"  mat-list-item routerLinkActive="active" routerLink="/admin/users-main"><span class="text-white">Utilisateurs</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1"  mat-list-item routerLinkActive="active" routerLink="/admin/users"><span class="text-white">Utilisateurs</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1"  mat-list-item routerLinkActive="active" routerLink="/admin/listthematique"><span class="text-white">Thématique</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/listservices"><span class="text-white">Gestion des prestations</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1"  mat-list-item routerLinkActive="active" routerLink="/admin/listprofils"><span class="text-white">Profils</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/listetapes"><span class="text-white">Etapes</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==0" mat-list-item routerLinkActive="active" routerLink="/admin/listnature"><span class="text-white">Nature requetes</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1"  mat-list-item routerLinkActive="active" routerLink="/admin/institutions"><span class="text-white">Entités administratives</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1"  mat-list-item routerLinkActive="active" routerLink="/admin/configrelance"><span class="text-white">Relances</span></a>
-            <a  *ngIf="user?.profil_user?.admin_sectoriel==0" mat-list-item routerLinkActive="active" routerLink="/admin/events"><span class="text-white">Evènements déclencheurs</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/attributcom"><span class="text-white">Attribution communes</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/e-services"><span class="text-white">E Services</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/type-structures"><span class="text-white">Type structure</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/nature-contracts"><span class="text-white">Nature contrat</span></a>
-            <a *ngIf="user?.profil_user?.superadmin==1" mat-list-item routerLinkActive="active" routerLink="/admin/ccsps"><span class="text-white">Centre communaux</span></a>
-            <a *ngIf="user?.profil_user?.admin_sectoriel==1" mat-list-item routerLinkActive="active" routerLink="/admin/settings"><span class="text-white">Paramètre générale</span></a>
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-
-        <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.ratio==1">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Ratio des prestations
-            </mat-panel-title>
+            <mat-panel-title>{{ item.label }}</mat-panel-title>
           </mat-expansion-panel-header>
           <mat-nav-list>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratioplainteprestation"><span class="text-white">Plaintes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratiorequeteprestation"><span class="text-white">Requêtes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratiodemandeinfosprestation"><span class="text-white">Demande infos</span></a>
-
+             <ng-container *ngFor="let child of item.children">
+              <a *ngIf="canShowItem(child)" mat-list-item [routerLink]="child.route" routerLinkActive="active">
+                <span class="text-white">{{ child.label }}</span>
+              </a>
+            </ng-container>
           </mat-nav-list>
         </mat-expansion-panel>
-
-        <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.ratio==1">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Ratio des structures
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratioplaintestructure"><span class="text-white">Plaintes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratiorequetestructure"><span class="text-white">Requêtes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/ratiodemandeinfosstructure"><span class="text-white">Gestion des usagers</span></a>
-
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-        <a *ngIf="user?.profil_user?.superadmin!=1 && user?.profil_user?.admin_sectoriel!=1 && (user?.profil_user?.saisie_adjoint==1 || user?.profil_user?.saisie==1 || user?.profil_user?.pointfocal==1)" mat-list-item routerLinkActive="active" routerLink="/admin/listservices">  <span class="text-white">Prestations par structure </span></a>
-        <a *ngIf="user?.profil_user?.pointfocal==1" mat-list-item routerLinkActive="active" routerLink="/admin/allservices"> <span class="text-white">Toutes les prestations</span> </a>
-        <a *ngIf="user?.profil_user?.decisionnel_suivi==1" mat-list-item routerLinkActive="active" routerLink="/admin/liststatprestationbystructure"><span class="text-white">Statistiques</span></a>
-        <a *ngIf="user?.profil_user?.saisie==1 || user?.profil_user?.saisie_adjoint==1 || user?.profil_user?.pointfocalcom==1 || user?.profil_user?.pointfocal==1 || user?.profil_user?.service==1" mat-list-item routerLinkActive="active" routerLink="/admin/listusager"> <span class="text-white">Gestion des usagers</span></a>
-        <a *ngIf="user?.profil_user?.service==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteservice/requetes"> <span class="text-white">Requêtes à traiter</span></a>
-        <a *ngIf="user?.profil_user?.division==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteservice/requetes"> <span class="text-white">Requêtes à traiter</span></a>
-        <a *ngIf="user?.profil_user?.direction==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequetestructures/plaintes"> <span class="text-white">Plaintes à traiter</span></a>
-        <a *ngIf="user?.profil_user?.service==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequetestructures/plaintes"> <span class="text-white">Plaintes à traiter</span></a>
-        <a *ngIf="user?.profil_user?.division==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequetestructures/plaintes"><span class="text-white">Plaintes à traiter</span> </a>
-        <a *ngIf="user?.profil_user?.direction==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteservice/infos">  <span class="text-white">Demandes infos à traiter</span></a>
-        <a *ngIf="user?.profil_user?.service==1" Paramètre généralemat-list-item routerLink="/admin/listrequeteservice/infos">  <span class="text-white">Demandes infos à traiter</span></a>
-        <a *ngIf="user?.profil_user?.division==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteservice/infos"> <span class="text-white">Demandes infos à traiter</span> </a>
-        <a *ngIf="user?.profil_user?.saisie_adjoint==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteajdoint/requetes"> <span class="text-white">Requêtes à traiter</span></a>
-        <a *ngIf="user?.profil_user?.saisie_adjoint==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteajdoint/plaintes"> <span class="text-white">Plaintes à traiter</span> </a>
-        <a *ngIf="user?.profil_user?.saisie_adjoint==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteajdoint/infos"> <span class="text-white">Demandes infos à traiter</span></a>
-        <a *ngIf="user?.profil_user?.parametre==1 && user?.profil_user?.admin_sectoriel==0" mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteupdate"> <span class="text-white">Modifier une préoccupation</span> </a>
-        <a *ngIf="user?.profil_user?.admin_sectoriel==0 && (user?.profil_user?.superadmin!=1  || user?.profil_user?.direction!=1)" mat-list-item routerLinkActive="active" routerLink="/admin/comment"> <span class="text-white">Gestion des rapports</span></a>
-
-            <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.validateurcentrecom || user?.profil_user?.superviseurcentrecom || user?.profil_user?.coordonnateurcentrecom">
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Gestion des rapports CCSP
-                </mat-panel-title>
-              </mat-expansion-panel-header>
-              <mat-nav-list>
-                <a  mat-list-item routerLinkActive="active" routerLink="/admin/ccsp/reports/pending"><span class="text-white">A valider</span></a>
-                <a  mat-list-item routerLinkActive="active" routerLink="/admin/ccsp/reports/own"><span class="text-white">Mes Rapports</span></a>
-
-              </mat-nav-list>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.superadmin!=1">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Historique
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteparcours/requetes"><span class="text-white">Requêtes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteparcours/plaintes"><span class="text-white">Plaintes</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/listrequeteparcours/infos"><span class="text-white">Demandes infos</span></a>
-            <a *ngIf="user?.profil_user?.saisie==1 || user?.profil_user?.sgm==1 || user?.profil_user?.dc==1 || user?.profil_user?.ministre==1 || user?.profil_user?.direction==1" mat-list-item routerLinkActive="active" routerLink="/admin/listrequetepointreponse"><span class="text-white">Point réponses</span></a>
-            <a *ngIf="user?.id=='149' || user?.profil_user?.pointfocalcom==1" mat-list-item routerLinkActive="active" routerLink="/admin/listregistre"><span class="text-white">Régistre de visite</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/statglob/all/all"><span class="text-white">Statistique e-service</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/statglob/conn/all"><span class="text-white">Journal de connexion</span></a>
-
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.saisie==1 || user?.profil_user?.sgm==1 || user?.profil_user?.dc==1 || user?.profil_user?.ministre==1 || user?.profil_user?.direction==1">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Statistiques
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a *ngIf="user?.profil_user?.saisie==1 || user?.profil_user?.sgm==1 || user?.profil_user?.dc==1 || user?.profil_user?.ministre==1 || user?.profil_user?.direction==1" mat-list-item routerLinkActive="active" routerLink="/admin/liststatprestation"><span class="text-white">Prestations</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/liststattheme/requetes"><span class="text-white">Thématiques</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/liststatstructure/requetes"><span class="text-white">Structures</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/listauxdigit"><span class="text-white">Taux digitalisation</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/avanced-statistics"><span class="text-white">Avancées</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/follow-treatment"><span class="text-white">Suivi traitement</span></a>
-
-
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-        <!-- <mat-expansion-panel class=" " *ngIf="user?.profil_user?.sgm==1 || user?.profil_user?.dc==1 || user?.profil_user?.ministre==1  || user?.profil_user?.direction==1"> -->
-          <mat-expansion-panel class=" shadow-none" *ngIf="user?.profil_user?.sgm==1 || user?.profil_user?.dc==1 || user?.profil_user?.ministre==1  || user?.profil_user?.direction==1">
-
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Graphiques
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/grahiquetype/requetes"><span class="text-white">Thématiques</span></a>
-            <a  mat-list-item routerLinkActive="active" routerLink="/admin/grahiquestructures/requetes"><span class="text-white">Structures</span></a>
-
-
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-        
-
-      </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content class="p-3">
-      <router-outlet></router-outlet>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="p-3">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
