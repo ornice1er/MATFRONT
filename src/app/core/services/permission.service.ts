@@ -1,38 +1,53 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../utils/config-service';
-import { tap } from 'rxjs/internal/operators/tap';
+import { GlobalName } from '../utils/global-name';
+import { LocalStorageService } from '../utils/local-stoarge-service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
-
   url=ConfigService.toApiUrl("permissions/");
-  constructor(private http:HttpClient) { }
- 
+  permissions:any[]=[]
 
-  getAll(){
-   
-    return this.http.get<any[]>(`${this.url}`,ConfigService.httpHeader());
+  constructor(private http:HttpClient,    private lsService:LocalStorageService
+  ) { }
+
+    getAll(){
+    return this.http.get<any[]>(`${this.url}`,ConfigService.addAction('LISTER'));
   }
+
+  store(ressource:any){
+    return this.http.post<any>(`${this.url}`, ressource,
+     ConfigService.addAction('CREER'));
+  }
+
+  update(id:any,ressource:any){
+    ressource['_method']='patch';
+
+    return this.http.post<any>(`${this.url}${id}/`, ressource,  ConfigService.addAction('MODIFIER'));
+  }
+  delete(id:any){
+   // ressource['method']='SUPPRIMER';
+    return this.http.delete<any>(`${this.url}${id}`,
+     ConfigService.addAction('SUPPRIMER'));
+  }
+
   get(id:any){
-    return this.http.get<any>(`${ConfigService.toApiUrl("userPermissions/")}${id}`).pipe(
-      tap((ressource: any) => console.log(`get ressource ${ressource}`))
-    );
+    return this.http.get<any>(`${this.url}`,
+     ConfigService.addAction('RECUPERER'));
   }
-  create(ressource:any){
-    return this.http.post<any>(`${ConfigService.toApiUrl("userPermissions/")}`, ressource,
-     ).pipe(
-      tap((ressource: any) => console.log(`added ressource ${ressource}`))
+
+     setStatus(id:any,status:any){
+      return this.http.get<any>(`${this.url}${id}/state/${status}`,
+       ConfigService.addAction('CHANGER_STATUT'));
+    }
+
+  canShow(tags: string[], action = 'LISTER'): boolean {
+    this.permissions=this.lsService.get(GlobalName.userName)?.roles[0]?.permissions;
+    return tags.some(tag =>
+      this.permissions.some(p => p.name === `${action} ${tag}`)
     );
-  }
-  update(ressource:any,id:any){
-    return this.http.post<any>(`${ConfigService.toApiUrl("userPermissions/")}`, ressource,
-     ).pipe(
-      tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
-    );
-  }
-  delete(id:number,user_id:number){
-    return this.http.delete<any[]>(`${ConfigService.toApiUrl("deletePermissions/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }
 }
