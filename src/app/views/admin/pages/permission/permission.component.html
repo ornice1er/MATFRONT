@@ -1,0 +1,237 @@
+
+    <h2 class="text-center mb-3">Liste des permissions</h2>
+
+      <div class="row">
+        <div class="p-1 mb-3 card">
+          <div class="d-flex justify-content-between">
+      <button class="btn btn-sm btn-info" *ngIf="buttonsPermission.add"  (click)="add(addContent)">Ajouter</button>
+            <div class="align-self-center">
+                <select class="form-control me-2" name=""  id="">
+                    <option value="">Filtrer</option>
+                </select>
+            </div>
+            <div class="">
+                <input type="text" class="input-search" name="search_text" [(ngModel)]="search_text" placeholder="Rechercher..">
+            </div>
+        </div>
+          <div class="card-body">
+           
+            <p>{{data!.length}} élément(s)</p>
+            <div class="table-responsive">
+            <table class="table" >
+                <thead class="">
+                    <tr>
+                        <th style="width: 10px;">#</th>
+                        <th>Libellé</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let d of data | sampleSearch:search_text  | paginate: {
+                    id:'ngxP1',
+                    itemsPerPage: pg.pageSize,
+                    currentPage: pg.p,
+                    totalItems: pg.total } ">
+                       <td class="position-relative" style="z-index: 10;"> 
+                                    <div class="form-check mb-2">
+                                        <input
+                                        (click)="checked(d)"
+                                        class="form-check-input"
+                                        type="radio"
+                                        name="selectedDoc"
+                                        [value]="d.id"
+                                        [(ngModel)]="selectedId"
+                                        id="radio-{{ d.id }}"
+                                        />
+                                    </div>
+
+                                    <div *ngIf="selectedId === d.id" class="overlay-panel-right">
+                                        <button
+                                        class="btn btn-info btn-sm btn-label waves-effect waves-light me-3 mb-1"
+                                        (click)="add(addContent)"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Ajouter"
+                                        [disabled]="loading"
+                                        >
+                                        <i class="bi bi-plus-lg"></i>
+                                        </button>
+
+                                        <button
+                                        
+                                        *ngIf="buttonsPermission.add"
+                                        (click)="show(showContent)"
+                                        type="button"
+                                        class="btn btn-outline-primary btn-sm btn-label waves-effect waves-light mb-1 me-3"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Consulter"
+                                        [disabled]="loading"
+                                        >
+                                        <i class="bi bi-eye"></i>
+                                        </button>
+
+                                        <button
+                                        *ngIf="buttonsPermission.edit"
+                                        (click)="edit(editContent)"
+                                        type="button"
+                                        class="btn btn-outline-warning btn-sm btn-label waves-effect waves-light mb-1 me-3"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Éditer"
+                                        [disabled]="loading"
+                                        >
+                                        <i class="bi bi-pencil"></i>
+                                        </button>
+
+                                        <button
+                                        *ngIf="buttonsPermission.delete"
+                                        (click)="delete()"
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm btn-label waves-effect waves-light me-3 mb-1"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Supprimer"
+                                        [disabled]="loading"
+
+                                        >
+                                        <i class="bi bi-trash"></i>
+                                        </button>
+
+                                        <button
+                                        *ngIf="is_active != null && !is_active"
+                                        (click)="setStatus(1)"
+                                        type="button"
+                                        class="btn btn-outline-success btn-sm btn-label waves-effect waves-light me-3 mb-1"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Activer"
+                                        [disabled]="loading"
+                                        >
+                                        <i class="bi bi-toggle-on"></i>
+                                        </button>
+
+                                        <button
+                                        *ngIf="is_active != null && is_active"
+                                        (click)="setStatus(0)"
+                                        type="button"
+                                        class="btn btn-outline-danger btn-sm btn-label waves-effect waves-light me-3 mb-1"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Désactiver"
+                                        [disabled]="loading"
+
+                                        >
+                                        <i class="bi bi-toggle-off"></i>
+                                        </button>
+                                        <button
+                                        type="button"
+                                        class="btn-close float-end"
+                                        (click)="selectedId = null"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="top"
+                                        title="Fermer"
+                                        ></button>
+                                    </div>
+                                    </td>
+                        <td>{{d.name}}</td>
+                       
+                    </tr>
+                
+                </tbody>
+            </table>
+            </div>
+              <pagination-controls 
+            id="ngxP1"
+            (pageChange)="getPage($event)"
+          [maxSize]="9"
+          [directionLinks]="true"
+          [autoHide]="true"
+          [responsive]="true"
+          [previousLabel]="'Précédent'"
+          [nextLabel]="'Suivant'"
+          [screenReaderPaginationLabel]="'Pagination'"
+          [screenReaderPageLabel]="'page'"
+          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+         </pagination-controls>
+          </div>
+          </div>
+        </div>
+  
+  
+  
+        <ng-template  #addContent let-c="close" let-d="dismiss">
+          <form #addForm="ngForm" (ngSubmit)="create(addForm.value)">
+            <div class="modal-header">
+              <h6 class="modal-title" id="modal-basic-title">Créer une permission</h6>
+              <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+            </div>
+            <div class="modal-body" >
+                <div class="row mb-3">
+                    <div class=" form-goup col-12 mb-3">
+                        <label for="">Fonctionnalité du système <span class="text-danger ml-2">(*)</span></label>
+                        <ng-select name="feature" ngModel required>
+                          <ng-option *ngFor="let f of features" [value]="f">{{f}}</ng-option>
+                        </ng-select>
+                    </div> 
+                    <div class=" form-goup col-12 mb-3">
+                      <label for="">Action permises <span class="text-danger ml-2">(*)</span></label>
+                      <ng-select name="actions" [(ngModel)]="actions2" [multiple]="true" required>
+                        <ng-option *ngFor="let a of actions" [value]="a">{{a}}</ng-option>
+                      </ng-select>
+                  </div> 
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-outline-dark" [disabled]="addForm.invalid || loading" >Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+            </div>
+        </form>
+          </ng-template> 
+
+          <ng-template  #editContent let-c="close" let-d="dismiss">
+            <form #addForm="ngForm" (ngSubmit)="update(addForm.value)">
+              <div class="modal-header">
+                <h6 class="modal-title" id="modal-basic-title">Modifiier une permission</h6>
+                <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+              </div>
+              <div class="modal-body" >
+                <div class="row mb-3">
+                  <div class=" form-goup col-12 mb-3">
+                      <label for="">Fonctionnalité du système <span class="text-danger ml-2">(*)</span></label>
+                      <ng-select name="feature" [(ngModel)]="selected_data.feature">
+                        <ng-option *ngFor="let f of features" [value]="f">{{f}}</ng-option>
+                      </ng-select>
+                  </div> 
+                  <div class=" form-goup col-12 mb-3">
+                    <label for="">Action <span class="text-danger ml-2">(*)</span></label>
+                    <ng-select name="actions" [(ngModel)]="actions2" [multiple]="true" required>
+                      <ng-option *ngFor="let a of actions" [value]="a">{{a}}</ng-option>
+                    </ng-select>
+                </div> 
+              </div>
+             
+                 
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="addForm.invalid" >Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+              </div>
+          </form>
+          </ng-template> 
+
+          <ng-template  #showContent let-c="close" let-d="dismiss">
+            <div class="modal-header text-white text-center">
+                <h4 class="modal-title">Détails</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+              </div>
+
+            <div class="modal-body">
+            
+
+                <dl class="mb-3">
+                    <dt>Nom</dt>
+                    <dd>{{selected_data.name}}</dd>
+                </dl>
+
+             
+            </div>
+          </ng-template> 

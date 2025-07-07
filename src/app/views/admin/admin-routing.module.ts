@@ -74,6 +74,9 @@ import { CspReportPendingComponent } from "./pages/csp-report-pending/csp-report
 import { CspReportOwnComponent } from "./pages/csp-report-own/csp-report-own.component";
 import { CspReportCreateComponent } from "./pages/csp-report-create/csp-report-create.component";
 import { FollowTreatmentComponent } from "./pages/follow-treatment/follow-treatment.component";
+import { PermissionComponent } from "./pages/permission/permission.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
+import { RoleComponent } from "./pages/role/role.component";
 
 
 export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
@@ -130,6 +133,11 @@ export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
         },
        
     
+
+        { path: 'roles', component: RoleComponent },
+        { path: 'permissions', component: PermissionComponent },
+        { path: 'profils', component: ProfileComponent },
+
           
             {
               path: 'crud',
