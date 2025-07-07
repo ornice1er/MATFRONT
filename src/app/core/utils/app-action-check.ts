@@ -24,7 +24,6 @@
 //       }
 // }
 
-
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from './local-stoarge-service';
 import { GlobalName } from './global-name';
@@ -35,23 +34,34 @@ import { GlobalName } from './global-name';
 export class AppActionCheckService {
   constructor(private localStorageService: LocalStorageService) {}
 
+  check(key: string, action: string): boolean {
+    console.log(`AppActionCheckService.check called with key: ${key}, action: ${action}`);
+    const user = this.localStorageService.get(GlobalName.userName);
+    console.log('User:', user);
+    const windows = user?.windows || [];
+    console.log('Windows:', windows);
+    const permissions = user?.roles?.[0]?.permissions || [];
+    console.log('Permissions:', permissions);
+    const checkWindow = windows.find((el: any) => el.key === key);
+    console.log('CheckWindow:', checkWindow);
+    if (!checkWindow) {
+      console.warn(`No window found for key: ${key}`);
+      return false;
+    }
+    const featureChecked = permissions.filter((el: any) => el.feature_id === checkWindow.id);
+    console.log('FeatureChecked:', featureChecked);
+    const check = featureChecked.find((el: any) => el.action === action);
+    console.log('Check result:', check);
+    return !!check;
+  }
+
   hasPermission(key: string): boolean {
     const user = this.localStorageService.get(GlobalName.userName);
     const windows = user?.windows || [];
+    console.log(`hasPermission called with key: ${key}, windows:`, windows);
     return !!windows.find((el: any) => el.key === key);
   }
 
-  check(key: string, action: string): boolean {
-    const user = this.localStorageService.get(GlobalName.userName);
-    const windows = user?.windows || [];
-    const permissions = user?.roles?.[0]?.permissions || [];
-    const checkWindow = windows.find((el: any) => el.key === key);
-    if (!checkWindow) return false;
-    const featureChecked = permissions.filter((el: any) => el.feature_id === checkWindow.id);
-    return !!featureChecked.find((el: any) => el.action === action);
-  }
-
-  // Méthode pour récupérer les actions disponibles pour une clé
   getActions(key: string): { [key: string]: boolean } {
     return {
       show: this.check(key, 'Consulter'),

@@ -13,7 +13,9 @@ export class PermissionService {
 
   getAll(){
    
+
     return this.http.get<any[]>(`${this.url}`,ConfigService.httpHeader());
+    console.log("get all permissions" );
   }
   get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("userPermissions/")}${id}`).pipe(

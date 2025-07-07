@@ -368,7 +368,9 @@ export class LayoutComponent {
     });
   }
 
-  canShowItem(item: MenuItem): boolean {
-    return item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
-  }
+ canShowItem(item: MenuItem): boolean {
+  const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
+  console.log(`canShowItem(${item.key}, ${item.action}) => ${result}`);
+  return result;
+}
 }
