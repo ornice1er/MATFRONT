@@ -95,7 +95,7 @@
               </thead>
               <!-- *ngIf="last_step_giwu(el.parcours)==true" -->
               <tbody>
-                <tr  *ngFor="let el of data | sampleSearch:search_text:'forUsers' | paginate: {
+                <tr  *ngFor="let el of data | sampleSearch:search_text| paginate: {
                   id:'ngxP1',
                   itemsPerPage: pg.pageSize,
                   currentPage: pg.p,

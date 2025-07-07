@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ConfigService } from '../utils/config-service';
 import { GlobalName } from '../utils/global-name';
 import { LocalStorageService } from '../utils/local-stoarge-service';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,11 @@ export class PermissionService {
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }
-  delete(id:number,user_id:number){
+  delete(id:number){
     return this.http.delete<any[]>(`${ConfigService.toApiUrl("deletePermissions/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }
+   setStatus(id:any,status:any){
+      return this.http.get<any>(`${this.url}${id}/state/${status}`,
+       ConfigService.addAction('CHANGER_STATUT'));
+    }
 }
