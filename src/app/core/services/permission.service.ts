@@ -1,29 +1,30 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../utils/config-service';
-import { tap } from 'rxjs/internal/operators/tap';
+import { GlobalName } from '../utils/global-name';
+import { LocalStorageService } from '../utils/local-stoarge-service';
+
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
-
   url=ConfigService.toApiUrl("permissions/");
-  constructor(private http:HttpClient) { }
- 
+  permissions:any[]=[]
+
+  constructor(private http:HttpClient,    private lsService:LocalStorageService
+  ) { }
 
   getAll(){
    
-
     return this.http.get<any[]>(`${this.url}`,ConfigService.httpHeader());
-    console.log("get all permissions" );
   }
+
   get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("userPermissions/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
     );
   }
   create(ressource:any){
-    
     return this.http.post<any>(`${ConfigService.toApiUrl("userPermissions/")}`, ressource,
      ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
