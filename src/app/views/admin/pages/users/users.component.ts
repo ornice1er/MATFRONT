@@ -24,6 +24,8 @@ import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
 import { ObserverService } from '../../../../core/utils/observer.service';
+import { InstitutionService } from '../../../../core/services/institution.service';
+import { RoleService } from '../../../../core/services/role.service';
 
 
 @Component({
@@ -54,7 +56,7 @@ export class UsersComponent implements OnInit {
   is_active=null
   pg:any={
     pageSize:10,
-    p:0,
+    p:1,
     total:0
   }
 isPaginate:any=false
@@ -109,11 +111,15 @@ search_text:any=""
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
     private localStorageService : LocalStorageService,
-    private observerService:ObserverService
+    private observerService:ObserverService,
+    private institutionService:InstitutionService,
+    private roleService: RoleService
     ) {}
 
     acteurs:any[]=[]
     profils:any[]=[]
+    institutions:any[]=[]
+    role:any[]=[]
 
   user:any
   ngOnInit() {
@@ -137,14 +143,28 @@ search_text:any=""
     this.userService.getAll(this.user?.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
+      this.pg.total=res.data.length
+
     })
     this.profils=[]
     this.profilService.getAll().subscribe((res:any)=>{
       this.profils=res.data
+      console.log('profils',this.profils)
     })
     this.acteurs=[]
     this.acteursService.getAll(this.user?.idEntite).subscribe((res:any)=>{
       this.acteurs=res.data
+      console.log('acteurs',this.acteurs)
+    })
+      this.institutions=[]
+    this.institutionService.getAll().subscribe((res:any)=>{
+      this.institutions=res.data
+      console.log('institution',this.institutions)
+    })
+       this.role=[]
+    this.roleService.getAll().subscribe((res:any)=>{
+      this.role=res.data
+      console.log('role',this.role)
     })
   }
   
@@ -193,11 +213,6 @@ search_text:any=""
   }
   edit(value:any) {
     value.id=this.selected_data.id
-    if(value.password!=value.conf_password){
-      value.password=""
-    }
-    value.idEntite=this.user.idEntite
-    this.error="Le  mot de passe n'a pas été pris en compte car les deux ne sont pas identique"
     this.loading=true
     this.userService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.loading=false
