@@ -1,20 +1,25 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { ConfigService } from '../utils/config-service';
-import { tap } from 'rxjs/internal/operators/tap';
+import { GlobalName } from '../utils/global-name';
+import { LocalStorageService } from '../utils/local-stoarge-service';
+import { tap } from 'rxjs';
+
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
-
   url=ConfigService.toApiUrl("permissions/");
-  constructor(private http:HttpClient) { }
- 
+  permissions:any[]=[]
+
+  constructor(private http:HttpClient,    private lsService:LocalStorageService
+  ) { }
 
   getAll(){
    
     return this.http.get<any[]>(`${this.url}`,ConfigService.httpHeader());
   }
+
   get(id:any){
     return this.http.get<any>(`${ConfigService.toApiUrl("userPermissions/")}${id}`).pipe(
       tap((ressource: any) => console.log(`get ressource ${ressource}`))
@@ -32,7 +37,11 @@ export class PermissionService {
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }
-  delete(id:number,user_id:number){
+  delete(id:number){
     return this.http.delete<any[]>(`${ConfigService.toApiUrl("deletePermissions/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }
+   setStatus(id:any,status:any){
+      return this.http.get<any>(`${this.url}${id}/state/${status}`,
+       ConfigService.addAction('CHANGER_STATUT'));
+    }
 }

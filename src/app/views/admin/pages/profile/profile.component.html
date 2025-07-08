@@ -1,0 +1,86 @@
+    <h2 class="text-center mb-3">Rôles & Permissions</h2>
+
+<div>
+    <div >
+        <div  class="card mb-3" *ngFor="let r of data">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-md-between">
+              
+             <h5> {{r.name}}</h5>
+             <div class="form-group">
+              <label for=""> <strong>Rechercher:</strong> </label>
+              <input type="text" name="search_text" [(ngModel)]="search_text">
+              </div>
+                <button class="btn btn-warning btn-sm mb-1" (click)="open(dialog2,r)" >Copier vers </button>
+                <button *ngIf="buttonsPermission.add" class="btn btn-primary btn-sm" (click)="open(dialog,r)" >Ajouter un droit </button>
+            </div>
+        
+            <div class="card-body" style="height: 50vh; overflow-y: scroll; overflow-x: hidden;">
+              <div class="row" *ngFor="let p of r.permissions | sampleSearch:search_text">
+                  <div class="col-12 col-md-11">
+                   <i icon="arrowhead-right-outline"></i>  
+                   {{p.name}}
+                  </div>
+                
+                  <div class="col-12 col-md-1">
+                    <span class="float-right text-danger hand" (click)="revoke(r.id,p.id)"><u>Retirer</u></span>
+
+                  </div>
+                  <hr class="col-12">
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+  <ng-template #dialog  let-ref="dialogRef" let-d="dismiss">
+    <form #addForm="ngForm" (ngSubmit)="store(addForm.value,ref)">
+      <div class="modal-header">
+            <h6 class="modal-title">
+              Ajout de droit</h6>
+              <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+
+            
+      </div>
+      <div class="modal-body">
+          <div class="form-group mb-3">
+            <label for="">Permission</label>
+            <ng-select name="permissions" ngModel [multiple]="true" >
+                <ng-option *ngFor="let p of permissions" [value]="p.id">{{p.name}}</ng-option>
+            </ng-select>
+          </div>
+               
+      
+          <div>
+            <button type="submit" class="btn btn-outline-primary" [disabled]="addForm.invalid || loading">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
+          </div>
+        
+        </div>
+</form>
+  </ng-template>
+
+  <ng-template #dialog2  let-ref="dialogRef" let-d="dismiss">
+    <form #addForm="ngForm" (ngSubmit)="copyStore(addForm.value,ref)">
+      <div class="modal-header">
+            <h6 class="modal-title">
+              Copie de droit vers </h6>
+              <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+
+            
+      </div>
+      <div class="modal-body">
+          <div class="form-group mb-3">
+            <label for="">Rôle</label>
+            <ng-select name="role_id" ngModel >
+                <ng-option *ngFor="let r of data" [value]="r.id">{{r.name}}</ng-option>
+            </ng-select>
+          </div>
+               
+      
+          <div>
+            <button type="submit" class="btn btn-outline-primary" [disabled]="addForm.invalid || loading">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
+          </div>
+        
+        </div>
+</form>
+  </ng-template>

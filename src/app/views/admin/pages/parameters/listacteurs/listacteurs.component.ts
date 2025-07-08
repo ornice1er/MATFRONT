@@ -152,7 +152,13 @@ search_text:any=""
     this.acteursService.getAll(this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
-    })
+    },
+        (err:any)=>{
+          this.loading=false
+          console.log(err)
+            this.spinner.hide();
+            AppSweetAlert.simpleAlert("error","Gestion des acteurs",err.error.message)
+        })
     
     this.structures=[]
     this.structureService.getAll(0,this.user.idEntite).subscribe((res:any)=>{

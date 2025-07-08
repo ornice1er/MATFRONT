@@ -13,32 +13,36 @@ export class RoleService {
   constructor(private http:HttpClient) { }
 
     getAll(){
-    return this.http.get<any[]>(`${this.url}`,ConfigService.addAction('list'));
+    return this.http.get<any[]>(`${this.url}`,ConfigService.addAction('LISTER'));
   }
 
   store(ressource:any){
     return this.http.post<any>(`${this.url}`, ressource,
-     ConfigService.addAction('add'));
+     ConfigService.addAction('CREER'));
   }
 
   update(id:any,ressource:any){
     //ressource['method']='_patch';
 
-    return this.http.put<any>(`${this.url}${id}/`, ressource,  ConfigService.addAction('list'));
+    return this.http.put<any>(`${this.url}${id}/`, ressource,  ConfigService.addAction('LISTER'));
   }
   delete(id:any){
-   // ressource['method']='delete';
+   // ressource['method']='SUPPRIMER';
     return this.http.delete<any>(`${this.url}${id}`,
-     ConfigService.addAction('delete'));
+     ConfigService.addAction('SUPPRIMER'));
   }
 
   get(id:any){
     return this.http.get<any>(`${this.url}${id}`,
-     ConfigService.addAction('show'));
+     ConfigService.addAction('RECUPERER'));
   }
   copy(resource:any){
     return this.http.post<any>(`${ConfigService.toApiUrl("roles-windows-copy")}`,resource,
-     ConfigService.addAction('show'));
+     ConfigService.addAction('RECUPERER'));
   }
+   setStatus(id:any,status:any){
+      return this.http.get<any>(`${this.url}${id}/state/${status}`,
+       ConfigService.addAction('CHANGER_STATUT'));
+    }
   
 }

@@ -94,7 +94,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let s of data| sampleSearch:search_text:'forUsers' | paginate: {
+                                <tr *ngFor="let s of data| sampleSearch:search_text| paginate: {
                                 id:'ngxP1',
                                 itemsPerPage: pg.pageSize,
                                 currentPage: pg.p,

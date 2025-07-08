@@ -1,0 +1,7 @@
+.vertical-nav-menu li a.mm-active{
+    color: #C14F44 !important;
+}
+
+.vertical-nav-menu li a:hover{
+    color: #C14F44 !important;
+}

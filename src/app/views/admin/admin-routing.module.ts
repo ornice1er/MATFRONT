@@ -74,328 +74,471 @@ import { CspReportPendingComponent } from "./pages/csp-report-pending/csp-report
 import { CspReportOwnComponent } from "./pages/csp-report-own/csp-report-own.component";
 import { CspReportCreateComponent } from "./pages/csp-report-create/csp-report-create.component";
 import { FollowTreatmentComponent } from "./pages/follow-treatment/follow-treatment.component";
+import { PermissionComponent } from "./pages/permission/permission.component";
+import { ProfileComponent } from "./pages/profile/profile.component";
+import { RoleComponent } from "./pages/role/role.component";
+import { AuthGuard } from "../../core/guards/auth.guard";
 
-
-export const AdminRoutes: Routes = [ // ✅ Doit être un tableau
-    {
-      path: 'admin',
-      component: LayoutComponent,
-      // canActivate: [AuthRoleGuard],
-      children: [
-        { path: 'dashboard', component: DashboardComponent },
-        {
-          path:"login",
-          component:LoginComponent,
-          //canActivate:[IsAuthGuard]
-        },
-        {
-          path:"login-check/:email",
-          component:LoginCheckComponent
-        },
-        {
-          path:"login-usager",
-          component:LoginUsagerComponent
-        },
-        {
-          path:"login-v2",
-          component:LoginV2Component
-        },
-        {
-          path:"login-v2/:code",
-          component:LoginV2Component
-        },
-        {
-          path:"reset-password/:token",
-          component:ResetPasswordComponent
-        },
-        {
-          path:"forgot-password",
-          component:ForgotPasswordComponent
-        },
-        {
-          path: 'requete-usager/complement-information/:id/:codeRequete',
-          component:ComplementInformationComponent
-        },
-        {
-          path:"login/:lang",
-          component:LoginComponent
-        },
-        {
-          path:"reset-password/:lang/:token",
-          component:ResetPasswordComponent
-        },
-        {
-          path:"forgot-password/:lang",
-          component:ForgotPasswordComponent
-        },
-       
-    
-          
-            {
-              path: 'crud',
-              component:CrudComponent
-            },
-            {
-              path: 'listprofils',
-              component:ListeprofilsComponent
-            },
-            {
-              path: 'pointfocalcom',
-              component:EspacepointfocalcomComponent
-            },
-            {
-              path: 'listservices',
-              component:ListeserviceComponent
-            },
-            {
-              path: 'attributcom',
-              component:AttributcomComponent
-            },
-            {
-              path: 'listservicesatraiter',
-              component:ListserviceatraiterComponent
-            },
-            {
-              path: 'allservices',
-              component:AllServicesComponent
-            },
-            {
-              path: 'avanced-statistics',
-              component:AvancedStatisticsComponent
-            },
-            {
-              path: 'managerequeteusager',
-              component:ManageRequeteUsagerComponent
-            },
-          
-            {
-              path: 'listdenonciations',
-              component:ListDenonciationComponent
-            },
-            {
-              path: 'listsuggestions',
-              component:ListSuggestionComponent
-            },
-            {
-              path: 'docs',
-              component:GuideComponent
-            },
-            {
-              path: 'liststructure',
-              component:ListestructuresComponent
-            },
-            {
-              path: 'listcreneaux',
-              component:ListerdvcrenauxComponent
-            },
-            {
-              path: 'rdvparam',
-              component:ListerdvparametreComponent
-            },
-            {
-              path: 'listdaterdv',
-              component:ListdaterdvComponent
-            },
-            {
-              path: 'users',
-              component:UsersComponent
-            },
-            {
-              path: 'e-services',
-              component:EservicesComponent
-            },
-            {
-              path: 'type-structures',
-              component:TypeStructureComponent
-            },
-            {
-              path: 'nature-contracts',
-              component:NatureContractComponent
-            },
-            {
-              path: 'ccsps',
-              component:CcspComponent
-            },
-            {
-              path: 'ccsp/reports/pending',
-              component:CspReportPendingComponent
-            },
-            {
-              path: 'ccsp/reports/own',
-              component:CspReportOwnComponent
-            },
-            {
-              path: 'ccsp/reports/create',
-              component:CspReportCreateComponent
-            },
-            {
-              path: 'settings',
-              component:SettingsComponent
-            },
-            {
-              path: 'users-main',
-              component:UsersMainComponent
-            },
-            {
-              path: 'listusager',
-              component:ListusagerComponent
-            },
-            {
-              path: 'listacteur',
-              component:ListacteursComponent
-            },
-            {
-              path: 'events',
-              component:EventsComponent
-            },
-            {
-              path: 'relances',
-              component:RelanceComponent
-            },
-            {
-              path: 'institutions',
-              component:ListeinstitutionComponent
-            },
-            {
-              path: 'configrelance',
-              component:ConfigrelanceComponent
-            },
-            {
-              path: 'listthematique',
-              component:ListtypeComponent
-            },
-            {
-              path: 'listetapes',
-              component:ListetapesComponent
-            },
-            {
-              path: 'comment',
-              component:RapCommentComponent
-            },
-            {
-              path: 'listnature',
-              component:ListenatureComponent
-            },
-            {
-              path: 'dashboard',
-              component:DashboardComponent
-            },
-            {
-              path: 'profil',
-              component:ProfilComponent
-            },
-            {
-              path: 'listrequeteupdate',
-              component:ListRequeteUpdateComponent
-            },
-            {
-              path: 'listrequetestructures/:type_req',
-              component:ListRequeteStructuresComponent
-            },
-            {
-              path: 'listrequeteservice/:type_req',
-              component:ListRequeteServicesComponent
-            },
-            {
-              path: 'listrequetedivision/:type_req',
-              component:ListRequeteDivisionComponent
-            },
-            {
-              path: 'listrequeteusager/:type_req',
-              component:ListRequeteUsagerComponent
-            },
-            {
-              path: 'listrequeteparcours/:type_req',
-              component:ParcoursRequeteComponent
-            },
-            {
-              path: 'listregistre',
-              component:ParcoursRegistreComponent
-            },
-            {
-              path: 'statglob/:type_req/:col',
-              component:StatspreocComponent
-            },
-            {
-              path: 'listrequetepointreponse',
-              component:PointReponseComponent
-            },
-            {
-              path: 'listrequetepointpreoccupation',
-              component:PointPreoccupationComponent
-            },
-            
-            {
-              path: 'listrdvs',
-              component:ListRdvComponent
-            },
-            {
-              path: 'liststatprestation',
-              component:ListStatPrestationComponent
-            },
-            {
-              path: 'liststatprestationbystructure',
-              component:ListStatPrestationStructureComponent
-            },
-            {
-              path: 'liststattheme/:type_req',
-              component:ListStatThemeComponent
-            },
-            {
-              path: 'liststatstructure/:type_req',
-              component:ListStatStructureComponent
-            },
-            {
-              path: 'listauxdigit',
-              component:ListauxDigitComponent
-            },
-            {
-              path: 'grahiqueevolution/:type_req',
-              component:GraphiqueevolutionComponent
-            },
-            {
-              path: 'grahiquetype/:type_req',
-              component:GraphiquetypeComponent
-            },
-            {
-              path: 'grahiquestructures/:type_req',
-              component:GraphiquestructureComponent
-            },
-            {
-              path: 'listrequeteajdoint/:type_req',
-              component:ListRequeteAdjointComponent
-            },
-            
-            {
-              path: 'ratioplainteprestation',
-              component:ListRatioPlaintePrestaionComponent
-            },
-            {
-              path: 'ratiorequeteprestation',
-              component:ListRatioRquetePrestaionComponent
-            },
-            {
-              path: 'ratioplaintestructure',
-              component:ListRatioPlainteStructureComponent
-            },
-            {
-              path: 'ratiorequetestructure',
-              component:ListRatioRequeteStructureComponent
-            },
-            {
-              path: 'ratiodemandeinfosprestation',
-              component:ListRatioDemandeInfosPrestationComponent
-            },
-            {
-              path: 'ratiodemandeinfosstructure',
-              component:ListRatioDemandeInfosStructureComponent
-            },
-              {
-              path: 'follow-treatment',
-              component:FollowTreatmentComponent
-            }
-          
-        
-      ]
-    }
-  ]
+export const AdminRoutes: Routes = [
+  {
+    path: 'admin',
+    component: LayoutComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'TABLEAU DE BORD', action: 'Consulter' }
+      },
+      {
+        path: 'login',
+        component: LoginComponent
+      },
+      {
+        path: 'login-check/:email',
+        component: LoginCheckComponent
+      },
+      {
+        path: 'login-usager',
+        component: LoginUsagerComponent
+      },
+      {
+        path: 'login-v2',
+        component: LoginV2Component
+      },
+      {
+        path: 'login-v2/:code',
+        component: LoginV2Component
+      },
+      {
+        path: 'reset-password/:token',
+        component: ResetPasswordComponent
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent
+      },
+      {
+        path: 'requete-usager/complement-information/:id/:codeRequete',
+        component: ComplementInformationComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'login/:lang',
+        component: LoginComponent
+      },
+      {
+        path: 'reset-password/:lang/:token',
+        component: ResetPasswordComponent
+      },
+      {
+        path: 'forgot-password/:lang',
+        component: ForgotPasswordComponent
+      },
+      {
+        path: 'crud',
+        component: CrudComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARAMETRE', action: 'Consulter' }
+      },
+      {
+        path: 'listprofils',
+        component: ListeprofilsComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PROFIL', action: 'Consulter' }
+      },
+      {
+        path: 'roles',
+        component: RoleComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'RÔLE', action: 'Consulter' }
+      },
+      {
+        path: 'permissions',
+        component: PermissionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PERMISSION', action: 'Consulter' }
+      },
+      {
+        path: 'profils',
+        component: ProfileComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PROFIL', action: 'Consulter' }
+      },
+      {
+        path: 'pointfocalcom',
+        component: EspacepointfocalcomComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'AFFECTATION', action: 'Consulter' }
+      },
+      {
+        path: 'listservices',
+        component: ListeserviceComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'SERVICE', action: 'Consulter' }
+      },
+      {
+        path: 'attributcom',
+        component: AttributcomComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'ATTRIBUTION', action: 'Consulter' }
+      },
+      {
+        path: 'listservicesatraiter',
+        component: ListserviceatraiterComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'SERVICE', action: 'Consulter' }
+      },
+      {
+        path: 'allservices',
+        component: AllServicesComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'SERVICE', action: 'Consulter' }
+      },
+      {
+        path: 'avanced-statistics',
+        component: AvancedStatisticsComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES AVANCÉES', action: 'Consulter' }
+      },
+      {
+        path: 'managerequeteusager',
+        component: ManageRequeteUsagerComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'listdenonciations',
+        component: ListDenonciationComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'DÉNONCIATION', action: 'Consulter' }
+      },
+      {
+        path: 'listsuggestions',
+        component: ListSuggestionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'SUGGESTION', action: 'Consulter' }
+      },
+      {
+        path: 'docs',
+        component: GuideComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'FAQ', action: 'Consulter' }
+      },
+      {
+        path: 'liststructure',
+        component: ListestructuresComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STRUCTURE', action: 'Consulter' }
+      },
+      {
+        path: 'listcreneaux',
+        component: ListerdvcrenauxComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CRÉNEAU RENDEZ-VOUS', action: 'Consulter' }
+      },
+      {
+        path: 'rdvparam',
+        component: ListerdvparametreComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARAMÈTRES RENDEZ-VOUS', action: 'Consulter' }
+      },
+      {
+        path: 'listdaterdv',
+        component: ListdaterdvComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'JOUR RENDEZ-VOUS', action: 'Consulter' }
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'GESTION DES UTILISATEURS', action: 'Consulter' }
+      },
+      {
+        path: 'e-services',
+        component: EservicesComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'E-SERVICE', action: 'Consulter' }
+      },
+      {
+        path: 'type-structures',
+        component: TypeStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'TYPE DE STRUCTURE', action: 'Consulter' }
+      },
+      {
+        path: 'nature-contracts',
+        component: NatureContractComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'NATURE DE CONTRAT', action: 'Consulter' }
+      },
+      {
+        path: 'ccsps',
+        component: CcspComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CCSP', action: 'Consulter' }
+      },
+      {
+        path: 'ccsp/reports/pending',
+        component: CspReportPendingComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'RAPPORTS CCSP', action: 'Consulter' }
+      },
+      {
+        path: 'ccsp/reports/own',
+        component: CspReportOwnComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'RAPPORTS CCSP', action: 'Consulter' }
+      },
+      {
+        path: 'ccsp/reports/create',
+        component: CspReportCreateComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'RAPPORTS CCSP', action: 'Ajouter' }
+      },
+      {
+        path: 'settings',
+        component: SettingsComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARAMÈTRES', action: 'Consulter' }
+      },
+      {
+        path: 'users-main',
+        component: UsersMainComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'UTILISATEUR', action: 'Consulter' }
+      },
+      {
+        path: 'listusager',
+        component: ListusagerComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'USAGER', action: 'Consulter' }
+      },
+      {
+        path: 'listacteur',
+        component: ListacteursComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'ACTEUR', action: 'Consulter' }
+      },
+      {
+        path: 'events',
+        component: EventsComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'ÉVÉNEMENT', action: 'Consulter' }
+      },
+      {
+        path: 'relances',
+        component: RelanceComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CONFIGURATION RELANCE', action: 'Consulter' }
+      },
+      {
+        path: 'institutions',
+        component: ListeinstitutionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'INSTITUTION', action: 'Consulter' }
+      },
+      {
+        path: 'configrelance',
+        component: ConfigrelanceComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CONFIGURATION RELANCE', action: 'Consulter' }
+      },
+      {
+        path: 'listthematique',
+        component: ListtypeComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES THÉMATIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'listetapes',
+        component: ListetapesComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'ÉTAPE COURRIER', action: 'Consulter' }
+      },
+      {
+        path: 'comment',
+        component: RapCommentComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'COMMENTAIRE', action: 'Consulter' }
+      },
+      {
+        path: 'listnature',
+        component: ListenatureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'NATURE', action: 'Consulter' }
+      },
+      {
+        path: 'profil',
+        component: ProfilComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PROFIL', action: 'Consulter' }
+      },
+      {
+        path: 'listrequeteupdate',
+        component: ListRequeteUpdateComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Editer' }
+      },
+      {
+        path: 'listrequetestructures/:type_req',
+        component: ListRequeteStructuresComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'listrequeteservice/:type_req',
+        component: ListRequeteServicesComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'listrequetedivision/:type_req',
+        component: ListRequeteDivisionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'listrequeteusager/:type_req',
+        component: ListRequeteUsagerComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'listrequeteparcours/:type_req',
+        component: ParcoursRequeteComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARCOURS REQUETE', action: 'Consulter' }
+      },
+      {
+        path: 'listregistre',
+        component: ParcoursRegistreComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REGISTRE', action: 'Consulter' }
+      },
+      {
+        path: 'statglob/:type_req/:col',
+        component: StatspreocComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'listrequetepointreponse',
+        component: PointReponseComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARCOURS REQUETE', action: 'Consulter' }
+      },
+      {
+        path: 'listrequetepointpreoccupation',
+        component: PointPreoccupationComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'PARCOURS REQUETE', action: 'Consulter' }
+      },
+      {
+        path: 'listrdvs',
+        component: ListRdvComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'RENDEZ-VOUS', action: 'Consulter' }
+      },
+      {
+        path: 'liststatprestation',
+        component: ListStatPrestationComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'liststatprestationbystructure',
+        component: ListStatPrestationStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'liststattheme/:type_req',
+        component: ListStatThemeComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES THÉMATIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'liststatstructure/:type_req',
+        component: ListStatStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'listauxdigit',
+        component: ListauxDigitComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'grahiqueevolution/:type_req',
+        component: GraphiqueevolutionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'grahiquetype/:type_req',
+        component: GraphiquetypeComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES THÉMATIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'grahiquestructures/:type_req',
+        component: GraphiquestructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'listrequeteajdoint/:type_req',
+        component: ListRequeteAdjointComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+      {
+        path: 'ratioplainteprestation',
+        component: ListRatioPlaintePrestaionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'ratiorequeteprestation',
+        component: ListRatioRquetePrestaionComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'ratioplaintestructure',
+        component: ListRatioPlainteStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'ratiorequetestructure',
+        component: ListRatioRequeteStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'ratiodemandeinfosprestation',
+        component: ListRatioDemandeInfosPrestationComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'ratiodemandeinfosstructure',
+        component: ListRatioDemandeInfosStructureComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      },
+      {
+        path: 'follow-treatment',
+        component: FollowTreatmentComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'STATISTIQUES', action: 'Consulter' }
+      }
+    ]
+  }
+];
