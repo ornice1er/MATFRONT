@@ -1,18 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { PipeTransform } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
-import { FormControl, FormsModule } from '@angular/forms';
-
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
+import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { UserService } from '../../../core/_services/user.service';
-
-import { NgxSpinnerService } from 'ngx-spinner';
-
-import { TranslateService } from '@ngx-translate/core';
-
+import { NgxSpinnerService, NgxSpinnerModule } from 'ngx-spinner';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
@@ -20,213 +11,254 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { ActeurService } from '../../../../core/services/acteur.service';
 import { InstitutionService } from '../../../../core/services/institution.service';
-
 import { ProfilService } from '../../../../core/services/profil.service';
 import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
 import { ObserverService } from '../../../../core/utils/observer.service';
+import { RoleService } from '../../../../core/services/role.service';
 
+interface Institution { id: number; libelle: string; }
+interface Profil { id: number; LibelleProfil: string; admin_sectoriel?: number; }
+interface Acteur { id: number; nomprenoms: string; }
 
 @Component({
   selector: 'app-users-main',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    LoadingComponent,
+    SampleSearchPipe,
+    NgSelectModule,
+    NgxPaginationModule,
+    NgxSpinnerModule
+  ],
   templateUrl: './users-main.component.html',
   styleUrls: ['./users-main.component.css']
 })
 export class UsersMainComponent implements OnInit {
-
   @Input() cssClasses = '';
   page = 1;
   pageSize = 10;
-  searchText=""
+  searchText = '';
   closeResult = '';
-   permissions:any[]=[]=[]
-  error=""
-  data: any[]=[];
-  _temp: any[]=[];
-
-  selected = [
-  ];
-  current_permissions:any[]=[]
+  error = '';
+  data: any[] = [];
+  _temp: any[] = [];
   collectionSize = 0;
-  selected_data:any
-  pg:any={
-    pageSize:10,
-    p:0,
-    total:0
-  }
-isPaginate:any=false
-search_text:any=""
-  search(){ 
-    this.data=this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
-      return r.email.toLowerCase().includes(term) ||
-      (r.agent_user==null ? '' : r.agent_user.nomprenoms).toLowerCase().includes(term) 
-    })
-    this.collectionSize=this.data.length
-  }
-  
-  openAddModal(content:any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
+  selected_data: any;
+  pg = { pageSize: 10, p: 1, total: 0 };
+  isPaginate = false;
+  search_text = '';
+  institutions: Institution[] = [];
+  profils: Profil[] = [];
+  acteurs: Acteur[] = [];
+  hide_actors = false;
+  user: any;
+  role:any[]=[]
 
-  openEditModal(content:any){
-    if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
-      return;
-    }
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-  
 
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
-    private router:Router,
-    private profilService:ProfilService,
-    private acteursService:ActeurService,
+    private router: Router,
+    private profilService: ProfilService,
+    private acteursService: ActeurService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-    private institutionService:InstitutionService,
-    private localStorageService : LocalStorageService,
-    private observerService:ObserverService
-    ) {}
-
-    acteurs:any[]=[]
-    profils:any[]=[]
-
-  user:any
-  ngOnInit() {
-    this.observerService.setTitle('')
-
-    if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localStorageService.get(GlobalName.userName)
-
-    }
-    this.init()
-  }
-
-  institutions:any[]=[]
-
-  init(){
-    this._temp=[]
-    this.data=[]
-    this.userService.getAllMain().subscribe((res:any)=>{
-      this.spinner.hide();
-      this.data=res
-      this._temp=this.data
-      this.collectionSize=this.data.length
-    })
-    this.profils=[]
-    this.profilService.getAllMain().subscribe((res:any)=>{
-      this.profils=res
-    })
-    this.institutions=[]
-    this.institutionService.getAll().subscribe((res:any)=>{
-      this.institutions=res
-    })
-  
-  }
-  checked(event:any, el:any) {
-    this.selected_data = el
-  }
-  
-
-  loadActeur(event:any){
-    this.acteurs=[]
-    this.acteursService.getAll(+event.target.value).subscribe((res:any)=>{
-      this.acteurs=res
-    })
-  }
-  
-  hide_actors=false
-
-  changeProfil(event:any){
-    let profil:any=this.profils.filter((e:any)=>(+event.target.value==e.id))[0];
-    if(profil.admin_sectoriel==1){
-      this.hide_actors=true
-    }else{
-      this.hide_actors=false
-    }
-  }
-
-  create(value:any){
-    if(value.password==value.conf_password){
-      this.userService.create(value).subscribe((res:any)=>{
-      
-        this.modalService.dismissAll()
-        //this.translate.instant('HOME.TITLE')
-        AppSweetAlert.simpleAlert("Nouvel ajout","Ajout effectué avec succès" , 'success')
-         this.init() 
-       },(err:any)=>{
-         
-         if(err.error.detail!=null){    
-           AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
-         }else{
-           AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
-         }
-       })
-    }else{
-      this.error="Les deux mot de passe doivent être identique"
-    }
+    private institutionService: InstitutionService,
+    private localStorageService: LocalStorageService,
+    private observerService: ObserverService,
+    private cdr: ChangeDetectorRef,
+    private roleService: RoleService
     
+  ) {}
+
+  ngOnInit() {
+    this.observerService.setTitle('');
+    this.user = this.localStorageService.get(GlobalName.userName) || {};
+    this.init();
   }
 
+  init() {
+    this.spinner.show();
+    this._temp = [];
+    this.data = [];
+    this.userService.getAllMain().subscribe({
+      next: (res: any) => {
+        this.data = res.data || res;
+        this._temp = this.data;
+        this.collectionSize = this.data.length;
+        this.pg.total = this.data.length;
+        this.spinner.hide();
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        this.spinner.hide();
+        AppSweetAlert.simpleAlert('error', 'Erreur', 'Impossible de charger les utilisateurs');
+        console.error('Erreur utilisateurs:', err);
+      }
+    });
 
-  archive(){
-    if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+    this.profils = [];
+    this.profilService.getAllMain().subscribe({
+      next: (res: any) => {
+        console.log('Réponse profils:', res);
+        this.profils = res.data || res;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Erreur profils:', err);
+      }
+    });
+
+    this.institutions = [];
+    this.institutionService.getAll().subscribe({
+      next: (res: any) => {
+        console.log('Réponse institutions:', res);
+        this.institutions = res.data || res;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Erreur institutions:', err);
+        AppSweetAlert.simpleAlert('error', 'Erreur', 'Impossible de charger les institutions');
+      }
+    });
+
+     this.role = [];
+    this.roleService.getAll().subscribe({
+      next: (res: any) => {
+        console.log('Réponse rôles:', res);
+        this.role = res.data || res;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Erreur rôles:', err);
+      }
+    });
+  
+  }
+
+  search() {
+    this.data = this._temp.filter(r => {
+      const term = this.searchText.toLowerCase();
+      return r.email.toLowerCase().includes(term) ||
+        (r.agent_user?.nomprenoms || '').toLowerCase().includes(term);
+    });
+    this.collectionSize = this.data.length;
+    this.pg.p = 1;
+    this.cdr.detectChanges();
+  }
+
+  loadActeur(event: any) {
+    const idEntite = +event.target.value;
+    if (!idEntite) return;
+    this.acteurs = [];
+    this.acteursService.getAll(idEntite).subscribe({
+      next: (res: any) => {
+        console.log('Réponse acteurs:', res);
+        this.acteurs = res.data || res;
+        this.cdr.detectChanges();
+      },
+      error: (err: any) => {
+        console.error('Erreur acteurs:', err);
+        AppSweetAlert.simpleAlert('error', 'Erreur', 'Impossible de charger les acteurs');
+      }
+    });
+  }
+
+  changeProfil(event: any) {
+    const profilId = +event.target.value;
+    const profil = this.profils.find((e: any) => e.id === profilId);
+    this.hide_actors = profil?.admin_sectoriel === 1;
+    this.cdr.detectChanges();
+  }
+
+  checked(event: any, el: any) {
+    this.selected_data = { ...el };
+  }
+
+  create(value: any) {
+  
+    this.userService.create(value).subscribe({
+      next: (res: any) => {
+        this.modalService.dismissAll();
+        AppSweetAlert.simpleAlert('success', 'Nouvel ajout', 'Ajout effectué avec succès');
+        this.init();
+      },
+      error: (err: any) => {
+        const message = err.error?.detail || 'Erreur, vérifiez votre connexion internet';
+        AppSweetAlert.simpleAlert('error', 'Nouvel ajout', message);
+      }
+    });
+  }
+
+  archive() {
+    if (!this.selected_data) {
+      AppSweetAlert.simpleAlert('error', 'Erreur', 'Veuillez sélectionner un élément puis réessayer');
       return;
     }
-    AppSweetAlert.confirmBox("Suppression",
-    "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
+    AppSweetAlert.confirmBox('Suppression', 'Cette action est irréversible. Voulez-vous continuer ?').then((result: any) => {
       if (result.value) {
-      this.userService.delete(this.selected_data.id).subscribe((res:any)=>{
-        this.init()
-        AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
-        this.init()
-      }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
-      })
-    }
-   })
+        this.userService.delete(this.selected_data.id).subscribe({
+          next: (res: any) => {
+            AppSweetAlert.simpleAlert('success', 'Suppression', 'Suppression effectuée avec succès');
+            this.init();
+          },
+          error: (err: any) => {
+            AppSweetAlert.simpleAlert('error', 'Suppression', 'Erreur, vérifiez votre connexion internet');
+          }
+        });
+      }
+    });
   }
-  edit(value:any) {
-    value.id=this.selected_data.id
-    if(value.password!=value.conf_password){
-      value.password=""
-    }
-    this.error="Le  mot de passe n'a pas été pris en compte car les deux ne sont pas identique"
-    this.userService.update(value,this.selected_data.id).subscribe((res:any)=>{
-      this.modalService.dismissAll()
-      this.init()
-      AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
-    }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
-    })
-	}
 
-  getPage(event:any){
-    this.pg.p=event
+  edit(value: any) {
+    value.id = this.selected_data.id;
+    if (value.password && value.password !== value.conf_password) {
+      this.error = 'Les deux mots de passe doivent être identiques';
+      return;
+    }
+    this.userService.update(value, this.selected_data.id).subscribe({
+      next: (res: any) => {
+        this.modalService.dismissAll();
+        AppSweetAlert.simpleAlert('success', 'Nouvelle modification', 'Modification effectuée avec succès');
+        this.init();
+      },
+      error: (err: any) => {
+        AppSweetAlert.simpleAlert('error', 'Nouvelle modification', 'Erreur, vérifiez votre connexion internet');
+      }
+    });
+  }
+
+  openAddModal(content: any) {
+    this.error = '';
+    this.selected_data = { idEntite: this.user.idEntite || null, idagent: null, profil: null, role: null, statut: false };
+    this.acteurs = [];
+    this.hide_actors = false;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  openEditModal(content: any) {
+    if (!this.selected_data) {
+      AppSweetAlert.simpleAlert('error', 'Erreur', 'Veuillez sélectionner un élément puis réessayer');
+      return;
+    }
+    this.error = '';
+    this.loadActeur({ target: { value: this.selected_data.idEntite } });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  getPage(event: any) {
+    this.pg.p = event;
+    this.cdr.detectChanges();
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) return 'by pressing ESC';
+    if (reason === ModalDismissReasons.BACKDROP_CLICK) return 'by clicking on a backdrop';
+    return `with: ${reason}`;
   }
 }
