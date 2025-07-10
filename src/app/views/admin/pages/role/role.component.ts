@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { NgbModal, NgbModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
@@ -11,219 +17,268 @@ import { RoleService } from '../../../../core/services/role.service';
 import { AppErrorShow } from '../../../../core/utils/app-error-show';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
+import { InstitutionService } from '../../../../core/services/institution.service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { GlobalName, Roles } from '../../../../core/utils/global-name';
 
 @Component({
   selector: 'app-role',
   templateUrl: './role.component.html',
-  standalone:true,
-  imports:[CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
-  styleUrls: ['./role.component.css']
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    LoadingComponent,
+    SampleSearchPipe,
+    NgSelectModule,
+    NgxPaginationModule,
+    RouterModule,
+  ],
+  styleUrls: ['./role.component.css'],
 })
 export class RoleComponent implements OnInit {
-  @ViewChild('contentAdd') contentAdd:ElementRef | undefined;
-  @ViewChild('contentEdit') contentEdit:ElementRef | undefined;
-  @ViewChild('contentShow') contentShow:ElementRef | undefined;
-  menu:any[]=[]
-selectedId: number | null = null;
-  is_active=null
-  buttonsPermission :any|undefined;
+  @ViewChild('contentAdd') contentAdd: ElementRef | undefined;
+  @ViewChild('contentEdit') contentEdit: ElementRef | undefined;
+  @ViewChild('contentShow') contentShow: ElementRef | undefined;
+  menu: any[] = [];
+  selectedId: number | null = null;
+  is_active = null;
+  buttonsPermission: any | undefined;
 
-
-  actionTemplate:any
-  selected_data:any
-  loading:any=false
-  tag="admin-roles"
+  actionTemplate: any;
+  selected_data: any = { idInstitution: null };
+  loading: any = false;
+  tag = 'admin-roles';
   title = 'frontend';
-  search_text=""
-  data:any[]=[]
-  pg={
-    pageSize:10,
-    p:0,
-    total:0
-  }
+  search_text = '';
+  data: any[] = [];
+  institutions: any[] = [];
+  isSuperAdmin = false;
+  user: any;
+    role = '';
+
+
+  pg = {
+    pageSize: 10,
+    p: 0,
+    total: 0,
+  };
 
   constructor(
-    private cdRef:ChangeDetectorRef,
-    private roleService:RoleService,
-    private router:Router,
-    private toastrService:ToastrService,
-    private modalService:NgbModal,
+    private cdRef: ChangeDetectorRef,
+    private roleService: RoleService,
+    private router: Router,
+    private toastrService: ToastrService,
+    private modalService: NgbModal,
     private offcanvasService: NgbOffcanvas,
-    ){
-    
-  }
+    private institutionService: InstitutionService,
+    private localStorageService: LocalStorageService
+  ) {}
 
   ngOnInit(): void {
-   this.init()
-     this.buttonsPermission = {
-      show:false,
-      add:true,
-      edit:true,
-      delete:true
+    this.init();
+    this.user = this.localStorageService.get(GlobalName.userName);
+    this.isSuperAdmin = this.user?.roles?.includes(Roles.SuperAdmin) || true;
+    console.log(
+      'Utilisateur:',
+      this.user,
+      'Est super-admin?',
+      this.isSuperAdmin
+    );
+    this.buttonsPermission = {
+      show: false,
+      add: true,
+      edit: true,
+      delete: true,
     };
   }
 
   ngAfterViewInit(): void {
-    this.actionTemplate={
-      add:{
-        type:0,
-        path:this.contentAdd
+    this.actionTemplate = {
+      add: {
+        type: 0,
+        path: this.contentAdd,
       },
-      edit:{
-        type:0,
-        path:this.contentEdit
+      edit: {
+        type: 0,
+        path: this.contentEdit,
       },
-      show:{
-        type:0,
-        path:this.contentShow
-      }
-    }
+      show: {
+        type: 0,
+        path: this.contentShow,
+      },
+    };
 
     this.cdRef.detectChanges();
   }
-  init(){
-    this.getAll()
+  init() {
+    this.getAll();
+
+    this.institutions = [];
+    this.institutionService.getAll().subscribe((res: any) => {
+      this.institutions = res.data;
+      console.log('institution', this.institutions);
+    });
   }
 
-  getAll(){
-    this.roleService.getAll().subscribe((res:any)=>{
-      this.data=res.data
-      this.modalService.dismissAll()
-      this.selectedId=null
-    },
-    (err:any)=>{
-AppErrorShow.showError("Gestion des rôles",err)
-    })
+  getAll() {
+    this.roleService.getAll().subscribe(
+      (res: any) => {
+        this.data = res.data;
+        this.modalService.dismissAll();
+        this.selectedId = null;
+      },
+      (err: any) => {
+        AppErrorShow.showError('Gestion des rôles', err);
+      }
+    );
   }
 
-  
-  add(content:any){
-    this.modalService.open(content,{size:'lg'});
-  }
-  
-  openMenu(content:any){
-    if(!this.verifyIfElementChecked()) return ;
-    if(this.selected_data.windows){
+  // add(content: any) {
+  //   this.selected_data = { idInstitution: null, name: '' };
+  //   this.modalService.open(content, { size: 'lg' });
+  // }
 
-      this.menu=this.selected_data.windows
-      this.offcanvasService.open(content,{ position: 'end'  });
+  add(content: any) {
+    this.selected_data = {idInstitution: this.isSuperAdmin ? null
+        : this.user?.institution_id || null,
+      name: '',
+    };
+    console.log('selected_data initialisé:', this.selected_data);
+    
+    this.modalService.open(content, { size: 'lg' });
+  }
+
+  openMenu(content: any) {
+    if (!this.verifyIfElementChecked()) return;
+    if (this.selected_data.windows) {
+      this.menu = this.selected_data.windows;
+      this.offcanvasService.open(content, { position: 'end' });
     }
   }
-  
-  
-  edit(content:any){
-    if(!this.verifyIfElementChecked()) return ;
-    this.modalService.open(content,{size:'lg'});
+
+  edit(content: any) {
+    if (!this.verifyIfElementChecked()) return;
+    this.modalService.open(content, { size: 'lg' });
   }
 
-  verifyIfElementChecked(){
-    console.log(this.selected_data)
-    if (this.selected_data==null) {
-      this.toastrService.warning("Aucun élément selectionné");
+  verifyIfElementChecked() {
+    console.log(this.selected_data);
+    if (this.selected_data == null) {
+      this.toastrService.warning('Aucun élément selectionné');
       return false;
     }
     return true;
   }
 
-
-  checked(el:any){
-    this.selected_data=el;
-
+  checked(el: any) {
+    this.selected_data = el;
   }
 
-  create(value:any){
+  create(value: any) {
     console.log(value);
-    this.loading=true
-    if(value.canOverwrite=="")value.canOverwrite=false
-    value.guard_name="api"
-    this.roleService.store(value).subscribe((res:any)=>{
-      this.toastrService.success(res.message)
-      this.getAll()
-      this.loading=false
-
-  },
-  (err:any)=>{
-    this.loading=false
-    AppErrorShow.showError("Gestion des rôles",err)
-    
-  })
+    this.loading = true;
+    if (value.canOverwrite == '') value.canOverwrite = false;
+    value.guard_name = 'api';
+    this.roleService.store(value).subscribe(
+      (res: any) => {
+        this.toastrService.success(res.message);
+        this.getAll();
+        this.loading = false;
+      },
+      (err: any) => {
+        this.loading = false;
+        AppErrorShow.showError('Gestion des rôles', err);
+      }
+    );
   }
 
-    show(content:any){
-    if(!this.verifyIfElementChecked()) return ;
-    this.modalService.open(content,{size:'lg'});
+  show(content: any) {
+    if (!this.verifyIfElementChecked()) return;
+    this.modalService.open(content, { size: 'lg' });
   }
-  copy(value:any){
-    this.loading=true
-    value['old_id']=this.selected_data.id
-    this.roleService.copy(value).subscribe((res:any)=>{
-      this.toastrService.success(res.message)
-      this.getAll()
-      this.loading=false
-
-  },
-  (err:any)=>{
-    this.loading=false
-    AppErrorShow.showError("Gestion des rôles",err)
-    
-  })
+  copy(value: any) {
+    this.loading = true;
+    value['old_id'] = this.selected_data.id;
+    this.roleService.copy(value).subscribe(
+      (res: any) => {
+        this.toastrService.success(res.message);
+        this.getAll();
+        this.loading = false;
+      },
+      (err: any) => {
+        this.loading = false;
+        AppErrorShow.showError('Gestion des rôles', err);
+      }
+    );
   }
 
-  update(value:any){
+  update(value: any) {
     console.log(value);
-    this.loading=true
-    if(value.canOverwrite=="")value.canOverwrite=false
-    value.guard_name="api"
+    this.loading = true;
+    if (value.canOverwrite == '') value.canOverwrite = false;
+    value.guard_name = 'api';
 
-    this.roleService.update(this.selected_data.id,value).subscribe((res:any)=>{
-      this.toastrService.success(res.message)
-      this.getAll()
-      this.loading=false
-
-  },
-  (err:any)=>{
-    this.loading=false
-    AppErrorShow.showError("Gestion des rôles",err)
-
-  })
+    this.roleService.update(this.selected_data.id, value).subscribe(
+      (res: any) => {
+        this.toastrService.success(res.message);
+        this.getAll();
+        this.loading = false;
+      },
+      (err: any) => {
+        this.loading = false;
+        AppErrorShow.showError('Gestion des rôles', err);
+      }
+    );
   }
 
-  delete(){
-    let confirmed=AppSweetAlert.confirmBox('info','Suppression','Voulez vous vraiment retirer cet élément?',);
-    confirmed.then((result:any)=>{
-       if (result.isConfirmed) {
-        this.roleService.delete(this.selected_data.id).subscribe((res:any)=>{
-          this.toastrService.success(res.message)
-          this.getAll()
+  delete() {
+    let confirmed = AppSweetAlert.confirmBox(
+      'info',
+      'Suppression',
+      'Voulez vous vraiment retirer cet élément?'
+    );
+    confirmed.then((result: any) => {
+      if (result.isConfirmed) {
+        this.roleService.delete(this.selected_data.id).subscribe(
+          (res: any) => {
+            this.toastrService.success(res.message);
+            this.getAll();
+          },
+          (err: any) => {
+            AppErrorShow.showError('Gestion des rôles', err);
+          }
+        );
+      }
+    });
+  }
+  setStatus(value: any) {
+    this.toastrService.warning('Opération en cours');
+    this.loading = true;
+    this.roleService.setStatus(this.selected_data.id, value).subscribe(
+      (res: any) => {
+        this.toastrService.success(res.message);
+        this.loading = false;
+        this.getAll();
       },
-      (err:any)=>{
-        AppErrorShow.showError("Gestion des rôles",err)
-      })
-              }
-            })
-
-}
-  setStatus(value:any){
-
-    this.toastrService.warning("Opération en cours")
-      this.loading=true
-        this.roleService.setStatus(this.selected_data.id,value).subscribe((res:any)=>{
-          this.toastrService.success(res.message)
-          this.loading=false
-          this.getAll()
-      },
-      (err:any)=>{
-        this.loading=false
-        console.log(err)
-          AppSweetAlert.simpleAlert("error","Gestion des utilisateurs",err.error.message)
-      })
+      (err: any) => {
+        this.loading = false;
+        console.log(err);
+        AppSweetAlert.simpleAlert(
+          'error',
+          'Gestion des utilisateurs',
+          err.error.message
+        );
+      }
+    );
   }
 
-getPage(event:any){
-  this.pg.p=event
-}
+  getPage(event: any) {
+    this.pg.p = event;
+  }
 
-goToWindows(){
-  this.router.navigate(['/admin/profiles/'+this.selected_data.id])
-}
+  goToWindows() {
+    this.router.navigate(['/admin/profiles/' + this.selected_data.id]);
+  }
 }

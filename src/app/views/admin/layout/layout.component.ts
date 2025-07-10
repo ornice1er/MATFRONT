@@ -80,7 +80,11 @@ export class LayoutComponent {
         { label: 'Type structure', route: '/admin/type-structures', key: 'TYPE DE STRUCTURE', action: 'LISTER' },
         { label: 'Nature contrat', route: '/admin/nature-contracts', key: 'NATURE DE CONTRAT', action: 'LISTER' },
         { label: 'Centre communaux', route: '/admin/ccsps', key: 'CCSP', action: 'LISTER' },
-        { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' }
+        { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
+                { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
+                { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
+{ label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
+
       ]
     },
     {

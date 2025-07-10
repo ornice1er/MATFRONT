@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
@@ -17,8 +18,9 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 @Component({
   selector: 'ngx-profile',
   templateUrl: './profile.component.html',
+  
   standalone:true,
-  imports:[CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgxPaginationModule, NgSelectModule],
+  imports:[CommonModule,FormsModule,MultiSelectModule,NgbModule,LoadingComponent,SampleSearchPipe,NgxPaginationModule, NgSelectModule],
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
@@ -26,12 +28,13 @@ export class ProfileComponent implements OnInit {
   selectedId: number | null = null;
   is_active=null
   buttonsPermission :any|undefined;
+  selectedRoleId: number | null = null;
   data:any[]=[]
+  permissionsChosen: number[] = [];
   user:any
   actions:any
   features:any[]=[]
   permissions:any[]=[]
-  permissionsChosen:any[]=[]
   loading=false
   loading2=false
   tag="admin-profiles"
