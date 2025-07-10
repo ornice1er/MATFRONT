@@ -6366,6 +6366,16 @@ function fromBase64Util(str) {
   }
   return stringToBytes(atob(str));
 }
+if (typeof Promise.try !== "function") {
+  Promise.try = function (fn) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+    return new Promise(resolve => {
+      resolve(fn(...args));
+    });
+  };
+}
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.every.js
 var esnext_iterator_every = __webpack_require__(3215);
@@ -63273,7 +63283,7 @@ class WorkerMessageHandler {
       docId,
       apiVersion
     } = docParams;
-    const workerVersion = "4.10.728";
+    const workerVersion = "4.10.720";
     if (apiVersion !== workerVersion) {
       throw new Error(`The API version "${apiVersion}" does not match ` + `the Worker version "${workerVersion}".`);
     }
@@ -63831,8 +63841,8 @@ _WorkerMessageHandler = WorkerMessageHandler;
 
 ;// ./src/pdf.worker.js
 
-const pdfjsVersion = "4.10.728";
-const pdfjsBuild = "08db36c6f";
+const pdfjsVersion = "4.10.720";
+const pdfjsBuild = "8584618e7";
 
 var __webpack_exports__WorkerMessageHandler = __webpack_exports__.WorkerMessageHandler;
-// export { __webpack_exports__WorkerMessageHandler as WorkerMessageHandler };
+export { __webpack_exports__WorkerMessageHandler as WorkerMessageHandler };
