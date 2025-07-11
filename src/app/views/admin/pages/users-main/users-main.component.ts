@@ -102,17 +102,7 @@ export class UsersMainComponent implements OnInit {
       }
     });
 
-    this.profils = [];
-    this.profilService.getAllMain().subscribe({
-      next: (res: any) => {
-        console.log('Réponse profils:', res);
-        this.profils = res.data || res;
-        this.cdr.detectChanges();
-      },
-      error: (err: any) => {
-        console.error('Erreur profils:', err);
-      }
-    });
+ 
 
     this.institutions = [];
     this.institutionService.getAll().subscribe({

@@ -47,15 +47,8 @@
                         <button class="btn btn-sm btn-warning mx-1" [disabled]="loading2" (click)="openReportEditModal(editReport,rgr)"> <i class="fa fa-edit text-white"></i> </button>
                         <button class="btn btn-sm btn-danger mx-1" [disabled]="loading2" (click)="deleteReport(rgr.id)"> <i class="fa fa-trash text-white"></i> </button>
                     </ng-container>
-                    <ng-container *ngIf="user.profil_user.superviseurcentrecom">
-                        <button class="btn btn-sm btn-success  mx-1" [disabled]="loading2" (click)="transmit(rgr.id)"> <i class="fa fa-arrow-up text-white"></i> </button>
-                        <button class="btn btn-sm btn-warning  mx-1" [disabled]="loading2" (click)="openReportEditModal(correctReport,rgr)"> <i class="fa fa-arrow-down text-white"></i> </button>
-                    </ng-container>
                   
-                    
-                     <button class="btn btn-sm btn-info  mx-1" [disabled]="loading2" (click)="getFile(rgr.filename)"> <i class="fa fa-file text-white"></i> </button>
-
-                     <ng-container *ngIf="user.profil_user.validateurcentrecom || user.profil_user.coordonnateurcentrecom">
+                     <ng-container>
                         <button class="btn btn-sm btn-warning  mx-1" [disabled]="loading2"  (click)="openReportEditModal(correctReport,rgr)"> <i class="fa fa-arrow-down text-white"></i> </button>
                         <button class="btn btn-sm btn-success  mx-1" [disabled]="loading2" (click)="validate(rgr.id)"> <i class="fa fa-check text-white"></i> </button>
                     </ng-container>

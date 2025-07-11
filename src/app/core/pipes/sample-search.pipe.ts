@@ -20,6 +20,7 @@ export class SampleSearchPipe implements PipeTransform {
            item?.email?.toLowerCase().includes(searchText.toLowerCase()) ||
            item?.name?.toLowerCase().includes(searchText.toLowerCase()) ||
            item?.nomprenoms?.toLowerCase().includes(searchText.toLowerCase()) ||
+           item?.agent_user?.nomprenoms?.toLowerCase().includes(searchText.toLowerCase()) ||
 
            item?.phone?.toLowerCase().includes(searchText.toLowerCase()) 
   

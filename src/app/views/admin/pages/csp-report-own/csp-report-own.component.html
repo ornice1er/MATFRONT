@@ -44,14 +44,14 @@
 
                 </td>
                 <td>
-                    <button *ngIf="user.profil_user.coordonnateurcentrecom" class="btn btn-sm btn-primary mx-1" [disabled]="loading2" (click)="openReportShowModal(showReport,rgr)"> <i class="fa fa-eye text-white"></i> </button>
+                    <button *ngIf="user.agent_user.categorie_acteur === 'Departemental'" class="btn btn-sm btn-primary mx-1" [disabled]="loading2" (click)="openReportShowModal(showReport,rgr)"> <i class="fa fa-eye text-white"></i> </button>
                     <ng-container *ngIf="rgr.status==0 || (rgr.status==1 && rgr?.transmission.sens!=1)">
                         <button class="btn btn-sm btn-warning mx-1" [disabled]="loading2" (click)="openReportEditModal(editReport,rgr)"> <i class="fa fa-edit text-white"></i> </button>
                         <button class="btn btn-sm btn-danger mx-1" [disabled]="loading2" (click)="deleteReport(rgr.id)"> <i class="fa fa-trash text-white"></i> </button>
                         <button class="btn btn-sm btn-success  mx-1" [disabled]="loading2" (click)="transmit(rgr.id)"> <i class="fa fa-arrow-up text-white"></i> </button>
                     </ng-container>
 
-                    <button *ngIf="user.profil_user.coordonnateurcentrecom" class="btn btn-sm btn-danger mx-1" [disabled]="loading2" (click)="deleteReport(rgr.id)"> <i class="fa fa-trash text-white"></i> </button>
+                    <!-- <button *ngIf="user.agent_user.categorie_acteur !== 'Departemental'" class="btn btn-sm btn-danger mx-1" [disabled]="loading2" (click)="deleteReport(rgr.id)"> <i class="fa fa-trash text-white"></i> </button> -->
 
                      <button class="btn btn-sm btn-info  mx-1" [disabled]="loading2" (click)="getFile(rgr.filename)"> <i class="fa fa-file text-white"></i> </button>
                 </td>
@@ -117,7 +117,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 mb-3" *ngIf="!user.profil_user.coordonnateurcentrecom">
+                <div class="col-12 mb-3" *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
                     <div class="form-group">
                         <label for="">Synthèse Analytique</label>
                         <textarea name="summary" ngModel class="form-control"></textarea>
@@ -184,7 +184,7 @@
                         <p>{{selected_data.customer_satisfied}}</p>
                     </div>
                 </div>
-                <div class="col-12 mb-3">
+                <!-- <div class="col-12 mb-3">
                     <div class="form-group">
                         <label for="">Principales raisons d'insatisfaction</label>
                         <p>{{selected_data.unsatified_reason}}</p>
@@ -207,7 +207,7 @@
                         <label for="">Observations</label>
                         {{selected_data.observation}}
                     </div>
-                </div>
+                </div> -->
                 <div class="col-12 mb-3">
                     <div class="form-group">
                         <label for="">Synthèse analytique</label>

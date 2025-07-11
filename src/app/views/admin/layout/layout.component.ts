@@ -245,7 +245,6 @@ export class LayoutComponent {
     if (this.lsService.get(GlobalName.userName) != null) {
       this.user = this.lsService.get(GlobalName.userName);
       this.role = this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
-      console.log("role", this.role);
     } else {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
@@ -288,7 +287,6 @@ export class LayoutComponent {
 
   canShowItem(item: MenuItem): boolean {
     const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
-    console.log(`canShowItem(${item.key}, ${item.action}) => ${result}`);
     return result;
   }
 }

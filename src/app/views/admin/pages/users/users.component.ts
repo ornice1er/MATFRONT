@@ -26,6 +26,7 @@ import { GlobalName } from '../../../../core/utils/global-name';
 import { ObserverService } from '../../../../core/utils/observer.service';
 import { InstitutionService } from '../../../../core/services/institution.service';
 import { RoleService } from '../../../../core/services/role.service';
+import { AppErrorShow } from '../../../../core/utils/app-error-show';
 
 
 @Component({
@@ -195,22 +196,22 @@ search_text:any=""
 
 
   archive(){
-    if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert('error',"Erreur", "Veuillez selectionnez un élément puis réessayer");
-      return;
-    }
-    AppSweetAlert.finishConfirm("Suppression",
-    "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
-      if (result.value) {
-      this.userService.delete(this.selected_data.id).subscribe((res:any)=>{
-        this.init()
-        AppSweetAlert.simpleAlert('success',"Suppression", "Suppression effectuée avec succès")
-      }, (err:any)=>{
-        AppSweetAlert.simpleAlert('error',"Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet")
-      })
-    }
-   })
+
+      let confirmed=AppSweetAlert.confirmBox('info','Suppression','Voulez vous vraiment retirer cet élément?',);
+        confirmed.then((result:any)=>{
+           if (result.isConfirmed) {
+            this.userService.delete(this.selected_data.id).subscribe((res:any)=>{
+              this.init()
+          },
+          (err:any)=>{
+            AppErrorShow.showError("Gestion des utilisateurs",err)
+    
+          })
+                  }
+                })
   }
+
+  
   edit(value:any) {
     value.id=this.selected_data.id
     this.loading=true

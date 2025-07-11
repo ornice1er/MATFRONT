@@ -146,14 +146,15 @@
                                 <div class="form-group row mb-3">
                                     <label class="col-md-4">Type acteur</label>
                                     <div class="col-md-6">
-                                        <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="idTypeacteur"
+                                        <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="categorie_acteur"
                                             ngModel>
-                                            <option value="0">Central</option>
-                                            <option value="1">Local</option>
-                                            <option value="2">Centre communaux de service public</option>
-                                            <option value="3">Centre de service</option>
-                                            <option value="4">Guichet SRU</option>
-                                            <option value="5">Mairie</option>
+                                            <option value="Central">Central</option>
+                                                <option value="Local">Local</option>
+                                                <option value="CCSP">Centre communaux de service public</option>
+                                                <option value="CDS">Centre de service</option>
+                                                <option value="GSRU">Guichet SRU</option>
+                                                <option value="Mairie">Mairie</option>
+                                                <option value="Departemental">Departemental</option>
 
                                         </select>
                                         <span *ngIf="idTypeacteur.invalid && (idTypeacteur.dirty || idTypeacteur.touched)" class="text-danger">
@@ -253,13 +254,15 @@
                                     <div class="form-group row mb-3">
                                         <label class="col-md-4">Type acteur</label>
                                         <div class="col-md-6">
-                                            <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="idTypeacteur"
-                                            [(ngModel)]="selected_data.idTypeacteur">
-                                                <option value="0">Central</option>
-                                                <option value="1">Local</option>
-                                                <option value="2">Centre communaux de service public</option>
-                                                <option value="3">Centre de service</option>
-                                                <option value="4">Guichet SRU</option>
+                                            <select class="form-control form-control-sm" #idTypeacteur="ngModel" maxlength="250" name="categorie_acteur"
+                                            [(ngModel)]="selected_data.categorie_acteur">
+                                                <option value="Central">Central</option>
+                                                <option value="Local">Local</option>
+                                                <option value="CCSP">Centre communaux de service public</option>
+                                                <option value="CDS">Centre de service</option>
+                                                <option value="GSRU">Guichet SRU</option>
+                                                <option value="Mairie">Mairie</option>
+                                                <option value="Departemental">Departemental</option>
                                             </select>
                                             <span *ngIf="idTypeacteur.invalid && (idTypeacteur.dirty || idTypeacteur.touched)" class="text-danger">
                                                 <small *ngIf="idTypeacteur.errors?.['required']">

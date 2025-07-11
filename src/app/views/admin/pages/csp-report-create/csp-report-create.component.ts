@@ -40,6 +40,8 @@ export class CspReportCreateComponent {
   search_text=""
   errormessage=""
   user:any;
+  year:any;
+  month:any;
   years: number[] = [];
 
   constructor(

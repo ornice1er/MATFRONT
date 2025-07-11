@@ -6,7 +6,10 @@
         </div>
 
         <p>{{registresReports!.length}} élément(s)</p>
-        <div class="table-responsive">
+
+        <ng-container *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
+           
+       <div class="table-responsive">
         <table class="table table-sm table-bordered">
             <thead class="">
                 <tr>
@@ -22,8 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-    
-                 <tr *ngFor="let rgr of data 
+                                     <tr *ngFor="let rgr of data 
                  | sampleSearch:search_text 
                  | paginate: {
                         id:'ngxP2',
@@ -43,7 +45,9 @@
                 <td>{{rgr.solution}} </td>
                 <td>{{rgr.observation}} </td>
              
-                </tr>
+                </tr>                
+    
+
             
             </tbody>
         </table>
@@ -62,6 +66,71 @@
           [screenReaderPageLabel]="'page'"
           [screenReaderCurrentLabel]="'Vous êtes sur la page'">
          </pagination-controls>
+        </ng-container>
+        <ng-container *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
+                  <div class="table-responsive">
+        <table class="table table-sm table-bordered">
+            <thead class="">
+                <tr>
+                    <th>#</th>
+                    <th>Centre</th>
+                    <th>Usagers reçus</th>
+                    <th>Usagers satisfaits</th>
+                    <th>Synthèse analytique</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+
+                <ng-container *ngFor="let d of data | keyvalue" >
+                    <tr>
+                        <td colspan="8" class="text-center">{{d.key}}</td>
+                    </tr>
+
+                                     <tr *ngFor="let rgr of d.value 
+                 | sampleSearch:search_text 
+                 | paginate: {
+                        id:'ngxP2',
+                        itemsPerPage: pg2.pageSize,
+                        currentPage: pg2.p,
+                        totalItems: pg2.total }">
+                        <td>
+                            <input type="radio" (change)="checkedRegistreReport(rgr)">
+    
+                        </td>
+                <td>{{rgr.user?.agent_user?.structure?.libelle}} </td>
+              
+                <td>{{rgr.customer_recieved}} </td>
+                <td>{{rgr.customer_satisfied}} </td>
+                <td>{{rgr.summary}} </td>
+             
+                </tr>
+                </ng-container>
+                
+    
+
+            
+            </tbody>
+        </table>
+    
+        </div>
+    <pagination-controls 
+            id="ngxP2"
+            (pageChange)="getPage2($event)"
+          [maxSize]="9"
+          [directionLinks]="true"
+          [autoHide]="true"
+          [responsive]="true"
+          [previousLabel]="'Précédent'"
+          [nextLabel]="'Suivant'"
+          [screenReaderPaginationLabel]="'Pagination'"
+          [screenReaderPageLabel]="'page'"
+          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+         </pagination-controls>
+
+        </ng-container>
+        
+ 
     </div>
 </div>
 
@@ -72,14 +141,14 @@
          <div class="row">
                     <div class="col-12 mb-3">
                     <label for="">Année</label>
-                    <select name="year" ngModel  class="form-control form-control-sm has-error">
+                    <select name="year" [(ngModel)]="year"  class="form-control form-control-sm has-error">
                         <option *ngFor="let y of years" [value]="y">{{y}}</option>
                      </select>  
                 </div>
                 <div class="col-12 mb-3">
                     <div class="form-group">
                         <label for="">Mois</label>
-                        <select name="month" ngModel class="form-control">
+                        <select name="month" [(ngModel)]="month" class="form-control">
                             <option value="01">Janvier</option>
                             <option value="02">Février</option>
                             <option value="03">Mars</option>
@@ -95,7 +164,7 @@
                         </select>
                     </div>
                 </div>   
-                <div class="col-12 mb-3" *ngIf="!user.profil_user.coordonnateurcentrecom">
+                <div class="col-12 mb-3" *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
                     <div class="form-group">
                         <label for="">Synthèse Analytique</label>
                         <textarea name="summary" ngModel class="form-control"></textarea>
@@ -103,7 +172,7 @@
                 </div>   
             </div>
             <div class="text-end">
-                <button type="submit" [disabled]="loading2"   class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Charger les données</button>
+                <button type="submit" [disabled]="loading2"   class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Générer le rapport</button>
             </div>
       
         
@@ -128,14 +197,14 @@
             <div class="row">
                     <div class="col-12 mb-3">
                     <label for="">Année</label>
-                    <select name="year" ngModel  class="form-control form-control-sm has-error">
+                    <select name="year" [(ngModel)]="year"  class="form-control form-control-sm has-error">
                         <option *ngFor="let y of years" [value]="y">{{y}}</option>
                      </select>  
                 </div>
                 <div class="col-12 mb-3">
                     <div class="form-group">
                         <label for="">Mois</label>
-                        <select name="month" ngModel class="form-control">
+                        <select name="month" [(ngModel)]="month" class="form-control">
                             <option value="01">Janvier</option>
                             <option value="02">Février</option>
                             <option value="03">Mars</option>
