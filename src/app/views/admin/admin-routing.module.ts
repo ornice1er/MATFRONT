@@ -437,6 +437,8 @@ export const AdminRoutes: Routes = [
         canActivate: [AuthGuard],
         data: { key: 'PARCOURS REQUETE', action: 'Consulter' }
       },
+
+      
       {
         path: 'listrdvs',
         component: ListRdvComponent,
