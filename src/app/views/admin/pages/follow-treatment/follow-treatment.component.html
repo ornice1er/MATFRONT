@@ -85,7 +85,7 @@
                             <td>{{r.total_requetes_traitees}}</td>
                             <td>{{r.nb_notes_non_nulles}}</td>
                             <td>{{r.somme_notes ?? 0}}</td>
-                            <td>{{((r.somme_notes ?? 0)/r.nb_notes_non_nulles) ?? 0 | number: '1.2-2'}}</td>
+                            <td>{{(r.somme_notes / r.nb_notes_non_nulles) | number: '1.2-2'}}</td>
                         </tr>
                     <tr>
                         <td><strong>Total</strong></td>
@@ -94,7 +94,7 @@
                         <td>{{ sommeTotaleNotes }}</td>
                         <td>{{ noteGlobaleMoyenne | number: '1.2-2' }}</td>
                         </tr>
-                                    
+
                     </tbody>
                 </table>
             </div>
@@ -102,8 +102,8 @@
         </div>
        </div>
 </div>
-      
-   
+
+
 
 
        <!-- <h2 class="text-dark fw-bold">Appréciations des usagers par structure</h2>
@@ -135,7 +135,7 @@
                 <td>{{ sommeTotaleNotes2 }}</td>
                 <td>{{ noteGlobaleMoyenne2 | number: '1.2-2' }}</td>
                 </tr>
-                            
+
             </tbody>
         </table>
     </div> -->
@@ -193,7 +193,7 @@
             >
             </canvas>
         </div>
-           
+
 
         <h6>B. Situation des instances :</h6>
           <table class="table mb-3">
@@ -334,4 +334,3 @@
   </li>
 </ul>
 <div [ngbNavOutlet]="nav"></div>
-  

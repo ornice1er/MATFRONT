@@ -1,7 +1,7 @@
 <div class="" style="height: 100vh;">
   <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
     <div class="col-xl-5 col-lg-5 col-12 mx-auto col-md-5">
-      <div class="card card-pages rounded-2xl!  shadow-lg! rounded-0 transparent">
+      <div class="card card-pages rounded-2xl!  shadow-lg transparent">
         <div class="card-body p-5">
           <div class="text-center m-t-0 m-b-15">
             <span class="logo logo-admin">
@@ -9,31 +9,31 @@
             </span>
           </div>
           <div class="text-center">
-            <h1 class="h5 text-primary-dark! mb-4 ">Plateforme d'enregistrement
+            <h1 class="h5 text-primary-dark mb-4 ">Plateforme d'enregistrement
               et de suivi du traitement
               des requêtes des usagers du MTFP</h1>
           </div>
-          <div class="border! border-red-500! rounded-lg! bg-red-100! text-red-500! my-3! px-3! py-2!" *ngIf="error">
+          <div class="border border-red-500 rounded-lg bg-red-100 text-red-500 my-3 px-3 py-2" *ngIf="error">
             {{error}}
           </div>
-          <form class="flex! flex-col! gap-4! justify-center! items-center! w-full!" #formAuth="ngForm"
+          <form class="flex flex-col gap-4 justify-center items-center w-full" #formAuth="ngForm"
             (ngSubmit)="submit(formAuth.value,$event)">
-            <div class="flex! w-full!">
+            <div class="flex w-full">
               <input type="email"
-                class="outline-none! w-full! text-sm! px-3! py-2! bg-gray-50! rounded-lg! border border-gray-300!"
-                ngModel required name="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email">
+                class="outline-none w-full text-sm px-3 py-2 bg-gray-50 rounded-lg border border-gray-300" ngModel
+                required name="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email">
             </div>
-            <div class="flex! w-full!">
+            <div class="flex w-full">
               <input type="password"
-                class="outline-none! w-full! text-sm! px-3! py-2! bg-gray-50! rounded-lg! border border-gray-300!"
-                required ngModel name="password" id="exampleInputPassword" placeholder="Mot de passe">
+                class="outline-none w-full text-sm px-3 py-2 bg-gray-50 rounded-lg border border-gray-300" required
+                ngModel name="password" id="exampleInputPassword" placeholder="Mot de passe">
             </div>
-            <div class="flex! w-full!">
+            <div class="flex w-full">
               <button type="submit" [disabled]="formAuth.invalid || loading"
-                [ngClass]="{'cursor-not-allowed! bg-gray-500! text-gray-300!':formAuth.invalid || loading, 'bg-[#023E79]! text-white!':formAuth.valid && !loading}"
-                class=" font-light! text-base! px-3! py-2! w-full! rounded-lg! flex! flex-row! justify-center! items-center! gap-3!">
+                [ngClass]="{'cursor-not-allowed bg-gray-500! text-gray-300!':formAuth.invalid || loading, 'bg-primary! text-white!':formAuth.valid && loading}"
+                class=" font-light text-base px-3 py-2 w-full rounded-lg! flex flex-row justify-center items-center gap-3">
                 <span *ngIf="!loading">Se connecter</span>
-                <svg *ngIf="loading" xmlns="http://www.w3.org/2000/svg" class="size-5!" viewBox="0 0 24 24">
+                <svg *ngIf="loading" xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24">
                   <path fill="none" stroke="currentColor" stroke-dasharray="16" stroke-dashoffset="16"
                     stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3c4.97 0 9 4.03 9 9">
                     <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="16;0" />
