@@ -50,17 +50,10 @@
           <ng-option *ngFor="let p of permissions" [value]="p.id">{{p.name}}</ng-option>
         </ng-select> -->
 
-        <p-multiSelect
-    [options]="permissions"
-    [(ngModel)]="permissionsChosen"
-    name="permissions"
-    optionLabel="name"
-    optionValue="id"
-    placeholder="Sélectionnez des permissions"
-    [style]="{'width': '100%'}"
-    [maxSelectedLabels]="3"
-    [selectedItemsLabel]="'{0} permissions sélectionnées'" />
-  
+        <p-multiSelect [options]="permissions" [(ngModel)]="permissionsChosen" name="permissions" optionLabel="name"
+          optionValue="id" placeholder="Sélectionnez des permissions" [style]="{'width': '100%'}"
+          [maxSelectedLabels]="3" [selectedItemsLabel]="'{0} permissions sélectionnées'" />
+
       </div>
 
 
