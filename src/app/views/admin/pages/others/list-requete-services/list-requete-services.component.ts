@@ -302,7 +302,7 @@ search_text:any=""
     }
     this.etapes = []
     this.etapeService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.etapes = res
+      this.etapes = res.data
       this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
     })
     

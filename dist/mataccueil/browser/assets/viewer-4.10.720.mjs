@@ -10042,18 +10042,7 @@ class AnnotationEditor {
     });
   }
   _onTranslating(x, y) {}
-  _onTranslated(x, y) {
-    this.eventBus?.dispatch("annotation-editor-event", {
-      source: this,
-      type: "moved",
-      page: this.pageIndex + 1,
-      editorType: this.constructor.name,
-      value: {
-        x,
-        y
-      }
-    });
-  }
+  _onTranslated(x, y) {}
   get _hasBeenMoved() {
     return !!editor_classPrivateFieldGet(_initialRect, this) && (editor_classPrivateFieldGet(_initialRect, this)[0] !== this.x || editor_classPrivateFieldGet(_initialRect, this)[1] !== this.y);
   }
@@ -18001,7 +17990,7 @@ function getDocument() {
   }
   const docParams = {
     docId,
-    apiVersion: "4.10.728",
+    apiVersion: "4.10.720",
     data,
     password,
     disableAutoFetch,
@@ -19867,8 +19856,8 @@ class InternalRenderTask {
 var _canvasInUse = {
   _: new WeakSet()
 };
-const version = "4.10.728";
-const build = "08db36c6f";
+const version = "4.10.720";
+const build = "8584618e7";
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/esnext.iterator.flat-map.js
 var esnext_iterator_flat_map = __webpack_require__(670);
@@ -25855,31 +25844,6 @@ class DrawingEditor extends AnnotationEditor {
         draw_assertClassBrand(_DrawingEditor_brand, this, _updateBbox).call(this, bbox);
       }
       this.parent?.drawLayer.updateProperties(this._drawId, options.toSVGProperties());
-      if (name === "stroke") {
-        this.eventBus?.dispatch("annotation-editor-event", {
-          source: this,
-          type: "colorChanged",
-          page: this.pageIndex + 1,
-          editorType: this.constructor.name,
-          value
-        });
-      } else if (name === "stroke-width") {
-        this.eventBus?.dispatch("annotation-editor-event", {
-          source: this,
-          type: "thicknessChanged",
-          page: this.pageIndex + 1,
-          editorType: this.constructor.name,
-          value
-        });
-      } else if (name === "stroke-opacity") {
-        this.eventBus?.dispatch("annotation-editor-event", {
-          source: this,
-          type: "opacityChanged",
-          page: this.pageIndex + 1,
-          editorType: this.constructor.name,
-          value
-        });
-      }
     };
     this.addCommands({
       cmd: setter.bind(this, value),
@@ -26159,12 +26123,6 @@ class DrawingEditor extends AnnotationEditor {
     if (event) {
       parent.drawLayer.updateProperties(this._currentDrawId, _currentDraw._.end(event.offsetX, event.offsetY));
     }
-    this.eventBus?.dispatch("annotation-editor-event", {
-      source: this,
-      type: "bezierPathChanged",
-      page: this._currentParent ? this._currentParent.pageIndex + 1 : NaN,
-      editorType: this.name
-    });
     if (this.supportMultipleDrawings) {
       const draw = _currentDraw._;
       const drawId = this._currentDrawId;
@@ -28142,7 +28100,6 @@ class AnnotationEditorLayer {
     if (!AnnotationEditorLayer._initialized) {
       AnnotationEditorLayer._initialized = true;
       for (const editorType of editorTypes) {
-        editorType.eventBus = eventBus;
         editorType.initialize(l10n, uiManager);
       }
     }
@@ -29033,8 +28990,8 @@ function _updateProperties(element, properties) {
 
 
 
-const pdfjsVersion = "4.10.728";
-const pdfjsBuild = "08db36c6f";
+const pdfjsVersion = "4.10.720";
+const pdfjsBuild = "8584618e7";
 {
   globalThis.pdfjsTestingUtils = {
     HighlightOutliner: HighlightOutliner
@@ -30428,7 +30385,7 @@ class SimpleLinkService extends PDFLinkService {
 
 
 ;// ./web/ngx-extended-pdf-viewer-version.js
-const ngxExtendedPdfViewerVersion = '23.3.1';
+const ngxExtendedPdfViewerVersion = '23.2.0';
 ;// ./web/event_utils.js
 function event_utils_classPrivateFieldSet(s, a, r) { return s.set(event_utils_assertClassBrand(s, a), r), r; }
 function event_utils_classPrivateFieldInitSpec(e, t, a) { event_utils_checkPrivateRedeclaration(e, t), t.set(e, a); }
@@ -37817,9 +37774,7 @@ class PDFPrintService {
         }
         print.call(window);
         const isIOS = navigator.platform && ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(navigator.platform) || navigator.userAgent.includes("Mac") && "ontouchend" in document;
-        const isAndroid = /Android/i.test(navigator.userAgent);
-        const optimalTimeout = isIOS || isAndroid ? 1500 : 100;
-        setTimeout(resolve, optimalTimeout);
+        setTimeout(resolve, isIOS ? 1500 : 20);
       }, 0);
     });
   }
@@ -43538,7 +43493,7 @@ class PDFViewer {
     pdf_viewer_classPrivateFieldInitSpec(this, _pageViewMode, "multiple");
     pdf_viewer_classPrivateFieldInitSpec(this, _maxZoom, MAX_SCALE);
     pdf_viewer_classPrivateFieldInitSpec(this, _minZoom, MIN_SCALE);
-    const viewerVersion = "4.10.728";
+    const viewerVersion = "4.10.720";
     if (version !== viewerVersion) {
       throw new Error(`The API version "${version}" does not match the Viewer version "${viewerVersion}".`);
     }
@@ -45731,6 +45686,56 @@ class Toolbar {
     }, {
       element: options.download,
       eventName: "download"
+    }, {
+      element: options.editorFreeTextButton,
+      eventName: "switchannotationeditormode",
+      eventDetails: {
+        get mode() {
+          const {
+            classList
+          } = options.editorFreeTextButton;
+          return classList.contains("toggled") ? AnnotationEditorType.NONE : AnnotationEditorType.FREETEXT;
+        }
+      }
+    }, {
+      element: options.editorHighlightButton,
+      eventName: "switchannotationeditormode",
+      eventDetails: {
+        get mode() {
+          const {
+            classList
+          } = options.editorHighlightButton;
+          return classList.contains("toggled") ? AnnotationEditorType.NONE : AnnotationEditorType.HIGHLIGHT;
+        }
+      }
+    }, {
+      element: options.editorInkButton,
+      eventName: "switchannotationeditormode",
+      eventDetails: {
+        get mode() {
+          const {
+            classList
+          } = options.editorInkButton;
+          return classList.contains("toggled") ? AnnotationEditorType.NONE : AnnotationEditorType.INK;
+        }
+      }
+    }, {
+      element: options.editorStampButton,
+      eventName: "switchannotationeditormode",
+      eventDetails: {
+        get mode() {
+          const {
+            classList
+          } = options.editorStampButton;
+          return classList.contains("toggled") ? AnnotationEditorType.NONE : AnnotationEditorType.STAMP;
+        }
+      },
+      telemetry: {
+        type: "editing",
+        data: {
+          action: "pdfjs.image.icon_click"
+        }
+      }
     }];
     web_toolbar_assertClassBrand(_Toolbar_brand, this, toolbar_bindListeners).call(this, _buttons);
     web_toolbar_assertClassBrand(_Toolbar_brand, this, _updateToolbarDensity).call(this, {
@@ -48395,9 +48400,8 @@ PDFViewerApplication.serviceWorkerOptions = ServiceWorkerOptions;
 
 
 
-
-const viewer_pdfjsVersion = "4.10.728";
-const viewer_pdfjsBuild = "08db36c6f";
+const viewer_pdfjsVersion = "4.10.720";
+const viewer_pdfjsBuild = "8584618e7";
 const AppConstants = {
   LinkTarget: LinkTarget,
   RenderingStates: RenderingStates,
@@ -48601,7 +48605,7 @@ function webViewerLoad(cspPolicyService) {
   try {
     parent.document.dispatchEvent(event);
   } catch (ex) {
-    ngx_console_NgxConsole.error("webviewerloaded:", ex);
+    NgxConsole.error("webviewerloaded:", ex);
     document.dispatchEvent(event);
   }
   config.cspPolicyService = cspPolicyService;
