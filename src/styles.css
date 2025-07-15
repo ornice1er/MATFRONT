@@ -2,7 +2,7 @@
 @import "tailwindcss";
 @import "primeng/resources/themes/aura-light-blue/theme.css";
 @import "primeng/resources/primeng.css";
-@import "~@ng-select/ng-select/themes/default.theme.css";
+/* @import "~@ng-select/ng-select/themes/default.theme.css"; */
 
 @theme {
   --color-primary-dark: #162233;
