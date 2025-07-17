@@ -1,6 +1,6 @@
 
 <div class="container-fluid" id="container-wrapper">
-    <div class="row d-flex">
+    <div class="row d-flex mb-3">
         <div class="text-end mb-3">
             <button (click)="openReportModal(addReport)" class=" mx-1 btn btn-sm btn-info">Charger les données</button>
         </div>
@@ -131,6 +131,36 @@
         </ng-container>
         
  
+    </div>
+
+
+    <div class="">
+        <h6> Statistiques par sexe</h6>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                <th>Commune</th>
+                <th>Reçus H</th>
+                <th>Reçus F</th>
+                <th>Total Reçus</th>
+                <th>Satisfaits H</th>
+                <th>Satisfaits F</th>
+                <th>Total Satisfaits</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of filteredStats; let i = index" [ngClass]="{ 'table-total': i === filteredStats.length - 1 }">
+                <td>{{ row.commune }}</td>
+                <td>{{ row.receivedMale }}</td>
+                <td>{{ row.receivedFemale }}</td>
+                <td>{{ row.receivedTotal }}</td>
+                <td>{{ row.satisfiedMale }}</td>
+                <td>{{ row.satisfiedFemale }}</td>
+                <td>{{ row.satisfiedTotal }}</td>
+                </tr>
+            </tbody>
+            </table>
+
     </div>
 </div>
 

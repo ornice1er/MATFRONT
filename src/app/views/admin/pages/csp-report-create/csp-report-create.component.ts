@@ -30,6 +30,7 @@ export class CspReportCreateComponent {
   loading2=false
   data:any[]=[]
   registresReports:any[]=[]
+  filteredStats :any[]=[]
   selected_data:any
   closeResult:any
   pg2={
@@ -130,6 +131,7 @@ export class CspReportCreateComponent {
     this.loading2=true
     this.reportService.getDataReport(value).subscribe((res: any) => {
       this.data=res.data
+      this.filteredStats = this.generateTable(this.data);
       this.modalService.dismissAll()
       this.loading2=false
     }, (err:any) => {
@@ -137,8 +139,114 @@ export class CspReportCreateComponent {
       AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
     })
   }
+
+generateTable(data: any[]) {
+  const communeMap: any = {};
+  let totalReceivedMale = 0;
+  let totalReceivedFemale = 0;
+  let totalSatisfiedMale = 0;
+  let totalSatisfiedFemale = 0;
+
+  data.forEach(item => {
+    const structure = item.user?.agent_user?.structure;
+    const commune = structure?.libelle || 'Inconnu';
+
+    if (!communeMap[commune]) {
+      communeMap[commune] = {
+        commune,
+        receivedMale: 0,
+        receivedFemale: 0,
+        satisfiedMale: 0,
+        satisfiedFemale: 0
+      };
+    }
+
+    const receivedMale = item.customer_recieved_male || 0;
+    const receivedFemale = item.customer_recieved_female || 0;
+    const satisfiedMale = item.customer_satisfied_male || 0;
+    const satisfiedFemale = item.customer_satisfied_female || 0;
+
+    communeMap[commune].receivedMale += receivedMale;
+    communeMap[commune].receivedFemale += receivedFemale;
+    communeMap[commune].satisfiedMale += satisfiedMale;
+    communeMap[commune].satisfiedFemale += satisfiedFemale;
+
+    totalReceivedMale += receivedMale;
+    totalReceivedFemale += receivedFemale;
+    totalSatisfiedMale += satisfiedMale;
+    totalSatisfiedFemale += satisfiedFemale;
+  });
+
+  const tableData = Object.values(communeMap).map((c: any) => ({
+    ...c,
+    receivedTotal: c.receivedMale + c.receivedFemale,
+    satisfiedTotal: c.satisfiedMale + c.satisfiedFemale
+  }));
+
+  // Ajouter la ligne de total global
+  tableData.push({
+    commune: 'Total général',
+    receivedMale: totalReceivedMale,
+    receivedFemale: totalReceivedFemale,
+    receivedTotal: totalReceivedMale + totalReceivedFemale,
+    satisfiedMale: totalSatisfiedMale,
+    satisfiedFemale: totalSatisfiedFemale,
+    satisfiedTotal: totalSatisfiedMale + totalSatisfiedFemale
+  });
+
+  return tableData;
+}
+
+
+
+generateTableHtml(data: any[]): string {
+  const rows = this.generateTable(data); // utilise ta méthode existante
+
+  let html = `
+    <table border="1" cellpadding="5" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Commune</th>
+          <th>Reçus (H)</th>
+          <th>Reçus (F)</th>
+          <th>Total reçus</th>
+          <th>Satisfaits (H)</th>
+          <th>Satisfaits (F)</th>
+          <th>Total satisfaits</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+    const isTotal = i === rows.length - 1;
+    html += `
+      <tr style="${isTotal ? 'font-weight:bold;background-color:#eee;' : ''}">
+        <td>${r.commune}</td>
+        <td>${r.receivedMale}</td>
+        <td>${r.receivedFemale}</td>
+        <td>${r.receivedTotal}</td>
+        <td>${r.satisfiedMale}</td>
+        <td>${r.satisfiedFemale}</td>
+        <td>${r.satisfiedTotal}</td>
+      </tr>
+    `;
+  }
+
+  html += `
+      </tbody>
+    </table>
+  `;
+
+  return html;
+}
+
+
   storeReport(value:any){
     this.loading2=true
+      const summaryHtml = this.generateTableHtml(this.data);
+      value['summary_synthese']=summaryHtml
     this.reportService.store(value).subscribe((res: any) => {
       this.router.navigate(['/admin/ccsp/reports/own'])
       this.modalService.dismissAll()
