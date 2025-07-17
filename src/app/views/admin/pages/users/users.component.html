@@ -122,8 +122,7 @@
               <div class="form-group row mb-3">
                 <label class="col-md-4">Sélectionner l'acteur *</label>
                 <div class="col-md-6">
-                  <select class="form-control form-control-sm" #acteur="ngModel" maxlength="250" name="idagent" ngModel
-                    required>
+                  <select class="form-control form-control-sm" #acteur="ngModel" maxlength="250" name="idAgent" ngModel required>
                     <option [value]="e.id" *ngFor="let e of acteurs">
                       {{ e.nomprenoms }}
                     </option>
@@ -141,24 +140,41 @@
               <div class="form-group row mb-3">
                 <label class="col-md-4">Activé (e) *</label>
                 <div class="col-md-6">
-                  <input type="checkbox" value="false" name="statut" ngModel />
+                  <input type="checkbox" name="statut" ngModel />
                 </div>
               </div>
               <div class="form-group row mb-3">
-                <label class="col-md-4">Profil *</label>
+                <label class="col-md-4">Rôles *</label>
                 <div class="col-md-6">
-                  <select class="form-control form-control-sm" #idprofil="ngModel" maxlength="250" name="profil" ngModel
-                    required>
-                    <option [value]="e.id" *ngFor="let e of profils">
-                      {{ e.LibelleProfil }}
+                  <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250" name="role" ngModel required>
+                    <option [value]="e.name" *ngFor="let e of role">
+                      {{ e?.name }}
                     </option>
                   </select>
-                  <span *ngIf="idprofil.invalid && (idprofil.dirty || idprofil.touched)" class="text-danger">
-                    <small *ngIf="idprofil.errors?.['required']">
-                      Profil est requis
+                  <span *ngIf="idrole.invalid && (idrole.dirty || idrole.touched)" class="text-danger">
+                    <small *ngIf="idrole.errors?.['required']">
+                      Rôle est requis
                     </small>
-                    <small *ngIf="idprofil.errors?.['maxlength']">
-                      Profil, pas plus de 250 caractères.
+                    <small *ngIf="idrole.errors?.['maxlength']">
+                      Rôle, pas plus de 250 caractères.
+                    </small>
+                  </span>
+                </div>
+              </div>
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Institution *</label>
+                <div class="col-md-6">
+                  <select class="form-control form-control-sm" #idInstitution="ngModel" maxlength="250" name="idEntite" ngModel required>
+                    <option [value]="e.id" *ngFor="let e of institutions">
+                      {{ e?.libelle }}
+                    </option>
+                  </select>
+                  <span *ngIf="idInstitution.invalid && (idInstitution.dirty || idInstitution.touched)" class="text-danger">
+                    <small *ngIf="idInstitution.errors?.['required']">
+                      Institution est requis
+                    </small>
+                    <small *ngIf="idInstitution.errors?.['maxlength']">
+                      Institution, pas plus de 250 caractères.
                     </small>
                   </span>
                 </div>
@@ -174,39 +190,6 @@
                     </small>
                     <small *ngIf="email.errors?.['maxlength']">
                       Email, pas plus de 250 caractères.
-                    </small>
-                  </span>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-md-4">Mot de passe *</label>
-                <div class="col-md-6">
-                  <input type="password" class="form-control form-control-sm" #password="ngModel" maxlength="250"
-                    required name="password" ngModel />
-                  <span *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger">
-                    <small *ngIf="password.errors?.['required']">
-                      Mot de passe est requis
-                    </small>
-                    <small *ngIf="password.errors?.['maxlength']">
-                      Mot de passe, pas plus de 250 caractères.
-                    </small>
-                  </span>
-                </div>
-              </div>
-              <div class="form-group row mb-3">
-                <label class="col-md-4">Confirmer le mot de passe *</label>
-                <div class="col-md-6">
-                  <input type="password" class="form-control form-control-sm" #conf_password="ngModel" maxlength="250"
-                    required name="conf_password" ngModel />
-                  <span *ngIf="
-                      conf_password.invalid &&
-                      (conf_password.dirty || conf_password.touched)
-                    " class="text-danger">
-                    <small *ngIf="conf_password.errors?.['required']">
-                      Mot de passe est requis
-                    </small>
-                    <small *ngIf="conf_password.errors?.['maxlength']">
-                      Mot de passe, pas plus de 250 caractères.
                     </small>
                   </span>
                 </div>
@@ -264,9 +247,8 @@
                   <input type="checkbox" name="statut" [(ngModel)]="selected_data.statut" />
                 </div>
               </div>
-            
               <div class="form-group row mb-3">
-                <label class="col-md-4">Roles *</label>
+                <label class="col-md-4">Rôles *</label>
                 <div class="col-md-6">
                   <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250" name="role"
                     [(ngModel)]="selected_data.idrole" required>
@@ -276,16 +258,15 @@
                   </select>
                   <span *ngIf="idrole.invalid && (idrole.dirty || idrole.touched)" class="text-danger">
                     <small *ngIf="idrole.errors?.['required']">
-                      Role est requis
+                      Rôle est requis
                     </small>
                     <small *ngIf="idrole.errors?.['maxlength']">
-                      Role, pas plus de 250 caractères.
+                      Rôle, pas plus de 250 caractères.
                     </small>
                   </span>
                 </div>
               </div>
-
-               <div class="form-group row mb-3">
+              <div class="form-group row mb-3">
                 <label class="col-md-4">Institution *</label>
                 <div class="col-md-6">
                   <select class="form-control form-control-sm" #idInstitution="ngModel" maxlength="250" name="idEntite"
@@ -304,7 +285,6 @@
                   </span>
                 </div>
               </div>
-
               <div class="form-group row mb-3">
                 <label class="col-md-4">Email</label>
                 <div class="col-md-6">
@@ -320,7 +300,6 @@
                   </span>
                 </div>
               </div>
-            
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid || loading">

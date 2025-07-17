@@ -170,7 +170,7 @@ search_text:any=""
   
   create(value:any){
     value.idEntite=this.user.idEntite
-    if(value.password==value.conf_password){
+    
       this.loading=true
       this.userService.create(value).subscribe((res:any)=>{
       this.loading=false
@@ -187,9 +187,7 @@ search_text:any=""
            AppSweetAlert.simpleAlert('error',"Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet")
          }
        })
-    }else{
-      this.error="Les deux mot de passe doivent être identique"
-    }
+    
     
   }
 

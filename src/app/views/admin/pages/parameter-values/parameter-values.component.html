@@ -1,0 +1,289 @@
+<div class="container-fluid" id="container-wrapper">
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h3 class="h3 mb-0 text-gray-800">PARAMETRES / Valeurs parametres</h3>
+  </div>
+  <div class="row d-flex">
+    <div class="col-md-12">
+      <div class="card my-2">
+        <!-- Header -->
+        <div class="card-header p-4 border-0 pt-5">
+          <div class="card-toolbar d-flex justify-content-between">
+            <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
+              <li class="nav-item">
+                <span class="mr-2">élément(s)</span>
+              </li>
+              <li class="nav-item">
+                <form>
+                  <div class="form-group form-inline">
+                    <input class="form-control form-control-sm" placeholder="Rechercher..." type="text" name="searchText" />
+                  </div>
+                </form>
+              </li>
+            </ul>
+            <!-- <div>
+              <button class="btn btn-sm bg-mat-primary text-white">Ajouter un CCSP</button>
+            </div> -->
+          </div>
+        </div>
+        <!-- Body -->
+        <div class="card-body pt-3 pb-0">
+          <div class="table-responsive">
+            <table class="table table-striped datatable table-head-custom table-vertical-center" id="kt_datatable">
+              <thead>
+                <!-- <tr>
+                  <td class="left text-left" colspan="12">
+                    <button class="mx-1 btn btn-sm bg-mat-primary text-white">Modifier</button>
+                    <button class="btn mx-1 btn-sm btn-danger">Supprimer</button>
+                    <button class="btn mx-1 btn-sm btn-success">Activer</button>
+                    <button class="btn mx-1 btn-sm btn-danger">Désactiver</button>
+                  </td>
+                </tr> -->
+                <tr>
+                  <!-- <th></th> -->
+                  <th scope="col">N°</th>
+                  <th scope="col">Delais relance PFC</th>
+                  <th scope="col">Date Limite Transmission de rapport PFC</th>
+                  <th scope="col">Delais relance SE</th>
+                  <th scope="col">Date Limite Transmission de rapport SE</th>
+                  <th scope="col">Delais relance DDTFP</th>
+                  <th scope="col">Date Limite Transmission de rapport DDTFP</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <!-- <td>
+                    <input type="radio" name="get">
+                  </td> -->
+                  <td>1</td>
+                  <td>Libellé</td>
+                  <td>Adresse</td>
+                  <td>Email</td>
+                  <td>Contact</td>
+                  <td>Institution</td>
+                  <td>Département</td>
+               
+                
+                 
+                </tr>
+                <tr>
+                  <td colspan="12" class="text-center bg-gray-100">Aucun élément</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <pagination-controls id="ngxP1" [maxSize]="9" directionLinks="true" autoHide="true" [responsive]="true" previousLabel="Précédent" nextLabel="Suivant" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="Vous êtes sur la page">
+            </pagination-controls> -->
+          </div>
+        </div>
+<!-- 
+        <div>
+          <form>
+            <div class="modal-header bg-mat-primary">
+              <h5 class="modal-title text-white" id="modal-basic-title">Ajouter un CCSP</h5>
+              <button type="button" class="close text-white" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger my-1 alert-rounded">
+                Erreur
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="form-group">
+                <label for="title">Libellé *</label>
+                <input type="text" class="form-control" name="title" maxlength="255">
+                <span class="text-danger">
+                  <small>Libellé requis</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="address">Adresse *</label>
+                <input type="text" class="form-control" name="address" maxlength="255">
+                <span class="text-danger">
+                  <small>Adresse requise</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" name="email" maxlength="255">
+                <span class="text-danger">
+                  <small>Email requis</small>
+                  <small>Email invalide</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="phone">Contact *</label>
+                <input type="text" class="form-control" name="phone" maxlength="20">
+                <span class="text-danger">
+                  <small>Contact requis</small>
+                  <small>Maximum 20 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="institution">Institution *</label>
+                <select class="form-control" name="institution">
+                  <option value="" disabled>Sélectionnez une institution</option>
+                  <option>Institution 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Institution requise</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="departement">Département *</label>
+                <select class="form-control" name="departement">
+                  <option value="" disabled>Sélectionnez un département</option>
+                  <option>Département 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Département requis</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="commune">Commune *</label>
+                <select class="form-control" name="commune">
+                  <option value="" disabled>Sélectionnez une commune</option>
+                  <option>Commune 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Commune requise</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="geolocalisation">Géolocalisation *</label>
+                <input type="text" class="form-control" placeholder="Ex: 48.8566,2.3522" name="geolocalisation" maxlength="255">
+                <span class="text-danger">
+                  <small>Géolocalisation requise</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="horaire">Horaire *</label>
+                <input type="text" class="form-control" placeholder="Lun-Ven 7h30-17h30" name="horaire" maxlength="255">
+                <span class="text-danger">
+                  <small>Horaire requis</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="services">Services *</label>
+             
+                <span class="text-danger">
+                  <small>Au moins un service requis</small>
+                </span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-outline-dark">Sauvegarder</button>
+            </div>
+          </form>
+        </div> -->
+        <!-- <div>
+          <form>
+            <div class="modal-header bg-mat-primary">
+              <h4 class="modal-title text-white" id="modal-basic-title">Modifier un CCSP</h4>
+              <button type="button" class="close" aria-label="Close">X</button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger my-1 alert-rounded">
+                Erreur
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+              </div>
+              <div class="form-group">
+                <label for="title">Libellé *</label>
+                <input type="text" class="form-control" name="title" maxlength="255">
+                <span class="text-danger">
+                  <small>Libellé requis</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="address">Adresse *</label>
+                <input type="text" class="form-control" name="address" maxlength="255">
+                <span class="text-danger">
+                  <small>Adresse requise</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" name="email" maxlength="255">
+                <span class="text-danger">
+                  <small>Email requis</small>
+                  <small>Email invalide</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="phone">Contact *</label>
+                <input type="text" class="form-control" name="phone" maxlength="20">
+                <span class="text-danger">
+                  <small>Contact requis</small>
+                  <small>Maximum 20 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="institution">Institution *</label>
+                <select class="form-control" name="institution">
+                  <option value="" disabled>Sélectionnez une institution</option>
+                  <option>Institution 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Institution requise</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="departement">Département *</label>
+                <select class="form-control" name="departement">
+                  <option value="" disabled>Sélectionnez un département</option>
+                  <option>Département 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Département requis</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="commune">Commune *</label>
+                <select class="form-control" name="commune">
+                  <option value="" disabled>Sélectionnez une commune</option>
+                  <option>Commune 1</option>
+                </select>
+                <span class="text-danger">
+                  <small>Commune requise</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="geolocalisation">Géolocalisation *</label>
+                <input type="text" class="form-control" placeholder="Ex: 48.8566,2.3522" name="geolocalisation" maxlength="255">
+                <span class="text-danger">
+                  <small>Géolocalisation requise</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="horaire">Horaire *</label>
+                <input type="text" class="form-control" placeholder="Lun-Ven 7h30-17h30" name="horaire" maxlength="255">
+                <span class="text-danger">
+                  <small>Horaire requis</small>
+                  <small>Maximum 255 caractères</small>
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="services">Services *</label>
+             
+                <span class="text-danger">
+                  <small>Au moins un service requis</small>
+                </span>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-outline-dark">Sauvegarder</button>
+            </div>
+          </form>
+        </div> -->
+
+      </div>
+    </div>
+  </div>
+</div>

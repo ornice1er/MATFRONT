@@ -8,6 +8,7 @@ import { LoginUsagerComponent } from "./pages/auth/login-usager/login-usager.com
 import { LoginV2Component } from "./pages/auth/login-v2/login-v2.component";
 import { ResetPasswordComponent } from "./pages/auth/reset-password/reset-password.component";
 import { AvancedStatisticsComponent } from "./pages/avanced-statistics/avanced-statistics.component";
+import { PerformanceRequeteComponent } from "./pages/performance-requete/performance-requete.component";
 import { BaseUsagerComponent } from "./pages/base-usager/base-usager.component";
 import { BaseComponent } from "./pages/base/base.component";
 import { CcspComponent } from "./pages/ccsp/ccsp.component";
@@ -48,6 +49,7 @@ import { ParcoursRequeteComponent } from "./pages/others/parcours-requete/parcou
 import { PointPreoccupationComponent } from "./pages/others/point-preoccupation/point-preoccupation.component";
 import { PointReponseComponent } from "./pages/others/point-reponse/point-reponse.component";
 import { RelanceComponent } from "./pages/others/relance/relance.component";
+import { ParameterValuesComponent } from "./pages/parameter-values/parameter-values.component";
 import { StatspreocComponent } from "./pages/others/stats-preoc/stats-preoc.component";
 import { AttributcomComponent } from "./pages/parameters/attributcom/attributcom.component";
 import { ConfigrelanceComponent } from "./pages/parameters/configrelance/configrelance.component";
@@ -278,6 +280,18 @@ export const AdminRoutes: Routes = [
       {
         path: 'ccsps',
         component: CcspComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CCSP', action: 'Consulter' }
+      },
+        {
+        path: 'parameter-values',
+        component: ParameterValuesComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'CCSP', action: 'Consulter' }
+      },
+        {
+        path: 'performances',
+        component: PerformanceRequeteComponent,
         canActivate: [AuthGuard],
         data: { key: 'CCSP', action: 'Consulter' }
       },
