@@ -8,132 +8,65 @@
         <p>{{registresReports!.length}} élément(s)</p>
 
         <ng-container *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
-           
-       <div class="table-responsive">
-        <table class="table table-sm table-bordered">
-            <thead class="">
-                <tr>
-                    <th>#</th>
-                    <th>Centre</th>
-                    <th>Usagers reçus</th>
-                    <th>Usagers satisfaits</th>
-                    <th>Principales raison d'insactisfaction</th>
-                    <th>Problèmes / difficultés rencontrés par le PF</th>
-                    <th>Approche de solutions préconisées par le PF</th>
-                    <th>Observations</th>
-                   
-                </tr>
-            </thead>
-            <tbody>
-                                     <tr *ngFor="let rgr of data 
-                 | sampleSearch:search_text 
-                 | paginate: {
-                        id:'ngxP2',
-                        itemsPerPage: pg2.pageSize,
-                        currentPage: pg2.p,
-                        totalItems: pg2.total }">
-                        <td>
-                            <input type="radio" (change)="checkedRegistreReport(rgr)">
-    
-                        </td>
-                <td>{{rgr.user?.agent_user?.structure?.libelle}} </td>
-              
-                <td>{{rgr.customer_recieved}} </td>
-                <td>{{rgr.customer_satisfied}} </td>
-                <td>{{rgr.unsatified_reason}} </td>
-                <td>{{rgr.difficult}} </td>
-                <td>{{rgr.solution}} </td>
-                <td>{{rgr.observation}} </td>
-             
-                </tr>                
-    
+            <div class="table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="">
+                        <tr>
+                            <th>#</th>
+                            <th>Centre</th>
+                            <th>Usagers reçus</th>
+                            <th>Usagers satisfaits</th>
+                            <th>Principales raison d'insactisfaction</th>
+                            <th>Problèmes / difficultés rencontrés par le PF</th>
+                            <th>Approche de solutions préconisées par le PF</th>
+                            <th>Observations</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                                            <tr *ngFor="let rgr of data 
+                        | sampleSearch:search_text 
+                        | paginate: {
+                                id:'ngxP2',
+                                itemsPerPage: pg2.pageSize,
+                                currentPage: pg2.p,
+                                totalItems: pg2.total }">
+                                <td>
+                                    <input type="radio" (change)="checkedRegistreReport(rgr)">
+            
+                                </td>
+                        <td>{{rgr.user?.agent_user?.structure?.libelle}} </td>
+                    
+                        <td>{{rgr.customer_recieved}} </td>
+                        <td>{{rgr.customer_satisfied}} </td>
+                        <td>{{rgr.unsatified_reason}} </td>
+                        <td>{{rgr.difficult}} </td>
+                        <td>{{rgr.solution}} </td>
+                        <td>{{rgr.observation}} </td>
+                    
+                        </tr>                
+            
+
+                    
+                    </tbody>
+                </table>
+            
+                </div>
+            <pagination-controls 
+                id="ngxP2"
+                (pageChange)="getPage2($event)"
+            [maxSize]="9"
+            [directionLinks]="true"
+            [autoHide]="true"
+            [responsive]="true"
+            [previousLabel]="'Précédent'"
+            [nextLabel]="'Suivant'"
+            [screenReaderPaginationLabel]="'Pagination'"
+            [screenReaderPageLabel]="'page'"
+            [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+            </pagination-controls>
 
             
-            </tbody>
-        </table>
-    
-        </div>
-    <pagination-controls 
-            id="ngxP2"
-            (pageChange)="getPage2($event)"
-          [maxSize]="9"
-          [directionLinks]="true"
-          [autoHide]="true"
-          [responsive]="true"
-          [previousLabel]="'Précédent'"
-          [nextLabel]="'Suivant'"
-          [screenReaderPaginationLabel]="'Pagination'"
-          [screenReaderPageLabel]="'page'"
-          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-         </pagination-controls>
-        </ng-container>
-        <ng-container *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
-                  <div class="table-responsive">
-        <table class="table table-sm table-bordered">
-            <thead class="">
-                <tr>
-                    <th>#</th>
-                    <th>Centre</th>
-                    <th>Usagers reçus</th>
-                    <th>Usagers satisfaits</th>
-                    <th>Synthèse analytique</th>
-                   
-                </tr>
-            </thead>
-            <tbody>
-
-                <ng-container *ngFor="let d of data | keyvalue" >
-                    <tr>
-                        <td colspan="8" class="text-center">{{d.key}}</td>
-                    </tr>
-
-                                     <tr *ngFor="let rgr of d.value 
-                 | sampleSearch:search_text 
-                 | paginate: {
-                        id:'ngxP2',
-                        itemsPerPage: pg2.pageSize,
-                        currentPage: pg2.p,
-                        totalItems: pg2.total }">
-                        <td>
-                            <input type="radio" (change)="checkedRegistreReport(rgr)">
-    
-                        </td>
-                <td>{{rgr.user?.agent_user?.structure?.libelle}} </td>
-              
-                <td>{{rgr.customer_recieved}} </td>
-                <td>{{rgr.customer_satisfied}} </td>
-                <td>{{rgr.summary}} </td>
-             
-                </tr>
-                </ng-container>
-                
-    
-
-            
-            </tbody>
-        </table>
-    
-        </div>
-    <pagination-controls 
-            id="ngxP2"
-            (pageChange)="getPage2($event)"
-          [maxSize]="9"
-          [directionLinks]="true"
-          [autoHide]="true"
-          [responsive]="true"
-          [previousLabel]="'Précédent'"
-          [nextLabel]="'Suivant'"
-          [screenReaderPaginationLabel]="'Pagination'"
-          [screenReaderPageLabel]="'page'"
-          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-         </pagination-controls>
-
-        </ng-container>
-        
- 
-    </div>
-
-
     <div class="">
         <h6> Statistiques par sexe</h6>
         <table class="table table-sm">
@@ -162,10 +95,184 @@
             </table>
 
     </div>
+        </ng-container>
+        <ng-container *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
+
+            <h6>Tableau de synthèse</h6>
+        <div class="table-responsive ">
+            <table class="table table-sm table-bordered">
+                <thead class="">
+                    <tr>
+                        <th>#</th>
+                        <th>Centre</th>
+                        <th>Usagers reçus</th>
+                        <th>Usagers satisfaits</th>
+                        <th>Principales raison d'insactisfaction</th>
+                        <th>Problèmes / difficultés rencontrés par le PF</th>
+                        <th>Approche de solutions préconisées par le PF</th>
+                        <th>Observations</th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <ng-container *ngFor="let d of data | keyvalue" >
+                        <tr>
+                            <td colspan="8" class="text-center">{{d.key}}</td>
+                        </tr>
+
+                                        <tr *ngFor="let rgr of d.value 
+                    | sampleSearch:search_text 
+                    | paginate: {
+                            id:'ngxP2',
+                            itemsPerPage: pg2.pageSize,
+                            currentPage: pg2.p,
+                            totalItems: pg2.total }">
+                            <td>
+                                <input type="radio" (change)="checkedRegistreReport(rgr)">
+        
+                            </td>
+                    <td>{{rgr.user?.agent_user?.structure?.libelle}} / {{rgr.user?.agent_user?.commune?.libellecom}} </td>
+                    <td>{{rgr.customer_recieved}} </td>
+                    <td>{{rgr.customer_satisfied}} </td>
+                    <td>{{rgr.unsatified_reason}} </td>
+                    <td>{{rgr.difficult}} </td>
+                    <td>{{rgr.solution}} </td>
+                    <td>{{rgr.observation}} </td>
+                
+                    </tr>
+                    </ng-container>
+                    
+        
+
+                
+                </tbody>
+            </table>
+        </div>
+        <pagination-controls 
+            id="ngxP2"
+            (pageChange)="getPage2($event)"
+          [maxSize]="9"
+          [directionLinks]="true"
+          [autoHide]="true"
+          [responsive]="true"
+          [previousLabel]="'Précédent'"
+          [nextLabel]="'Suivant'"
+          [screenReaderPaginationLabel]="'Pagination'"
+          [screenReaderPageLabel]="'page'"
+          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+         </pagination-controls>
+            <h6 class="mt-5">Complication des synthèses Analytique</h6>
+
+         <div class="table-responsive">
+            <table class="table table-sm table-bordered">
+              <thead>
+                <th>N°</th>
+                <th>DDTFP</th>
+                <th>Synthèse Analytique</th>
+              </thead>  
+              <tbody>
+                <tr *ngFor="let s of syntheses; let i=index">
+                    <td>{{i+1}}</td>
+                    <td>{{s.user?.agent_user?.commune?.departement?.libelle}}</td>
+                    <td>{{s.summary}}</td>
+                </tr>
+
+              </tbody>
+            </table>
+         </div>
+
+        <h6 class="mt-5">Niveau de fréquentation</h6>
+
+        <table class="table table-bordered table-sm">
+        <thead>
+            <tr>
+            <th rowspan="2">CCSP</th>
+            <th attr.colspan="{{ months.length }}">Usagers reçus</th>
+            <th attr.colspan="{{ months.length }}">Usagers satisfaits</th>
+            <th attr.colspan="{{ months.length }}">Taux de satisfaction (%)</th>
+            </tr>
+            <tr>
+            <th *ngFor="let mois of months">{{ mois }}</th>
+            <th *ngFor="let mois of months">{{ mois }}</th>
+            <th *ngFor="let mois of months">{{ mois }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let ccsp of frequentations">
+            <td>{{ ccsp.ccsp_nom }}</td>
+
+            <!-- Usagers reçus -->
+            <td *ngFor="let mois of months">
+                {{ ccsp.usagers_recus[mois] || 0 }}
+            </td>
+
+            <!-- Usagers satisfaits -->
+            <td *ngFor="let mois of months">
+                {{ ccsp.usagers_satisfaits[mois] || 0 }}
+            </td>
+
+            <!-- Taux de satisfaction -->
+            <td *ngFor="let mois of months">
+                {{ ccsp.taux_satisfaction[mois] !== undefined ? (ccsp.taux_satisfaction[mois] | number:'1.2-2') : '0.00' }}
+            </td>
+            </tr>
+        </tbody>
+        </table>
+
+       <h6>Statistiques par sexe</h6>
+        <table #rapportTable  class="table table-bordered table-sm">
+        <thead>
+            <tr>
+            <th>Commune</th>
+            <th>Reçus H</th>
+            <th>Reçus F</th>
+            <th>Total Reçus</th>
+            <th>Satisfaits H</th>
+            <th>Satisfaits F</th>
+            <th>Total Satisfaits</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let dep of sexData | keyvalue">
+            <tr class="table-secondary">
+                <td colspan="7"><strong>{{ dep.key }}</strong></td>
+            </tr>
+
+            <tr *ngFor="let com of dep.value">
+                <td>{{ com.user?.agent_user?.structure?.libelle }}/{{ com.user?.agent_user?.commune?.libellecom }}</td>
+                <td>{{ com.customer_recieved_male }}</td>
+                <td>{{ com.customer_recieved_female }}</td>
+                <td>{{ com.customer_recieved }}</td>
+                <td>{{ com.customer_recieved_male }}</td>
+                <td>{{ com.customer_recieved_female }}</td>
+                <td>{{ com.customer_satisfied }}</td>
+            </tr>
+
+            <!-- Total ligne -->
+            <tr class="table-light font-weight-bold">
+                <td><strong>Total {{ dep.key }}</strong></td>
+                <td>{{ getTotal2(dep, 'customer_recieved_male') }}</td>
+                <td>{{ getTotal2(dep, 'customer_recieved_female') }}</td>
+                <td>{{ getTotal2(dep, 'customer_recieved') }}</td>
+                <td>{{ getTotal2(dep, 'customer_satisfied_male') }}</td>
+                <td>{{ getTotal2(dep, 'customer_satisfied_female') }}</td>
+                <td>{{ getTotal2(dep, 'customer_satisfied') }}</td>
+            </tr>
+            </ng-container>
+        </tbody>
+        </table>
+
+        </ng-container>
+        
+ 
+    </div>
+
+
 </div>
 
 <div class="container text-center p-3">
-    <div class="card">
+    <div class="card" *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
         <div class="card-body">
                <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
          <div class="row">
@@ -194,10 +301,66 @@
                         </select>
                     </div>
                 </div>   
-                <div class="col-12 mb-3" *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
+                <div class="col-12 mb-3" >
                     <div class="form-group">
                         <label for="">Synthèse Analytique</label>
                         <textarea name="summary" ngModel class="form-control"></textarea>
+                    </div>
+                </div>   
+            </div>
+            <div class="text-end">
+                <button type="submit" [disabled]="loading2"   class="btn btn-secondary mx-1" ><i class="fas fa-save"></i>&nbsp;Générer le rapport</button>
+            </div>
+      
+        
+    </form>
+        </div>
+    </div>
+    <div class="card" *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
+        <div class="card-body">
+               <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
+         <div class="row">
+                    <div class="col-12 mb-3">
+                    <label for="">Année</label>
+                    <select name="year" [(ngModel)]="year"  class="form-control form-control-sm has-error">
+                        <option *ngFor="let y of years" [value]="y">{{y}}</option>
+                     </select>  
+                </div>
+                <div class="col-12 mb-3">
+                    <div class="form-group">
+                        <label for="">Mois</label>
+                        <select name="month" [(ngModel)]="month" class="form-control">
+                            <option value="01">Janvier</option>
+                            <option value="02">Février</option>
+                            <option value="03">Mars</option>
+                            <option value="04">Avril</option>
+                            <option value="05">Mai</option>
+                            <option value="06">Juin</option>
+                            <option value="07">Juillet</option>
+                            <option value="08">Août</option>
+                            <option value="09">Septembre</option>
+                            <option value="10">Octobre</option>
+                            <option value="11">Novembre</option>
+                            <option value="12">Décembre</option>
+                        </select>
+                    </div>
+                </div>   
+                <div class="col-12 mb-3" >
+                    <div class="form-group">
+                        <label for="">Points des rapports des points focaux et des DDTFP</label>
+                        <quill-editor   name="summary_report" [styles]="{height: '150px', width:'100%'}"></quill-editor>
+                    </div>
+                </div>   
+                <div class="col-12 mb-3" >
+                    <div class="form-group">
+                        <label for="">Synthèse des rapports</label>
+                        <quill-editor   name="summary_synthese_all" [styles]="{height: '150px', width:'100%'}"></quill-editor>
+                    </div>
+                </div>   
+                <div class="col-12 mb-3" >
+                    <div class="form-group">
+                        <label for="">Conclusion et commentaire</label>
+                        <quill-editor   name="conclusion" [styles]="{height: '150px', width:'100%'}"></quill-editor>
                     </div>
                 </div>   
             </div>

@@ -1,4 +1,4 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
 import { NgbModal, NgbOffcanvas, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ReportTransmissionService } from '../../../../core/services/report-transmission.service';
 import { ReportService } from '../../../../core/services/report.service';
@@ -15,22 +15,28 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
+import { QuillEditorComponent, QuillModule } from 'ngx-quill';
 
 @Component({
   selector: 'app-csp-report-create',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxExtendedPdfViewerModule,FontAwesomeModule,RouterModule],
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxExtendedPdfViewerModule,FontAwesomeModule,RouterModule,QuillModule],
   templateUrl: './csp-report-create.component.html',
   styleUrl: './csp-report-create.component.css'
 })
 export class CspReportCreateComponent {
+  @ViewChild('rapportTable', { static: false }) tableRef!: ElementRef;
 @ViewChild('contentPDF') contentPDF:TemplateRef<any> | undefined
   pdfSrc = "https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf";
 
   loading2=false
   data:any[]=[]
+  syntheses:any[]=[]
+  frequentations:any[]=[]
+  months:any[]=[]
   registresReports:any[]=[]
   filteredStats :any[]=[]
+  sexData :any[]=[]
   selected_data:any
   closeResult:any
   pg2={
@@ -126,12 +132,28 @@ export class CspReportCreateComponent {
       AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
     })
   }
+
+
+  getTotal(arr: any[], key: string): number {
+  return arr.reduce((sum, item) => {
+    const val = parseFloat(item[key]);
+    return sum + (isNaN(val) ? 0 : val);
+  }, 0);
+}
   
   getDataReport(value:any){
     this.loading2=true
     this.reportService.getDataReport(value).subscribe((res: any) => {
-      this.data=res.data
-      this.filteredStats = this.generateTable(this.data);
+      this.data=res.data.groupedByDepartement
+      this.syntheses=res.data.synthese
+      this.frequentations=res.data.frequentations
+      this.months=res.data.months
+
+      if (this.user.agent_user.categorie_acteur === 'Departemental') {
+           this.filteredStats = this.generateTable(this.data);
+      }else{
+        this.sexData=res.data.groupedByDepartement
+      }
       this.modalService.dismissAll()
       this.loading2=false
     }, (err:any) => {
@@ -245,8 +267,16 @@ generateTableHtml(data: any[]): string {
 
   storeReport(value:any){
     this.loading2=true
-      const summaryHtml = this.generateTableHtml(this.data);
-      value['summary_synthese']=summaryHtml
+
+      if (this.user.agent_user.categorie_acteur === 'Departemental') {
+          const summaryHtml = this.generateTableHtml(this.data);
+          value['summary_synthese']=summaryHtml
+      }else{
+        const htmlTable = this.tableRef.nativeElement.outerHTML;
+          value['summary_synthese']=htmlTable
+      }
+
+
     this.reportService.store(value).subscribe((res: any) => {
       this.router.navigate(['/admin/ccsp/reports/own'])
       this.modalService.dismissAll()
@@ -306,4 +336,12 @@ generateTableHtml(data: any[]): string {
   getPage2(event:any){
     this.pg2.p=event
   }
+
+
+ getTotal2(dep: { key: string; value: any[] }, field: string): number {
+  return dep.value.reduce((acc, item) => {
+    return acc + (Number(item?.[field]) || 0);
+  }, 0);
+}
+
 }
