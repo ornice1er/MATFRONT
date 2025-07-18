@@ -44,6 +44,13 @@ export class CspReportCreateComponent {
     p:0,
     total:0
   }
+
+  formData: any = {
+  summary_report: '',
+  summary_synthese_all: '',
+  conclusion: ''
+};
+
   search_text=""
   errormessage=""
   user:any;
@@ -265,27 +272,38 @@ generateTableHtml(data: any[]): string {
 }
 
 
-  storeReport(value:any){
-    this.loading2=true
+storeReport(value: any) {
+  this.loading2 = true;
 
-      if (this.user.agent_user.categorie_acteur === 'Departemental') {
-          const summaryHtml = this.generateTableHtml(this.data);
-          value['summary_synthese']=summaryHtml
-      }else{
-        const htmlTable = this.tableRef.nativeElement.outerHTML;
-          value['summary_synthese']=htmlTable
-      }
+  value.summary_report = this.formData.summary_report;
+  value.summary_synthese_all = this.formData.summary_synthese_all;
+  value.conclusion = this.formData.conclusion;
 
-
-    this.reportService.store(value).subscribe((res: any) => {
-      this.router.navigate(['/admin/ccsp/reports/own'])
-      this.modalService.dismissAll()
-      this.loading2=false
-    }, (err:any) => {
-      this.loading2=false
-      AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
-    })
+  if (this.user.agent_user.categorie_acteur === 'Departemental') {
+    const summaryHtml = this.generateTableHtml(this.data);
+    value['summary_synthese'] = summaryHtml;
+  } else {
+    const htmlTable = this.tableRef.nativeElement.outerHTML;
+    value['summary_synthese'] = htmlTable;
   }
+
+  this.reportService.store(value).subscribe(
+    (res: any) => {
+      this.router.navigate(['/admin/ccsp/reports/own']);
+      this.modalService.dismissAll();
+      this.loading2 = false;
+    },
+    (err: any) => {
+      this.loading2 = false;
+      AppSweetAlert.simpleAlert(
+        'error',
+        'Visites',
+        'Erreur, Vérifiez que vous avez une bonne connexion internet'
+      );
+    }
+  );
+}
+
   updateReport(value:any){
     this.loading2=true
     this.reportService.update(this.selected_data.id, value).subscribe((res: any) => {

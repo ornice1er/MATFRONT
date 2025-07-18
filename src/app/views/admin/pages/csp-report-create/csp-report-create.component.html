@@ -348,19 +348,19 @@
                 <div class="col-12 mb-3" >
                     <div class="form-group">
                         <label for="">Points des rapports des points focaux et des DDTFP</label>
-                        <quill-editor   name="summary_report" [styles]="{height: '150px', width:'100%'}"></quill-editor>
+                        <quill-editor   name="summary_report" [(ngModel)]="formData.summary_report" [styles]="{height: '150px', width:'100%'}"></quill-editor>
                     </div>
                 </div>   
                 <div class="col-12 mb-3" >
                     <div class="form-group">
                         <label for="">Synthèse des rapports</label>
-                        <quill-editor   name="summary_synthese_all" [styles]="{height: '150px', width:'100%'}"></quill-editor>
+                        <quill-editor   name="summary_synthese_all" [(ngModel)]="formData.summary_synthese_all" [styles]="{height: '150px', width:'100%'}"></quill-editor>
                     </div>
                 </div>   
                 <div class="col-12 mb-3" >
                     <div class="form-group">
                         <label for="">Conclusion et commentaire</label>
-                        <quill-editor   name="conclusion" [styles]="{height: '150px', width:'100%'}"></quill-editor>
+                        <quill-editor   name="conclusion" [(ngModel)]="formData.conclusion" [styles]="{height: '150px', width:'100%'}"></quill-editor>
                     </div>
                 </div>   
             </div>
