@@ -5,48 +5,26 @@
   <div class="p-3">
     <form [formGroup]="searchForm" (ngSubmit)="getStats()" class="form-horizontal mb-3" novalidate>
       <div class="flex flex-row gap-3 w-4/5 2xl:w-3/5">
-        <p-calendar
-          appendTo="body"
-          dateFormat="dd/mm/yy"
-          [maxDate]="endDate"
-          formControlName="dates"
-          placeholder="Sélectionnez un intervalle de date"
-          [iconDisplay]="'input'"
-          selectionMode="range"
-          [readonlyInput]="true"
-          [showIcon]="true"
-          inputId="templatedisplay"
-        >
+        <p-calendar appendTo="body" dateFormat="dd/mm/yy" [maxDate]="endDate" formControlName="dates"
+          placeholder="Sélectionnez un intervalle de date" [iconDisplay]="'input'" selectionMode="range"
+          [readonlyInput]="true" [showIcon]="true" inputId="templatedisplay">
           <ng-template pTemplate="inputicon" let-clickCallBack="clickCallBack">
             <span class="p-element p-icon-wrapper p-datepicker-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="size-4 text-gray-400 pointer-events-none"
-                (click)="clickCallBack($event)"
-                viewBox="0 0 24 24"
-              >
+              <svg xmlns="http://www.w3.org/2000/svg" class="size-4 text-gray-400 pointer-events-none"
+                (click)="clickCallBack($event)" viewBox="0 0 24 24">
                 <g fill="none">
-                  <path
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z"
-                  />
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-width="1.5"
-                    d="M7 4V2.5M17 4V2.5M2.5 9h19"
-                  />
-                  <path
-                    fill="currentColor"
-                    d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0"
-                  />
+                  <path stroke="currentColor" stroke-width="1.5"
+                    d="M2 12c0-3.771 0-5.657 1.172-6.828S6.229 4 10 4h4c3.771 0 5.657 0 6.828 1.172S22 8.229 22 12v2c0 3.771 0 5.657-1.172 6.828S17.771 22 14 22h-4c-3.771 0-5.657 0-6.828-1.172S2 17.771 2 14z" />
+                  <path stroke="currentColor" stroke-linecap="round" stroke-width="1.5"
+                    d="M7 4V2.5M17 4V2.5M2.5 9h19" />
+                  <path fill="currentColor"
+                    d="M18 17a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-5 4a1 1 0 1 1-2 0a1 1 0 0 1 2 0m0-4a1 1 0 1 1-2 0a1 1 0 0 1 2 0" />
                 </g>
               </svg>
             </span>
           </ng-template>
         </p-calendar>
-        <p-dropdown
+        <!-- <p-dropdown
           class="w-full"
           [options]="[{ name: 'Tout', id: 'all' }, { name: 'Homme', id: 'Homme' }, { name: 'Femme', id: 'Femme' }]"
           formControlName="sex"
@@ -69,57 +47,30 @@
               </svg>
             </div>
           </ng-template>
-        </p-dropdown>
-        <p-dropdown
-          class="w-full"
-          [options]="communes"
-          formControlName="commune_id"
-          optionLabel="name"
-          optionValue="id"
-          placeholder="Sélectionnez la commune"
-          [showClear]="false"
-          [filter]="true"
-          [resetFilterOnHide]="false"
-          filterPlaceHolder="Rechercher une commune"
-        >
+        </p-dropdown> -->
+        <p-multiSelect class="w-full" [options]="communes" formControlName="commune_id" optionLabel="name"
+          optionValue="id" placeholder="Sélectionnez les communes" [showClear]="true" [filter]="true" display="chip"
+          appendTo="body">
           <ng-template pTemplate="dropdownicon">
             <div class="flex items-center justify-center text-black py-[0.6rem]">
               <svg xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24">
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="m7 10l5 5m0 0l5-5"
-                />
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m7 10l5 5m0 0l5-5" />
               </svg>
             </div>
           </ng-template>
-        </p-dropdown>
+        </p-multiSelect>
         <button
           class="bg-green-light hover:bg-green-light/95 rounded-lg px-3 py-2 text-white flex items-center justify-center gap-2"
           [ngClass]="{'cursor-not-allowed bg-green-light/60': searchForm.invalid || loading2}"
-          [disabled]="searchForm.invalid || loading2"
-          type="submit"
-          id="button-addon2"
-        >
+          [disabled]="searchForm.invalid || loading2" type="submit" id="button-addon2">
           <span>Rechercher</span>
           <svg *ngIf="loading2" xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24">
-            <path
-              fill="currentColor"
-              d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
-              opacity="0.5"
-            />
+            <path fill="currentColor" d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
+              opacity="0.5" />
             <path fill="currentColor" d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z">
-              <animateTransform
-                attributeName="transform"
-                dur="1s"
-                from="0 12 12"
-                repeatCount="indefinite"
-                to="360 12 12"
-                type="rotate"
-              />
+              <animateTransform attributeName="transform" dur="1s" from="0 12 12" repeatCount="indefinite"
+                to="360 12 12" type="rotate" />
             </path>
           </svg>
         </button>
@@ -127,7 +78,7 @@
     </form>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 animate-in">
+      <!-- <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 animate-in">
         <h3 class="text-base lg:text-lg 2xl:text-xl font-medium text-dark-900 mb-6">
           Évolution de la fréquentation de mon centre
         </h3>
@@ -142,22 +93,70 @@
             [type]="lineChartType"
           ></canvas>
         </div>
+      </div> -->
+
+      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 animate-in overflow-hidden h-full">
+        <h3 class="text-base lg:text-lg 2xl:text-xl font-medium text-dark-900 mb-6">
+          Synthèse par commune
+        </h3>
+
+        <div class="overflow-y-auto max-h-[500px]">
+          <table class="min-w-[700px] w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr class="border-t">
+                <th class="px-4 py-2 text-left">Commune</th>
+                <th class="px-4 py-2 text-center" colspan="3">Usagers</th>
+                <th class="px-4 py-2 text-center" colspan="3">Satisfaits</th>
+              </tr>
+              <tr class="bg-gray-100 text-gray-600">
+                <th></th>
+                <th class="px-4 py-2 text-center">H</th>
+                <th class="px-4 py-2 text-center">F</th>
+                <th class="px-4 py-2 text-center">Total</th>
+                <th class="px-4 py-2 text-center">H</th>
+                <th class="px-4 py-2 text-center">F</th>
+                <th class="px-4 py-2 text-center">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of paginatedData" class="border-t">
+                <td class="px-4 py-2">{{ item.commune }}</td>
+                <td class="px-4 py-2 text-center">{{ item.total_homme }}</td>
+                <td class="px-4 py-2 text-center">{{ item.total_femme }}</td>
+                <td class="px-4 py-2 text-center">{{ item.total }}</td>
+                <td class="px-4 py-2 text-center">{{ item.satisfait_homme }}</td>
+                <td class="px-4 py-2 text-center">{{ item.satisfait_femme }}</td>
+                <td class="px-4 py-2 text-center">{{ item.satisfait }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-4 flex items-center justify-between">
+         <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="px-3 py-1 rounded border text-sm">
+  Précédent
+</button>
+
+<span class="text-sm">Page {{ currentPage }} sur {{ totalPages }}</span>
+
+<button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 rounded border text-sm">
+  Suivant
+</button>
+
+        </div>
+
       </div>
+
+
+
+
 
       <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8 animate-in">
         <h3 class="text-base lg:text-lg 2xl:text-xl font-medium text-dark-900 mb-6">
           Évaluation de la fréquentation par commune
         </h3>
         <div class="space-y-4">
-          <canvas
-            #chart2
-            width="400"
-            height="200"
-            baseChart
-            [data]="barChartData"
-            [options]="barChartOptions"
-            [type]="barChartType"
-          ></canvas>
+          <canvas #chart2 width="400" height="200" baseChart [data]="barChartData" [options]="barChartOptions"
+            [type]="barChartType"></canvas>
         </div>
       </div>
     </div>
@@ -172,9 +171,7 @@
         <table class="w-full rounded-t-lg border-separate border-spacing-0">
           <thead class="bg-primary">
             <tr>
-              <th
-                class="py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary rounded-tl-lg"
-              >
+              <th class="py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary rounded-tl-lg">
                 Date d'enreg
               </th>
               <th class="py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary">
@@ -198,16 +195,13 @@
               <th class="py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary">
                 Satisfait Oui/Non
               </th>
-              <th
-                class="rounded-tr-lg py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary"
-              >
+              <th class="rounded-tr-lg py-3.5 px-4 text-start text-xs font-semibold text-white border-b border-primary">
                 Motif
               </th>
             </tr>
           </thead>
           <tbody *ngIf="registres.length !== 0">
-            <tr
-              *ngFor="
+            <tr *ngFor="
                 let rg of registres
                   | sampleSearch: search_text
                   | paginate: {
@@ -216,8 +210,7 @@
                       currentPage: pg.p,
                       totalItems: pg.total
                     }
-              "
-            >
+              ">
               <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">
                 {{ rg.created_at | date: 'dd/MM/yyyy' }}
               </td>
@@ -228,7 +221,7 @@
               </td>
               <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">{{ rg.matri_telep }}</td>
               <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">{{ rg.nom_prenom }}</td>
-              <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">{{ rg.sex }}</td>
+              <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">{{ rg.sex  }}   </td>
               <td class="py-2.5 px-4 text-xs font-medium border border-gray-200">
                 {{ rg.entite == null ? '--' : rg.entite.sigle }}
               </td>
@@ -244,65 +237,31 @@
             <tr>
               <td colspan="10" class="p-4 w-full whitespace-nowrap">
                 <div class="flex justify-center w-full items-center text-gray-800 text-center">
-                  <div
-                    *ngIf="!loading2"
-                    class="flex flex-col justify-center w-full items-center text-gray-800 text-center space-y-3"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-12 text-primary"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.5"
-                        color="currentColor"
-                      >
+                  <div *ngIf="!loading2"
+                    class="flex flex-col justify-center w-full items-center text-gray-800 text-center space-y-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-12 text-primary" viewBox="0 0 24 24">
+                      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="1.5" color="currentColor">
                         <path
-                          d="M18 15v7m3.5-3.5h-7M7 16h4m-4-5h8M6.5 3.5c-1.556.047-2.483.22-3.125.862c-.879.88-.879 2.295-.879 5.126v6.506c0 2.832 0 4.247.879 5.127C4.253 22 5.668 22 8.496 22H11.5m3.992-18.5c1.556.047 2.484.22 3.125.862c.88.88.88 2.295.88 5.126V12"
-                        />
+                          d="M18 15v7m3.5-3.5h-7M7 16h4m-4-5h8M6.5 3.5c-1.556.047-2.483.22-3.125.862c-.879.88-.879 2.295-.879 5.126v6.506c0 2.832 0 4.247.879 5.127C4.253 22 5.668 22 8.496 22H11.5m3.992-18.5c1.556.047 2.484.22 3.125.862c.88.88.88 2.295.88 5.126V12" />
                         <path
-                          d="M6.496 3.75c0-.966.784-1.75 1.75-1.75h5.5a1.75 1.75 0 1 1 0 3.5h-5.5a1.75 1.75 0 0 1-1.75-1.75"
-                        />
+                          d="M6.496 3.75c0-.966.784-1.75 1.75-1.75h5.5a1.75 1.75 0 1 1 0 3.5h-5.5a1.75 1.75 0 0 1-1.75-1.75" />
                       </g>
                     </svg>
                     <p class="font-avenirMedium text-sm">Aucune donnée</p>
                   </div>
-                  <div
-                    *ngIf="loading2"
-                    class="flex flex-col justify-center w-full items-center text-gray-800 text-center space-y-3"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      class="size-12 text-primary"
-                      viewBox="0 0 24 24"
-                    >
-                      <g
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="1.2"
-                      >
+                  <div *ngIf="loading2"
+                    class="flex flex-col justify-center w-full items-center text-gray-800 text-center space-y-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="size-12 text-primary" viewBox="0 0 24 24">
+                      <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="1.2">
                         <path stroke-dasharray="16" stroke-dashoffset="16" d="M12 3c4.97 0 9 4.03 9 9">
                           <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="16;0" />
-                          <animateTransform
-                            attributeName="transform"
-                            dur="1.5s"
-                            repeatCount="indefinite"
-                            type="rotate"
-                            values="0 12 12;360 12 12"
-                          />
+                          <animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate"
+                            values="0 12 12;360 12 12" />
                         </path>
-                        <path
-                          stroke-dasharray="64"
-                          stroke-dashoffset="64"
-                          stroke-opacity="0.2"
-                          d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z"
-                        >
+                        <path stroke-dasharray="64" stroke-dashoffset="64" stroke-opacity="0.2"
+                          d="M12 3c4.97 0 9 4.03 9 9c0 4.97 -4.03 9 -9 9c-4.97 0 -9 -4.03 -9 -9c0 -4.97 4.03 -9 9 -9Z">
                           <animate fill="freeze" attributeName="stroke-dashoffset" dur="1.2s" values="64;0" />
                         </path>
                       </g>
@@ -315,19 +274,10 @@
           </tbody>
         </table>
       </div>
-      <pagination-controls
-        id="ngxP1"
-        (pageChange)="getPage($event)"
-        [maxSize]="9"
-        [directionLinks]="true"
-        [autoHide]="true"
-        [responsive]="true"
-        [previousLabel]="'Précédent'"
-        [nextLabel]="'Suivant'"
-        [screenReaderPaginationLabel]="'Pagination'"
-        [screenReaderPageLabel]="'page'"
-        [screenReaderCurrentLabel]="'Vous êtes sur la page'"
-      ></pagination-controls>
+      <pagination-controls id="ngxP1" (pageChange)="getPage($event)" [maxSize]="9" [directionLinks]="true"
+        [autoHide]="true" [responsive]="true" [previousLabel]="'Précédent'" [nextLabel]="'Suivant'"
+        [screenReaderPaginationLabel]="'Pagination'" [screenReaderPageLabel]="'page'"
+        [screenReaderCurrentLabel]="'Vous êtes sur la page'"></pagination-controls>
     </div>
   </div>
 </div>

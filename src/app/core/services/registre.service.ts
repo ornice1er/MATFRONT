@@ -11,8 +11,8 @@ url=ConfigService.toApiUrl('');
 
   constructor(private http: HttpClient) { }
 
-getAll(startDate: string, endDate: string, sex?: string, commune_id?: string[]): Observable<any[]> {
-    let url = `${this.url}registre?startDate=${startDate}&endDate=${endDate}`;
+getAll(startDate: string, endDate: string, sex?: string, commune_id?: string[], page: number = 1): Observable<any[]> {
+    let url = `${this.url}registre?startDate=${startDate}&endDate=${endDate}&page=${page}`;
     if (sex && sex !== 'all') url += `&sex=${sex}`;
     if (commune_id && commune_id.length > 0 && commune_id[0] !== 'all') {
       url += `&commune_id=${commune_id.join(',')}`;

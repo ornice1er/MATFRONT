@@ -64,7 +64,7 @@ export class PerformanceRequeteComponent {
   pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
   pg = {
     pageSize: 10,
-    p: 0,
+    p: 1, // Changé de 0 à 1 pour correspondre à la pagination de l'API
     total: 0,
   };
   page = 1;
@@ -77,14 +77,23 @@ export class PerformanceRequeteComponent {
   loading: boolean = false;
   id: any;
   data: any;
+  graphData: any[] = [];
+
   user: any;
   access_token: any;
   error = '';
   pg2 = {
     pageSize: 10,
-    p: 0,
+    p: 1, // Changé de 0 à 1 pour la cohérence
     total: 0,
   };
+
+paginatedData: any[] = [];
+
+currentPage: number = 1;
+itemsPerPage: number = 10;
+totalPages: number = 1;
+
   search_text: string = '';
   selected_data: any;
   onglet_What = false;
@@ -161,7 +170,7 @@ export class PerformanceRequeteComponent {
       {
         data: [],
         label: 'Total',
-        backgroundColor: '#11845A',
+        backgroundColor: '#FFC107',
         borderColor: '#11845A',
         borderWidth: 1,
       },
@@ -206,7 +215,7 @@ export class PerformanceRequeteComponent {
     this.searchForm = new FormGroup({
       dates: new FormControl<Date[] | null>(this.selectedDate, [Validators.required]),
       sex: new FormControl<string | null>('all'),
-      commune_id: new FormControl<string[] | null>(['all'], [Validators.required]), // Changement en string[]
+      commune_id: new FormControl<string[] | null>([], [Validators.required]),
     });
   }
 
@@ -242,7 +251,7 @@ export class PerformanceRequeteComponent {
           })),
         ];
         console.log('Communes mappées:', this.communes);
-        this.searchForm.patchValue({ commune_id: ['all'] });
+        this.searchForm.patchValue({ commune_id: [] });
         this.loading2 = false;
       },
       (err) => {
@@ -279,11 +288,14 @@ export class PerformanceRequeteComponent {
       return;
     }
 
-    // Correction: s'assurer que commune_id est un tableau
     const resource = {
       start_date,
       end_date,
-      commune_id: Array.isArray(commune_id) ? commune_id : (commune_id && commune_id !== 'all' ? [commune_id] : []),
+      commune_id: Array.isArray(commune_id)
+  ? (commune_id.includes('all') ? [] : commune_id)
+  : (commune_id && commune_id !== 'all' ? [commune_id] : []),
+
+      
       sex: sex && sex !== 'all' ? sex : undefined,
     };
 
@@ -295,20 +307,30 @@ export class PerformanceRequeteComponent {
     this.barChartData.datasets[0].data = [];
     this.barChartData.datasets[1].data = [];
     this.barChartData.datasets[2].data = [];
+    this.registres = [];
     this.loading2 = true;
 
     this.registreService.getStats(resource).subscribe(
       (res: any) => {
         console.log('Données requeteByCom:', res.data);
-        this.registres = res.data || [];
-        this.barChartData.labels = res.data.map((item: any) => item.commune);
-        this.barChartData.datasets[0].data = res.data.map((item: any) => item.total);
-        this.barChartData.datasets[1].data = res.data.map((item: any) => item.satisfait);
-        this.barChartData.datasets[2].data = res.data.map((item: any) => item.non_satisfait);
 
-        this.pg.pageSize = 10;
-        this.pg.p = 1;
-        this.pg.total = this.registres.length;
+        // Mise à jour du graphique à barres avec graphData
+        this.barChartData.labels = res.data.graphData?.map((item: any) => item.commune) || [];
+        this.barChartData.datasets[0].data = res.data.graphData?.map((item: any) => item.total) || [];
+        this.barChartData.datasets[1].data = res.data.graphData?.map((item: any) => item.satisfait) || [];
+        this.barChartData.datasets[2].data = res.data.graphData?.map((item: any) => item.non_satisfait) || [];
+
+        // Mise à jour du tableau avec tableData.data
+        this.registres = res.data.tableData?.data || [];
+        this.graphData = res.data.graphData || [];
+        this.currentPage = 1;
+        this.paginate()
+
+        // Mise à jour de la pagination
+        this.pg.pageSize = res.data.tableData?.per_page || 10;
+        this.pg.p = res.data.tableData?.current_page || 1;
+        this.pg.total = res.data.tableData?.total || 0;
+
         this.chart?.update();
         this.chart2?.update();
         this.loading2 = false;
@@ -370,16 +392,17 @@ export class PerformanceRequeteComponent {
       return;
     }
 
-    // Correction: s'assurer que commune_id est un tableau
     const communeIdArray = Array.isArray(commune_id) ? commune_id : (commune_id && commune_id !== 'all' ? [commune_id] : []);
 
     this.loading2 = true;
     this.registreService.getAll(start_date, end_date, sex, communeIdArray).subscribe(
       (res: any) => {
-        this.registres = res.data || [];
-        this.pg.pageSize = 10;
-        this.pg.p = 1;
-        this.pg.total = this.registres.length;
+        console.log('Données getAll:', res);
+        // Vérifier si l'API renvoie tableData.data ou directement data
+        this.registres = res.data.tableData?.data || res.data || [];
+        this.pg.pageSize = res.data.tableData?.per_page || 10;
+        this.pg.p = res.data.tableData?.current_page || 1;
+        this.pg.total = res.data.tableData?.total || this.registres.length;
         this.modalService.dismissAll();
         this.loading2 = false;
       },
@@ -395,8 +418,32 @@ export class PerformanceRequeteComponent {
     );
   }
 
+  paginate() {
+  const start = (this.currentPage - 1) * this.itemsPerPage;
+  const end = start + this.itemsPerPage;
+  this.paginatedData = this.graphData.slice(start, end);
+  this.totalPages = Math.ceil(this.graphData.length / this.itemsPerPage);
+}
+goToPreviousPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+    this.paginate();
+  }
+}
+
+goToNextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+    this.paginate();
+  }
+}
+
+
+
   getPage(event: any) {
     this.pg.p = event;
+    // Appeler getRegistres pour recharger les données de la nouvelle page
+    this.getRegistres();
   }
 
   getPage2(event: any) {

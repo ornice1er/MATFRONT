@@ -8,7 +8,7 @@ import {
 import {
   NgbModal,
   NgbOffcanvas,
-  ModalDismissReasons,
+  ModalDismissReasons,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { ReportTransmissionService } from '../../../../core/services/report-transmission.service';
@@ -16,12 +16,12 @@ import { ReportService } from '../../../../core/services/report.service';
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { ConfigService } from '../../../../core/utils/config-service';
 import { GlobalName } from '../../../../core/utils/global-name';
-import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
+import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';                                                                                                                                                                                                                                                                                                                       
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgSelectModule } from '@ng-select/ng-select';                                                                                                                                                                                                                                                                                                                            
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
