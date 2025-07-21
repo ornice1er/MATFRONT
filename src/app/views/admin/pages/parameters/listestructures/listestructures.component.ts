@@ -168,7 +168,7 @@ loading:any=false
    })
   }
   edit(value:any) {
-    value.id=this.selected_data.id
+    // value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
         this.loading=true
 
