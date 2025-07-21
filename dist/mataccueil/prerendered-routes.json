@@ -45,6 +45,8 @@
     "/admin/login-v2",
     "/admin/managerequeteusager",
     "/admin/nature-contracts",
+    "/admin/parameter-values",
+    "/admin/performances",
     "/admin/permissions",
     "/admin/pointfocalcom",
     "/admin/profil",

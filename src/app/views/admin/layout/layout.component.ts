@@ -188,6 +188,14 @@ export class LayoutComponent {
         { label: 'Mes Rapports', route: '/admin/ccsp/reports/own', key: 'RAPPORTS CCSP', action: 'LISTER' }
       ]
     },
+       {
+      label: 'Performances',
+      key: 'RAPPORTS CCSP',
+      action: 'LISTER',
+      route: '/admin/performances',
+
+     
+    },
     {
       label: 'Historique',
       key: 'PARCOURS REQUETE',
