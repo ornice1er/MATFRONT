@@ -204,6 +204,21 @@
                                 </div>
                             </div>
                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Email du prefet</label>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control form-control-sm" #email_pft="ngModel" maxlength="250"
+                                        name="email_prefet" ngModel>
+                                    <span *ngIf="email_pft.invalid && (email_pft.dirty || email_pft.touched)" class="text-danger">
+                                        <small *ngIf="email_pft.errors?.['required']">
+                                           l'email du prefet est requis
+                                        </small>
+                                        <small *ngIf="email_pft.errors?.['maxlength']">
+                                            email ,pas plus de 250 caractères.
+                                        </small>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
                                 <label class="col-md-4">Sous tutelle de :</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-control-sm" #structure="ngModel" maxlength="250"
@@ -322,6 +337,21 @@
                                             email est requis
                                         </small>
                                         <small *ngIf="email.errors?.['maxlength']">
+                                            email ,pas plus de 250 caractères.
+                                        </small>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label class="col-md-4">Email du prefet</label>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control form-control-sm" #email_pft="ngModel" maxlength="250"
+                                        name="email_prefet" [(ngModel)]="selected_data.email_prefet">
+                                    <span *ngIf="email_pft.invalid && (email_pft.dirty || email_pft.touched)" class="text-danger">
+                                        <small *ngIf="email_pft.errors?.['required']">
+                                           l'email du prefet est requis
+                                        </small>
+                                        <small *ngIf="email_pft.errors?.['maxlength']">
                                             email ,pas plus de 250 caractères.
                                         </small>
                                     </span>
