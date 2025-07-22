@@ -74,9 +74,34 @@ search_text:any=""
     this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, "Division",
       this.checkType()?.id, this.pg.pageSize,this.page).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
-        this._temp = this.data
-        this.subject.next(res);
+        // this.data = res.data
+        // this._temp = this.data
+        // this.subject.next(res);
+        console.log('Réponse API brute:', res);
+       if (res && res.data) {
+      if (res.data.isPaginate) {
+        this.data = res.data.data; // Utiliser res.data.data pour les données paginées
+        this.pg.total = res.data.total;
+        this.pg.p = res.data.current_page;
+      } else if (typeof res.data === 'object' && !Array.isArray(res.data)) {
+        this.data = Object.values(res.data);
+        this.pg.total = this.data.length;
+      } else if (Array.isArray(res.data)) {
+        this.data = res.data;
+        this.pg.total = this.data.length;
+      } else {
+        this.data = [];
+        this.pg.total = 0;
+      }
+    } else {
+      this.data = [];
+      this.pg.total = 0;
+    }
+    console.log('Données après conversion:', this.data);
+    console.log('Nombre d\'éléments:', this.data.length);
+    console.log('Premier élément:', this.data[0]);
+    this._temp = this.data;
+    this.subject.next(res);
       })
   }
 
@@ -251,16 +276,42 @@ search_text:any=""
     this.data = []
     this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure,
       this.checkType()?.id
+      
       ,this.pg.pageSize, page).subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
-        if (res.data.isPaginate) {
-          this.data = res.data.data
-          this.pg.total=res.data.total
-        }else{
-          this.data = res.data
+        // if (res.data.isPaginate) {
+        //   this.data = res.data.data
+        //   this.pg.total=res.data.total
+        // }else{
+        //   this.data = res.data
 
-        }
+        // }
+        console.log('Réponse API brute:', res);
+if (res && res.data) {
+      if (res.data.isPaginate) {
+        this.data = res.data.data; 
+        this.pg.total = res.data.total;
+        this.pg.p = res.data.current_page;
+      } else if (typeof res.data === 'object' && !Array.isArray(res.data)) {
+        this.data = Object.values(res.data);
+        this.pg.total = this.data.length;
+      } else if (Array.isArray(res.data)) {
+        this.data = res.data;
+        this.pg.total = this.data.length;
+      } else {
+        this.data = [];
+        this.pg.total = 0;
+      }
+    } else {
+      this.data = [];
+      this.pg.total = 0;
+    }
+    console.log('Données après conversion:', this.data);
+    console.log('Nombre d\'éléments:', this.data.length);
+    console.log('Premier élément:', this.data[0]);
+    this._temp = this.data;
+    this.subject.next(res);
       })
     this.departements = []
     this.usagersService.getAllDepartement().subscribe((res: any) => {
@@ -399,5 +450,5 @@ search_text:any=""
 
   getPage(event:any){
     this.pg.p=event
-  }
+this.init(this.pg.p);  }
 }
