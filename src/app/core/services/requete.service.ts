@@ -253,7 +253,7 @@ export class RequeteService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("affectation/get")}?idUser=${idUser}&typeStructure=${typeStructure}&plainte=${plainte}&per_page=${per_page}&page=${page}`);
   }
   createAffectation(ressource:any){
-    return this.http.post<any>(`${ConfigService.toApiUrl("affectation")}`, ressource,
+    return this.http.post<any>(`${ConfigService.toApiUrl("affectation/store")}`, ressource,
      ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );

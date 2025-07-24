@@ -131,42 +131,60 @@ export class LayoutComponent {
       key: 'USAGER',
       action: 'LISTER'
     },
-    {
+     {
       label: 'Requêtes à traiter',
-      route: '/admin/listrequeteservice/requetes',
+      route: '/admin/list-requete-a-traiter/requetes',
       key: 'REQUÊTE',
       action: 'LISTER'
     },
-    {
+      {
       label: 'Plaintes à traiter',
-      route: '/admin/listrequetestructures/plaintes',
+      route: '/admin/list-requete-a-traiter/plaintes',
       key: 'REQUÊTE',
       action: 'LISTER'
     },
-    {
+      {
       label: 'Demandes infos à traiter',
-      route: '/admin/listrequeteservice/infos',
+      route: '/admin/list-requete-a-traiter/infos',
       key: 'REQUÊTE',
       action: 'LISTER'
     },
-    {
-      label: 'Requêtes à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/requetes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Plaintes à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/plaintes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Demandes infos à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/infos',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
+    // {
+    //   label: 'Requêtes à traiter',
+    //   route: '/admin/listrequeteservice/requetes',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
+    // {
+    //   label: 'Plaintes à traiter',
+    //   route: '/admin/listrequetestructures/plaintes',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
+    // {
+    //   label: 'Demandes infos à traiter',
+    //   route: '/admin/listrequeteservice/infos',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
+    // {
+    //   label: 'Requêtes à traiter (adjoint)',
+    //   route: '/admin/listrequeteajdoint/requetes',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
+    // {
+    //   label: 'Plaintes à traiter (adjoint)',
+    //   route: '/admin/listrequeteajdoint/plaintes',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
+    // {
+    //   label: 'Demandes infos à traiter (adjoint)',
+    //   route: '/admin/listrequeteajdoint/infos',
+    //   key: 'REQUÊTE',
+    //   action: 'LISTER'
+    // },
     {
       label: 'Modifier une préoccupation',
       route: '/admin/listrequeteupdate',
