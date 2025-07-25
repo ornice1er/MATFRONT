@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -13,11 +13,13 @@ import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
 import { ObserverService } from '../../../core/utils/observer.service';
 import { AppActionCheckService } from '../../../core/utils/app-action-check';
 import { GlobalName } from '../../../core/utils/global-name';
+import { LucideAngularModule, LogOut, X, Menu, ChevronRight} from 'lucide-angular';
+import { NavigationService } from '../../../core/services/navigation.service';
 
 interface MenuItem {
   label: string;
   route?: string;
-  key?: string;
+  key: string;
   action?: string;
   children?: MenuItem[];
 }
@@ -35,11 +37,13 @@ interface MenuItem {
     MatListModule,
     MatButtonModule,
     MatExpansionModule,
+    LucideAngularModule
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
+  private navigationService = inject(NavigationService);
   menuOpen = true;
   user: any;
   title = '';
@@ -212,7 +216,7 @@ export class LayoutComponent {
       action: 'LISTER',
       route: '/admin/performances',
 
-     
+
     },
     {
       label: 'Historique',
@@ -251,6 +255,11 @@ export class LayoutComponent {
       ]
     }
   ];
+  logOutIcon=LogOut
+  menuIcon = Menu;
+  xIcon = X;
+  chevronRightIcon = ChevronRight;
+  expandedMenus = this.navigationService.expandedMenus;
 
   constructor(
     private authService: AuthentificationService,
