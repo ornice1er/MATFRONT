@@ -324,4 +324,16 @@ export class LayoutComponent {
     const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
     return result;
   }
+
+   toggleSubmenu(menuId: string) {
+    this.navigationService.toggleSubmenu(menuId);
+  }
+
+  onNavItemClick(item: MenuItem) {
+    if (item.children && item.children.length > 0) {
+      this.toggleSubmenu(item.label);
+    } else {
+      this.router.navigate([item.route]);
+    }
+  }
 }
