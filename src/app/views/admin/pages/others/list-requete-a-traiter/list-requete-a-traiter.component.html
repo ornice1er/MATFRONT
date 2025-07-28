@@ -114,7 +114,8 @@
                   <td>
                     <input type="radio" [value]="el" ngModel name="getrequete" (change)="checked($event,el)">
                   </td>
-                  <td>{{el.created_at | date:'dd/MM/yyy hh:mm:ss'}}</td>
+                  <td> {{el.created_at | date:'dd/MM/yyyy HH:mm:ss'}}
+</td>
                   <!--<td >{{el.codeRequete}} </td>-->
                   <td class="no-display">{{el.nature==null ? '' : el.nature.libelle}} </td>
                   <td>{{el.service==null ? '' : el.service?.libelle}} </td>
