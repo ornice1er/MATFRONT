@@ -376,6 +376,12 @@ search_text:any=""
           }
         })
         this._temp = this.data
+
+        this.data = res.data?.data?.map((e: any) => {
+  const estRepondu = e.reponse?.some((rep: any) => rep.typeStructure === 'Direction');
+  e.etat = estRepondu ? 'Répondu' : 'En attente';
+  return e;
+});
       })
     this._temp2 = []
     this.data2 = []
@@ -417,6 +423,8 @@ search_text:any=""
     this.institutionService.getAll().subscribe((res: any) => {
       this.institutions = res.data
     })
+
+    
 
 
   }

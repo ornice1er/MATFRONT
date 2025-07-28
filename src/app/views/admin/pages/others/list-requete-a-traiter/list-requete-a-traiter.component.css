@@ -1,0 +1,11 @@
+.badge-success {
+  background-color: #28a745;
+  color: white;
+  border-radius: 5px;
+  font-size: 11px;
+    padding: 2px 5px;
+}
+.badge-warning {
+  background-color: #ffc107;
+  color: black;
+}
