@@ -1,12 +1,21 @@
-import { Component, OnInit, Input,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { PipeTransform } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormControl, FormsModule } from '@angular/forms';
 
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationStart,
+  RouterModule,
+} from '@angular/router';
 // import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -33,22 +42,28 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-list-requete-a-traiter',
   standalone: true,
-      imports: [CommonModule,FormsModule,NgbModule,SampleSearchPipe,NgSelectModule,NgxPaginationModule, RouterModule],
- 
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    SampleSearchPipe,
+    NgSelectModule,
+    NgxPaginationModule,
+    RouterModule,
+  ],
+
   templateUrl: './list-requete-a-traiter.component.html',
-  styleUrl: './list-requete-a-traiter.component.css'
+  styleUrl: './list-requete-a-traiter.component.css',
 })
 export class ListRequeteATraiterComponent implements OnInit {
-
-
   @Input() cssClasses = '';
-  errormessage = ""
-  erroraffectation = ""
+  errormessage = '';
+  erroraffectation = '';
 
-  searchText = ""
+  searchText = '';
   closeResult = '';
-  permissions: any[]=[]
-  error = ""
+  permissions: any[] = [];
+  error = '';
   data: any[] = [];
   _temp: any[] = [];
   collectionSize = 0;
@@ -62,58 +77,89 @@ export class ListRequeteATraiterComponent implements OnInit {
   pageSize2 = 10;
 
   selected = [];
-  current_permissions: any[] = []
-  selected_data: any
-  isSended = false
-  pg:any={
-    pageSize:10,
-    p:0,
-    total:0
-  }
-isPaginate:any=false
-search_text:any=""
+  current_permissions: any[] = [];
+  selected_data: any;
+  isSended = false;
+  pg: any = {
+    pageSize: 10,
+    p: 0,
+    total: 0,
+  };
+  servicesForStructure: any[] = [];
+  isPaginate: any = false;
+  search_text: any = '';
 
   search() {
-    this.data = []
-    this._temp = []
-    this.requeteService.getAllRequest(this.user.idEntite,this.searchText, 0, this.user.id, this.user.agent_user.idStructure,
-      this.checkType()?.id, this.pg.pageSize, this.page).subscribe((res: any) => {
+    this.data = [];
+    this._temp = [];
+    this.requeteService
+      .getAllRequest(
+        this.user.idEntite,
+        this.searchText,
+        0,
+        this.user.id,
+        this.user.agent_user.idStructure,
+        this.checkType()?.id,
+        this.pg.pageSize,
+        this.page
+      )
+      .subscribe((res: any) => {
         this.spinner.hide();
         // this.data = res.data;
-        this.data = res.data?.data?.filter((e:any)=>{
-          if(e.lastparcours != null){
-            return (e.lastparcours.idEtape==1) || 
-                      (e.lastparcours.idEtape==5) || 
-                      (e.lastparcours.idEtape==7 && e.lastparcours.idStructure == this.user.agent_user.idStructure) ||
-                      (e.lastparcours.idEtape==8 && e.lastparcours.idEntite == this.user.idEntite);
-          }else{
-            return (e.lastparcours == null);
+        this.data = res.data?.data?.filter((e: any) => {
+          if (e.lastparcours != null) {
+            return (
+              e.lastparcours.idEtape == 1 ||
+              e.lastparcours.idEtape == 5 ||
+              (e.lastparcours.idEtape == 7 &&
+                e.lastparcours.idStructure ==
+                  this.user.agent_user.idStructure) ||
+              (e.lastparcours.idEtape == 8 &&
+                e.lastparcours.idEntite == this.user.idEntite)
+            );
+          } else {
+            return e.lastparcours == null;
           }
-        })
-        this._temp = this.data
+        });
+        this._temp = this.data;
         this.subject.next(res);
-      })
+      });
   }
 
-  openAddModal(content:any) {
+  openAddModal(content: any) {
     if (this.selected_data != null) {
-      this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: "lg" }).result.then((result) => {
-        this.closeResult = `Closed with: ${result}`;
-      }, (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      });
+      this.servicesForStructure = [];
+      this.modalService
+        .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+        .result.then(
+          (result) => {
+            this.closeResult = `Closed with: ${result}`;
+          },
+          (reason) => {
+            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+          }
+        );
     } else {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error')
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
     }
   }
 
-  openEditModal(content:any, el:any) {
-    this.selected_data = el
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
+  openEditModal(content: any, el: any) {
+    this.selected_data = el;
+    this.modalService
+      .open(content, { ariaLabelledBy: 'modal-basic-title' })
+      .result.then(
+        (result) => {
+          this.closeResult = `Closed with: ${result}`;
+        },
+        (reason) => {
+          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+        }
+      );
   }
 
   private getDismissReason(reason: any): string {
@@ -127,13 +173,13 @@ search_text:any=""
     }
   }
 
-  user: any
+  user: any;
 
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
     private router: Router,
-    private institutionService:InstitutionService,
+    private institutionService: InstitutionService,
     private etapeService: EtapeService,
     private requeteService: RequeteService,
     private localService: LocalStorageService,
@@ -142,40 +188,43 @@ search_text:any=""
     private usagersService: UsagerService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService,
-        private observerService:ObserverService,
-        private cdr: ChangeDetectorRef
-    
-  ) { }
+    private localStorageService: LocalStorageService,
+    private observerService: ObserverService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
+  etapes: any[] = [];
+  services: any[] = [];
+  departements: any[] = [];
+  structureservices: any[] = [];
 
-  etapes: any[] = []
-  services: any[] = []
-  departements: any[] = []
-  structureservices : any[] = []
+  isGeneralDirector = false;
+  typeRequete: any = 'requetes';
+  usager_full_name = '';
+  hide_actions = false;
+  action_transmettre = true;
+  RelanceAWho = '';
+  ValStruRelance = '';
+  cpt = 0;
+  compteData = 0;
 
-  isGeneralDirector = false
-  typeRequete:any = "requetes"
-  usager_full_name=""
-  hide_actions=false
-  action_transmettre = true
-  RelanceAWho = ""
-  ValStruRelance = ""
-  cpt = 0
-  compteData = 0
-  
-  checked(event:any, el:any) {
-    this.selected_data = el
-    if(this.selected_data.usager == null){
-      this.usager_full_name=" (PFC) "+this.selected_data.email+" Contact : "+this.selected_data.contact
-    }else{
-      this.usager_full_name=this.selected_data.usager.nom+" "+this.selected_data.usager.prenoms
+  checked(event: any, el: any) {
+    this.selected_data = el;
+    if (this.selected_data.usager == null) {
+      this.usager_full_name =
+        ' (PFC) ' +
+        this.selected_data.email +
+        ' Contact : ' +
+        this.selected_data.contact;
+    } else {
+      this.usager_full_name =
+        this.selected_data.usager.nom + ' ' + this.selected_data.usager.prenoms;
     }
-    console.log(this.selected_data)
+    console.log(this.selected_data);
     // console.log(this.user)
     // console.log(this.user)
     if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach((item:any) => {
+      this.selected_data.reponse.forEach((item: any) => {
         if (item.typeStructure == 'Direction')
           this.selected_data.texteReponseApportee = item.texteReponse;
 
@@ -183,163 +232,213 @@ search_text:any=""
           this.selected_data.reponseService = item.texteReponse;
       });
     }
-    this.action_transmettre = true
+    this.action_transmettre = true;
     if (this.selected_data.reponse.length > 0) {
-      let check = this.selected_data.reponse.filter((item:any) => (item.typeStructure=='Direction'));
-      if(check.length == 0){
+      let check = this.selected_data.reponse.filter(
+        (item: any) => item.typeStructure == 'Direction'
+      );
+      if (check.length == 0) {
         // AppSweetAlert.simpleAlert("Erreur","Veuillez affecter ou traiter la préoccupation." , 'error') ;
-        this.action_transmettre = false
+        this.action_transmettre = false;
       }
-    }else{
+    } else {
       // AppSweetAlert.simpleAlert("Erreur", "Veuillez affecter ou traiter la préoccupation.", 'error');
-      this.action_transmettre = false
+      this.action_transmettre = false;
     }
 
-    this.hide_actions=false
+    this.hide_actions = false;
     if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach((item:any) => {
-        if (item.typeStructure == 'Service'){ this.hide_actions=true;}
-      })
-
+      this.selected_data.affectation.forEach((item: any) => {
+        if (item.typeStructure == 'Service') {
+          this.hide_actions = true;
+        }
+      });
     }
 
-    this.RelanceAWho = ""
-    this.ValStruRelance = ""
-    this.cpt = 0
+    this.RelanceAWho = '';
+    this.ValStruRelance = '';
+    this.cpt = 0;
     if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach((item:any) => {
+      this.selected_data.affectation.forEach((item: any) => {
         this.cpt++;
         // console.log("Cpt : "+this.cpt,"Nombre : "+this.selected_data.affectation.length,"itemStruc : "+item.idStructure,"UserStructure : "+this.user.agent_user.idStructure)
-        if (this.cpt == this.selected_data.affectation.length && item.idStructure != this.user.agent_user.idStructure){
-             this.RelanceAWho = item.typeStructure;
-             this.ValStruRelance = item.idStructure;
-          }
-      })
+        if (
+          this.cpt == this.selected_data.affectation.length &&
+          item.idStructure != this.user.agent_user.idStructure
+        ) {
+          this.RelanceAWho = item.typeStructure;
+          this.ValStruRelance = item.idStructure;
+        }
+      });
     }
-    this.cpt = 0
+    this.cpt = 0;
     if (this.selected_data.parcours.length > 0) {
-      this.selected_data.parcours.forEach((item:any) => {
+      this.selected_data.parcours.forEach((item: any) => {
         this.cpt++;
-        if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.user.agent_user.idStructure){
-          this.RelanceAWho = ""
-          this.ValStruRelance = ""
-          }
-      })
+        if (
+          this.cpt == this.selected_data.parcours.length &&
+          item.idStructure == this.user.agent_user.idStructure
+        ) {
+          this.RelanceAWho = '';
+          this.ValStruRelance = '';
+        }
+      });
     }
   }
-  relancerPreocuppationType(){
+  relancerPreocuppationType() {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
       return;
     }
-    this.cpt = 0
+    this.cpt = 0;
     if (this.selected_data.parcours.length > 0) {
-      this.selected_data.parcours.forEach((item:any) => {
+      this.selected_data.parcours.forEach((item: any) => {
         this.cpt++;
         // console.log("Cpt : "+this.cpt,"Nombre : "+this.selected_data.parcours.length,"itemStruc : "+item.idStructure,"UserStructure : "+this.user.agent_user.idStructure)
-        if (this.cpt == this.selected_data.parcours.length && item.idStructure == this.user.agent_user.idStructure){
-            AppSweetAlert.simpleAlert("Erreur", "Impossible de faire une relance car le responsable structure a déjà donnée sa réponse", 'error');
-            return;
-          }
-      })
+        if (
+          this.cpt == this.selected_data.parcours.length &&
+          item.idStructure == this.user.agent_user.idStructure
+        ) {
+          AppSweetAlert.simpleAlert(
+            'Erreur',
+            'Impossible de faire une relance car le responsable structure a déjà donnée sa réponse',
+            'error'
+          );
+          return;
+        }
+      });
     }
 
     if (this.selected_data.finalise == 1) {
-      AppSweetAlert.simpleAlert("Erreur", "Réponse déjà transmise à l'usager.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        "Réponse déjà transmise à l'usager.",
+        'error'
+      );
       return;
     }
-    if(this.ValStruRelance == ""){
-      AppSweetAlert.simpleAlert("Erreur", "Impossible de relancer sur cette requête.", 'error');
+    if (this.ValStruRelance == '') {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Impossible de relancer sur cette requête.',
+        'error'
+      );
       return;
-    }else{
-      this.requeteService.relanceRequetType(this.selected_data.id, this.ValStruRelance,this.selected_data.lastaffectation == null ? '' : this.selected_data.lastaffectation.idStructure).subscribe((rest: any) => {
-        if(rest.status == "error"){
-          AppSweetAlert.simpleAlert("Erreur",rest.message, 'error');
-        }else{
-          this.init(this.page)
-          this.modalService.dismissAll()
-          AppSweetAlert.simpleAlert("Relancer "+this.RelanceAWho+" en charge de la préoccupation", "Relance envoyée avec succès à l'adresse : "+rest.message, 'success')
-          this.selected_data = null
-        }
-      })
-
+    } else {
+      this.requeteService
+        .relanceRequetType(
+          this.selected_data.id,
+          this.ValStruRelance,
+          this.selected_data.lastaffectation == null
+            ? ''
+            : this.selected_data.lastaffectation.idStructure
+        )
+        .subscribe((rest: any) => {
+          if (rest.status == 'error') {
+            AppSweetAlert.simpleAlert('Erreur', rest.message, 'error');
+          } else {
+            this.init(this.page);
+            this.modalService.dismissAll();
+            AppSweetAlert.simpleAlert(
+              'Relancer ' + this.RelanceAWho + ' en charge de la préoccupation',
+              "Relance envoyée avec succès à l'adresse : " + rest.message,
+              'success'
+            );
+            this.selected_data = null;
+          }
+        });
     }
-    
   }
-  show_step(id:any) {
-    return this.etapes.find((e:any) => (e.id == id))
+  show_step(id: any) {
+    return this.etapes.find((e: any) => e.id == id);
   }
- 
 
-  key_type_req = ""
+  key_type_req = '';
 
   checkType() {
-    this.key_type_req = this.activatedRoute.snapshot.paramMap.get('type_req') ?? ""
-    if (this.activatedRoute.snapshot.paramMap.get('type_req') == "plaintes") {
-      return { id: 1, name: "Plaintes" }
+    this.key_type_req =
+      this.activatedRoute.snapshot.paramMap.get('type_req') ?? '';
+    if (this.activatedRoute.snapshot.paramMap.get('type_req') == 'plaintes') {
+      return { id: 1, name: 'Plaintes' };
     }
-    if (this.activatedRoute.snapshot.paramMap.get('type_req') == "requetes") {
-      return { id: 0, name: "Requetes" }
+    if (this.activatedRoute.snapshot.paramMap.get('type_req') == 'requetes') {
+      return { id: 0, name: 'Requetes' };
     }
-    if (this.activatedRoute.snapshot.paramMap.get('type_req') == "infos") {
-      return { id: 2, name: "Demandes d'informations" }
+    if (this.activatedRoute.snapshot.paramMap.get('type_req') == 'infos') {
+      return { id: 2, name: "Demandes d'informations" };
     }
 
-    return
+    return;
   }
 
   ngOnInit(): void {
-    this.observerService.setTitle(`Gestion des ${this.typeRequete}`)
-    this.RelanceAWho = ""
-      this.prepare()
-    this.router.events
-      .subscribe(event => {
-        if (event instanceof NavigationStart) {
-          this.prepare()
-        }
-      })
+  this.observerService.setTitle(`Gestion des ${this.typeRequete}`);
+  this.RelanceAWho = '';
+  this.prepare();
+}
+
+prepare() {
+  this.user = this.localStorageService.get(GlobalName.userName);
+  console.log('user in prepare:', this.user);
+  console.log('idEntite in prepare:', this.user?.idEntite);
+
+  if (!this.user || !this.user.idEntite) {
+    console.error('Utilisateur ou idEntite manquant dans prepare');
+    AppSweetAlert.simpleAlert('Erreur', 'Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
+    this.router.navigate(['/login']);
+    return;
   }
-  prepare() {
-    if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localService.get(GlobalName.userName)
-      if (this.user.profil_user.CodeProfil === 12) {
-        this.isGeneralDirector = true;
-      } else {
-        this.isGeneralDirector = false;
+
+  this.isGeneralDirector = this.user.profil_user.CodeProfil === 12;
+
+  this.etapes = [];
+  this.etapeService.getAll(this.user.idEntite).subscribe({
+    next: (res: any) => {
+      this.etapes = res.data || [];
+      console.log('etapes chargées:', this.etapes);
+      this.activatedRoute.queryParams.subscribe((x: any) => {
+        this.init(x['page'] || 1);
+      });
+    },
+    error: (err) => {
+      console.error('Erreur lors du chargement des étapes:', err);
+      AppSweetAlert.simpleAlert('Erreur', 'Impossible de charger les étapes.', 'error');
+    }
+  });
+
+  this.typeRequete = this.checkType()?.name;
+  this.subject.subscribe((val) => {
+    this.typeRequete = this.checkType()?.name;
+    this.pager = val;
+    this.page = this.pager.current_page;
+
+    let pages = [];
+    if (this.pager.last_page <= 5) {
+      for (let index = 1; index <= this.pager.last_page; index++) {
+        pages.push(index);
+      }
+    } else {
+      let start = this.page > 3 ? this.page - 2 : 1;
+      let end = this.page + 2 < this.pager.last_page ? this.page + 2 : this.pager.last_page;
+      for (let index = start; index <= end; index++) {
+        pages.push(index);
       }
     }
-    console.log("userwwwwww",this.user?.idEntite)
 
-    this.etapes = []
-    this.etapeService.getAll(this.user?.idEntite).subscribe((res: any) => {
-      this.etapes = res.data
-      this.activatedRoute.queryParams.subscribe((x:any)=> this.init(x['page'] || 1));
-    })
-    
-    this.typeRequete = this.checkType()?.name;
-    this.subject.subscribe((val) => {
-      this.typeRequete = this.checkType()?.name;
-      
-      this.pager = val
-      this.page = this.pager.current_page
+    this.pager.pages = pages;
+    this.compteData = this.pager.total;
+  });
 
-      let pages = []
-      if (this.pager.last_page <= 5) {
-        for (let index = 1; index <= this.pager.last_page; index++) {
-          pages.push(index)
-        }
-      } else {
-        let start = (this.page > 3 ? this.page - 2 : 1)
-        let end = (this.page + 2 < this.pager.last_page ? this.page + 2 : this.pager.last_page)
-        for (let index = start; index <= end; index++) {
-          pages.push(index)
-        }
-      }
-
-      this.pager.pages = pages
-      this.compteData = this.pager.total
-    });
-  }
+  this.router.events.subscribe((event) => {
+    if (event instanceof NavigationStart) {
+      this.prepare();
+    }
+  });
+}
 
   pager: any = {
     current_page: 0,
@@ -347,141 +446,235 @@ search_text:any=""
     last_page: 0,
     per_page: 0,
     to: 0,
-    total: 0
-  }
+    total: 0,
+  };
   subject = new Subject<any>();
-  Null = null
+  Null = null;
 
-  institutions:any[]=[]
+  institutions: any[] = [];
   _cpt = 0;
-  _data_affect = 0
+  _data_affect = 0;
 
-
-  init(page:any) {
-
-    this._temp = []
-    this.data = []
-    this.requeteService.getAllRequest(this.user.idEntite,null, 0, this.user.id, this.user.agent_user.idStructure, this.checkType()?.id,this.pg.pageSize, page).subscribe((res: any) => {
+  init(page: any) {
+    if (!this.user || !this.user.idEntite) {
+    console.error('Utilisateur ou idEntite manquant dans init');
+    AppSweetAlert.simpleAlert('Erreur', 'Utilisateur non connecté. Veuillez vous reconnecter.', 'error');
+    this.router.navigate(['/login']);
+    return;
+  }
+    this._temp = [];
+    this.data = [];
+  
+    this.requeteService
+      .getAllRequest(
+        this.user.idEntite,
+        null,
+        0,
+        this.user.id,
+        this.user.agent_user.idStructure,
+        this.checkType()?.id,
+        this.pg.pageSize,
+        page
+      )
+      .subscribe((res: any) => {
         this.spinner.hide();
         this.subject.next(res);
         // this.data = res.data;
-        this.data = res.data?.data?.filter((e:any)=>{
-          if(e.lastparcours != null){
-            return (e.lastparcours.idEtape==1) || 
-                      (e.lastparcours.idEtape==5) || 
-                      (e.lastparcours.idEtape==7 && e.lastparcours.idStructure == this.user.agent_user.idStructure) ||
-                      (e.lastparcours.idEtape==8 && e.lastparcours.idEntite == this.user.idEntite);
-          }else{
-            return (e.lastparcours == null);
+        this.data = res.data?.data?.filter((e: any) => {
+          if (e.lastparcours != null) {
+            return (
+              e.lastparcours.idEtape == 1 ||
+              e.lastparcours.idEtape == 5 ||
+              (e.lastparcours.idEtape == 7 &&
+                e.lastparcours.idStructure ==
+                  this.user.agent_user.idStructure) ||
+              (e.lastparcours.idEtape == 8 &&
+                e.lastparcours.idEntite == this.user.idEntite)
+            );
+          } else {
+            return e.lastparcours == null;
           }
-        })
-        this._temp = this.data
+        });
+        this._temp = this.data;
 
         this.data = res.data?.data?.map((e: any) => {
-  const estRepondu = e.reponse?.some((rep: any) => rep.typeStructure === 'Direction');
-  e.etat = estRepondu ? 'Répondu' : 'En attente';
-  return e;
-});
-      })
-    this._temp2 = []
-    this.data2 = []
-    this.requeteService.getAllAffectation(this.user.id, "Service", this.checkType()?.id, this.pg.pageSize, page).subscribe((res: any) => {
-      this.spinner.hide();
-      if (Array.isArray(res)) {
-        this.data2 = res
-      } else {
-        this.data2 = res.data?.data
-      }
-      this._temp2 = this.data2
-    })
-    this.departements = []
+          const estRepondu = e.reponse?.some(
+            (rep: any) => rep.typeStructure === 'Direction'
+          );
+          e.etat = estRepondu ? 'Répondu' : 'En attente';
+          return e;
+        });
+      });
+    this._temp2 = [];
+    this.data2 = [];
+    this.requeteService
+      .getAllAffectation(
+        this.user.id,
+        'Service',
+        this.checkType()?.id,
+        this.pg.pageSize,
+        page
+      )
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        if (Array.isArray(res)) {
+          this.data2 = res;
+        } else {
+          this.data2 = res.data?.data;
+        }
+        this._temp2 = this.data2;
+      });
+    this.departements = [];
     this.usagersService.getAllDepartement().subscribe((res: any) => {
-      this.departements = res
-    })
-    this.services = []
-    this.__services=[]
-    this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
-      this.services = res.data?.filter((e:any)=>(e.published==1))
-      this.__services= this.services
-    })
-
-    this.structures = []
-    this.structureService.getAll(1,this.user.idEntite).subscribe((res:any)=>{
-
-      this.structures = res
-    })
-
-    this.structureservices = []
-    this.structureService.getAllStructureByUser(this.user.id).subscribe((res: any) => {
-      console.log("user.structure", this.user.id)
-      
-      this.structureservices = res.data
-      console.log('Structureservices chargées:', this.structureservices);
-      this.cdr.detectChanges();
-    })
-
-    this.institutionService.getAll().subscribe((res: any) => {
-      this.institutions = res.data
-    })
-
-    
-
-
+      this.departements = res;
+    });
+    this.services = [];
+    this.__services = [];
+      if (!this.user || !this.user.idEntite) {
+    console.error('Utilisateur ou idEntite manquant');
+    return;
   }
 
-  file: string | Blob =""
-  onFileChange(event:any) {
+    
+    // this.prestationService.getAll(this.user.idEntite).subscribe((res: any) => {
+    //   this.services = res.data?.filter((e: any) => e.published == 1);
+    //   this.__services = this.services;
+    // });
+
+    this.prestationService.getAll(this.user.idEntite).subscribe({
+    next: (res: any) => {
+      this.services = res.data?.filter((e: any) => (e.published == 1)) || [];
+      this.__services = this.services;
+      console.log("services chargés:", this.services);
+    },
+    error: (err) => {
+      console.error('Erreur lors du chargement des services:', err);
+      AppSweetAlert.simpleAlert("Erreur", "Impossible de charger les services.", 'error');
+    }
+  });
+    console.log('services', this.services);
+    console.log('user', this.user.idEntite);
+
+    this.structures = [];
+  console.log('Appel de structureService.getAll avec idEntite:', this.user.idEntite);
+  this.structureService.getAll(1, this.user.idEntite).subscribe({
+    next: (res: any) => {
+      console.log('Structures response:', res);
+      this.structures = Array.isArray(res) ? res : res?.data || [];
+      console.log('Structures chargées:', this.structures);
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Erreur lors du chargement des structures:', err);
+      AppSweetAlert.simpleAlert('Erreur', 'Impossible de charger les structures.', 'error');
+      this.structures = [];
+      this.cdr.detectChanges();
+    }
+  });
+
+    this.structureservices = [];
+    this.structureService
+      .getAllStructureByUser(this.user.id)
+      .subscribe((res: any) => {
+        console.log('user.structure', this.user.id);
+
+        this.structureservices = res.data;
+        console.log('Structureservices chargées:', this.structureservices);
+        this.cdr.detectChanges();
+      });
+
+    this.institutionService.getAll().subscribe((res: any) => {
+      this.institutions = res.data;
+    });
+  }
+
+  file: string | Blob = '';
+  onFileChange(event: any) {
     if (event.target.files.length > 0) {
       this.file = event.target.files[0];
     }
   }
 
-  saveAffectation(value:any) {
+  saveAffectation(value: any) {
     let val = {
       idRequete: this.selected_data.id,
       idStructure: value.idStructure,
-      listeemails: this.structureservices.find((e:any) => (e.id == value.idStructure)).contact,
+      idService: value.idService,
+      listeemails: this.structureservices.find(
+        (e: any) => e.id == value.idStructure
+      ).contact,
       typeStructure: 'Service',
-      idEntite:this.user.idEntite,
+      idEntite: this.user.idEntite,
       idEtape: 2,
-    }
+    };
     // if (this.selected_data.affectation.length != 1) {
     //   AppSweetAlert.simpleAlert("Erreur", "Cette requête a été déjà affectée.", 'error');
     //   return;
     // }
 
     if (this.selected_data.reponse.length > 0) {
-      AppSweetAlert.simpleAlert("Erreur", "Vous ne pouvez plus affecté cette requete car une réponse a été déjà proposée.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Vous ne pouvez plus affecté cette requete car une réponse a été déjà proposée.',
+        'error'
+      );
       return;
     }
 
+    if (!val.idService) {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez sélectionner un service.',
+        'error'
+      );
+      return;
+    }
+
+    // Vérification si la requête a déjà une réponse
+    if (this.selected_data.reponse.length > 0) {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Vous ne pouvez plus affecter cette requête car une réponse a été déjà proposée.',
+        'error'
+      );
+      return;
+    }
     this.requeteService.createAffectation(val).subscribe((res: any) => {
-      this.init(this.page)
-      this.modalService.dismissAll()
-      AppSweetAlert.simpleAlert("Nouvelle affectation", "Affectation effectué avec succès", 'success')
-    })
+      this.init(this.page);
+      this.modalService.dismissAll();
+      AppSweetAlert.simpleAlert(
+        'Nouvelle affectation',
+        'Affectation effectué avec succès',
+        'success'
+      );
+    });
   }
-  saveTransmitReponse(value:any) {
-
-  }
-  saveReponse(value:any) {
-    if(value.texteReponseApportee == null || value.texteReponseApportee == ""){
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez saisir votre réponse", 'error');
+  saveTransmitReponse(value: any) {}
+  saveReponse(value: any) {
+    if (
+      value.texteReponseApportee == null ||
+      value.texteReponseApportee == ''
+    ) {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez saisir votre réponse',
+        'error'
+      );
       return;
     }
-    let complementReponse = "";
+    let complementReponse = '';
     if (value.interrompu == true)
-      complementReponse = "\n\nRaison de l'interruption: " + "\n" + value.raisonRejet;
-    else
-      if (value.rejet == true)
-        complementReponse = "\n\nRaison du rejet: " + "\n" + value.raisonRejet;
+      complementReponse =
+        "\n\nRaison de l'interruption: " + '\n' + value.raisonRejet;
+    else if (value.rejet == true)
+      complementReponse = '\n\nRaison du rejet: ' + '\n' + value.raisonRejet;
 
     if (value.interrompu == true)
       if (value.texteReponseApportee.indexOf("Raison de l'interruption:") == -1)
         value.texteReponseApportee += complementReponse;
 
     if (value.rejet == true)
-      if (value.texteReponseApportee.indexOf("Raison du rejet:") == -1)
+      if (value.texteReponseApportee.indexOf('Raison du rejet:') == -1)
         value.texteReponseApportee += complementReponse;
 
     // var val = {
@@ -492,17 +685,17 @@ search_text:any=""
     //   idEntite:this.user.idEntite,
     //   rejete: value.rejete,
     //   raisonRejet: value.raisonRejet
-      
+
     // };
-    let formData = new FormData()
-    formData.append('idRequete', this.selected_data.id)
-    formData.append('typeStructure', 'Direction')
-    formData.append('texteReponse', value.texteReponseApportee)
-    formData.append('interrompu', value.interrompu)
-    formData.append('idEntite', this.user.idEntite)
-    formData.append('rejete', value.rejete)
-    formData.append('raisonRejet', value.raisonRejet)
-    formData.append('fichier', this.file)
+    let formData = new FormData();
+    formData.append('idRequete', this.selected_data.id);
+    formData.append('typeStructure', 'Direction');
+    formData.append('texteReponse', value.texteReponseApportee);
+    formData.append('interrompu', value.interrompu);
+    formData.append('idEntite', this.user.idEntite);
+    formData.append('rejete', value.rejete);
+    formData.append('raisonRejet', value.raisonRejet);
+    formData.append('fichier', this.file);
     /*if (this.selected_data.reponse.length > 0) {
       this.selected_data.reponse.forEach((item:any) => {
         if (item.typeStructure == 'Direction')
@@ -518,129 +711,176 @@ search_text:any=""
           idRequete: this.selected_data.id,
           texteReponse: value.texteReponseApportee,
           typeStructure: 'Direction',
-          idEntite:this.user.idEntite,
+          idEntite: this.user.idEntite,
           typeSuperieur: 'Usager',
           idEtape: 6,
         };
-        this.requeteService.transmettreReponse(paramInternal).subscribe((rest: any) => {
-          this.init(this.page)
-          this.modalService.dismissAll()
-          this.file=""
-          AppSweetAlert.simpleAlert("Nouvelle réponse", "Réponse envoyée et transmise avec succès", 'success')
-          setTimeout(()=>{                          
-            window.location.reload()
-        }, 2000);
-          
-        })
+        this.requeteService
+          .transmettreReponse(paramInternal)
+          .subscribe((rest: any) => {
+            this.init(this.page);
+            this.modalService.dismissAll();
+            this.file = '';
+            AppSweetAlert.simpleAlert(
+              'Nouvelle réponse',
+              'Réponse envoyée et transmise avec succès',
+              'success'
+            );
+            setTimeout(() => {
+              window.location.reload();
+            }, 2000);
+          });
       } else {
-        this.init(this.page)
-        this.modalService.dismissAll()
-        this.file=""
-        AppSweetAlert.simpleAlert("Nouvelle réponse", "Réponse envoyée avec succès", 'success')
-        setTimeout(()=>{                          
-          window.location.reload()
-      }, 2000);
+        this.init(this.page);
+        this.modalService.dismissAll();
+        this.file = '';
+        AppSweetAlert.simpleAlert(
+          'Nouvelle réponse',
+          'Réponse envoyée avec succès',
+          'success'
+        );
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
-    })
-    
+    });
   }
-  Archiver_Requete(value:any) {
-
-    if(value.texteArchive == null || value.texteArchive.trim() == ""){
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez saisir votre motif", 'error');
+  Archiver_Requete(value: any) {
+    if (value.texteArchive == null || value.texteArchive.trim() == '') {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez saisir votre motif',
+        'error'
+      );
       return;
     }
 
     var val = {
       idRequete: this.selected_data.id,
       texteReponse: value.texteArchive,
-      idEntite:this.user.idEntite
+      typeStructure: 'Direction',
+      idEntite: this.user.idEntite,
     };
     this.requeteService.archiverReque(val).subscribe((res: any) => {
-
-        this.init(this.page)
-        this.modalService.dismissAll()
-        AppSweetAlert.simpleAlert("Archive", "Préoccupation archivée avec succès", 'success')
-        setTimeout(()=>{                          
-          window.location.reload()
+      this.init(this.page);
+      this.modalService.dismissAll();
+      AppSweetAlert.simpleAlert(
+        'Archive',
+        'Préoccupation archivée avec succès',
+        'success'
+      );
+      setTimeout(() => {
+        window.location.reload();
       }, 2000);
-    })
-    
+    });
   }
 
-
-  transmettreReponseRapide(value:any) {
+  transmettreReponseRapide(value: any) {
     var param = {
       codeRequete: this.selected_data.codeRequete,
-      emailusager: this.selected_data.usager ==null ? this.selected_data.email : this.selected_data.usager.email,
+      emailusager:
+        this.selected_data.usager == null
+          ? this.selected_data.email
+          : this.selected_data.usager.email,
       emailstructure: this.user.email,
-      idEntite:this.user.idEntite,
+      idEntite: this.user.idEntite,
       message: value.message,
-      nomprenomsusager: this.selected_data.usager ==null ? this.selected_data.identity : this.selected_data.usager.nom,
-      type:value.type,
-      
+      nomprenomsusager:
+        this.selected_data.usager == null
+          ? this.selected_data.identity
+          : this.selected_data.usager.nom,
+      type: value.type,
     };
     this.requeteService.mailUsager(param).subscribe((rest: any) => {
-      this.init(this.page)
-      this.modalService.dismissAll()
-      if(rest.status == "error"){
-        AppSweetAlert.simpleAlert("Erreur", rest.message, 'error')
-      }else{
-        AppSweetAlert.simpleAlert("Mail Usager", "Mail envoyé avec succès au "+rest.message, 'success')
+      this.init(this.page);
+      this.modalService.dismissAll();
+      if (rest.status == 'error') {
+        AppSweetAlert.simpleAlert('Erreur', rest.message, 'error');
+      } else {
+        AppSweetAlert.simpleAlert(
+          'Mail Usager',
+          'Mail envoyé avec succès au ' + rest.message,
+          'success'
+        );
       }
-    })
+    });
   }
-  mailStructure(value:any) {
+  mailStructure(value: any) {
     var param = {
       codeRequete: this.selected_data.codeRequete,
       receiverId: value.receiverId,
       emailstructure: this.user.email,
-      idEntite:this.user.idEntite,
+      idEntite: this.user.idEntite,
       message: value.message,
-      type:value.type,
-      
+      type: value.type,
     };
     this.requeteService.mailStructure(param).subscribe((rest: any) => {
-      this.init(this.page)
-      this.modalService.dismissAll()
+      this.init(this.page);
+      this.modalService.dismissAll();
 
-      if(rest.status == "error"){
-        AppSweetAlert.simpleAlert("Erreur", rest.message, 'error')
-      }else{
-        AppSweetAlert.simpleAlert("Mail Structure", "Mail envoyé avec succès au "+rest.message, 'success')
+      if (rest.status == 'error') {
+        AppSweetAlert.simpleAlert('Erreur', rest.message, 'error');
+      } else {
+        AppSweetAlert.simpleAlert(
+          'Mail Structure',
+          'Mail envoyé avec succès au ' + rest.message,
+          'success'
+        );
       }
-    })
+    });
   }
 
   transmettreReponse() {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
       return;
     }
 
     if (this.selected_data.finalise == 1) {
-      AppSweetAlert.simpleAlert("Erreur", "Réponse déjà transmise à l'usager.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        "Réponse déjà transmise à l'usager.",
+        'error'
+      );
       return;
     }
-
 
     if (this.selected_data.reponse.length > 0) {
-      let check = this.selected_data.reponse.filter((item:any) => (item.typeStructure=='Direction'));
-      if(check.length == 0){
-        AppSweetAlert.simpleAlert("Erreur","Veuillez affecter ou traiter la préoccupation." , 'error') ;
+      let check = this.selected_data.reponse.filter(
+        (item: any) => item.typeStructure == 'Direction'
+      );
+      if (check.length == 0) {
+        AppSweetAlert.simpleAlert(
+          'Erreur',
+          'Veuillez affecter ou traiter la préoccupation.',
+          'error'
+        );
       }
-    }else{
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez affecter ou traiter la préoccupation.", 'error');
+    } else {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez affecter ou traiter la préoccupation.',
+        'error'
+      );
     }
 
-
-    if (this.selected_data.reponseStructure == '' || this.selected_data.reponseStructure == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez valider la réponse de votre structure avant de transmettre.", 'error');
+    if (
+      this.selected_data.reponseStructure == '' ||
+      this.selected_data.reponseStructure == null
+    ) {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez valider la réponse de votre structure avant de transmettre.',
+        'error'
+      );
       return;
     }
 
-
-    var msgConfirm = "Voulez-vous transmettre la réponse ?";
+    var msgConfirm = 'Voulez-vous transmettre la réponse ?';
     var confirmResult = confirm(msgConfirm);
     if (confirmResult === false) return;
     var param = {
@@ -648,67 +888,117 @@ search_text:any=""
       texteReponse: this.selected_data.reponseStructure,
       typeStructure: 'Direction',
       typeSuperieur: 'Usager',
-      idEntite:this.user.idEntite,
+      idEntite: this.user.idEntite,
       idEtape: 6,
     };
     this.requeteService.transmettreReponse(param).subscribe((rest: any) => {
-      this.init(this.page)
-      this.modalService.dismissAll()
-      AppSweetAlert.simpleAlert("Nouvelle réponse", "Réponse envoyée et transmise avec succès", 'success')
-    })
+      this.init(this.page);
+      this.modalService.dismissAll();
+      AppSweetAlert.simpleAlert(
+        'Nouvelle réponse',
+        'Réponse envoyée et transmise avec succès',
+        'success'
+      );
+    });
   }
 
   displayResource() {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
       return;
     }
 
     if (this.selected_data.fichier_joint.length == 0) {
-      AppSweetAlert.simpleAlert("Erreur", "Aucun fichier attaché.", 'error');
+      AppSweetAlert.simpleAlert('Erreur', 'Aucun fichier attaché.', 'error');
       return;
     }
     var filePath = ConfigService.toFile(this.selected_data.fichier_joint);
     window.open(filePath);
   }
 
+  __services: any[] = [];
+  structures: any[] = [];
+  onEntiteChange(event: any) {
+    console.log('Structures response:', this.structures);
+    const idEntite = +event.target.value;
+    console.log('idEntite selected:', idEntite);
 
-  __services:any[]=[]
-  structures:any[]=[]
-  onEntiteChange(event:any){
- 
-    this.structures = []
-    this.structureService.getAll(1,+event.target.value).subscribe((res:any)=>{
-      this.structures = res
-    })
+    // Charger les structures
+    this.structures = [];
+    this.structureService.getAll(1, idEntite).subscribe({
+      next: (res: any) => {
+        this.structures = Array.isArray(res) ? res : res?.data || [];
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching structures:', err);
+        AppSweetAlert.simpleAlert(
+          'Erreur',
+          'Impossible de charger les structures.',
+          'error'
+        );
+        this.structures = [];
+        this.cdr.detectChanges();
+      },
+    });
 
-    this.services = []
-    this.__services=[]
-    this.prestationService.getAll(+event.target.value).subscribe((res: any) => {
-      this.services = res.filter((e:any)=>(e.published==1))
-      this.__services= this.services
-    }) 
-
-  }
-
-  onStructureChange(event:any){
-    this.services=[]
-    this.__services.forEach((item:any) => {
-      if (item.idParent == event.target.value)
-        this.services.push(item);
+    // Charger les services
+    this.services = [];
+    this.__services = [];
+    this.prestationService.getAll(idEntite).subscribe({
+      next: (res: any) => {
+        console.log('Services response:', res);
+        const servicesData = Array.isArray(res) ? res : res?.data || [];
+        this.services = servicesData.filter((e: any) => e.published == 1) || [];
+        this.__services = this.services;
+        console.log('Filtered services:', this.services);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error fetching services:', err);
+        AppSweetAlert.simpleAlert(
+          'Erreur',
+          'Impossible de charger les services.',
+          'error'
+        );
+        this.services = [];
+        this.__services = [];
+        this.cdr.detectChanges();
+      },
     });
   }
-  
-  transferPreocuppation(value:any){
-    
 
+  onStructureChange(event: any) {
+    this.services = [];
+    this.__services.forEach((item: any) => {
+      if (item.idParent == event.target.value) this.services.push(item);
+    });
+
+    if (this.services.length === 0) {
+      this.services = this.__services.filter((e: any) => e.published == 1);
+    }
+  }
+
+  transferPreocuppation(value: any) {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
       return;
     }
 
     if (this.selected_data.finalise == 1) {
-      AppSweetAlert.simpleAlert("Erreur", "Réponse déjà transmise à l'usager.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        "Réponse déjà transmise à l'usager.",
+        'error'
+      );
       return;
     }
 
@@ -718,27 +1008,41 @@ search_text:any=""
       idEntiteReceive: value.idEntiteReceive,
       idPrestation: value.idPrestation,
     };
-    AppSweetAlert.confirmBox("Transférer cette préoccupation à un autre ministère/institution",
-    "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
+    AppSweetAlert.confirmBox(
+      'Transférer cette préoccupation à un autre ministère/institution',
+      'Cette action est irreversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
       if (result.value) {
-        this.requeteService.transfertRequet(param,this.selected_data.id).subscribe((rest: any) => {
-          this.init(this.page)
-          this.modalService.dismissAll()
-          AppSweetAlert.simpleAlert("Transfert préoccupation", "Transfert effectué avec succès", 'success')
-        })
+        this.requeteService
+          .transfertRequet(param, this.selected_data.id)
+          .subscribe((rest: any) => {
+            this.init(this.page);
+            this.modalService.dismissAll();
+            AppSweetAlert.simpleAlert(
+              'Transfert préoccupation',
+              'Transfert effectué avec succès',
+              'success'
+            );
+          });
       }
-    })
+    });
   }
-  transfertInternePreocuppation(value:any){
-      
-
+  transfertInternePreocuppation(value: any) {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer',
+        'error'
+      );
       return;
     }
 
     if (this.selected_data.finalise == 1) {
-      AppSweetAlert.simpleAlert("Erreur", "Réponse déjà transmise à l'usager.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        "Réponse déjà transmise à l'usager.",
+        'error'
+      );
       return;
     }
 
@@ -748,62 +1052,109 @@ search_text:any=""
       id_user: this.user.id,
       idPrestation: value.idPrestation,
     };
-    if (param.idStructure == null || param.idStructure == "") {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez sélectionner la structure", 'error');
+    if (param.idStructure == null || param.idStructure == '') {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez sélectionner la structure',
+        'error'
+      );
       return;
-    }else if (param.idPrestation == null || param.idPrestation == "") {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez sélectionner la prestation", 'error');
+    } else if (param.idPrestation == null || param.idPrestation == '') {
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez sélectionner la prestation',
+        'error'
+      );
       return;
     }
-    AppSweetAlert.confirmBox("Transférer cette préoccupation à la structure",
-    "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
+    AppSweetAlert.confirmBox(
+      'Transférer cette préoccupation à la structure',
+      'Cette action est irreversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
       if (result.value) {
-        this.requeteService.transfertRequetInterne(param,this.selected_data.id).subscribe((rest: any) => {
-          this.init(this.page)
-          this.modalService.dismissAll()
-          AppSweetAlert.simpleAlert("Transfert préoccupation", "Transfert effectué avec succès", 'success')
-        })
+        this.requeteService
+          .transfertRequetInterne(param, this.selected_data.id)
+          .subscribe((rest: any) => {
+            this.init(this.page);
+            this.modalService.dismissAll();
+            AppSweetAlert.simpleAlert(
+              'Transfert préoccupation',
+              'Transfert effectué avec succès',
+              'success'
+            );
+          });
       }
-    })
+    });
   }
-  reorienterPreocuppation(value:any){
-
+  reorienterPreocuppation(value: any) {
     if (this.selected_data == null) {
-      AppSweetAlert.simpleAlert("Erreur", "Veuillez selectionnez un élément puis réessayer ", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        'Veuillez selectionnez un élément puis réessayer ',
+        'error'
+      );
       return;
     }
 
     if (this.selected_data.finalise == 1) {
-      AppSweetAlert.simpleAlert("Erreur", "Réponse déjà transmise à l'usager.", 'error');
+      AppSweetAlert.simpleAlert(
+        'Erreur',
+        "Réponse déjà transmise à l'usager.",
+        'error'
+      );
       return;
     }
-    let idStructure=0
-    if(value.idPrestation=="440"){
-      idStructure=58
+    let idStructure = 0;
+    if (value.idPrestation == '440') {
+      idStructure = 58;
     }
-    if(value.idPrestation=="441"){
-      idStructure=75
+    if (value.idPrestation == '441') {
+      idStructure = 75;
     }
     var param = {
       idStructure: idStructure,
       idEntite: this.user.idEntite,
       idPrestation: value.idPrestation,
     };
-    AppSweetAlert.confirmBox("Réorienter cette préoccupation",
-    "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
+    AppSweetAlert.confirmBox(
+      'Réorienter cette préoccupation',
+      'Cette action est irreversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
       if (result.value) {
-        this.requeteService.transfertRequetInterne(param,this.selected_data.id).subscribe((rest: any) => {
-          this.init(this.page)
-          this.modalService.dismissAll()
-          AppSweetAlert.simpleAlert("Réorientation préoccupation", "Réorientation effectué avec succès", 'success')
-        })
+        this.requeteService
+          .transfertRequetInterne(param, this.selected_data.id)
+          .subscribe((rest: any) => {
+            this.init(this.page);
+            this.modalService.dismissAll();
+            AppSweetAlert.simpleAlert(
+              'Réorientation préoccupation',
+              'Réorientation effectué avec succès',
+              'success'
+            );
+          });
       }
-    })
+    });
   }
 
-  getPage(event:any){
-    this.pg.p=event
-    this.init(this.pg.p)
+  getPage(event: any) {
+    this.pg.p = event;
+    this.init(this.pg.p);
   }
 
+  onStructureChangeForServices(event: any) {
+    const idStructure = event.target.value;
+    if (idStructure) {
+      this.prestationService
+        .getAllByStructure(idStructure)
+        .subscribe((res: any) => {
+          this.servicesForStructure =
+            res.data?.filter((e: any) => e.published == 1) || [];
+          this.cdr.detectChanges(); // Déclenche la détection des changements pour mettre à jour l'UI
+        });
+    } else {
+      this.servicesForStructure = []; // Réinitialise si aucune structure n'est sélectionnée
+      this.cdr.detectChanges();
+    }
+    console.log('Services for structure:', this.servicesForStructure);
+  }
 }

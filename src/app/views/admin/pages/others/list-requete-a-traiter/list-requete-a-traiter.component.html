@@ -115,7 +115,7 @@
                     <input type="radio" [value]="el" ngModel name="getrequete" (change)="checked($event,el)">
                   </td>
                   <td> {{el.created_at | date:'dd/MM/yyyy HH:mm:ss'}}
-</td>
+                  </td>
                   <!--<td >{{el.codeRequete}} </td>-->
                   <td class="no-display">{{el.nature==null ? '' : el.nature.libelle}} </td>
                   <td>{{el.service==null ? '' : el.service?.libelle}} </td>
@@ -150,15 +150,15 @@
                   </td>
 
                   <td>
-  <span [ngClass]="{
+                    <span [ngClass]="{
     'badge badge-success': el.etat === 'Répondu',
     'badge badge-warning': el.etat === 'En attente'
   }">
-    {{ el.etat }}
-  </span>
-</td>
+                      {{ el.etat }}
+                    </span>
+                  </td>
 
-              
+
                 </tr>
                 <tr *ngIf="data.length==0">
                   <td colspan="9" class="text-center bg-gray-100">Aucun élément</td>
@@ -236,11 +236,22 @@
                 <div class="row form-group">
                   <label for="idStructure" class="col-md-2 ">Structures * :</label>
                   <div class="col-md-10">
-                    <select name="idStructure" id="idStructure" class="form-control form-control-sm" required ngModel>
+                    <select name="idStructure" (change)="onStructureChangeForServices($event)" id="idStructure"
+                      class="form-control form-control-sm" required ngModel>
                       <option [value]="fc.id" *ngFor="let fc of structureservices">{{fc.libelle}}</option>
                     </select>
                   </div>
 
+                </div>
+
+                <div class="row form-group">
+                  <label for="idService" class="col-md-2">Service * :</label>
+                  <div class="col-md-10">
+                    <select name="idService" id="idService" class="form-control form-control-sm" required ngModel>
+                      <option value="" selected>Sélectionnez un service</option>
+                      <option [value]="fc.id" *ngFor="let fc of servicesForStructure">{{fc.libelle}}</option>
+                    </select>
+                  </div>
                 </div>
 
               </fieldset>
@@ -732,7 +743,6 @@
                     (change)="onStructureChange($event)">
                     <option value="" selected>Sélectionnez une structure</option>
                     <option [value]="fc.id" *ngFor="let fc of structures">{{fc.libelle}}</option>
-
                   </select>
                 </div>
               </div>

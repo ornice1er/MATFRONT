@@ -57,6 +57,24 @@ export class LayoutComponent {
       action: 'LISTER'
     },
     {
+     label: 'Requêtes à traiter',
+     route: '/admin/list-requete-a-traiter/requetes',
+     key: 'REQUÊTE',
+     action: 'LISTER'
+    },
+     {
+     label: 'Plaintes à traiter',
+     route: '/admin/list-requete-a-traiter/plaintes',
+     key: 'REQUÊTE',
+     action: 'LISTER'
+    },
+     {
+     label: 'Demandes infos à traiter',
+     route: '/admin/list-requete-a-traiter/infos',
+     key: 'REQUÊTE',
+     action: 'LISTER'
+    },
+    {
       label: 'Suggestions',
       route: '/admin/listsuggestions',
       key: 'SUGGESTION',
@@ -92,26 +110,6 @@ export class LayoutComponent {
       ]
     },
     {
-      label: 'Ratio des prestations',
-      key: 'STATISTIQUES',
-      action: 'LISTER',
-      children: [
-        { label: 'Plaintes', route: '/admin/ratioplainteprestation', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Requêtes', route: '/admin/ratiorequeteprestation', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Demande infos', route: '/admin/ratiodemandeinfosprestation', key: 'STATISTIQUES', action: 'LISTER' }
-      ]
-    },
-    {
-      label: 'Ratio des structures',
-      key: 'STATISTIQUES',
-      action: 'LISTER',
-      children: [
-        { label: 'Plaintes', route: '/admin/ratioplaintestructure', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Requêtes', route: '/admin/ratiorequetestructure', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Gestion des usagers', route: '/admin/ratiodemandeinfosstructure', key: 'STATISTIQUES', action: 'LISTER' }
-      ]
-    },
-    {
       label: 'Prestations par structure',
       route: '/admin/listservices',
       key: 'SERVICE',
@@ -133,24 +131,6 @@ export class LayoutComponent {
       label: 'Gestion des usagers',
       route: '/admin/listusager',
       key: 'USAGER',
-      action: 'LISTER'
-    },
-     {
-      label: 'Requêtes à traiter',
-      route: '/admin/list-requete-a-traiter/requetes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-      {
-      label: 'Plaintes à traiter',
-      route: '/admin/list-requete-a-traiter/plaintes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-      {
-      label: 'Demandes infos à traiter',
-      route: '/admin/list-requete-a-traiter/infos',
-      key: 'REQUÊTE',
       action: 'LISTER'
     },
     // {
@@ -243,6 +223,26 @@ export class LayoutComponent {
         { label: 'Taux digitalisation', route: '/admin/listauxdigit', key: 'STATISTIQUES', action: 'LISTER' },
         { label: 'Avancées', route: '/admin/avanced-statistics', key: 'STATISTIQUES AVANCÉES', action: 'LISTER' },
         { label: 'Suivi traitement', route: '/admin/follow-treatment', key: 'STATISTIQUES', action: 'LISTER' }
+      ]
+    },
+    {
+      label: 'Ratio des prestations',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        { label: 'Plaintes', route: '/admin/ratioplainteprestation', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Requêtes', route: '/admin/ratiorequeteprestation', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Demande infos', route: '/admin/ratiodemandeinfosprestation', key: 'STATISTIQUES', action: 'LISTER' }
+      ]
+    },
+    {
+      label: 'Ratio des structures',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        { label: 'Plaintes', route: '/admin/ratioplaintestructure', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Requêtes', route: '/admin/ratiorequetestructure', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Gestion des usagers', route: '/admin/ratiodemandeinfosstructure', key: 'STATISTIQUES', action: 'LISTER' }
       ]
     },
     {
