@@ -785,6 +785,7 @@ prepare() {
       emailstructure: this.user.email,
       idEntite: this.user.idEntite,
       message: value.message,
+      
       nomprenomsusager:
         this.selected_data.usager == null
           ? this.selected_data.identity
@@ -810,9 +811,17 @@ prepare() {
       codeRequete: this.selected_data.codeRequete,
       receiverId: value.receiverId,
       emailstructure: this.user.email,
+      emailusager:
+        this.selected_data.usager == null
+          ? this.selected_data.email
+          : this.selected_data.usager.email,
       idEntite: this.user.idEntite,
       message: value.message,
       type: value.type,
+      nomprenomsusager:
+        this.selected_data.usager == null
+          ? this.selected_data.identity
+          : this.selected_data.usager.nom,
     };
     this.requeteService.mailStructure(param).subscribe((rest: any) => {
       this.init(this.page);
