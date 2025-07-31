@@ -233,21 +233,12 @@
                 <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">
                   Affectation</h4>
 
-                <div class="row form-group">
-                  <label for="idStructure" class="col-md-2 ">Structures * :</label>
-                  <div class="col-md-10">
-                    <select name="idStructure" (change)="onStructureChangeForServices($event)" id="idStructure"
-                      class="form-control form-control-sm" required ngModel>
-                      <option [value]="fc.id" *ngFor="let fc of structureservices">{{fc.libelle}}</option>
-                    </select>
-                  </div>
-
-                </div>
+               
 
                 <div class="row form-group">
                   <label for="idService" class="col-md-2">Service * :</label>
                   <div class="col-md-10">
-                    <select name="idService" id="idService" class="form-control form-control-sm" required ngModel>
+                    <select name="idService" id="idService" class="form-control form-control-sm" required [(ngModel)]="selectedServiceId">
                       <option value="" selected>Sélectionnez un service</option>
                       <option [value]="fc.id" *ngFor="let fc of servicesForStructure">{{fc.libelle}}</option>
                     </select>

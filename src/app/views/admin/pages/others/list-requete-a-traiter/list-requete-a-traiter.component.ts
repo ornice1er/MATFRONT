@@ -69,7 +69,7 @@ export class ListRequeteATraiterComponent implements OnInit {
   collectionSize = 0;
   page = 1;
   pageSize = 10;
-
+selectedServiceId: string | null = null;
   data2: any[] = [];
   _temp2: any[] = [];
   collectionSize2 = 0;
@@ -126,28 +126,55 @@ export class ListRequeteATraiterComponent implements OnInit {
       });
   }
 
-  openAddModal(content: any) {
-    if (this.selected_data != null) {
-      this.servicesForStructure = [];
-      this.modalService
-        .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
-        .result.then(
-          (result) => {
-            this.closeResult = `Closed with: ${result}`;
-          },
-          (reason) => {
-            this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-          }
-        );
-    } else {
-      AppSweetAlert.simpleAlert(
-        'Erreur',
-        'Veuillez selectionnez un élément puis réessayer',
-        'error'
-      );
-    }
-  }
+openAddModal(content: any) {
+  if (this.selected_data != null) {
+    // Charger automatiquement les services pour la structure de l'utilisateur
+    this.servicesForStructure = [];
+    this.prestationService
+      .getServicesStructure(this.user.agent_user.idStructure)
+      .subscribe({
+        next: (res: any) => {
+          // Utiliser 'active' au lieu de 'published' pour le filtrage
+          this.servicesForStructure = res.data?.filter((e: any) => e.active == 1) || [];
+          console.log('Services for user structure:', this.servicesForStructure);
+          this.cdr.detectChanges();
 
+          // Vérifier si des services sont disponibles
+          if (this.servicesForStructure.length === 0) {
+            AppSweetAlert.simpleAlert(
+              'Erreur',
+              'Aucun service actif trouvé pour cette structure.',
+              'warning'
+            );
+            return;
+          }
+
+          // Ouvrir le modal après avoir chargé les services
+          this.modalService
+            .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+            .result.then(
+              (result) => {
+                this.closeResult = `Closed with: ${result}`;
+              },
+              (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+              }
+            );
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des services pour la structure:', err);
+          AppSweetAlert.simpleAlert('Erreur', 'Impossible de charger les services pour la structure.', 'error');
+          this.cdr.detectChanges();
+        }
+      });
+  } else {
+    AppSweetAlert.simpleAlert(
+      'Erreur',
+      'Veuillez sélectionner un élément puis réessayer',
+      'error'
+    );
+  }
+}
   openEditModal(content: any, el: any) {
     this.selected_data = el;
     this.modalService
@@ -598,10 +625,10 @@ prepare() {
   saveAffectation(value: any) {
     let val = {
       idRequete: this.selected_data.id,
-      idStructure: value.idStructure,
-      idService: value.idService,
+      idStructure: this.user.agent_user.idStructure,
+      idService: this.selectedServiceId,
       listeemails: this.structureservices.find(
-        (e: any) => e.id == value.idStructure
+        (e: any) => e.id == this.user.agent_user.idStructure
       ).contact,
       typeStructure: 'Service',
       idEntite: this.user.idEntite,
@@ -621,7 +648,7 @@ prepare() {
       return;
     }
 
-    if (!val.idService) {
+    if (!this.user.agent_user.idStructure) {
       AppSweetAlert.simpleAlert(
         'Erreur',
         'Veuillez sélectionner un service.',
@@ -1154,7 +1181,7 @@ prepare() {
     const idStructure = event.target.value;
     if (idStructure) {
       this.prestationService
-        .getAllByStructure(idStructure)
+        .getServicesStructure(idStructure)
         .subscribe((res: any) => {
           this.servicesForStructure =
             res.data?.filter((e: any) => e.published == 1) || [];
