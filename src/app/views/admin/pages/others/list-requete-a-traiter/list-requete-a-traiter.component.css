@@ -3,7 +3,7 @@
 }
 
 .modal .p-multiselect-panel {
-  z-index: 1056 !important; /* Bootstrap modal z-index est 1050, donc on met plus haut */
+  z-index: 1056 !important; 
 }
 
 .modal .p-component-overlay,
