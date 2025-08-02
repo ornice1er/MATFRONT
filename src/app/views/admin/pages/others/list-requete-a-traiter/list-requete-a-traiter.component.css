@@ -1,11 +1,60 @@
+.p-multiselect-panel {
+  z-index: 9999 !important;
+}
+
+.modal .p-multiselect-panel {
+  z-index: 1056 !important; /* Bootstrap modal z-index est 1050, donc on met plus haut */
+}
+
+.modal .p-component-overlay,
+.modal .p-multiselect-panel,
+.modal .p-dropdown-panel,
+.modal .p-calendar-panel {
+  z-index: 1056 !important;
+}
+
+.modal-with-multiselect .p-multiselect-panel {
+  z-index: 1056 !important;
+}
+
 .badge-success {
   background-color: #28a745;
   color: white;
   border-radius: 5px;
   font-size: 11px;
-    padding: 2px 5px;
+  padding: 2px 5px;
 }
+
 .badge-warning {
   background-color: #ffc107;
   color: black;
+  border-radius: 5px;
+  font-size: 11px;
+  padding: 2px 5px;
+}
+
+.p-multiselect {
+  position: relative;
+}
+
+.p-multiselect-panel {
+  position: fixed !important;
+  z-index: 1056 !important;
+}
+
+
+
+.p-overlaypanel,
+.p-tooltip,
+.p-menu {
+  z-index: 1056 !important;
+}
+
+.cdk-overlay-container .p-multiselect-panel {
+  z-index: 1002 !important;
+}
+
+.modal-body .p-multiselect-panel {
+  max-height: 200px;
+  overflow-y: auto;
 }

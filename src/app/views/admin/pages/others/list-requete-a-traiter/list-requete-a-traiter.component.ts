@@ -4,9 +4,19 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormControl, FormsModule } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { NgbModal, ModalDismissReasons, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Router, ActivatedRoute, NavigationStart, RouterModule } from '@angular/router';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationStart,
+  RouterModule,
+} from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { DropdownModule } from 'primeng/dropdown';
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -24,6 +34,10 @@ import { LocalStorageService } from '../../../../../core/utils/local-stoarge-ser
 import { GlobalName } from '../../../../../core/utils/global-name';
 import { ObserverService } from '../../../../../core/utils/observer.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
+interface DropdownOption {
+  label: string;
+  value: string;
+}
 
 @Component({
   selector: 'app-list-requete-a-traiter',
@@ -36,6 +50,7 @@ import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
     NgSelectModule,
     NgxPaginationModule,
     RouterModule,
+    DropdownModule,
   ],
   templateUrl: './list-requete-a-traiter.component.html',
   styleUrl: './list-requete-a-traiter.component.css',
@@ -57,10 +72,15 @@ export class ListRequeteATraiterComponent implements OnInit {
   data2: any[] = [];
   _temp2: any[] = [];
   collectionSize2 = 0;
+  mailTypes = [
+    { label: 'SIMPLE', value: 'SIMPLE' },
+    { label: "DEMANDE D'INFORMATION", value: "DEMANDE D'INFORMATION" },
+  ];
   page2 = 1;
   pageSize2 = 10;
   selected = [];
   current_permissions: any[] = [];
+
   selected_data: any;
   isSended = false;
   pg: any = {
@@ -121,7 +141,7 @@ export class ListRequeteATraiterComponent implements OnInit {
         complete: () => {
           this.isLoading = false;
           this.spinner.hide();
-        }
+        },
       });
   }
 
@@ -134,8 +154,12 @@ export class ListRequeteATraiterComponent implements OnInit {
         .getServicesStructure(this.user.agent_user.idStructure)
         .subscribe({
           next: (res: any) => {
-            this.servicesForStructure = res.data?.filter((e: any) => e.active == 1) || [];
-            console.log('Services for user structure:', this.servicesForStructure);
+            this.servicesForStructure =
+              res.data?.filter((e: any) => e.active == 1) || [];
+            console.log(
+              'Services for user structure:',
+              this.servicesForStructure
+            );
             this.cdr.detectChanges();
             if (this.servicesForStructure.length === 0) {
               AppSweetAlert.simpleAlert(
@@ -149,18 +173,26 @@ export class ListRequeteATraiterComponent implements OnInit {
               return;
             }
             this.modalService
-              .open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg' })
+              .open(content, {
+                ariaLabelledBy: 'modal-basic-title',
+                size: 'lg',
+              })
               .result.then(
                 (result) => {
                   this.closeResult = `Closed with: ${result}`;
                 },
                 (reason) => {
-                  this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+                  this.closeResult = `Dismissed ${this.getDismissReason(
+                    reason
+                  )}`;
                 }
               );
           },
           error: (err) => {
-            console.error('Erreur lors du chargement des services pour la structure:', err);
+            console.error(
+              'Erreur lors du chargement des services pour la structure:',
+              err
+            );
             AppSweetAlert.simpleAlert(
               'error',
               'Erreur',
@@ -172,7 +204,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           complete: () => {
             this.isLoading = false;
             this.spinner.hide();
-          }
+          },
         });
     } else {
       AppSweetAlert.simpleAlert(
@@ -380,13 +412,20 @@ export class ListRequeteATraiterComponent implements OnInit {
         .subscribe({
           next: (rest: any) => {
             if (rest.status == 'error') {
-              AppSweetAlert.simpleAlert('error', 'Erreur', rest.message, undefined);
+              AppSweetAlert.simpleAlert(
+                'error',
+                'Erreur',
+                rest.message,
+                undefined
+              );
             } else {
               this.init(this.page);
               this.modalService.dismissAll();
               AppSweetAlert.simpleAlert(
                 'success',
-                'Relancer ' + this.RelanceAWho + ' en charge de la préoccupation',
+                'Relancer ' +
+                  this.RelanceAWho +
+                  ' en charge de la préoccupation',
                 "Relance envoyée avec succès à l'adresse : " + rest.message,
                 undefined
               );
@@ -405,7 +444,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           complete: () => {
             this.isLoading = false;
             this.spinner.hide();
-          }
+          },
         });
     }
   }
@@ -479,7 +518,7 @@ export class ListRequeteATraiterComponent implements OnInit {
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
 
     this.typeRequete = this.checkType()?.name;
@@ -495,7 +534,10 @@ export class ListRequeteATraiterComponent implements OnInit {
         }
       } else {
         let start = this.page > 3 ? this.page - 2 : 1;
-        let end = this.page + 2 < this.pager.last_page ? this.page + 2 : this.pager.last_page;
+        let end =
+          this.page + 2 < this.pager.last_page
+            ? this.page + 2
+            : this.pager.last_page;
         for (let index = start; index <= end; index++) {
           pages.push(index);
         }
@@ -559,13 +601,13 @@ export class ListRequeteATraiterComponent implements OnInit {
           this.subject.next(res);
           this.data = res.data?.data?.filter((e: any) => {
             const hasServiceAffectation = e.affectation?.some(
-  (aff: any) => aff.typeStructure === 'Service'
-);
-const isFinalized = e.finalise === 1;
-const isArchived = e.archiver === 1;
-if (hasServiceAffectation || isFinalized || isArchived) {
-  return false;
-}
+              (aff: any) => aff.typeStructure === 'Service'
+            );
+            const isFinalized = e.finalise === 1;
+            const isArchived = e.archiver === 1;
+            if (hasServiceAffectation || isFinalized || isArchived) {
+              return false;
+            }
             if (e.lastparcours != null) {
               return (
                 e.lastparcours.idEtape == 1 ||
@@ -602,7 +644,7 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         complete: () => {
           this.isLoading = false;
           this.spinner.hide();
-        }
+        },
       });
 
     this._temp2 = [];
@@ -636,7 +678,7 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         complete: () => {
           this.isLoading = false;
           this.spinner.hide();
-        }
+        },
       });
 
     this.departements = [];
@@ -646,7 +688,7 @@ if (hasServiceAffectation || isFinalized || isArchived) {
       },
       error: (err) => {
         console.error('Erreur lors du chargement des départements:', err);
-      }
+      },
     });
 
     this.services = [];
@@ -658,9 +700,9 @@ if (hasServiceAffectation || isFinalized || isArchived) {
 
     this.prestationService.getAll(this.user.idEntite).subscribe({
       next: (res: any) => {
-        this.services = res.data?.filter((e: any) => (e.published == 1)) || [];
+        this.services = res.data?.filter((e: any) => e.published == 1) || [];
         this.__services = this.services;
-        console.log("services chargés:", this.services);
+        console.log('services chargés:', this.services);
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -671,11 +713,14 @@ if (hasServiceAffectation || isFinalized || isArchived) {
           'Impossible de charger les services.',
           undefined
         );
-      }
+      },
     });
 
     this.structures = [];
-    console.log('Appel de structureService.getAll avec idEntite:', this.user.idEntite);
+    console.log(
+      'Appel de structureService.getAll avec idEntite:',
+      this.user.idEntite
+    );
     this.structureService.getAll(1, this.user.idEntite).subscribe({
       next: (res: any) => {
         console.log('Structures response:', res);
@@ -693,23 +738,21 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         );
         this.structures = [];
         this.cdr.detectChanges();
-      }
+      },
     });
 
     this.structureservices = [];
-    this.structureService
-      .getAllStructureByUser(this.user.id)
-      .subscribe({
-        next: (res: any) => {
-          console.log('user.structure', this.user.id);
-          this.structureservices = res.data;
-          console.log('Structureservices chargées:', this.structureservices);
-          this.cdr.detectChanges();
-        },
-        error: (err) => {
-          console.error('Erreur lors du chargement des structureservices:', err);
-        }
-      });
+    this.structureService.getAllStructureByUser(this.user.id).subscribe({
+      next: (res: any) => {
+        console.log('user.structure', this.user.id);
+        this.structureservices = res.data;
+        console.log('Structureservices chargées:', this.structureservices);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des structureservices:', err);
+      },
+    });
 
     this.institutionService.getAll().subscribe({
       next: (res: any) => {
@@ -717,7 +760,7 @@ if (hasServiceAffectation || isFinalized || isArchived) {
       },
       error: (err) => {
         console.error('Erreur lors du chargement des institutions:', err);
-      }
+      },
     });
   }
 
@@ -770,23 +813,24 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         AppSweetAlert.simpleAlert(
           'success',
           'Nouvelle affectation',
-          'Affectation effectué avec succès',
-          undefined
+          'Affectation effectué avec succès'
         );
       },
       error: (err) => {
-        console.error('Erreur lors de l\'affectation:', err);
+        console.error("Erreur lors de l'affectation:", err);
         AppSweetAlert.simpleAlert(
           'error',
           'Erreur',
-          'Une erreur est survenue lors de l\'affectation.',
-          undefined
+          "Une erreur est survenue lors de l'affectation."
         );
+        // AJOUTEZ CES DEUX LIGNES
+        this.isLoading = false;
+        this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -841,37 +885,37 @@ if (hasServiceAffectation || isFinalized || isArchived) {
             typeSuperieur: 'Usager',
             idEtape: 6,
           };
-          this.requeteService
-            .transmettreReponse(paramInternal)
-            .subscribe({
-              next: (rest: any) => {
-                this.init(this.page);
-                this.modalService.dismissAll();
-                this.file = '';
-                AppSweetAlert.simpleAlert(
-                  'success',
-                  'Nouvelle réponse',
-                  'Réponse envoyée et transmise avec succès',
-                  undefined
-                );
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
-              },
-              error: (err) => {
-                console.error('Erreur lors de la transmission:', err);
-                AppSweetAlert.simpleAlert(
-                  'error',
-                  'Erreur',
-                  'Une erreur est survenue lors de la transmission.',
-                  undefined
-                );
-              },
-              complete: () => {
-                this.isLoading = false;
-                this.spinner.hide();
-              }
-            });
+          this.requeteService.transmettreReponse(paramInternal).subscribe({
+            next: (rest: any) => {
+              this.init(this.page);
+              this.modalService.dismissAll();
+              this.file = '';
+              AppSweetAlert.simpleAlert(
+                'success',
+                'Nouvelle réponse',
+                'Réponse envoyée et transmise avec succès',
+                undefined
+              );
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            },
+            error: (err) => {
+              console.error('Erreur lors de la transmission:', err);
+              AppSweetAlert.simpleAlert(
+                'error',
+                'Erreur',
+                'Une erreur est survenue lors de la transmission.',
+                undefined
+              );
+               this.isLoading = false;
+    this.spinner.hide();
+            },
+            complete: () => {
+              this.isLoading = false;
+              this.spinner.hide();
+            },
+          });
         } else {
           this.init(this.page);
           this.modalService.dismissAll();
@@ -888,18 +932,18 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         }
       },
       error: (err) => {
-        console.error('Erreur lors de l\'enregistrement de la réponse:', err);
+        console.error("Erreur lors de l'enregistrement de la réponse:", err);
         AppSweetAlert.simpleAlert(
           'error',
           'Erreur',
-          'Une erreur est survenue lors de l\'enregistrement de la réponse.',
+          "Une erreur est survenue lors de l'enregistrement de la réponse.",
           undefined
         );
       },
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -937,18 +981,20 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         }, 2000);
       },
       error: (err) => {
-        console.error('Erreur lors de l\'archivage:', err);
+        console.error("Erreur lors de l'archivage:", err);
         AppSweetAlert.simpleAlert(
           'error',
           'Erreur',
-          'Une erreur est survenue lors de l\'archivage.',
+          "Une erreur est survenue lors de l'archivage.",
           undefined
         );
+         this.isLoading = false;
+    this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -986,18 +1032,20 @@ if (hasServiceAffectation || isFinalized || isArchived) {
         }
       },
       error: (err) => {
-        console.error('Erreur lors de l\'envoi du mail:', err);
+        console.error("Erreur lors de l'envoi du mail:", err);
         AppSweetAlert.simpleAlert(
           'error',
           'Erreur',
-          'Une erreur est survenue lors de l\'envoi du mail.',
+          "Une erreur est survenue lors de l'envoi du mail.",
           undefined
         );
+         this.isLoading = false;
+    this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -1033,21 +1081,25 @@ if (hasServiceAffectation || isFinalized || isArchived) {
             'Mail envoyé avec succès au ' + rest.message,
             undefined
           );
+           this.isLoading = false;
+    this.spinner.hide();
         }
       },
       error: (err) => {
-        console.error('Erreur lors de l\'envoi du mail à la structure:', err);
+        console.error("Erreur lors de l'envoi du mail à la structure:", err);
         AppSweetAlert.simpleAlert(
           'error',
           'Erreur',
-          'Une erreur est survenue lors de l\'envoi du mail.',
+          "Une erreur est survenue lors de l'envoi du mail.",
           undefined
         );
+         this.isLoading = false;
+    this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
@@ -1140,11 +1192,13 @@ if (hasServiceAffectation || isFinalized || isArchived) {
               'Une erreur est survenue lors de la transmission.',
               undefined
             );
+             this.isLoading = false;
+    this.spinner.hide();
           },
           complete: () => {
             this.isLoading = false;
             this.spinner.hide();
-          }
+          },
         });
       } else {
         this.isLoading = false;
@@ -1165,7 +1219,12 @@ if (hasServiceAffectation || isFinalized || isArchived) {
     }
 
     if (this.selected_data.fichier_joint.length == 0) {
-      AppSweetAlert.simpleAlert('error', 'Erreur', 'Aucun fichier attaché.', undefined);
+      AppSweetAlert.simpleAlert(
+        'error',
+        'Erreur',
+        'Aucun fichier attaché.',
+        undefined
+      );
       return;
     }
     this.isLoading = true;
@@ -1181,13 +1240,22 @@ if (hasServiceAffectation || isFinalized || isArchived) {
   __services: any[] = [];
   structures: any[] = [];
 
+  // REMPLACEZ VOTRE FONCTION onEntiteChange PAR CELLE-CI
+
   onEntiteChange(event: any) {
-    console.log('Structures response:', this.structures);
-    const idEntite = +event.target.value;
-    console.log('idEntite selected:', idEntite);
+    // Correction : On utilise event.value au lieu de event.target.value
+    const idEntite = event.value;
+
+    if (!idEntite) {
+      this.structures = [];
+      this.services = [];
+      return;
+    }
 
     this.isLoading = true;
     this.spinner.show();
+
+    // Rechargement des structures pour la nouvelle entité
     this.structures = [];
     this.structureService.getAll(1, idEntite).subscribe({
       next: (res: any) => {
@@ -1196,40 +1264,23 @@ if (hasServiceAffectation || isFinalized || isArchived) {
       },
       error: (err) => {
         console.error('Error fetching structures:', err);
-        AppSweetAlert.simpleAlert(
-          'error',
-          'Erreur',
-          'Impossible de charger les structures.',
-          undefined
-        );
         this.structures = [];
         this.cdr.detectChanges();
       },
-      complete: () => {
-        this.isLoading = false;
-        this.spinner.hide();
-      }
     });
 
+    // Rechargement des prestations (services) pour la nouvelle entité
     this.services = [];
     this.__services = [];
     this.prestationService.getAll(idEntite).subscribe({
       next: (res: any) => {
-        console.log('Services response:', res);
         const servicesData = Array.isArray(res) ? res : res?.data || [];
         this.services = servicesData.filter((e: any) => e.published == 1) || [];
-        this.__services = this.services;
-        console.log('Filtered services:', this.services);
+        this.__services = this.services; // Met à jour la liste de base pour le filtrage ultérieur
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error fetching services:', err);
-        AppSweetAlert.simpleAlert(
-          'error',
-          'Erreur',
-          'Impossible de charger les services.',
-          undefined
-        );
         this.services = [];
         this.__services = [];
         this.cdr.detectChanges();
@@ -1237,21 +1288,25 @@ if (hasServiceAffectation || isFinalized || isArchived) {
       complete: () => {
         this.isLoading = false;
         this.spinner.hide();
-      }
+      },
     });
   }
 
   onStructureChange(event: any) {
+    const selectedStructureId = event.value;
+
     this.isLoading = true;
     this.spinner.show();
-    this.services = [];
-    this.__services.forEach((item: any) => {
-      if (item.idParent == event.target.value) this.services.push(item);
-    });
 
-    if (this.services.length === 0) {
+    if (selectedStructureId) {
+      this.services = this.__services.filter(
+        (service: any) =>
+          service.idParent == selectedStructureId && service.published == 1
+      );
+    } else {
       this.services = this.__services.filter((e: any) => e.published == 1);
     }
+
     this.isLoading = false;
     this.spinner.hide();
     this.cdr.detectChanges();
@@ -1286,42 +1341,45 @@ if (hasServiceAffectation || isFinalized || isArchived) {
     };
     this.isLoading = true;
     this.spinner.show();
-    AppSweetAlert.confirmBox('Transférer cette préoccupation à un autre ministère/institution', 'Cette action est irréversible. Voulez-vous continuer ?').then(
-      (result: any) => {
-        if (result.value) {
-          this.requeteService
-            .transfertRequet(param, this.selected_data.id)
-            .subscribe({
-              next: (rest: any) => {
-                this.init(this.page);
-                this.modalService.dismissAll();
-                AppSweetAlert.simpleAlert(
-                  'success',
-                  'Transfert préoccupation',
-                  'Transfert effectué avec succès',
-                  undefined
-                );
-              },
-              error: (err) => {
-                console.error('Erreur lors du transfert:', err);
-                AppSweetAlert.simpleAlert(
-                  'error',
-                  'Erreur',
-                  'Une erreur est survenue lors du transfert.',
-                  undefined
-                );
-              },
-              complete: () => {
-                this.isLoading = false;
-                this.spinner.hide();
-              }
-            });
-        } else {
-          this.isLoading = false;
-          this.spinner.hide();
-        }
+    AppSweetAlert.confirmBox(
+      'Transférer cette préoccupation à un autre ministère/institution',
+      'Cette action est irréversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
+      if (result.value) {
+        this.requeteService
+          .transfertRequet(param, this.selected_data.id)
+          .subscribe({
+            next: (rest: any) => {
+              this.init(this.page);
+              this.modalService.dismissAll();
+              AppSweetAlert.simpleAlert(
+                'success',
+                'Transfert préoccupation',
+                'Transfert effectué avec succès',
+                undefined
+              );
+            },
+            error: (err) => {
+              console.error('Erreur lors du transfert:', err);
+              AppSweetAlert.simpleAlert(
+                'error',
+                'Erreur',
+                'Une erreur est survenue lors du transfert.',
+                undefined
+              );
+               this.isLoading = false;
+    this.spinner.hide();
+            },
+            complete: () => {
+              this.isLoading = false;
+              this.spinner.hide();
+            },
+          });
+      } else {
+        this.isLoading = false;
+        this.spinner.hide();
       }
-    );
+    });
   }
 
   transfertInternePreocuppation(value: any) {
@@ -1370,42 +1428,45 @@ if (hasServiceAffectation || isFinalized || isArchived) {
     }
     this.isLoading = true;
     this.spinner.show();
-    AppSweetAlert.confirmBox('Transférer cette préoccupation à la structure', 'Cette action est irréversible. Voulez-vous continuer ?').then(
-      (result: any) => {
-        if (result.value) {
-          this.requeteService
-            .transfertRequetInterne(param, this.selected_data.id)
-            .subscribe({
-              next: (rest: any) => {
-                this.init(this.page);
-                this.modalService.dismissAll();
-                AppSweetAlert.simpleAlert(
-                  'success',
-                  'Transfert préoccupation',
-                  'Transfert effectué avec succès',
-                  undefined
-                );
-              },
-              error: (err) => {
-                console.error('Erreur lors du transfert interne:', err);
-                AppSweetAlert.simpleAlert(
-                  'error',
-                  'Erreur',
-                  'Une erreur est survenue lors du transfert interne.',
-                  undefined
-                );
-              },
-              complete: () => {
-                this.isLoading = false;
-                this.spinner.hide();
-              }
-            });
-        } else {
-          this.isLoading = false;
-          this.spinner.hide();
-        }
+    AppSweetAlert.confirmBox(
+      'Transférer cette préoccupation à la structure',
+      'Cette action est irréversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
+      if (result.value) {
+        this.requeteService
+          .transfertRequetInterne(param, this.selected_data.id)
+          .subscribe({
+            next: (rest: any) => {
+              this.init(this.page);
+              this.modalService.dismissAll();
+              AppSweetAlert.simpleAlert(
+                'success',
+                'Transfert préoccupation',
+                'Transfert effectué avec succès',
+                undefined
+              );
+            },
+            error: (err) => {
+              console.error('Erreur lors du transfert interne:', err);
+              AppSweetAlert.simpleAlert(
+                'error',
+                'Erreur',
+                'Une erreur est survenue lors du transfert interne.',
+                undefined
+              );
+               this.isLoading = false;
+    this.spinner.hide();
+            },
+            complete: () => {
+              this.isLoading = false;
+              this.spinner.hide();
+            },
+          });
+      } else {
+        this.isLoading = false;
+        this.spinner.hide();
       }
-    );
+    });
   }
 
   reorienterPreocuppation(value: any) {
@@ -1442,42 +1503,45 @@ if (hasServiceAffectation || isFinalized || isArchived) {
     };
     this.isLoading = true;
     this.spinner.show();
-    AppSweetAlert.confirmBox('Réorienter cette préoccupation', 'Cette action est irréversible. Voulez-vous continuer ?').then(
-      (result: any) => {
-        if (result.value) {
-          this.requeteService
-            .transfertRequetInterne(param, this.selected_data.id)
-            .subscribe({
-              next: (rest: any) => {
-                this.init(this.page);
-                this.modalService.dismissAll();
-                AppSweetAlert.simpleAlert(
-                  'success',
-                  'Réorientation préoccupation',
-                  'Réorientation effectué avec succès',
-                  undefined
-                );
-              },
-              error: (err) => {
-                console.error('Erreur lors de la réorientation:', err);
-                AppSweetAlert.simpleAlert(
-                  'error',
-                  'Erreur',
-                  'Une erreur est survenue lors de la réorientation.',
-                  undefined
-                );
-              },
-              complete: () => {
-                this.isLoading = false;
-                this.spinner.hide();
-              }
-            });
-        } else {
-          this.isLoading = false;
-          this.spinner.hide();
-        }
+    AppSweetAlert.confirmBox(
+      'Réorienter cette préoccupation',
+      'Cette action est irréversible. Voulez-vous continuer ?'
+    ).then((result: any) => {
+      if (result.value) {
+        this.requeteService
+          .transfertRequetInterne(param, this.selected_data.id)
+          .subscribe({
+            next: (rest: any) => {
+              this.init(this.page);
+              this.modalService.dismissAll();
+              AppSweetAlert.simpleAlert(
+                'success',
+                'Réorientation préoccupation',
+                'Réorientation effectué avec succès',
+                undefined
+              );
+            },
+            error: (err) => {
+              console.error('Erreur lors de la réorientation:', err);
+              AppSweetAlert.simpleAlert(
+                'error',
+                'Erreur',
+                'Une erreur est survenue lors de la réorientation.',
+                undefined
+              );
+               this.isLoading = false;
+    this.spinner.hide();
+            },
+            complete: () => {
+              this.isLoading = false;
+              this.spinner.hide();
+            },
+          });
+      } else {
+        this.isLoading = false;
+        this.spinner.hide();
       }
-    );
+    });
   }
 
   getPage(event: any) {
@@ -1494,28 +1558,26 @@ if (hasServiceAffectation || isFinalized || isArchived) {
     if (idStructure) {
       this.isLoading = true;
       this.spinner.show();
-      this.prestationService
-        .getServicesStructure(idStructure)
-        .subscribe({
-          next: (res: any) => {
-            this.servicesForStructure =
-              res.data?.filter((e: any) => e.published == 1) || [];
-            this.cdr.detectChanges();
-          },
-          error: (err) => {
-            console.error('Erreur lors du chargement des services:', err);
-            AppSweetAlert.simpleAlert(
-              'error',
-              'Erreur',
-              'Impossible de charger les services.',
-              undefined
-            );
-          },
-          complete: () => {
-            this.isLoading = false;
-            this.spinner.hide();
-          }
-        });
+      this.prestationService.getServicesStructure(idStructure).subscribe({
+        next: (res: any) => {
+          this.servicesForStructure =
+            res.data?.filter((e: any) => e.published == 1) || [];
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des services:', err);
+          AppSweetAlert.simpleAlert(
+            'error',
+            'Erreur',
+            'Impossible de charger les services.',
+            undefined
+          );
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.spinner.hide();
+        },
+      });
     } else {
       this.servicesForStructure = [];
       this.cdr.detectChanges();
