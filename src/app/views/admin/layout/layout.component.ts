@@ -13,8 +13,11 @@ import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
 import { ObserverService } from '../../../core/utils/observer.service';
 import { AppActionCheckService } from '../../../core/utils/app-action-check';
 import { GlobalName } from '../../../core/utils/global-name';
-import { LucideAngularModule, LogOut, X, Menu, ChevronRight} from 'lucide-angular';
+import { LucideAngularModule, LogOut, X, Menu, ChevronRight, User, ChevronDown } from 'lucide-angular';
 import { NavigationService } from '../../../core/services/navigation.service';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 
 interface MenuItem {
   label: string;
@@ -37,7 +40,10 @@ interface MenuItem {
     MatListModule,
     MatButtonModule,
     MatExpansionModule,
-    LucideAngularModule
+    LucideAngularModule,
+    OverlayPanelModule,
+    ButtonModule,
+    DividerModule
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
@@ -57,22 +63,22 @@ export class LayoutComponent {
       action: 'LISTER'
     },
     {
-     label: 'Requêtes à traiter',
-     route: '/admin/list-requete-a-traiter/requetes',
-     key: 'REQUÊTE',
-     action: 'LISTER'
+      label: 'Requêtes à traiter',
+      route: '/admin/list-requete-a-traiter/requetes',
+      key: 'REQUÊTE',
+      action: 'LISTER'
     },
-     {
-     label: 'Plaintes à traiter',
-     route: '/admin/list-requete-a-traiter/plaintes',
-     key: 'REQUÊTE',
-     action: 'LISTER'
+    {
+      label: 'Plaintes à traiter',
+      route: '/admin/list-requete-a-traiter/plaintes',
+      key: 'REQUÊTE',
+      action: 'LISTER'
     },
-     {
-     label: 'Demandes infos à traiter',
-     route: '/admin/list-requete-a-traiter/infos',
-     key: 'REQUÊTE',
-     action: 'LISTER'
+    {
+      label: 'Demandes infos à traiter',
+      route: '/admin/list-requete-a-traiter/infos',
+      key: 'REQUÊTE',
+      action: 'LISTER'
     },
     {
       label: 'Suggestions',
@@ -103,10 +109,9 @@ export class LayoutComponent {
         { label: 'Nature contrat', route: '/admin/nature-contracts', key: 'NATURE DE CONTRAT', action: 'LISTER' },
         { label: 'Centre communaux', route: '/admin/ccsps', key: 'CCSP', action: 'LISTER' },
         { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
-                { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
-                { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
-{ label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
-
+        { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
+        { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
+        { label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
       ]
     },
     {
@@ -133,42 +138,6 @@ export class LayoutComponent {
       key: 'USAGER',
       action: 'LISTER'
     },
-    // {
-    //   label: 'Requêtes à traiter',
-    //   route: '/admin/listrequeteservice/requetes',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
-    // {
-    //   label: 'Plaintes à traiter',
-    //   route: '/admin/listrequetestructures/plaintes',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
-    // {
-    //   label: 'Demandes infos à traiter',
-    //   route: '/admin/listrequeteservice/infos',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
-    // {
-    //   label: 'Requêtes à traiter (adjoint)',
-    //   route: '/admin/listrequeteajdoint/requetes',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
-    // {
-    //   label: 'Plaintes à traiter (adjoint)',
-    //   route: '/admin/listrequeteajdoint/plaintes',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
-    // {
-    //   label: 'Demandes infos à traiter (adjoint)',
-    //   route: '/admin/listrequeteajdoint/infos',
-    //   key: 'REQUÊTE',
-    //   action: 'LISTER'
-    // },
     {
       label: 'Modifier une préoccupation',
       route: '/admin/listrequeteupdate',
@@ -190,13 +159,11 @@ export class LayoutComponent {
         { label: 'Mes Rapports', route: '/admin/ccsp/reports/own', key: 'RAPPORTS CCSP', action: 'LISTER' }
       ]
     },
-       {
+    {
       label: 'Performances',
       key: 'RAPPORTS CCSP',
       action: 'LISTER',
       route: '/admin/performances',
-
-
     },
     {
       label: 'Historique',
@@ -255,10 +222,13 @@ export class LayoutComponent {
       ]
     }
   ];
-  logOutIcon=LogOut
+
+  logOutIcon = LogOut;
   menuIcon = Menu;
   xIcon = X;
   chevronRightIcon = ChevronRight;
+  userIcon = User;
+  chevronDownIcon = ChevronDown;
   expandedMenus = this.navigationService.expandedMenus;
 
   constructor(
@@ -284,7 +254,9 @@ export class LayoutComponent {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
           this.user = res.data;
-          this.lsService.set(GlobalName.userName, res);
+          this.lsService.set(GlobalName.userName, res.data);
+          this.role = this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Erreur lors de la récupération de l\'utilisateur', err);
@@ -325,7 +297,7 @@ export class LayoutComponent {
     return result;
   }
 
-   toggleSubmenu(menuId: string) {
+  toggleSubmenu(menuId: string) {
     this.navigationService.toggleSubmenu(menuId);
   }
 

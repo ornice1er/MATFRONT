@@ -1,5 +1,5 @@
 <div class="min-h-screen! bg-gray-50! flex!">
-   <!-- Sidebar -->
+  <!-- Sidebar -->
   <div [class]="' flex! flex-col! 2xl:gap-3! transition-all! duration-300! bg-gradient-to-b! from-indigo-900! via-purple-900! to-indigo-800! text-white! shadow-2xl! relative! ' + (menuOpen ? 'w-64!' : 'w-16!')">
     <div class="p-6!">
       <button
@@ -20,9 +20,6 @@
         <button *ngIf="canShowItem(item)" routerLinkActive="bg-white/20! text-white! shadow-lg!" (click)="onNavItemClick(item)"
           class="w-full! flex! items-center! justify-between! px-4! py-3! rounded-xl! transition-all! duration-200! group! text-white/80! hover:bg-white/10! hover:text-white!">
           <div class="flex! items-center! space-x-3!">
-            <!-- <div class="transition-transform duration-200 ' + (activeSection() === item.id ? 'scale-110' : 'group-hover:scale-105')">
-              <lucide-angular [img]="getIconComponent(item.icon)" size="20"></lucide-angular>
-            </div> -->
             <span *ngIf="!menuOpen" class="text-xl! font-semibold!">{{item.label.charAt(0) | uppercase}}{{item.label.charAt(1) | uppercase}}</span>
             <span *ngIf="menuOpen" class="text-sm! font-medium!">{{ item.label }}</span>
           </div>
@@ -30,7 +27,7 @@
             *ngIf="menuOpen && item.children && item.children.length > 0"
             [img]="chevronRightIcon"
             size="16"
-             [class]="'transition-transform! duration-200! ' + (expandedMenus().has(item.label) ? 'rotate-90!' : '')"
+            [class]="'transition-transform! duration-200! ' + (expandedMenus().has(item.label) ? 'rotate-90!' : '')"
           ></lucide-angular>
         </button>
 
@@ -46,96 +43,60 @@
   <!-- Main Content -->
   <div class="flex-1! overflow-hidden!">
     <!-- Header -->
-    <header class="bg-white! shadow-sm! border-b! border-gray-200! px-8! py-2!">
+    <header class="bg-mat-primary! shadow-sm! border-b! border-gray-200! px-8! py-2!">
       <div class="flex! items-center! justify-between!">
         <div class="flex! flex-col! gap-0! space-0">
-          <h1 class="text-2xl! font-bold! text-gray-900!">
+          <h1 class="text-2xl! font-bold! text-white!">
             {{!menuOpen?'MATACCUEIL |':''}} {{title}}
           </h1>
-          <!-- <p class="text-sm! text-gray-600!">Direction des Systèmes d'Information</p> -->
         </div>
 
         <div class="flex! items-center! space-x-4!">
-
-          <button (click)="logout()"
-            class="flex! items-center! space-x-2! px-4! py-2! bg-red-500! hover:bg-red-600! text-white! rounded-lg! transition-colors! shadow-md! hover:shadow-lg!">
-            <lucide-angular [img]="logOutIcon" size="18"></lucide-angular>
-            <span>Déconnexion</span>
+          <!-- Bouton pour ouvrir le menu déroulant -->
+          <button (click)="op.toggle($event)"
+            class="flex! items-center! space-x-2! px-4! py-2! bg-white/10! text-white! rounded-lg! transition-colors! hover:bg-white/20!">
+            <div class="avatar! bg-white/20! flex! items-center! justify-center!">
+              <lucide-angular [img]="userIcon" size="18"></lucide-angular>
+            </div>
+            <div class="hidden! md:block!">
+              <div class="username! text-sm!">{{ user?.email }}</div>
+              <div class="text-white/70! text-xs!">{{ user?.name || user?.agent_user?.nomprenoms || 'Non défini' }}</div>
+            </div>
+            <lucide-angular [img]="chevronDownIcon" size="16" class="text-white/70!"></lucide-angular>
           </button>
+
+          <!-- Menu déroulant -->
+          <p-overlayPanel #op>
+            <div class="menu-header! bg-white! rounded-xl! shadow-lg! w-full! max-w-[25rem]!">
+              <!-- En-tête du menu -->
+              <div class="flex! items-center! gap-x-4!">
+                <div class="avatar! bg-mat-primary! flex! items-center! justify-center!">
+                  <lucide-angular [img]="userIcon" size="20" class="text-white!"></lucide-angular>
+                </div>
+                <div>
+                  <div class="font-semibold! text-sm! text-gray-900!">{{ user?.email }}</div>
+                  <div class="text-blueColor! text-xs!">{{ user?.name || user?.agent_user?.nomprenoms || 'Non défini' }}</div>
+                </div>
+              </div>
+              <hr class="my-2!">
+              <!-- Options du menu -->
+              <div class="flex! flex-col! gap-1! p-4!">
+                <!-- Bouton Déconnexion -->
+                <button (click)="logout()"
+                  class="flex! items-center! gap-x-2! py-2! px-3! w-full! justify-start! text-gray-600! hover:text-blueColor! hover:bg-blueColor/10! rounded-lg! transition-colors!">
+                  <lucide-angular [img]="logOutIcon" size="16"></lucide-angular>
+                  <span>Déconnexion</span>
+                </button>
+              </div>
+            </div>
+          </p-overlayPanel>
         </div>
       </div>
     </header>
 
     <!-- Dashboard Content -->
-    <main class="overflow-y-auto!">
+    <main class="overflow-y-auto! p-3!">
       <router-outlet></router-outlet>
     </main>
   </div>
 </div>
-<!-- <mat-toolbar color="">
-  <button mat-icon-button (click)="toggleMenu()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span style="color:#42358C">MATACCUEIL | {{title}}</span>
-  <button class="btn btn-sm btn-danger" (click)="logout()">Déconnexion</button>
-</mat-toolbar> -->
-
-<!-- <mat-sidenav-container class="">
-
-  <mat-sidenav #sidenav mode="side" [(opened)]="menuOpen" style="background-color:#42358C;"> -->
-    <!-- <ng-container *ngIf="role == 'Super Admin'">
-
-      <mat-nav-list>
-        <a mat-list-item routerLink="/admin/dashboard" routerLinkActive="active"><span>Accueil</span></a>
-
-        <mat-expansion-panel class=" shadow-none">
-
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Gestion des utilisateurs
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <a mat-list-item routerLinkActive="active" routerLink="/admin/users"><span class="">Comptes
-                utilisateurs</span></a>
-            <a mat-list-item routerLinkActive="active" routerLink="/admin/roles"><span class="">Rôles</span></a>
-            <a mat-list-item routerLinkActive="active" routerLink="/admin/permissions"><span
-                class="">Permissions</span></a>
-            <a mat-list-item routerLinkActive="active" routerLink="/admin/profils"><span class="">Rôles &
-                Permissions</span></a>
-
-
-          </mat-nav-list>
-        </mat-expansion-panel>
-
-      </mat-nav-list>
-
-    </ng-container> -->
-
-    <!-- <mat-nav-list>
-      <ng-container *ngFor="let item of menuItems"> -->
-        <!-- Liens simples -->
-        <!-- <a *ngIf="!item.children && canShowItem(item)" mat-list-item [routerLink]="item.route"
-          routerLinkActive="active">
-          <span class="text-white">{{ item.label }}</span>
-        </a> -->
-        <!-- Panneaux d'expansion -->
-         <!-- <mat-expansion-panel *ngIf="item.children && canShowItemBloc(item)" class="shadow-none rounded-0">
-          <mat-expansion-panel-header>
-            <mat-panel-title>{{ item.label }}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <mat-nav-list>
-            <ng-container *ngFor="let child of item.children">
-              <a *ngIf="canShowItem(child)" mat-list-item [routerLink]="child.route" routerLinkActive="active">
-                <span class="text-white">{{ child.label }}</span>
-              </a>
-            </ng-container>
-          </mat-nav-list>
-        </mat-expansion-panel>
-      </ng-container>
-    </mat-nav-list>
-  </mat-sidenav>  -->
-  <!-- <mat-sidenav-content class="p-3">
-    <router-outlet></router-outlet>
-  </mat-sidenav-content> -->
-<!-- </mat-sidenav-container>  -->
