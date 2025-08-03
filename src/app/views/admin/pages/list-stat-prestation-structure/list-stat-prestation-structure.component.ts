@@ -1,107 +1,79 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
-import { NgxSpinnerService } from 'ngx-spinner';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { Router, ActivatedRoute } from '@angular/router';
 import { ServiceService } from '../../../../core/services/service.service';
 import { UserService } from '../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
 import { ObserverService } from '../../../../core/utils/observer.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-list-stat-prestation-structure',
   standalone: true,
-	imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [CommonModule, FormsModule, NgbModule, LoadingComponent, SampleSearchPipe, NgSelectModule, NgxPaginationModule],
   templateUrl: './list-stat-prestation-structure.component.html',
   styleUrls: ['./list-stat-prestation-structure.component.css']
 })
 export class ListStatPrestationStructureComponent implements OnInit {
 
-  @Input() cssClasses = '';
-  errormessage=""
-  erroraffectation=""
-  
-  searchText=""
-  closeResult = '';
-  permissions: any[]=[]= [];
-  error=""
-  data: any[]=[];
-  _temp: any[]=[];
-  collectionSize = 0;
-  page = 1;
-  pageSize = 10;
-  pg:any={
-    pageSize:10,
-    p:0,
-    total:0
-  }
-isPaginate:any=false
-search_text:any=""
+  searchText: string = "";
+  data: any[] = [];
+  _temp: any[] = [];
+  search_text: string = "";
+  user: any;
 
-
-  user:any
+  pg: any = {
+    pageSize: 10,
+    p: 1, 
+    total: 0
+  };
 
   constructor(
-    private modalService: NgbModal,
     private userService: UserService,
-    private router:Router,
-    private localService:LocalStorageService,
-    private prestationService:ServiceService,
+    private router: Router,
+    private localService: LocalStorageService,
+    private prestationService: ServiceService,
     private spinner: NgxSpinnerService,
-    private activatedRoute: ActivatedRoute,
-        private localStorageService:LocalStorageService,
-        private observerService:ObserverService
-    
+    private localStorageService: LocalStorageService,
+    private observerService: ObserverService
   ) { }
 
-
-  search(){ 
-    this.data=this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
-      return r.libelle.toLowerCase().includes(term) 
-    })
-    this.collectionSize=this.data.length
-  }
   ngOnInit(): void {
-    this.observerService.setTitle('Liste des prestations par structure')
-
+    this.observerService.setTitle('Liste des prestations par structure');
     if (this.localStorageService.get(GlobalName.userName) != null) {
-      this.user = this.localService.get(GlobalName.userName)
-      this.prepare()
-     
+      this.user = this.localService.get(GlobalName.userName);
+      this.init();
     }
-    
-
-    
   }
-  prepare(){
-    this.init()    
+
+  init() {
+    this.spinner.show();
+    this.data = [];
+    this.prestationService.getAllStatByStrcutre(this.user.idEntite).subscribe((res: any) => {
+      this.spinner.hide();
+      
+      this.data = res.data || res;
+      this._temp = this.data;
+      
+      this.pg.total = this.data.length;
+    });
+  }
+
+  getPage(event: any) {
+    this.pg.p = event;
+  }
   
-  }
-
-  init(){
-    this._temp=[]
-    this.data=[]
-    this.prestationService.getAllStatByStrcutre(
-      this.user.idEntite
-    ).subscribe((res:any)=>{
-      this.data=res
-      this._temp=this.data
-      this.collectionSize=this.data.length
-
-    })
-
-   
-  }
-  getPage(event:any){
-    this.pg.p=event
+  search() {
+    this.data = this._temp.filter(r => {
+      const term = this.searchText.toLowerCase();
+      return r.libelle.toLowerCase().includes(term);
+    });
   }
 }

@@ -3,6 +3,7 @@ import { PipeTransform } from '@angular/core';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormControl, FormsModule } from '@angular/forms';
 
+
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -30,6 +31,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 
 
 
+
 @Component({
   selector: 'app-list-ratio-plainte-prestaion',
   standalone: true,
@@ -54,16 +56,23 @@ export class ListRatioPlaintePrestaionComponent implements OnInit {
 
   data2: any[]=[];
   _temp2: any[]=[];
+  
   collectionSize2 = 0;
   page2 = 1;
   pageSize2 = 10;
-  pg:any={
-    pageSize:10,
-    p:0,
-    total:0
-  }
+ 
+  pg:any = {
+    pageSize: 10,
+    p: 1, 
+    total: 0
+  };
+  pg2:any = {
+    pageSize: 10,
+    p: 1,
+    total: 0
+  };
 isPaginate:any=false
-search_text:any=""
+ search_text:any=""
   search(){ 
     this.data=this._temp.filter(r => {
       const term = this.searchText.toLowerCase();
@@ -107,30 +116,36 @@ search_text:any=""
    
   }
 
-  init(){
-    this._temp=[]
-    this.data=[]
-    this.requeteService.getRationPlaintePrestation({"startDate":"all","endDate":"all"},this.user.idEntite).subscribe((res:any)=>{
-      this.spinner.hide();
-      this.data=res
-      this._temp=this.data
-      this.collectionSize=this.data.length
-    })
+  // REMPLACEZ VOTRE FONCTION init() PAR CELLE-CI
 
+init(){
+  this.spinner.show();
+  this.data = [];
+  this.requeteService.getRationPlaintePrestation({"startDate":"all","endDate":"all"}, this.user.idEntite).subscribe((res: any) => {
+    this.spinner.hide();
+    this.data = res.data || res;
+    
+    this.pg.total = this.data.length;
+    console.log('Ration Plainte Prestation:', this.data);
+  });
 
-    this._temp2=[]
-    this.data2=[]
-    this.requeteService.getRationPlaintePrestationEncours({"startDate":"all","endDate":"all"},this.user.idEntite).subscribe((res:any)=>{
-      this.spinner.hide();
-      this.data2=res
-      this._temp2=this.data2
-      this.collectionSize2=this.data2.length
-    })
+  this.data2 = [];
+  this.requeteService.getRationPlaintePrestationEncours({"startDate":"all","endDate":"all"}, this.user.idEntite).subscribe((res: any) => {
+    this.spinner.hide();
 
-  }
+    this.data2 = res.data || res;
+
+    this.pg2.total = this.data2.length;
+    console.log('Ration Plainte en cours:', this.data2);
+  });
+}
 
   getPage(event:any){
     this.pg.p=event
+  }
+
+  getPage2(event:any){
+    this.pg2.p = event;
   }
 
 }

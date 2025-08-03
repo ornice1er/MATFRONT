@@ -1,166 +1,111 @@
-<!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h3 class="h3 mb-0 text-gray-800 text-uppercase">RATIO DE PERFORMANCES DES REQUETES PAR PRESTATION</h3>
-    
-        </div>
-        <div class="row d-flex">
-            <div class="col-md-12">
-                <div class="card my-2">
-                    <!-- Header -->
-                    <div class="card-header p-4 border-0 pt-5">
-                        <h4>PRESTATIONS AYANT DES REQUÊTES TRAITEES</h4>
-    
-                        <div class="card-toolbar d-flex justify-content-between">
-                            <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
-                                <li class="nav-item">
-                                    <span class="mr-2">{{data.length}} élement(s)</span>
-                                </li>
-                            </ul>
-                            <div>
-    
-                            </div>
-                        </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h3 class="h3 mb-0 text-gray-800 text-uppercase">RATIO DE PERFORMANCES DES REQUETES PAR PRESTATION</h3>
+    </div>
+    <div class="row d-flex">
+        <div class="col-md-12">
+            <div class="card my-2">
+                <div class="card-header p-4 border-0 pt-5">
+                    <h4>PRESTATIONS AYANT DES REQUÊTES TRAITEES</h4>
+                    <div class="card-toolbar d-flex justify-content-between">
+                        <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
+                            <li class="nav-item">
+                                <span class="mr-2">{{data.length}} élement(s)</span>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- Body -->
-                    <div class="card-body pt-3 pb-0">
-    
-                        <!--begin::Table-->
-                        <div class="table-responsive">
-    
-                            <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
-                                <thead>
-    
-                                    <tr>
-    
-                                        <th>Libelle</th>
-                                        <th>Ratio</th>
-                                        <th>Efficacité / Efficience</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
-                                id:'ngxP1',
-                                itemsPerPage: pg.pageSize,
-                                currentPage: pg.p,
-                                totalItems: pg.total }; index as i">
-    
-                                        <td>{{el.libelle}}</td>
-                                        <td>{{el.ratio}} </td>
-                                        <td>
-                                            <span class="btn bg-mat-primary text-white" *ngIf="el.ratio<1">Efficience</span>
-    
-    
-    
-                                            <span class="btn btn-success" *ngIf="el.ratio==1" style="border-color : green !important; background-color : green !important; box-shadow: 0 1px 1px green !important;">Efficace</span>
-    
-    
-    
-                                            <span class="btn btn-danger" *ngIf="el.ratio>1">Non efficace</span>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="data.length==0">
-                                        <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <pagination-controls 
-                            id="ngxP1"
-                            (pageChange)="getPage($event)"
-                          [maxSize]="9"
-                          [directionLinks]="true"
-                          [autoHide]="true"
-                          [responsive]="true"
-                          [previousLabel]="'Précédent'"
-                          [nextLabel]="'Suivant'"
-                          [screenReaderPaginationLabel]="'Pagination'"
-                          [screenReaderPageLabel]="'page'"
-                          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-                         </pagination-controls>
-                        </div>
-                        <!--end::Table-->
-                    </div>
-    
-    
                 </div>
-    
-                <div class="card my-2">
-                    <!-- Header -->
-                    <div class="card-header p-4 border-0 pt-5">
-                        <h4>PRESTATIONS AYANT DES REQUÊTES EN COURS DE TRAITEMENT</h4>
-    
-                        <div class="card-toolbar d-flex justify-content-between">
-                            <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
-                                <li class="nav-item">
-                                    <span class="mr-2">{{data.length}} élement(s)</span>
-                                </li>
-                            </ul>
-                            <div>
-    
-                            </div>
-                        </div>
+                <div class="card-body pt-3 pb-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable table-head-custom table-vertical-center" id="kt_datatable">
+                            <thead>
+                                <tr>
+                                    <th>Libelle</th>
+                                    <th>Ratio</th>
+                                    <th>Efficacité / Efficience</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
+                                    id:'ngxP1',
+                                    itemsPerPage: pg.pageSize,
+                                    currentPage: pg.p,
+                                    totalItems: pg.total }; index as i">
+                                    <td>{{el.libelle}}</td>
+                                    <td>{{el.ratio}} </td>
+                                    <td>
+                                        <span class="btn bg-mat-primary text-white" *ngIf="el.ratio<1">Efficience</span>
+                                        <span class="btn btn-success" *ngIf="el.ratio==1" style="border-color : green !important; background-color : green !important; box-shadow: 0 1px 1px green !important;">Efficace</span>
+                                        <span class="btn btn-danger" *ngIf="el.ratio>1">Non efficace</span>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="data.length==0">
+                                    <td colspan="3" class="text-center bg-gray-100">Aucun element</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls id="ngxP1" (pageChange)="getPage($event)" [maxSize]="9" [directionLinks]="true" [autoHide]="true" [responsive]="true" previousLabel="Précédent" nextLabel="Suivant" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="Vous êtes sur la page">
+                        </pagination-controls>
                     </div>
-                    <!-- Body -->
-                    <div class="card-body pt-3 pb-0">
-    
-                        <!--begin::Table-->
-                        <div class="table-responsive">
-    
-                            <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
-                                <thead>
-    
-                                    <tr>
-    
-                                        <th>Libelle</th>
-                                        <th>Ratio</th>
-                                        <th>Efficacité / Efficience</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let el of data2 | slice: (page2-1) * pageSize2 : (page2-1) * pageSize2 + pageSize2; index as i">
-    
-                                        <td>{{el.libelle}}</td>
-                                        <td>{{el.ratio}} </td>
-                                        <td>
-                                            <span class="btn bg-mat-primary text-white" *ngIf="el.ratio<1">Efficience</span>
-    
-    
-    
-                                            <span class="btn btn-success" *ngIf="el.ratio==1" style="border-color : green !important; background-color : green !important; box-shadow: 0 1px 1px green !important;">Efficace</span>
-    
-    
-    
-                                            <span class="btn btn-danger" *ngIf="el.ratio>1">Non efficace</span>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="data2.length==0">
-                                        <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <pagination-controls 
-                            id="ngxP1"
-                            (pageChange)="getPage($event)"
-                          [maxSize]="9"
-                          [directionLinks]="true"
-                          [autoHide]="true"
-                          [responsive]="true"
-                          [previousLabel]="'Précédent'"
-                          [nextLabel]="'Suivant'"
-                          [screenReaderPaginationLabel]="'Pagination'"
-                          [screenReaderPageLabel]="'page'"
-                          [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-                         </pagination-controls>
-                        </div>
-                        <!--end::Table-->
-                    </div>
-    
-    
                 </div>
-    
-    
+            </div>
+
+            <div class="card my-2">
+                <div class="card-header p-4 border-0 pt-5">
+                    <h4>PRESTATIONS AYANT DES REQUÊTES EN COURS DE TRAITEMENT</h4>
+                    <div class="card-toolbar d-flex justify-content-between">
+                        <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
+                            <li class="nav-item">
+                                <span class="mr-2">{{data2.length}} élement(s)</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body pt-3 pb-0">
+                    <div class="table-responsive">
+                        <table class="table table-striped datatable table-head-custom table-vertical-center">
+                            <thead>
+                                <tr>
+                                    <th>Libelle</th>
+                                    <th>Ratio</th>
+                                    <th>Efficacité / Efficience</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let el of data2 | sampleSearch:search_text | paginate: {
+                                    id: 'ngxP2',
+                                    itemsPerPage: pg2.pageSize,
+                                    currentPage: pg2.p,
+                                    totalItems: pg2.total }; index as i">
+                                    <td>{{el.libelle}}</td>
+                                    <td>{{el.ratio}} </td>
+                                    <td>
+                                        <span class="btn bg-mat-primary text-white" *ngIf="el.ratio<1">Efficience</span>
+                                        <span class="btn btn-success" *ngIf="el.ratio==1" style="border-color : green !important; background-color : green !important; box-shadow: 0 1px 1px green !important;">Efficace</span>
+                                        <span class="btn btn-danger" *ngIf="el.ratio>1">Non efficace</span>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="data2.length==0">
+                                    <td colspan="3" class="text-center bg-gray-100">Aucun element</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls 
+                            id="ngxP2"
+                            (pageChange)="getPage2($event)"
+                            [maxSize]="9"
+                            [directionLinks]="true"
+                            [autoHide]="true"
+                            [responsive]="true"
+                            previousLabel="Précédent"
+                            nextLabel="Suivant"
+                            screenReaderPaginationLabel="Pagination"
+                            screenReaderPageLabel="page"
+                            screenReaderCurrentLabel="Vous êtes sur la page">
+                        </pagination-controls>
+                    </div>
+                </div>
             </div>
         </div>
-    
     </div>
-    <!---Container Fluid-->
+</div>
