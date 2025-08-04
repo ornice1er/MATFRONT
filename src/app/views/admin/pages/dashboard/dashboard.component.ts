@@ -19,35 +19,41 @@ import { StructureService } from '../../../../core/services/structure.service';
 import { TypeService } from '../../../../core/services/type.service';
 import { UsagerService } from '../../../../core/services/usager.service';
 import { ObserverService } from '../../../../core/utils/observer.service';
+import { LucideAngularModule, BarChart3, Users, FileText, Clock, TrendingUp, AlertCircle } from 'lucide-angular';
 
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,  LucideAngularModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
-  
-  
+
+   readonly BarChart3 = BarChart3;
+  readonly Users = Users;
+  readonly FileText = FileText;
+  readonly Clock = Clock;
+  readonly TrendingUp = TrendingUp;
+  readonly AlertCircle = AlertCircle;
    /* lineChartData: ChartDataSets[] = [
       { data: [0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0], label: 'Nbre réservation par mois' },
     ];
-    
+
     lineChartLabels: Label[] = ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin','Juil',"Août","Sept","Oct","Nov","Dec"];
-  
+
     lineChartOptions = {
       responsive: true,
     };
-  
+
     lineChartColors: Color[] = [
       {
         borderColor: 'black',
         backgroundColor: 'rgba(255,255,0,0.28)',
       },
     ];
-  
+
     lineChartLegend = true;
     lineChartPlugins = [];
     lineChartType = 'line';
@@ -56,15 +62,15 @@ export class DashboardComponent {
     doughnutChartData: MultiDataSet = [
       [89, 14, 5]
     ];
-   
+
     doughnutChartType: ChartType = 'doughnut';
-  
-  
+
+
     //
-    current_role="" 
+    current_role=""
     */
-  
-  
+
+
     stats:any[]=[]
     statsCour:any[]=[]
     stats1:any[]=[]
@@ -88,12 +94,22 @@ export class DashboardComponent {
     private activatedRoute: ActivatedRoute,
     private observerService:ObserverService
   ) { }
-  
-  
+
+  getCurrentDate(): string {
+    return new Date().toLocaleDateString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+
   typeRequete:any=""
   user:any
-  
-  
+
+
   checkType(){
     if(this.activatedRoute.snapshot.paramMap.get('type_req')=="plaintes"){
       return {id:1,name:"plainte"}
@@ -106,7 +122,7 @@ export class DashboardComponent {
     }
     return
   }
-  
+
   ngOnInit(): void {
     this.observerService.setTitle('Tableau de bord')
 
@@ -128,10 +144,10 @@ export class DashboardComponent {
   non_traite_e_news = 0
   rejete_e = 0
   pending_e = 0
-  
+
   statEservice = []
-  
-  
+
+
   init(){
     this.stats=[]
     this.requeteService.getStat(this.user.id,0,this.user.idEntite).subscribe((res:any)=>{
@@ -147,7 +163,7 @@ export class DashboardComponent {
         this.statsCour=res.data
       }
     })
-  
+
     this.stats1=[]
     this.requeteService.getStat(
       this.user.id,
@@ -168,7 +184,7 @@ export class DashboardComponent {
         this.stats2=res.data
       }
     })
-  
+
     this.statEservice = []
     // this.acteurService.Recup_Stat_E_Service("").subscribe((res:any)=>{
     //   this.statEservice = res.data.stats.forEach((e:any)=>{
@@ -180,6 +196,6 @@ export class DashboardComponent {
     //   })
     // })
   }
-  
+
 
 }
