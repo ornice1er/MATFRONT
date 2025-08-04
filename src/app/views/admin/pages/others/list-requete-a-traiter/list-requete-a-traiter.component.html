@@ -111,8 +111,7 @@
                   </td>
                   <td>{{el.objet}}</td>
                   <td>{{el.msgrequest}}</td>
-                  <td>{{el.usager==null ? el.contact+" "+el.email : el.usager.nom}} {{el.usager==null ? '' :
-                    el.usager.prenoms}}{{(el.matricule=='' || el.matricule== null) ? '' : " / Matricule : " + el.matricule}}</td>
+<td>{{ getUserDisplay(el) }}</td>
                   <td>{{el.interfaceRequete}}</td>
                   <td>
                     <div *ngFor="let parc of el.parcours; let i=index">
@@ -155,7 +154,7 @@
               <div class="row form-group">
                 <label class="col-md-2">Prestation :</label>
                 <div class="col-md-10">
-                  <p-dropdown [options]="services" [(ngModel)]="selected_data.service.id" optionLabel="libelle" optionValue="id" name="idPrestation"  styleClass="w-100" ></p-dropdown>
+                  <p-dropdown [options]="services"     (ngModelChange)="updateSelectedService($event)" optionLabel="libelle" optionValue="id" name="idPrestation"  styleClass="w-100" ></p-dropdown>
                 </div>
               </div>
               <div class="row form-group">
@@ -206,7 +205,7 @@
                     <div class="row form-group">
                         <label for="idPrestation" class="col-md-4">Prestation </label>
                         <div class="col-md-8">
-                            <p-dropdown [options]="services" [(ngModel)]="selected_data.service.id" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-100" ></p-dropdown>
+                            <p-dropdown [options]="services"     (ngModelChange)="updateSelectedService($event)" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-100" ></p-dropdown>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -586,12 +585,12 @@
                             <tr *ngFor="let el of data2 ; index as i">
                                 <td>{{el.dateAffectation | date:'dd/MM/yyyy HH:mm:ss' }}</td>
                                 <td>{{el.structure.libelle}}</td>
-                                <td>{{el.requetes?.service==null ? '' : el.requetes?.service?.libelle}}</td>
-                                <td>{{el.requetes?.objet}}</td>
-                                <td>{{el.requetes?.usager==null ? '' : el.requetes?.usager.nom}} {{el.requetes?.usager==null ? '' :
-                                    el.requetes?.usager.prenoms}}</td>
+                                <td>{{el.requete?.service==null ? '' : el.requete?.service?.libelle}}</td>
+                                <td>{{el.requete?.objet}}</td>
+                                <td>{{el.requete?.usager==null ? '' : el.requete?.usager.nom}} {{el.requete?.usager==null ? '' :
+                                    el.requete?.usager.prenoms}}</td>
                                 <td>
-                                    <div *ngFor="let parc of el.requetes?.parcours; let i=index">
+                                    <div *ngFor="let parc of el.requete?.parcours; let i=index">
                                         {{i+1}}. {{ show_step(parc.idEtape)==null ? '' : show_step(parc.idEtape).LibelleEtape }}
                                     </div>
                                 </td>

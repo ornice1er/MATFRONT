@@ -280,78 +280,69 @@ export class ListRequeteATraiterComponent implements OnInit {
   cpt = 0;
   compteData = 0;
 
-  checked(event: any, el: any) {
-    this.selected_data = el;
-    if (this.selected_data.usager == null) {
-      this.usager_full_name =
-        ' (PFC) ' +
-        this.selected_data.email +
-        ' Contact : ' +
-        this.selected_data.contact;
-    } else {
-      this.usager_full_name =
-        this.selected_data.usager.nom + ' ' + this.selected_data.usager.prenoms;
-    }
-    console.log(this.selected_data);
-    if (this.selected_data.reponse.length > 0) {
-      this.selected_data.reponse.forEach((item: any) => {
-        if (item.typeStructure == 'Direction')
-          this.selected_data.texteReponseApportee = item.texteReponse;
-        if (item.typeStructure == 'Service')
-          this.selected_data.reponseService = item.texteReponse;
-      });
-    }
-    this.action_transmettre = true;
-    if (this.selected_data.reponse.length > 0) {
-      let check = this.selected_data.reponse.filter(
-        (item: any) => item.typeStructure == 'Direction'
-      );
-      if (check.length == 0) {
-        this.action_transmettre = false;
-      }
-    } else {
+
+checked(event: any, el: any) {
+  this.selected_data = el;
+  if (this.selected_data.usager == null) {
+    this.usager_full_name =
+      ' (PFC) ' +
+      this.selected_data.email +
+      ' Contact : ' +
+      this.selected_data.contact;
+  } else {
+    this.usager_full_name =
+      this.selected_data.usager.nom + ' ' + this.selected_data.usager.prenoms;
+  }
+  console.log(this.selected_data);
+  if (this.selected_data.reponse.length > 0) {
+    this.selected_data.reponse.forEach((item: any) => {
+      if (item.typeStructure == 'Direction')
+        this.selected_data.texteReponseApportee = item.texteReponse;
+      if (item.typeStructure == 'Service')
+        this.selected_data.reponseService = item.texteReponse;
+    });
+  }
+  this.action_transmettre = true;
+  if (this.selected_data.reponse.length > 0) {
+    let check = this.selected_data.reponse.filter(
+      (item: any) => item.typeStructure == 'Direction'
+    );
+    if (check.length == 0) {
       this.action_transmettre = false;
     }
-
-    this.hide_actions = false;
-    if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach((item: any) => {
-        if (item.typeStructure == 'Service') {
-          this.hide_actions = true;
-        }
-      });
-    }
-
-    this.RelanceAWho = '';
-    this.ValStruRelance = '';
-    this.cpt = 0;
-    if (this.selected_data.affectation.length > 0) {
-      this.selected_data.affectation.forEach((item: any) => {
-        this.cpt++;
-        if (
-          this.cpt == this.selected_data.affectation.length &&
-          item.idStructure != this.user.agent_user.idStructure
-        ) {
-          this.RelanceAWho = item.typeStructure;
-          this.ValStruRelance = item.idStructure;
-        }
-      });
-    }
-    this.cpt = 0;
-    if (this.selected_data.parcours.length > 0) {
-      this.selected_data.parcours.forEach((item: any) => {
-        this.cpt++;
-        if (
-          this.cpt == this.selected_data.parcours.length &&
-          item.idStructure == this.user.agent_user.idStructure
-        ) {
-          this.RelanceAWho = '';
-          this.ValStruRelance = '';
-        }
-      });
-    }
+  } else {
+    this.action_transmettre = false;
   }
-
+  this.hide_actions = false;
+  this.RelanceAWho = '';
+  this.ValStruRelance = '';
+  this.cpt = 0;
+  if (this.selected_data.affectation.length > 0) {
+    this.selected_data.affectation.forEach((item: any) => {
+      this.cpt++;
+      if (
+        this.cpt == this.selected_data.affectation.length &&
+        item.idStructure != this.user.agent_user.idStructure
+      ) {
+        this.RelanceAWho = item.typeStructure;
+        this.ValStruRelance = item.idStructure;
+      }
+    });
+  }
+  this.cpt = 0;
+  if (this.selected_data.parcours.length > 0) {
+    this.selected_data.parcours.forEach((item: any) => {
+      this.cpt++;
+      if (
+        this.cpt == this.selected_data.parcours.length &&
+        item.idStructure == this.user.agent_user.idStructure
+      ) {
+        this.RelanceAWho = '';
+        this.ValStruRelance = '';
+      }
+    });
+  }
+}
   relancerPreocuppationType() {
     if (this.selected_data == null) {
       AppSweetAlert.simpleAlert(
@@ -659,6 +650,7 @@ export class ListRequeteATraiterComponent implements OnInit {
       )
       .subscribe({
         next: (res: any) => {
+          console.log('Affectations response:', res);
           if (Array.isArray(res)) {
             this.data2 = res;
           } else {
@@ -666,6 +658,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           }
           this._temp2 = this.data2;
         },
+        
         error: (err) => {
           console.error('Erreur lors du chargement des affectations:', err);
           AppSweetAlert.simpleAlert(
@@ -680,6 +673,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           this.spinner.hide();
         },
       });
+      
 
     this.departements = [];
     this.usagersService.getAllDepartement().subscribe({
@@ -771,67 +765,100 @@ export class ListRequeteATraiterComponent implements OnInit {
     }
   }
 
-  saveAffectation(value: any) {
-    let val = {
-      idRequete: this.selected_data.id,
-      idStructure: this.user.agent_user.idStructure,
-      idService: this.selectedServiceId,
-      listeemails: this.structureservices.find(
-        (e: any) => e.id == this.user.agent_user.idStructure
-      ).contact,
-      typeStructure: 'Service',
-      idEntite: this.user.idEntite,
-      idEtape: 2,
-    };
+saveAffectation(value: any) {
+  let val = {
+    idRequete: this.selected_data.id,
+    idStructure: this.user.agent_user.idStructure,
+    idService: this.selectedServiceId,
+    listeemails: this.structureservices.find(
+      (e: any) => e.id == this.user.agent_user.idStructure
+    ).contact,
+    typeStructure: 'Service',
+    idEntite: this.user.idEntite,
+    idEtape: 2,
+  };
 
-    if (this.selected_data.reponse.length > 0) {
+  if (this.selected_data.reponse.length > 0) {
+    AppSweetAlert.simpleAlert(
+      'error',
+      'Erreur',
+      'Vous ne pouvez plus affecter cette requête car une réponse a été déjà proposée.',
+      undefined
+    );
+    return;
+  }
+
+  if (!this.selectedServiceId) { // J'ai amélioré la vérification ici
+    AppSweetAlert.simpleAlert(
+      'error',
+      'Erreur',
+      'Veuillez sélectionner un service.',
+      undefined
+    );
+    return;
+  }
+
+  this.isLoading = true;
+  this.spinner.show();
+  this.requeteService.createAffectation(val).subscribe({
+    next: (res: any) => {
+      this.data = this.data.filter(item => item.id !== this.selected_data.id);
+
+      this.selected_data = null;
+      
+      this.modalService.dismissAll();
+      AppSweetAlert.simpleAlert(
+        'success',
+        'Nouvelle affectation',
+        'Affectation effectuée avec succès'
+      );
+    },
+    error: (err) => {
+      console.error("Erreur lors de l'affectation:", err);
       AppSweetAlert.simpleAlert(
         'error',
         'Erreur',
-        'Vous ne pouvez plus affecter cette requête car une réponse a été déjà proposée.',
-        undefined
+        "Une erreur est survenue lors de l'affectation."
       );
-      return;
-    }
+      this.isLoading = false;
+      this.spinner.hide();
+    },
+    complete: () => {
+      this.isLoading = false;
+      this.spinner.hide();
+    },
+  });
+}
 
-    if (!this.user.agent_user.idStructure) {
-      AppSweetAlert.simpleAlert(
-        'error',
-        'Erreur',
-        'Veuillez sélectionner un service.',
-        undefined
-      );
-      return;
-    }
 
-    this.isLoading = true;
-    this.spinner.show();
-    this.requeteService.createAffectation(val).subscribe({
-      next: (res: any) => {
-        this.init(this.page);
-        this.modalService.dismissAll();
-        AppSweetAlert.simpleAlert(
-          'success',
-          'Nouvelle affectation',
-          'Affectation effectué avec succès'
-        );
-      },
-      error: (err) => {
-        console.error("Erreur lors de l'affectation:", err);
-        AppSweetAlert.simpleAlert(
-          'error',
-          'Erreur',
-          "Une erreur est survenue lors de l'affectation."
-        );
-        // AJOUTEZ CES DEUX LIGNES
-        this.isLoading = false;
-        this.spinner.hide();
-      },
-      complete: () => {
-        this.isLoading = false;
-        this.spinner.hide();
-      },
-    });
+updateSelectedService(newServiceId: any) {
+    if (this.selected_data) { 
+      if (!this.selected_data.service) {
+        this.selected_data.service = {};
+      }
+      this.selected_data.service.id = newServiceId;
+    }
+  }
+
+  getUserDisplay(requete: any): string {
+    let displayName = '';
+  
+    if (requete.usager && requete.usager.nom && requete.usager.nom.trim() !== '') {
+      displayName = requete.usager.nom + ' ' + requete.usager.prenoms;
+    
+    } else if (requete.usager && requete.usager.email) {
+      displayName = requete.usager.email;
+    
+    } else {
+      const contactInfo = [requete.contact, requete.email].filter(Boolean).join(' ');
+      displayName = contactInfo;
+    }
+  
+    if (requete.matricule) {
+      displayName += ` / Matricule : ${requete.matricule}`;
+    }
+  
+    return displayName.trim();
   }
 
   saveReponse(value: any) {
@@ -1240,10 +1267,8 @@ export class ListRequeteATraiterComponent implements OnInit {
   __services: any[] = [];
   structures: any[] = [];
 
-  // REMPLACEZ VOTRE FONCTION onEntiteChange PAR CELLE-CI
 
   onEntiteChange(event: any) {
-    // Correction : On utilise event.value au lieu de event.target.value
     const idEntite = event.value;
 
     if (!idEntite) {
@@ -1255,7 +1280,6 @@ export class ListRequeteATraiterComponent implements OnInit {
     this.isLoading = true;
     this.spinner.show();
 
-    // Rechargement des structures pour la nouvelle entité
     this.structures = [];
     this.structureService.getAll(1, idEntite).subscribe({
       next: (res: any) => {
@@ -1269,14 +1293,13 @@ export class ListRequeteATraiterComponent implements OnInit {
       },
     });
 
-    // Rechargement des prestations (services) pour la nouvelle entité
     this.services = [];
     this.__services = [];
     this.prestationService.getAll(idEntite).subscribe({
       next: (res: any) => {
         const servicesData = Array.isArray(res) ? res : res?.data || [];
         this.services = servicesData.filter((e: any) => e.published == 1) || [];
-        this.__services = this.services; // Met à jour la liste de base pour le filtrage ultérieur
+        this.__services = this.services; 
         this.cdr.detectChanges();
       },
       error: (err) => {
