@@ -151,14 +151,17 @@ export class CspReportCreateComponent {
   getDataReport(value:any){
     this.loading2=true
     this.reportService.getDataReport(value).subscribe((res: any) => {
+     
+      if (this.user.agent_user.categorie_acteur === 'Departemental') {
+              this.data=res.data
+
+           this.filteredStats = this.generateTable(this.data);
+      }else{
       this.data=res.data.groupedByDepartement
       this.syntheses=res.data.synthese
       this.frequentations=res.data.frequentations
       this.months=res.data.months
 
-      if (this.user.agent_user.categorie_acteur === 'Departemental') {
-           this.filteredStats = this.generateTable(this.data);
-      }else{
         this.sexData=res.data.groupedByDepartement
       }
       this.modalService.dismissAll()

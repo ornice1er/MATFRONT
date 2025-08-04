@@ -32,6 +32,7 @@ import { ListRatioPlainteStructureComponent } from "./pages/others/list-ratio-pl
 import { ListRatioRequeteStructureComponent } from "./pages/others/list-ratio-requete-structure/list-ratio-requete-structure.component";
 import { ListRatioRquetePrestaionComponent } from "./pages/others/list-ratio-rquete-prestaion/list-ratio-rquete-prestaion.component";
 import { ListRdvComponent } from "./pages/others/list-rdv/list-rdv.component";
+import { ListRequeteATraiterComponent } from "./pages/others/list-requete-a-traiter/list-requete-a-traiter.component";
 import { ListRequeteAdjointComponent } from "./pages/others/list-requete-adjoint/list-requete-adjoint.component";
 import { ListRequeteDivisionComponent } from "./pages/others/list-requete-division/list-requete-division.component";
 import { ListRequeteServicesComponent } from "./pages/others/list-requete-services/list-requete-services.component";
@@ -397,30 +398,36 @@ export const AdminRoutes: Routes = [
         canActivate: [AuthGuard],
         data: { key: 'REQUÊTE', action: 'Editer' }
       },
-      {
-        path: 'listrequetestructures/:type_req',
-        component: ListRequeteStructuresComponent,
+       {
+        path: 'list-requete-a-traiter/:type_req',
+        component: ListRequeteATraiterComponent,
         canActivate: [AuthGuard],
         data: { key: 'REQUÊTE', action: 'Consulter' }
       },
-      {
-        path: 'listrequeteservice/:type_req',
-        component: ListRequeteServicesComponent,
-        canActivate: [AuthGuard],
-        data: { key: 'REQUÊTE', action: 'Consulter' }
-      },
+      // {
+      //   path: 'listrequetestructures/:type_req',
+      //   component: ListRequeteStructuresComponent,
+      //   canActivate: [AuthGuard],
+      //   data: { key: 'REQUÊTE', action: 'Consulter' }
+      // },
+      // {
+      //   path: 'listrequeteservice/:type_req',
+      //   component: ListRequeteServicesComponent,
+      //   canActivate: [AuthGuard],
+      //   data: { key: 'REQUÊTE', action: 'Consulter' }
+      // },
       {
         path: 'listrequetedivision/:type_req',
         component: ListRequeteDivisionComponent,
         canActivate: [AuthGuard],
         data: { key: 'REQUÊTE', action: 'Consulter' }
       },
-      {
-        path: 'listrequeteusager/:type_req',
-        component: ListRequeteUsagerComponent,
-        canActivate: [AuthGuard],
-        data: { key: 'REQUÊTE', action: 'Consulter' }
-      },
+      // {
+      //   path: 'listrequeteusager/:type_req',
+      //   component: ListRequeteUsagerComponent,
+      //   canActivate: [AuthGuard],
+      //   data: { key: 'REQUÊTE', action: 'Consulter' }
+      // },
       {
         path: 'listrequeteparcours/:type_req',
         component: ParcoursRequeteComponent,

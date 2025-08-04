@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -13,11 +13,16 @@ import { LocalStorageService } from '../../../core/utils/local-stoarge-service';
 import { ObserverService } from '../../../core/utils/observer.service';
 import { AppActionCheckService } from '../../../core/utils/app-action-check';
 import { GlobalName } from '../../../core/utils/global-name';
+import { LucideAngularModule, LogOut, X, Menu, ChevronRight, User, ChevronDown } from 'lucide-angular';
+import { NavigationService } from '../../../core/services/navigation.service';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 
 interface MenuItem {
   label: string;
   route?: string;
-  key?: string;
+  key: string;
   action?: string;
   children?: MenuItem[];
 }
@@ -35,11 +40,16 @@ interface MenuItem {
     MatListModule,
     MatButtonModule,
     MatExpansionModule,
+    LucideAngularModule,
+    OverlayPanelModule,
+    ButtonModule,
+    DividerModule
   ],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.css'
 })
 export class LayoutComponent {
+  private navigationService = inject(NavigationService);
   menuOpen = true;
   user: any;
   title = '';
@@ -50,6 +60,24 @@ export class LayoutComponent {
       label: 'Accueil',
       route: '/admin/dashboard',
       key: 'TABLEAU DE BORD',
+      action: 'LISTER'
+    },
+    {
+      label: 'Requêtes à traiter',
+      route: '/admin/list-requete-a-traiter/requetes',
+      key: 'REQUÊTE',
+      action: 'LISTER'
+    },
+    {
+      label: 'Plaintes à traiter',
+      route: '/admin/list-requete-a-traiter/plaintes',
+      key: 'REQUÊTE',
+      action: 'LISTER'
+    },
+    {
+      label: 'Demandes infos à traiter',
+      route: '/admin/list-requete-a-traiter/infos',
+      key: 'REQUÊTE',
       action: 'LISTER'
     },
     {
@@ -81,30 +109,9 @@ export class LayoutComponent {
         { label: 'Nature contrat', route: '/admin/nature-contracts', key: 'NATURE DE CONTRAT', action: 'LISTER' },
         { label: 'Centre communaux', route: '/admin/ccsps', key: 'CCSP', action: 'LISTER' },
         { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
-                { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
-                { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
-{ label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
-
-      ]
-    },
-    {
-      label: 'Ratio des prestations',
-      key: 'STATISTIQUES',
-      action: 'LISTER',
-      children: [
-        { label: 'Plaintes', route: '/admin/ratioplainteprestation', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Requêtes', route: '/admin/ratiorequeteprestation', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Demande infos', route: '/admin/ratiodemandeinfosprestation', key: 'STATISTIQUES', action: 'LISTER' }
-      ]
-    },
-    {
-      label: 'Ratio des structures',
-      key: 'STATISTIQUES',
-      action: 'LISTER',
-      children: [
-        { label: 'Plaintes', route: '/admin/ratioplaintestructure', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Requêtes', route: '/admin/ratiorequetestructure', key: 'STATISTIQUES', action: 'LISTER' },
-        { label: 'Gestion des usagers', route: '/admin/ratiodemandeinfosstructure', key: 'STATISTIQUES', action: 'LISTER' }
+        { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
+        { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
+        { label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
       ]
     },
     {
@@ -132,42 +139,6 @@ export class LayoutComponent {
       action: 'LISTER'
     },
     {
-      label: 'Requêtes à traiter',
-      route: '/admin/listrequeteservice/requetes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Plaintes à traiter',
-      route: '/admin/listrequetestructures/plaintes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Demandes infos à traiter',
-      route: '/admin/listrequeteservice/infos',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Requêtes à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/requetes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Plaintes à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/plaintes',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
-      label: 'Demandes infos à traiter (adjoint)',
-      route: '/admin/listrequeteajdoint/infos',
-      key: 'REQUÊTE',
-      action: 'LISTER'
-    },
-    {
       label: 'Modifier une préoccupation',
       route: '/admin/listrequeteupdate',
       key: 'REQUÊTE',
@@ -188,13 +159,11 @@ export class LayoutComponent {
         { label: 'Mes Rapports', route: '/admin/ccsp/reports/own', key: 'RAPPORTS CCSP', action: 'LISTER' }
       ]
     },
-       {
+    {
       label: 'Performances',
       key: 'RAPPORTS CCSP',
       action: 'LISTER',
       route: '/admin/performances',
-
-     
     },
     {
       label: 'Historique',
@@ -224,6 +193,26 @@ export class LayoutComponent {
       ]
     },
     {
+      label: 'Ratio des prestations',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        { label: 'Plaintes', route: '/admin/ratioplainteprestation', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Requêtes', route: '/admin/ratiorequeteprestation', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Demande infos', route: '/admin/ratiodemandeinfosprestation', key: 'STATISTIQUES', action: 'LISTER' }
+      ]
+    },
+    {
+      label: 'Ratio des structures',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        { label: 'Plaintes', route: '/admin/ratioplaintestructure', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Requêtes', route: '/admin/ratiorequetestructure', key: 'STATISTIQUES', action: 'LISTER' },
+        { label: 'Gestion des usagers', route: '/admin/ratiodemandeinfosstructure', key: 'STATISTIQUES', action: 'LISTER' }
+      ]
+    },
+    {
       label: 'Graphiques',
       key: 'STATISTIQUES',
       action: 'LISTER',
@@ -233,6 +222,14 @@ export class LayoutComponent {
       ]
     }
   ];
+
+  logOutIcon = LogOut;
+  menuIcon = Menu;
+  xIcon = X;
+  chevronRightIcon = ChevronRight;
+  userIcon = User;
+  chevronDownIcon = ChevronDown;
+  expandedMenus = this.navigationService.expandedMenus;
 
   constructor(
     private authService: AuthentificationService,
@@ -257,7 +254,9 @@ export class LayoutComponent {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
           this.user = res.data;
-          this.lsService.set(GlobalName.userName, res);
+          this.lsService.set(GlobalName.userName, res.data);
+          this.role = this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Erreur lors de la récupération de l\'utilisateur', err);
@@ -296,5 +295,17 @@ export class LayoutComponent {
   canShowItem(item: MenuItem): boolean {
     const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
     return result;
+  }
+
+  toggleSubmenu(menuId: string) {
+    this.navigationService.toggleSubmenu(menuId);
+  }
+
+  onNavItemClick(item: MenuItem) {
+    if (item.children && item.children.length > 0) {
+      this.toggleSubmenu(item.label);
+    } else {
+      this.router.navigate([item.route]);
+    }
   }
 }

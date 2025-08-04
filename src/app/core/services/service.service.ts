@@ -21,6 +21,11 @@ export class ServiceService {
     }
   }
 
+    getServicesStructure(idStructure:any){
+   
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("service-structure")}/${idStructure}`);
+  }
+
   getAllEntite(){
     return this.http.get<any[]>(`${ConfigService.toApiUrl("ministere")}`);
   }
