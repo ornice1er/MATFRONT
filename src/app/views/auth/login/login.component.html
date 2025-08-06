@@ -30,7 +30,7 @@
             </div>
             <div class="flex w-full">
               <button type="submit" [disabled]="formAuth.invalid || loading"
-                [ngClass]="{'cursor-not-allowed bg-gray-500! text-gray-300!':formAuth.invalid || loading, 'bg-primary! text-white!':formAuth.valid && loading}"
+                [ngClass]="{'cursor-not-allowed bg-gray-500! text-gray-300!':formAuth.invalid || loading, 'bg-primary! text-white!':!formAuth.invalid && !loading}"
                 class=" font-light text-base px-3 py-2 w-full rounded-lg! flex flex-row justify-center items-center gap-3">
                 <span *ngIf="!loading">Se connecter</span>
                 <svg *ngIf="loading" xmlns="http://www.w3.org/2000/svg" class="size-5" viewBox="0 0 24 24">
