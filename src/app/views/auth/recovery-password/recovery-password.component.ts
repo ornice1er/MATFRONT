@@ -16,51 +16,60 @@ import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
   // standalone:true,
   // imports:[LoadingComponent,FormsModule,],
   standalone: true,
-    imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
-  styleUrls: ['./recovery-password.component.css']
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgbModule,
+    LoadingComponent,
+    SampleSearchPipe,
+    NgSelectModule,
+    NgxPaginationModule,
+  ],
+  styleUrls: ['./recovery-password.component.css'],
 })
 export class RecoveryPasswordComponent implements OnInit {
+  loading: any;
+  token: any;
 
-  loading:any
-  token:any
-  
-    constructor(
-      
-      private authService:AuthService,
-      private router: Router,
-      private route:ActivatedRoute,
-      private toastr: ToastrService
-    ) { }
-  
-    ngOnInit(): void {
-     this.token= this.route.snapshot.paramMap.get('token')
-     if (this.token== undefined) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private toastr: ToastrService
+  ) {}
 
-      this.router.navigate(['/admin/login'])
-      
-     }
-      
+  ngOnInit(): void {
+    this.token = this.route.snapshot.paramMap.get('token');
+    if (this.token == undefined) {
+      this.router.navigate(['/admin/login']);
     }
-  
-  
-    recoverPassword(value:any){
+  }
 
-      if (value.password != value.confirm_password) {
-        this.toastr.error('Nouveaux mots de passe non identique', 'Mot de passe oublié');
-        return ;
-      }
-      this.loading=true
-      this.authService.recoverPassword(this.token,value).subscribe((res:any)=>{
-        this.loading=false
-        this.router.navigate(['/admin/login'])
-        this.toastr.success('Changement de mot passe réussi', 'Mot de passe oublié');
-
-       
+  recoverPassword(value: any) {
+    if (value.password != value.confirm_password) {
+      this.toastr.error(
+        'Nouveaux mots de passe non identique',
+        'Mot de passe oublié'
+      );
+      return;
+    }
+    this.loading = true;
+    this.authService.recoverPassword(this.token, value).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.router.navigate(['/admin/login']);
+        this.toastr.success(
+          'Changement de mot passe réussi',
+          'Mot de passe oublié'
+        );
       },
-      (err:any)=>{
-        this.loading=false
-        this.toastr.error('Changement de mot passe échoué', 'Mot de passe oublié');
-  
-      });
-    }
+      (err: any) => {
+        this.loading = false;
+        this.toastr.error(
+          'Changement de mot passe échoué',
+          'Mot de passe oublié'
+        );
+      }
+    );
+  }
 }

@@ -250,6 +250,7 @@ export class LayoutComponent {
     if (this.lsService.get(GlobalName.userName) != null) {
       this.user = this.lsService.get(GlobalName.userName);
       this.role = this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
+      console.log("role", this.user.roles[0].name )
     } else {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
@@ -286,6 +287,7 @@ export class LayoutComponent {
   }
 
   canShowItemBloc(item: MenuItem): boolean {
+    
     if (item.children && Array.isArray(item.children)) {
       return item.children.some(child => this.canShowItem(child));
     }
@@ -293,6 +295,9 @@ export class LayoutComponent {
   }
 
   canShowItem(item: MenuItem): boolean {
+    if (this.user?.roles?.length > 0 && this.user.roles[0].name === 'Super Admin') {
+      return true;
+    }
     const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
     return result;
   }
