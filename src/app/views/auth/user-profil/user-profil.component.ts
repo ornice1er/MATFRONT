@@ -147,7 +147,7 @@ export class UserProfilComponent implements OnInit {
       this.lsService.remove(GlobalName.tokenName)
       this.lsService.remove(GlobalName.refreshTokenName)
       this.lsService.remove(GlobalName.expireIn)
-      this.router.navigate(['/admin/login'])
+      this.router.navigate(['/auth/login'])
       this.toastr.success('Déconnexion réussie', 'Connexion');
     }),
     ((err:any)=>{

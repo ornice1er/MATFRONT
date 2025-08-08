@@ -83,6 +83,16 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { RoleComponent } from "./pages/role/role.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
 
+export const PublicAuthRoutes: Routes = [
+
+  {
+    path: 'reset-password/:token', // <-- VOTRE ROUTE, MAINTENANT PUBLIQUE
+    component: RecoveryPasswordComponent
+  },
+]
+
+
+
 export const AdminRoutes: Routes = [
   {
     path: 'admin',
@@ -119,10 +129,10 @@ export const AdminRoutes: Routes = [
       //   path: 'reset-password/:token',
       //   component: ResetPasswordComponent
       // },
-        {
-        path: 'reset-password/:token',
-        component: RecoveryPasswordComponent
-      },
+      //   {
+      //   path: 'reset-password/:token',
+      //   component: RecoveryPasswordComponent
+      // },
       {
         path: 'forgot-password/:lang',
         component: ForgotPasswordComponent

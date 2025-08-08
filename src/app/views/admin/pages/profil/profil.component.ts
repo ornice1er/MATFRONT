@@ -1,100 +1,104 @@
-import { Component, OnInit,Input } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { Roles } from '../../../core/_models/roles';
-// import { UserService } from '../../../core/_services/user.service';
-// import { User } from '../../../core/_models/user.model';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
+
 import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { UserService } from '../../../../core/services/user.service';
-import { Router } from '@angular/router';
 import { LocalStorageService } from '../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../core/utils/global-name';
 import { ObserverService } from '../../../../core/utils/observer.service';
 
-
 @Component({
   selector: 'kt-profil',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+  imports: [CommonModule, FormsModule, NgbModule, LoadingComponent, NgSelectModule, NgxPaginationModule, RouterModule],
   templateUrl: './profil.component.html',
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
+  errormessage = "";
+  user: any;
+  loading = false;
 
-  @Input() cssClasses = '';
-  error=""
-  errormessage=""
-  current_role=""
-  user:any
-  file:File | null | undefined
-  
-  constructor(private localService:LocalStorageService,private userService:UserService,private router:Router,private localStorageService:LocalStorageService, private observerService:ObserverService) { }
+  newPasswordVisible: boolean = false;
+  confirmPasswordVisible: boolean = false;
+
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private observerService: ObserverService
+  ) {}
 
   ngOnInit(): void {
-    this.observerService.setTitle('')
-
-      this.current_role=localStorage.getItem('mataccueilUserRole')?? ""
-      this.user=this.localStorageService.get(GlobalName.userName)
-      console.log('-----------------------------------12')     
-      console.log(this.user)     
-  }
-  
-  saveUpdateProfil(value:any){
-    if(value.newpassword==value.newpasswordconfirm){
-      var params = {
-        IdUtilisateur:this.user.id,
-        newemail:value.newemail,
-        newpassword:value.newpassword,
-        newcontacts:value.newcontacts,
-    }
-      this.userService.updateProfil(params).subscribe((res:any)=>{
-        this.localService.set(GlobalName.userName,res);
-        AppSweetAlert.simpleAlert('Modification profil', 'Votre mise à jour de profil été prise en compte avec succès. A présent nous vous déconnecterons et vous reconnecterez avec votre nouveau mot de passe.', 'success')
-        this.signout()
-      }, (err:any)=>{
-        AppSweetAlert.simpleAlert('Modification profil', 'Une erreur est survenue, verifier votre connexion internet puis reessayer', 'error')
-      }) 
-    }
-  }
-  signout(){
-    this.localService.remove(GlobalName.tokenName)
-    this.localStorageService.clear()
-    this.router.navigateByUrl('/login')
-  }
- 
-  updateUser(value:any){
-
-    let formData=new FormData()
-    formData.append("username",value.last_name+" "+value.first_name )
-    formData.append("last_name",value.last_name)
-    formData.append("phone",value.phone)
-    formData.append("email",value.email)
-    formData.append("first_name",value.first_name)
-   
-    if(this.file!=null){
-      formData.append("profil_image",this.file)
-    }
-    this.userService.update(value,this.user.id).subscribe((res:any)=>{
-      this.localService.set(GlobalName.userName,res);
-      AppSweetAlert.simpleAlert('Modification de profil', 'Votre mise à jour de profil été prise en compte avec succès', 'success')
-
-      this.ngOnInit()
-    }, (err:any)=>{
-      AppSweetAlert.simpleAlert('Modification de profil', 'Une erreur est survenue, verifier votre connexion internet puis reessayer', 'error')
-    }) 
-  }
-  onFileChange(event:any) {
-    this.file=null
-    if (event.target.files.length > 0) {
-      this.file = event.target.files[0];
-    //  this.form.get('avatar').setValue(file);
+    this.observerService.setTitle('Mon Profil');
+    this.user = this.localStorageService.get(GlobalName.userName);
+    console.log("ProfilComponent user:", this.user);
+    if (!this.user) {
+      this.signout(); 
     }
   }
 
+  toggleNewPasswordVisibility(): void {
+    this.newPasswordVisible = !this.newPasswordVisible;
+  }
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
+
+  saveUpdateProfil(value: any) {
+    if (value.newpassword && value.newpassword !== value.newpasswordconfirm) {
+      this.errormessage = "Les nouveaux mots de passe ne sont pas identiques.";
+      return;
+    }
+
+    this.errormessage = ""; 
+    this.loading = true;
+
+    const payload: any = {
+      IdUtilisateur: this.user.id
+    };
+
+    if (value.newemail) {
+      payload.newemail = value.newemail;
+    }
+    if (value.newpassword) {
+      payload.newpassword = value.newpassword;
+    }
+    if (value.newcontacts) {
+      payload.newcontacts = value.newcontacts;
+    }
+
+    this.userService.updateProfil(payload).subscribe({
+      next: (res: any) => {
+        this.loading = false;
+        this.localStorageService.set(GlobalName.userName, res);
+        
+
+
+
+        AppSweetAlert.simpleAlert(
+          'success',
+          'Profil mis à jour',
+          'Votre profil a été modifié avec succès. Vous allez être déconnecté pour appliquer les changements.',
+        );
+        setTimeout(() => this.signout(), 2000);
+      },
+      error: (err: any) => {
+        this.loading = false;
+        this.errormessage = err.error?.message || "Une erreur est survenue lors de la mise à jour.";
+        AppSweetAlert.simpleAlert('Erreur', this.errormessage, 'error');
+      }
+    });
+  }
+
+  signout() {
+    this.localStorageService.clear();
+    this.router.navigateByUrl('/auth/login');
+  }
 }

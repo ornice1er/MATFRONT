@@ -220,7 +220,14 @@ export class LayoutComponent {
         { label: 'Thématiques', route: '/admin/grahiquetype/requetes', key: 'STATISTIQUES THÉMATIQUES', action: 'LISTER' },
         { label: 'Structures', route: '/admin/grahiquestructures/requetes', key: 'STATISTIQUES', action: 'LISTER' }
       ]
-    }
+    },
+      {
+      label: 'Mon profil',
+      key: 'PROFIL',
+      action: 'LISTER',
+      route: '/admin/profil',
+    },
+    
   ];
 
   logOutIcon = LogOut;
@@ -295,6 +302,9 @@ export class LayoutComponent {
   }
 
   canShowItem(item: MenuItem): boolean {
+    if (item.label === 'Mon profil') {
+    return true;
+  }
     if (this.user?.roles?.length > 0 && this.user.roles[0].name === 'Super Admin') {
       return true;
     }

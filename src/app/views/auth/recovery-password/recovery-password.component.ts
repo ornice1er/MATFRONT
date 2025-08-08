@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-recovery-password',
@@ -20,6 +21,7 @@ import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
     CommonModule,
     FormsModule,
     NgbModule,
+    RouterModule,
     LoadingComponent,
     SampleSearchPipe,
     NgSelectModule,
@@ -30,6 +32,8 @@ import { SampleSearchPipe } from '../../../core/pipes/sample-search.pipe';
 export class RecoveryPasswordComponent implements OnInit {
   loading: any;
   token: any;
+  newPasswordVisible: boolean = false;
+  confirmPasswordVisible: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -41,12 +45,20 @@ export class RecoveryPasswordComponent implements OnInit {
   ngOnInit(): void {
     this.token = this.route.snapshot.paramMap.get('token');
     if (this.token == undefined) {
-      this.router.navigate(['/admin/login']);
+      this.router.navigate(['/auth/login']);
     }
   }
 
+  toggleNewPasswordVisibility(): void {
+    this.newPasswordVisible = !this.newPasswordVisible;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.confirmPasswordVisible = !this.confirmPasswordVisible;
+  }
+
   recoverPassword(value: any) {
-    if (value.password != value.confirm_password) {
+    if (value.password != value.password_confirmation) {
       this.toastr.error(
         'Nouveaux mots de passe non identique',
         'Mot de passe oublié'
@@ -54,10 +66,17 @@ export class RecoveryPasswordComponent implements OnInit {
       return;
     }
     this.loading = true;
-    this.authService.recoverPassword(this.token, value).subscribe(
+
+    const payload = {
+      email: value.email, 
+      password: value.password,
+      password_confirmation: value.password_confirmation,
+      token: this.token 
+    };
+    this.authService.recoverPassword(payload).subscribe(
       (res: any) => {
         this.loading = false;
-        this.router.navigate(['/admin/login']);
+        this.router.navigate(['/auth/login']);
         this.toastr.success(
           'Changement de mot passe réussi',
           'Mot de passe oublié'
