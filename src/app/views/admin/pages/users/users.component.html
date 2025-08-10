@@ -122,7 +122,8 @@
               <div class="form-group row mb-3">
                 <label class="col-md-4">Sélectionner l'acteur *</label>
                 <div class="col-md-6">
-                  <select class="form-control form-control-sm" #acteur="ngModel" maxlength="250" name="idAgent" ngModel required>
+                  <select class="form-control form-control-sm" #acteur="ngModel" maxlength="250" name="idAgent" ngModel
+                    required>
                     <option [value]="e.id" *ngFor="let e of acteurs">
                       {{ e.nomprenoms }}
                     </option>
@@ -146,7 +147,8 @@
               <div class="form-group row mb-3">
                 <label class="col-md-4">Rôles *</label>
                 <div class="col-md-6">
-                  <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250" name="role" ngModel required>
+                  <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250" name="role" ngModel
+                    required>
                     <option [value]="e.name" *ngFor="let e of role">
                       {{ e?.name }}
                     </option>
@@ -164,12 +166,14 @@
               <div class="form-group row mb-3">
                 <label class="col-md-4">Institution *</label>
                 <div class="col-md-6">
-                  <select class="form-control form-control-sm" #idInstitution="ngModel" maxlength="250" name="idEntite" ngModel required>
+                  <select class="form-control form-control-sm" #idInstitution="ngModel" maxlength="250" name="idEntite"
+                    ngModel required>
                     <option [value]="e.id" *ngFor="let e of institutions">
                       {{ e?.libelle }}
                     </option>
                   </select>
-                  <span *ngIf="idInstitution.invalid && (idInstitution.dirty || idInstitution.touched)" class="text-danger">
+                  <span *ngIf="idInstitution.invalid && (idInstitution.dirty || idInstitution.touched)"
+                    class="text-danger">
                     <small *ngIf="idInstitution.errors?.['required']">
                       Institution est requis
                     </small>
@@ -195,30 +199,29 @@
                 </div>
               </div>
 
-                 <div class="form-group row mb-3">
-                    <label class="col-md-4">Sélectionner le role * </label>
-                    <div class="col-md-6">
-                        <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250"
-                            name="role" ngModel required>
-                            <option [value]="e.name" *ngFor="let e of role">
-                                {{ e?.name }}
-                            </option>
-                        </select>
-                        <span *ngIf="idrole.invalid && (idrole.dirty || idrole.touched)"
-                            class="text-danger">
-                            <small *ngIf="idrole.errors?.['required']">
-                                Role est requis
-                            </small>
-                            <small *ngIf="idrole.errors?.['maxlength']">
-                                Role, pas plus de 250 caractères.
-                            </small>
-                        </span>
-                    </div>
-
-
+              <!-- <div class="form-group row mb-3">
+                <label class="col-md-4">Sélectionner le role * </label>
+                <div class="col-md-6">
+                  <select class="form-control form-control-sm" #idrole="ngModel" maxlength="250" name="role" ngModel
+                    required>
+                    <option [value]="e.name" *ngFor="let e of role">
+                      {{ e?.name }}
+                    </option>
+                  </select>
+                  <span *ngIf="idrole.invalid && (idrole.dirty || idrole.touched)" class="text-danger">
+                    <small *ngIf="idrole.errors?.['required']">
+                      Role est requis
+                    </small>
+                    <small *ngIf="idrole.errors?.['maxlength']">
+                      Role, pas plus de 250 caractères.
+                    </small>
+                  </span>
                 </div>
 
-             
+
+              </div> -->
+
+
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-outline-dark" [disabled]="!newForm.form.valid || loading">
@@ -300,7 +303,8 @@
                       {{ e?.libelle }}
                     </option>
                   </select>
-                  <span *ngIf="idInstitution.invalid && (idInstitution.dirty || idInstitution.touched)" class="text-danger">
+                  <span *ngIf="idInstitution.invalid && (idInstitution.dirty || idInstitution.touched)"
+                    class="text-danger">
                     <small *ngIf="idInstitution.errors?.['required']">
                       Institution est requis
                     </small>

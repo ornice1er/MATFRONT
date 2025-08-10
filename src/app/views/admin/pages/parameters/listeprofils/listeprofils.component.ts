@@ -70,7 +70,7 @@ search_text:any=""
 
   init(){
     this.spinner.show(); 
-    this.profilService.getAll().subscribe({
+    this.profilService.getProfil().subscribe({
       next: (res: any) => {
         this.data = res;
         this._temp = res;
@@ -180,7 +180,7 @@ search_text:any=""
     AppSweetAlert.confirmBox("Suppression", "Cette action est irreversible. Voulez-vous continuer ?")
       .then((result:any) => {
         if (result.isConfirmed) { 
-          this.profilService.delete(this.selected_data.id).subscribe({
+          this.profilService.deleteProfil(this.selected_data.id).subscribe({
             next: (res:any) => {
               AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success');
               this.init();
@@ -194,7 +194,7 @@ search_text:any=""
   }
   
   edit(value:any) {
-    this.profilService.update(value, this.selected_data.id).subscribe({
+    this.profilService.updateProfil(value, this.selected_data.id).subscribe({
       next: (res:any) => {
         this.modalService.dismissAll();
         AppSweetAlert.simpleAlert("Modification", "Modification effectuée avec succès", 'success');

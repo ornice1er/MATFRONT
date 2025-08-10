@@ -69,6 +69,6 @@ export class ActeurService {
     );
   }
   delete(id:number){
-    return this.http.delete<any[]>(`${ConfigService.toApiUrl("acteur/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
+    return this.http.delete<any[]>(`${ConfigService.toApiUrl("acteurs/delete/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }
 }

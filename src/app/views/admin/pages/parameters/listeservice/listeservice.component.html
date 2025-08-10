@@ -20,16 +20,17 @@
                             <li class="nav-item">
                                 <form>
                                     <div class="form-group form-inline">
-                                        <input class="form-control form-control-sm form-control-sm " placeholder="Rechercher...."
-                                            type="text" [(ngModel)]="searchText" name="searchText" (keyup)="search()" />
+                                        <input class="form-control form-control-sm form-control-sm "
+                                            placeholder="Rechercher...." type="text" [(ngModel)]="searchText"
+                                            name="searchText" (keyup)="search()" />
                                     </div>
                                 </form>
                             </li>
                             <li class="nav-item">
 
                                 <div class="form-group form-inline">
-                                    <select class="form-control form-control-sm form-control-sm " ngModel name="filter_publish"
-                                        (change)="filter($event)">
+                                    <select class="form-control form-control-sm form-control-sm " ngModel
+                                        name="filter_publish" (change)="filter($event)">
                                         <option value="" disabled>Filtrer</option>
                                         <option value="all" selected>Tout afficher</option>
                                         <option value="1" selected>Prestations publiés</option>
@@ -40,8 +41,8 @@
 
                         </ul>
                         <div>
-                            <button class="btn btn-sm bg-mat-primary text-white" [disabled]="user?.profil_user?.decisionnel_suivi==1"
-                                (click)="openAddModal(content)">
+                            <button class="btn btn-sm bg-mat-primary text-white"
+                                [disabled]="user?.profil_user?.decisionnel_suivi==1" (click)="openAddModal(content)">
                                 Ajouter un service</button>
                         </div>
                     </div>
@@ -52,14 +53,17 @@
                     <!--begin::Table-->
                     <div class="table-responsive">
 
-                        <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
+                        <table class="table table-striped datatable  table-head-custom table-vertical-center"
+                            id="kt_datatable">
                             <thead>
                                 <tr>
                                     <td class="left text-left" colspan="9">
-                                        <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
+                                        <button (click)="openEditModal(contentU)"
+                                            class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                             Modifier
                                         </button>
-                                        <button title="Gérer les pièces" (click)="openEditModal(pieces)" class="btn my-2 btn-sm btn-primary">
+                                        <button title="Gérer les pièces" (click)="openEditModal(pieces)"
+                                            class="btn my-2 btn-sm btn-primary">
                                             Gérer pièces
                                         </button>
 
@@ -69,11 +73,13 @@
                                             Publier 
                                         </button-->
 
-                                        <button *ngIf="user?.profil_user?.pointfocal==1" [disabled]="user?.profil_user?.decisionnel_suivi==1"
-                                            (click)="submit()" title="Publier" class="btn mx-1 btn-sm btn-success">
+                                        <button *ngIf="user?.profil_user?.pointfocal==1"
+                                            [disabled]="user?.profil_user?.decisionnel_suivi==1" (click)="submit()"
+                                            title="Publier" class="btn mx-1 btn-sm btn-success">
                                             Soummettre
                                         </button>
-                                        <button *ngIf="user?.profil_user?.admin_sectoriel==1" (click)="publish()" title="Publier" class="btn mx-1 btn-sm btn-success">
+                                        <button *ngIf="user?.profil_user?.admin_sectoriel==1" (click)="publish()"
+                                            title="Publier" class="btn mx-1 btn-sm btn-success">
                                             Publier
                                         </button>
                                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
@@ -90,6 +96,7 @@
                                     <th>Etat</th>
                                     <th>Disponible en ligne</th>
                                     <th>Liste des pièces</th>
+                                    <th>RH</th>
 
                                 </tr>
                             </thead>
@@ -115,9 +122,13 @@
                                         <span *ngIf="s.access_online==0" class="badge badge-danger">Non</span>
                                     </td>
                                     <td>
-                                            <ul>
-                                                    <li *ngFor="let p of s.listepieces">{{p.libellePiece}}</li>
-                                                </ul>        
+                                        <ul>
+                                            <li *ngFor="let p of s.listepieces">{{p.libellePiece}}</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="s.is_rh" class="badge badge-info">Oui</span>
+                                        <span *ngIf="!s.is_rh" class="badge badge-secondary">Non</span>
                                     </td>
 
 
@@ -127,19 +138,11 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <pagination-controls 
-                        id="ngxP1"
-                        (pageChange)="getPage($event)"
-                      [maxSize]="9"
-                      [directionLinks]="true"
-                      [autoHide]="true"
-                      [responsive]="true"
-                      [previousLabel]="'Précédent'"
-                      [nextLabel]="'Suivant'"
-                      [screenReaderPaginationLabel]="'Pagination'"
-                      [screenReaderPageLabel]="'page'"
-                      [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-                     </pagination-controls>
+                        <pagination-controls id="ngxP1" (pageChange)="getPage($event)" [maxSize]="9"
+                            [directionLinks]="true" [autoHide]="true" [responsive]="true" [previousLabel]="'Précédent'"
+                            [nextLabel]="'Suivant'" [screenReaderPaginationLabel]="'Pagination'"
+                            [screenReaderPageLabel]="'page'" [screenReaderCurrentLabel]="'Vous êtes sur la page'">
+                        </pagination-controls>
                     </div>
                     <!--end::Table-->
                 </div>
@@ -149,7 +152,8 @@
                     <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
                         <div class="modal-header bg-mat-primary">
                             <h5 class="modal-title text-white" id="modal-basic-title">Ajouter un service</h5>
-                            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <button type="button" class="close text-white" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
                         </div>
@@ -168,37 +172,37 @@
                                         <div class="form-group row mb-3">
                                             <label for="libelle" class="col-sm-3 control-label">Libellé * </label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-sm has-error" id="libelle"
-                                                    name="libelle" placeholder="Libellé de la service" value="{{default_data.libelle}}"
-                                                    [(ngModel)]="default_data.libelle" required>
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="libelle" name="libelle" placeholder="Libellé de la service"
+                                                    value="{{default_data.libelle}}" [(ngModel)]="default_data.libelle"
+                                                    required>
 
                                                 <span class="help-inline has-error-col">{{errormessage}}</span>
                                             </div>
                                         </div>
                                         <div> <label style="text-align: center;border-bottom: 1px #c8d1d3 solid;
-    margin-bottom: 12px;"
-                                                class="col-sm-12 control-label">Description</label> </div>
+    margin-bottom: 12px;" class="col-sm-12 control-label">Description</label> </div>
 
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="consiste"
                                                     name="consiste" placeholder="En quoi consiste la
-prestation ?"
-                                                    value="{{default_data.consiste}}" [(ngModel)]="default_data.consiste"></textarea>
+prestation ?" value="{{default_data.consiste}}" [(ngModel)]="default_data.consiste"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="interetDemandeur"
-                                                    name="interetDemandeur" placeholder="Quel est l’intérêt pour
-le demandeur ?"
-                                                    value="{{default_data.interetDemandeur}}" [(ngModel)]="default_data.interetDemandeur"></textarea>
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="interetDemandeur" name="interetDemandeur" placeholder="Quel est l’intérêt pour
+le demandeur ?" value="{{default_data.interetDemandeur}}" [(ngModel)]="default_data.interetDemandeur"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="obligatoire "
-                                                    name="obligatoire " placeholder="Est-elle obligatoire ?" value="{{default_data.obligatoire }}"
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="obligatoire " name="obligatoire "
+                                                    placeholder="Est-elle obligatoire ?"
+                                                    value="{{default_data.obligatoire }}"
                                                     [(ngModel)]="default_data.obligatoire "></textarea>
                                             </div>
                                         </div>
@@ -206,16 +210,15 @@ le demandeur ?"
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="echeance"
                                                     name="echeance" placeholder="A-t-elle une échéance
-à respecter ?"
-                                                    value="{{default_data.echeance}}" [(ngModel)]="default_data.echeance"></textarea>
+à respecter ?" value="{{default_data.echeance}}" [(ngModel)]="default_data.echeance"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="interetDemanderTot"
-                                                    name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
-demander plus tôt ?"
-                                                    value="{{default_data.interetDemanderTot}}" [(ngModel)]="default_data.interetDemanderTot"></textarea>
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="interetDemanderTot" name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
+demander plus tôt ?" value="{{default_data.interetDemanderTot}}"
+                                                    [(ngModel)]="default_data.interetDemanderTot"></textarea>
                                             </div>
                                         </div>
 
@@ -225,13 +228,16 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row mb-3 " *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
+                                        <div class="form-group row mb-3 "
+                                            *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
-                                                <select name="idParent" id="idParent" class="form-control  form-control-sm"
-                                                    required [(ngModel)]="default_data.idParent">
-                                                    <option [value]="oc.id" *ngFor="let oc of structures">{{oc.libelle}}</option>
+                                                <select name="idParent" id="idParent"
+                                                    class="form-control  form-control-sm" required
+                                                    [(ngModel)]="default_data.idParent">
+                                                    <option [value]="oc.id" *ngFor="let oc of structures">{{oc.libelle}}
+                                                    </option>
                                                 </select>
 
                                             </div>
@@ -243,7 +249,8 @@ demander plus tôt ?"
 
                                                 <select name="idType" id="idType" class="form-control  " required
                                                     [(ngModel)]="default_data.idType">
-                                                    <option [value]="oc.id" *ngFor="let oc of types">{{oc.libelle}}</option>
+                                                    <option [value]="oc.id" *ngFor="let oc of types">{{oc.libelle}}
+                                                    </option>
                                                 </select>
 
                                             </div>
@@ -254,20 +261,24 @@ demander plus tôt ?"
                                             </label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="sigle"
-                                                    name="piecesAFournir" placeholder="Pièces à fournir " value="{{default_data.piecesAFournir}}"
+                                                    name="piecesAFournir" placeholder="Pièces à fournir "
+                                                    value="{{default_data.piecesAFournir}}"
                                                     [(ngModel)]="default_data.piecesAFournir"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row mb-3">
-                                            <label for="dateredac" class="col-sm-5 control-label">Date de rédaction</label>
+                                            <label for="dateredac" class="col-sm-5 control-label">Date de
+                                                rédaction</label>
                                             <div class="col-sm-7">
                                                 <div class="form-group">
                                                     <div class="input-group">
 
-                                                        <input id="dateredac" class="form-control" type="date" name="dateredac"
-                                                            [(ngModel)]="default_data.dateredac" options="optionsEon" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <input id="dateredac" class="form-control" type="date"
+                                                            name="dateredac" [(ngModel)]="default_data.dateredac"
+                                                            options="optionsEon" />
+                                                        <span class="input-group-addon"><span
+                                                                class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -276,26 +287,28 @@ demander plus tôt ?"
                                             <label for="delai" class="col-sm-3 control-label">Délai à afficher à
                                                 l'usager</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-sm has-error" id="delai"
-                                                    name="delai" placeholder="Délai de la prestation" value="{{default_data.delai}}"
-                                                    [(ngModel)]="default_data.delai">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="delai" name="delai" placeholder="Délai de la prestation"
+                                                    value="{{default_data.delai}}" [(ngModel)]="default_data.delai">
                                             </div>
                                         </div>
 
                                         <div class="form-group row mb-3">
                                             <label for="delaiFixe" class="col-sm-3 control-label">Délai fixe </label>
                                             <div class="col-sm-1">
-                                                <input type="checkbox" id="delaiFixe" name="delaiFixe" [(ngModel)]="default_data.delaiFixe">
+                                                <input type="checkbox" id="delaiFixe" name="delaiFixe"
+                                                    [(ngModel)]="default_data.delaiFixe">
 
                                             </div>
 
 
-                                            <label style="margin-left:40px;" for="nbreJours" class="col-sm-3 control-label"
-                                                *ngIf="default_data.delaiFixe">Délai
+                                            <label style="margin-left:40px;" for="nbreJours"
+                                                class="col-sm-3 control-label" *ngIf="default_data.delaiFixe">Délai
                                                 système</label>
                                             <div class="col-sm-4" *ngIf="default_data.delaiFixe">
-                                                <input type="text" numbers-only="" class="form-control form-control-sm has-error"
-                                                    id="nbreJours" name="nbreJours" value="{{default_data.nbreJours}}"
+                                                <input type="text" numbers-only=""
+                                                    class="form-control form-control-sm has-error" id="nbreJours"
+                                                    name="nbreJours" value="{{default_data.nbreJours}}"
                                                     [(ngModel)]="default_data.nbreJours">
                                             </div>
 
@@ -313,25 +326,28 @@ demander plus tôt ?"
                                         </div>
                                         <div class="form-group row mb-3">
 
-                                            <label style="margin-left:40px;" for="access_url" class="col-sm-4 control-label"
-                                                *ngIf="default_data.access_online">Url de sollicitation</label>
+                                            <label style="margin-left:40px;" for="access_url"
+                                                class="col-sm-4 control-label" *ngIf="default_data.access_online">Url de
+                                                sollicitation</label>
                                             <div class="col-sm-8" *ngIf="default_data.access_online">
-                                                <input type="text" class="form-control form-control-sm has-error" id="access_url"
-                                                    name="access_url" [(ngModel)]="default_data.access_url">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="access_url" name="access_url"
+                                                    [(ngModel)]="default_data.access_url">
                                             </div>
 
                                         </div>
                                         <div class="form-group row mb-3">
 
-                                            <label style="margin-left:40px;" for="view_url" class="col-sm-4 control-label"
-                                                *ngIf="default_data.access_online">Url de consultation</label>
+                                            <label style="margin-left:40px;" for="view_url"
+                                                class="col-sm-4 control-label" *ngIf="default_data.access_online">Url de
+                                                consultation</label>
                                             <div class="col-sm-8" *ngIf="default_data.access_online">
-                                                <input type="text" class="form-control form-control-sm has-error" id="view_url"
-                                                    name="view_url" [(ngModel)]="default_data.view_url">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="view_url" name="view_url" [(ngModel)]="default_data.view_url">
                                             </div>
 
                                         </div>
-                                        
+
 
                                     </ng-template>
                                 </li>
@@ -342,8 +358,9 @@ demander plus tôt ?"
                                         <div class="form-group row mb-3">
                                             <label for="cout" class="col-sm-3 control-label">Coût (FCFA) </label>
                                             <div class="col-sm-9">
-                                                <input type="number" required class="form-control form-control-sm has-error"
-                                                    id="cout" name="cout" placeholder="Coût de la prestation" value="{{default_data.cout}}"
+                                                <input type="number" required
+                                                    class="form-control form-control-sm has-error" id="cout" name="cout"
+                                                    placeholder="Coût de la prestation" value="{{default_data.cout}}"
                                                     [(ngModel)]="default_data.cout">
 
                                                 <span class="help-inline has-error-col">{{errormessage}}</span>
@@ -355,17 +372,20 @@ demander plus tôt ?"
                                             <label for="lieuDepot" class="col-sm-3 control-label">Lieu de dépôt</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuDepot"
-                                                    name="lieuDepot" placeholder="Lieu de dépôt" value="{{default_data.lieuDepot}}"
+                                                    name="lieuDepot" placeholder="Lieu de dépôt"
+                                                    value="{{default_data.lieuDepot}}"
                                                     [(ngModel)]="default_data.lieuDepot"></textarea>
                                             </div>
                                         </div>
 
 
                                         <div class="form-group row mb-3">
-                                            <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de retrait</label>
+                                            <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de
+                                                retrait</label>
                                             <div class="col-sm-9">
-                                                <textarea class="form-control form-control-sm has-error" id="lieuRetrait"
-                                                    name="lieuRetrait" placeholder="Lieu de retrait" value="{{default_data.lieuRetrait}}"
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="lieuRetrait" name="lieuRetrait" placeholder="Lieu de retrait"
+                                                    value="{{default_data.lieuRetrait}}"
                                                     [(ngModel)]="default_data.lieuRetrait"> </textarea>
 
 
@@ -378,8 +398,9 @@ demander plus tôt ?"
                                                 la prestation</label>
 
                                             <div class="col-sm-9">
-                                                <textarea class="form-control form-control-sm has-error" id="textesRegissantPrestation"
-                                                    name="textesRegissantPrestation" [(ngModel)]="default_data.textesRegissantPrestation">
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="textesRegissantPrestation" name="textesRegissantPrestation"
+                                                    [(ngModel)]="default_data.textesRegissantPrestation">
                                                      </textarea>
 
                                             </div>
@@ -390,6 +411,12 @@ demander plus tôt ?"
                                             <div class="col-sm-1">
                                                 <input type="checkbox" id="hide_for_public" name="hide_for_public"
                                                     [(ngModel)]="default_data.hide_for_public">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-3">
+                                            <label for="is_rh_add" class="col-sm-3 control-label">Service RH ?</label>
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" id="is_rh_add" name="is_rh" [(ngModel)]="default_data.is_rh">
                                             </div>
                                         </div>
 
@@ -432,7 +459,8 @@ demander plus tôt ?"
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid"
+                                type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
                 </ng-template>
@@ -440,7 +468,8 @@ demander plus tôt ?"
                     <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
                         <div class="modal-header bg-mat-primary">
                             <h4 class="modal-title text-white" id="modal-basic-title">Modifier un service</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <button type="button" class="close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
                         </div>
@@ -459,37 +488,37 @@ demander plus tôt ?"
                                         <div class="form-group row mb-3">
                                             <label for="libelle" class="col-sm-3 control-label">Libellé * </label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-sm has-error" id="libelle"
-                                                    name="libelle" placeholder="Libellé de la service" value="{{selected_data.libelle}}"
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="libelle" name="libelle" placeholder="Libellé de la service"
+                                                    value="{{selected_data.libelle}}"
                                                     [(ngModel)]="selected_data.libelle" required>
 
                                                 <span class="help-inline has-error-col">{{errormessage}}</span>
                                             </div>
                                         </div>
                                         <div> <label style="text-align: center;border-bottom: 1px #c8d1d3 solid;
-    margin-bottom: 12px;"
-                                                class="col-sm-12 control-label">Description</label> </div>
+    margin-bottom: 12px;" class="col-sm-12 control-label">Description</label> </div>
 
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="consiste"
                                                     name="consiste" placeholder="En quoi consiste la
-prestation ?"
-                                                    value="{{selected_data.consiste}}" [(ngModel)]="selected_data.consiste"></textarea>
+prestation ?" value="{{selected_data.consiste}}" [(ngModel)]="selected_data.consiste"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="interetDemandeur"
-                                                    name="interetDemandeur" placeholder="Quel est l’intérêt pour
-le demandeur ?"
-                                                    value="{{selected_data.interetDemandeur}}" [(ngModel)]="selected_data.interetDemandeur"></textarea>
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="interetDemandeur" name="interetDemandeur" placeholder="Quel est l’intérêt pour
+le demandeur ?" value="{{selected_data.interetDemandeur}}" [(ngModel)]="selected_data.interetDemandeur"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="obligatoire "
-                                                    name="obligatoire " placeholder="Est-elle obligatoire ?" value="{{selected_data.obligatoire }}"
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="obligatoire " name="obligatoire "
+                                                    placeholder="Est-elle obligatoire ?"
+                                                    value="{{selected_data.obligatoire }}"
                                                     [(ngModel)]="selected_data.obligatoire "></textarea>
                                             </div>
                                         </div>
@@ -497,16 +526,15 @@ le demandeur ?"
                                             <div class="col-sm-12">
                                                 <textarea class="form-control form-control-sm has-error" id="echeance"
                                                     name="echeance" placeholder="A-t-elle une échéance
-à respecter ?"
-                                                    value="{{selected_data.echeance}}" [(ngModel)]="selected_data.echeance"></textarea>
+à respecter ?" value="{{selected_data.echeance}}" [(ngModel)]="selected_data.echeance"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
                                             <div class="col-sm-12">
-                                                <textarea class="form-control form-control-sm has-error" id="interetDemanderTot"
-                                                    name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
-demander plus tôt ?"
-                                                    value="{{selected_data.interetDemanderTot}}" [(ngModel)]="selected_data.interetDemanderTot"></textarea>
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="interetDemanderTot" name="interetDemanderTot" placeholder="Y-a-t-il un intérêt à le
+demander plus tôt ?" value="{{selected_data.interetDemanderTot}}"
+                                                    [(ngModel)]="selected_data.interetDemanderTot"></textarea>
                                             </div>
                                         </div>
 
@@ -516,13 +544,16 @@ demander plus tôt ?"
                                     <a ngbNavLink>Structure en charge</a>
                                     <ng-template ngbNavContent>
                                         <!--div style="text-align: center;border-bottom: 1px #c8d1d3 solid;"> </div-->
-                                        <div class="form-group row mb-3 " *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
+                                        <div class="form-group row mb-3 "
+                                            *ngIf="user?.profil_user?.pointfocal!=1 && user?.profil_user?.direction!=1">
                                             <label for="idParent" class="col-sm-3 control-label">Structure *</label>
                                             <div class="col-sm-9">
 
-                                                <select name="idParent" id="idParent" class="form-control  form-control-sm"
-                                                    required [(ngModel)]="selected_data.idParent">
-                                                    <option [value]="oc.id" *ngFor="let oc of structures">{{oc.libelle}}</option>
+                                                <select name="idParent" id="idParent"
+                                                    class="form-control  form-control-sm" required
+                                                    [(ngModel)]="selected_data.idParent">
+                                                    <option [value]="oc.id" *ngFor="let oc of structures">{{oc.libelle}}
+                                                    </option>
                                                 </select>
 
                                             </div>
@@ -534,7 +565,8 @@ demander plus tôt ?"
 
                                                 <select name="idType" id="idType" class="form-control  " required
                                                     [(ngModel)]="selected_data.idType">
-                                                    <option [value]="oc.id" *ngFor="let oc of types">{{oc.libelle}}</option>
+                                                    <option [value]="oc.id" *ngFor="let oc of types">{{oc.libelle}}
+                                                    </option>
                                                 </select>
 
                                             </div>
@@ -545,20 +577,24 @@ demander plus tôt ?"
                                             </label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="sigle"
-                                                    name="piecesAFournir" placeholder="Pièces à fournir " value="{{selected_data.piecesAFournir}}"
+                                                    name="piecesAFournir" placeholder="Pièces à fournir "
+                                                    value="{{selected_data.piecesAFournir}}"
                                                     [(ngModel)]="selected_data.piecesAFournir"></textarea>
                                             </div>
                                         </div>
 
                                         <div class="form-group row mb-3">
-                                            <label for="dateredac" class="col-sm-5 control-label">Date de rédaction</label>
+                                            <label for="dateredac" class="col-sm-5 control-label">Date de
+                                                rédaction</label>
                                             <div class="col-sm-7">
                                                 <div class="form-group">
                                                     <div class="input-group">
 
-                                                        <input id="dateredac" class="form-control" type="date" name="dateredac"
-                                                            [(ngModel)]="selected_data.dateredac" options="optionsEon" />
-                                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                        <input id="dateredac" class="form-control" type="date"
+                                                            name="dateredac" [(ngModel)]="selected_data.dateredac"
+                                                            options="optionsEon" />
+                                                        <span class="input-group-addon"><span
+                                                                class="glyphicon glyphicon-calendar"></span></span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -567,26 +603,28 @@ demander plus tôt ?"
                                             <label for="delai" class="col-sm-3 control-label">Délai à afficher à
                                                 l'usager</label>
                                             <div class="col-sm-9">
-                                                <input type="text" class="form-control form-control-sm has-error" id="delai"
-                                                    name="delai" placeholder="Délai de la prestation" value="{{selected_data.delai}}"
-                                                    [(ngModel)]="selected_data.delai">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="delai" name="delai" placeholder="Délai de la prestation"
+                                                    value="{{selected_data.delai}}" [(ngModel)]="selected_data.delai">
                                             </div>
                                         </div>
 
                                         <div class="form-group row mb-3">
                                             <label for="delaiFixe" class="col-sm-3 control-label">Délai fixe </label>
                                             <div class="col-sm-1">
-                                                <input type="checkbox" id="delaiFixe" name="delaiFixe" [(ngModel)]="selected_data.delaiFixe">
+                                                <input type="checkbox" id="delaiFixe" name="delaiFixe"
+                                                    [(ngModel)]="selected_data.delaiFixe">
 
                                             </div>
 
 
-                                            <label style="margin-left:40px;" for="nbreJours" class="col-sm-3 control-label"
-                                                *ngIf="selected_data.delaiFixe">Délai
+                                            <label style="margin-left:40px;" for="nbreJours"
+                                                class="col-sm-3 control-label" *ngIf="selected_data.delaiFixe">Délai
                                                 système</label>
                                             <div class="col-sm-4" *ngIf="selected_data.delaiFixe">
-                                                <input type="text" numbers-only="" class="form-control form-control-sm has-error"
-                                                    id="nbreJours" name="nbreJours" value="{{selected_data.nbreJours}}"
+                                                <input type="text" numbers-only=""
+                                                    class="form-control form-control-sm has-error" id="nbreJours"
+                                                    name="nbreJours" value="{{selected_data.nbreJours}}"
                                                     [(ngModel)]="selected_data.nbreJours">
                                             </div>
 
@@ -604,22 +642,25 @@ demander plus tôt ?"
                                         </div>
                                         <div class="form-group row mb-3">
 
-                                            <label style="margin-left:40px;" for="access_url" class="col-sm-4 control-label"
-                                                *ngIf="selected_data.access_online">Url de sollicitation</label>
+                                            <label style="margin-left:40px;" for="access_url"
+                                                class="col-sm-4 control-label" *ngIf="selected_data.access_online">Url
+                                                de sollicitation</label>
                                             <div class="col-sm-8" *ngIf="selected_data.access_online">
-                                                <input type="text" class="form-control form-control-sm has-error" id="access_url"
-                                                    name="access_url" [(ngModel)]="selected_data.access_url">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="access_url" name="access_url"
+                                                    [(ngModel)]="selected_data.access_url">
                                             </div>
 
                                         </div>
 
                                         <div class="form-group row mb-3">
 
-                                            <label style="margin-left:40px;" for="view_url" class="col-sm-4 control-label"
-                                                *ngIf="selected_data.access_online">Url de consultation</label>
+                                            <label style="margin-left:40px;" for="view_url"
+                                                class="col-sm-4 control-label" *ngIf="selected_data.access_online">Url
+                                                de consultation</label>
                                             <div class="col-sm-8" *ngIf="selected_data.access_online">
-                                                <input type="text" class="form-control form-control-sm has-error" id="view_url"
-                                                    name="view_url" [(ngModel)]="selected_data.view_url">
+                                                <input type="text" class="form-control form-control-sm has-error"
+                                                    id="view_url" name="view_url" [(ngModel)]="selected_data.view_url">
                                             </div>
 
                                         </div>
@@ -633,8 +674,9 @@ demander plus tôt ?"
                                         <div class="form-group row mb-3">
                                             <label for="cout" class="col-sm-3 control-label">Coût (FCFA) </label>
                                             <div class="col-sm-9">
-                                                <input type="number" required class="form-control form-control-sm has-error"
-                                                    id="cout" name="cout" placeholder="Coût de la prestation" value="{{selected_data.cout}}"
+                                                <input type="number" required
+                                                    class="form-control form-control-sm has-error" id="cout" name="cout"
+                                                    placeholder="Coût de la prestation" value="{{selected_data.cout}}"
                                                     [(ngModel)]="selected_data.cout">
 
                                                 <span class="help-inline has-error-col">{{errormessage}}</span>
@@ -646,17 +688,20 @@ demander plus tôt ?"
                                             <label for="lieuDepot" class="col-sm-3 control-label">Lieu de dépôt</label>
                                             <div class="col-sm-9">
                                                 <textarea class="form-control form-control-sm has-error" id="lieuDepot"
-                                                    name="lieuDepot" placeholder="Lieu de dépôt" value="{{selected_data.lieuDepot}}"
+                                                    name="lieuDepot" placeholder="Lieu de dépôt"
+                                                    value="{{selected_data.lieuDepot}}"
                                                     [(ngModel)]="selected_data.lieuDepot"></textarea>
                                             </div>
                                         </div>
 
 
                                         <div class="form-group row mb-3">
-                                            <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de retrait</label>
+                                            <label for="lieuRetrait" class="col-sm-3 control-label">Lieu de
+                                                retrait</label>
                                             <div class="col-sm-9">
-                                                <textarea class="form-control form-control-sm has-error" id="lieuRetrait"
-                                                    name="lieuRetrait" placeholder="Lieu de retrait" value="{{selected_data.lieuRetrait}}"
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="lieuRetrait" name="lieuRetrait" placeholder="Lieu de retrait"
+                                                    value="{{selected_data.lieuRetrait}}"
                                                     [(ngModel)]="selected_data.lieuRetrait"> </textarea>
 
 
@@ -669,8 +714,9 @@ demander plus tôt ?"
                                                 la prestation</label>
 
                                             <div class="col-sm-9">
-                                                <textarea class="form-control form-control-sm has-error" id="textesRegissantPrestation"
-                                                    name="textesRegissantPrestation" [(ngModel)]="selected_data.textesRegissantPrestation">
+                                                <textarea class="form-control form-control-sm has-error"
+                                                    id="textesRegissantPrestation" name="textesRegissantPrestation"
+                                                    [(ngModel)]="selected_data.textesRegissantPrestation">
                                                      </textarea>
 
                                             </div>
@@ -681,6 +727,12 @@ demander plus tôt ?"
                                             <div class="col-sm-1">
                                                 <input type="checkbox" id="hide_for_public" name="hide_for_public"
                                                     [(ngModel)]="selected_data.hide_for_public">
+                                            </div>
+                                        </div>
+                                         <div class="form-group row mb-3">
+                                            <label for="is_rh_edit" class="col-sm-3 control-label">Service RH ?</label>
+                                            <div class="col-sm-1">
+                                                <input type="checkbox" id="is_rh_edit" name="is_rh" [(ngModel)]="selected_data.is_rh">
                                             </div>
                                         </div>
 
@@ -727,7 +779,8 @@ demander plus tôt ?"
                             </div-->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid"
+                                type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
                 </ng-template>
@@ -735,7 +788,8 @@ demander plus tôt ?"
                     <form #manageForm="ngForm" (ngSubmit)="savePiece()">
                         <div class="modal-header bg-mat-primary">
                             <h4 class="modal-title text-white" id="modal-basic-title">Gérer les pièces</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <button type="button" class="close" aria-label="Close"
+                                (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
                         </div>
@@ -747,8 +801,8 @@ demander plus tôt ?"
                                     <label for="libelle" class="col-sm-3 control-label">Prestation * </label>
                                     <div class="col-sm-8">
                                         <input readonly="" type="text" class="form-control form-control-sm has-error"
-                                            id="libelle" name="libelle" placeholder="Libellé de l'élément" [(ngModel)]="selected_data.libelle"
-                                            required>
+                                            id="libelle" name="libelle" placeholder="Libellé de l'élément"
+                                            [(ngModel)]="selected_data.libelle" required>
 
                                     </div>
                                 </div>
@@ -759,13 +813,15 @@ demander plus tôt ?"
                                         <span style="color:red;">{{errorajout}}</span>
                                         <div class="col-sm-7">
 
-                                            <input piece="text" class="form-control form-control-sm has-error" id="libellePiece"
-                                                name="libellePiece" placeholder="Libellé de la pièce" ngModel required>
+                                            <input piece="text" class="form-control form-control-sm has-error"
+                                                id="libellePiece" name="libellePiece" placeholder="Libellé de la pièce"
+                                                ngModel required>
                                         </div>
 
                                         <div class="col-sm-2">
                                             <button type="submit" [disabled]="user?.profil_user?.decisionnel_suivi==1"
-                                                class="btn btn-info" style="padding: 5px 10px !important;">Ajouter</button>
+                                                class="btn btn-info"
+                                                style="padding: 5px 10px !important;">Ajouter</button>
                                         </div>
 
                                     </div>
@@ -782,7 +838,8 @@ demander plus tôt ?"
                                                     <tr *ngFor="let piece of listepieces;let  i =index">
                                                         <td>{{piece.libellePiece}}</td>
 
-                                                        <td><a class="btn btn-sm btn-danger" (click)="removeRow(i)">Retirer</a></td>
+                                                        <td><a class="btn btn-sm btn-danger"
+                                                                (click)="removeRow(i)">Retirer</a></td>
                                                     </tr>
 
                                                 </tbody>
@@ -793,7 +850,8 @@ demander plus tôt ?"
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" id="btn-save" type="submit"><i class="fas fa-save"></i>&nbsp;
+                            <button class="btn btn-primary" id="btn-save" type="submit"><i
+                                    class="fas fa-save"></i>&nbsp;
                                 Enregistrer <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>

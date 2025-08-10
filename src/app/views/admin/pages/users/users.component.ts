@@ -170,7 +170,7 @@ search_text:any=""
   }
   
   create(value:any){
-    value.idEntite=this.user.idEntite
+    // value.idEntite=this.user.idEntite
     
       this.loading=true
       this.userService.create(value).subscribe((res:any)=>{

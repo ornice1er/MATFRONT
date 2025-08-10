@@ -212,46 +212,56 @@
                     </form>
                 </ng-template>
                 <ng-template #contentU let-modal>
-                    <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                        <div class="modal-header bg-mat-primary">
-                            <h4 class="modal-title text-white" id="modal-basic-title">Modifier un utilisateur</h4>
-                            <button type="button" class="close" aria-label="Close"
-                                (click)="modal.dismiss('Cross click')">
-                                X
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">
-                                {{error}}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
-                                        aria-hidden="true">×</span>
-                                </button>
-                            </div>
-
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Email</label>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control form-control-sm" #email="ngModel"
-                                        maxlength="250" required name="email" [(ngModel)]="selected_data.email">
-                                    <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                                        <small *ngIf="email.errors?.['required']">
-                                            email est requis
-                                        </small>
-                                        <small *ngIf="email.errors?.['maxlength']">
-                                            email ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid"
-                                type="submit">Sauvegarder</button>
-                        </div>
-                    </form>
-                </ng-template>
+        <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
+            <div class="modal-header bg-mat-primary">
+                <h4 class="modal-title text-white">Modifier un utilisateur</h4>
+                <button type="button" class="close" (click)="modal.dismiss('Cross click')">X</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row mb-3">
+                    <label class="col-md-4">Institution *</label>
+                    <div class="col-md-8">
+                        <select class="form-control form-control-sm" name="idEntite" [(ngModel)]="selected_data.idEntite" required (change)="loadActeur($event)">
+                            <option *ngFor="let e of institutions" [value]="e.id">{{ e?.libelle }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-md-4">Acteur *</label>
+                    <div class="col-md-8">
+                        <select class="form-control form-control-sm" name="idAgent" [(ngModel)]="selected_data.agent_user.id" required>
+                            <option *ngFor="let e of acteurs" [value]="e.id">{{ e.nomprenoms }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-md-4">Rôle *</label>
+                    <div class="col-md-8">
+                        <select class="form-control form-control-sm" name="role" [(ngModel)]="selected_data.roles[0].name" required>
+                            <option *ngFor="let e of role" [value]="e.name">{{ e?.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-md-4">Email *</label>
+                    <div class="col-md-8">
+                        <input type="email" class="form-control form-control-sm" required name="email" [(ngModel)]="selected_data.email">
+                    </div>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="col-md-4">Activé</label>
+                    <div class="col-md-8">
+                        <input type="checkbox" name="is_active" [(ngModel)]="selected_data.is_active">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid || loading">
+                    Sauvegarder <app-loading [isVisible]="loading"></app-loading>
+                </button>
+            </div>
+        </form>
+    </ng-template>
             </div>
         </div>
     </div>
