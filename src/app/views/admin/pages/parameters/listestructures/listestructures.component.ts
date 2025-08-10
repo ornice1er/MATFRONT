@@ -129,6 +129,20 @@ loading:any=false
   
   create(value:any){
     value.idEntite=this.user?.idEntite
+    if (value.point_de_chute == 1) {
+        const existing = this.data.find(s => s.point_de_chute);
+        if (existing) {
+            AppSweetAlert.simpleAlert('error', "Opération impossible", `La structure "${existing.libelle}" est déjà définie comme point de chute.`);
+            return;
+        }
+    }
+    if (value.point_de_chute_transverse == 1) {
+        const existing = this.data.find(s => s.point_de_chute_transverse);
+        if (existing) {
+            AppSweetAlert.simpleAlert('error', "Opération impossible", `La structure "${existing.libelle}" est déjà définie comme point de chute transverse.`);
+            return;
+        }
+    }
     this.loading=true
     this.structureService.create(value).subscribe((res:any)=>{
           this.loading=false
@@ -168,8 +182,23 @@ loading:any=false
    })
   }
   edit(value:any) {
-    // value.id=this.selected_data.id
+    value.id=this.selected_data.id
     value.idEntite=this.user.idEntite
+    if (value.point_de_chute == 1) {
+        const existing = this.data.find(s => s.point_de_chute && s.id !== this.selected_data.id);
+        if (existing) {
+            AppSweetAlert.simpleAlert('error', "Opération impossible", `La structure "${existing.libelle}" est déjà définie comme point de chute.`);
+            return;
+        }
+    }
+
+    if (value.point_de_chute_transverse == 1) {
+        const existing = this.data.find(s => s.point_de_chute_transverse && s.id !== this.selected_data.id);
+        if (existing) {
+            AppSweetAlert.simpleAlert('error', "Opération impossible", `La structure "${existing.libelle}" est déjà définie comme point de chute transverse.`);
+            return;
+        }
+    }
         this.loading=true
 
     this.structureService.update(value,this.selected_data.id).subscribe((res:any)=>{

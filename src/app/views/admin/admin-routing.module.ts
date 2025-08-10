@@ -10,6 +10,7 @@ import { ResetPasswordComponent } from "./pages/auth/reset-password/reset-passwo
 import { AvancedStatisticsComponent } from "./pages/avanced-statistics/avanced-statistics.component";
 import { PerformanceRequeteComponent } from "./pages/performance-requete/performance-requete.component";
 import { BaseUsagerComponent } from "./pages/base-usager/base-usager.component";
+import { RecoveryPasswordComponent } from "../auth/recovery-password/recovery-password.component";
 import { BaseComponent } from "./pages/base/base.component";
 import { CcspComponent } from "./pages/ccsp/ccsp.component";
 import { CrudComponent } from "./pages/crud/crud.component";
@@ -82,6 +83,16 @@ import { ProfileComponent } from "./pages/profile/profile.component";
 import { RoleComponent } from "./pages/role/role.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
 
+export const PublicAuthRoutes: Routes = [
+
+  {
+    path: 'reset-password/:token', // <-- VOTRE ROUTE, MAINTENANT PUBLIQUE
+    component: RecoveryPasswordComponent
+  },
+]
+
+
+
 export const AdminRoutes: Routes = [
   {
     path: 'admin',
@@ -114,12 +125,16 @@ export const AdminRoutes: Routes = [
         path: 'login-v2/:code',
         component: LoginV2Component
       },
+      // {
+      //   path: 'reset-password/:token',
+      //   component: ResetPasswordComponent
+      // },
+      //   {
+      //   path: 'reset-password/:token',
+      //   component: RecoveryPasswordComponent
+      // },
       {
-        path: 'reset-password/:token',
-        component: ResetPasswordComponent
-      },
-      {
-        path: 'forgot-password',
+        path: 'forgot-password/:lang',
         component: ForgotPasswordComponent
       },
       {
@@ -132,12 +147,13 @@ export const AdminRoutes: Routes = [
         path: 'login/:lang',
         component: LoginComponent
       },
+       
       {
         path: 'reset-password/:lang/:token',
         component: ResetPasswordComponent
       },
       {
-        path: 'forgot-password/:lang',
+        path: 'forgot-password',
         component: ForgotPasswordComponent
       },
       {

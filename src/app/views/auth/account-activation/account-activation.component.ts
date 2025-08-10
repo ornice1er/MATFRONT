@@ -67,7 +67,7 @@ export class AccountActivationComponent implements OnInit {
         this.lsService.remove(GlobalName.tokenName)
         this.lsService.remove(GlobalName.refreshTokenName)
         this.lsService.remove(GlobalName.expireIn)
-        this.router.navigate(['/login'])
+        this.router.navigate(['/auth/login'])
         this.toastr.success('Déconnexion réussie', 'Première Connexion');
       }),
       ((err:any)=>{

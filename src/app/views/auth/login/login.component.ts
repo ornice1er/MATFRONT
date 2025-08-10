@@ -21,7 +21,7 @@ import { PermissionService } from '../../../core/services/permission.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+ passwordVisible: boolean = false;
   returnUrl=''
   loading=false
   error=''
@@ -44,6 +44,10 @@ export class LoginComponent implements OnInit {
   if (this.localStorageService.get('mataccueilToken')!=null) {
     this.router.navigate(['/dashboard']);
   }	
+  }
+
+   togglePasswordVisibility(): void {
+    this.passwordVisible = !this.passwordVisible;
   }
 
   submit(value:any,event?: Event):any {

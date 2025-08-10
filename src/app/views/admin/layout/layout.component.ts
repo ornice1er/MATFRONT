@@ -108,7 +108,6 @@ export class LayoutComponent {
         { label: 'Type structure', route: '/admin/type-structures', key: 'TYPE DE STRUCTURE', action: 'LISTER' },
         { label: 'Nature contrat', route: '/admin/nature-contracts', key: 'NATURE DE CONTRAT', action: 'LISTER' },
         { label: 'Centre communaux', route: '/admin/ccsps', key: 'CCSP', action: 'LISTER' },
-        { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
         { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
         { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
         { label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
@@ -220,7 +219,16 @@ export class LayoutComponent {
         { label: 'Thématiques', route: '/admin/grahiquetype/requetes', key: 'STATISTIQUES THÉMATIQUES', action: 'LISTER' },
         { label: 'Structures', route: '/admin/grahiquestructures/requetes', key: 'STATISTIQUES', action: 'LISTER' }
       ]
-    }
+    },
+      {
+      label: 'Mon profil',
+      key: 'PROFIL',
+      action: 'LISTER',
+      route: '/admin/profil',
+    },
+    { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
+
+    
   ];
 
   logOutIcon = LogOut;
@@ -250,6 +258,7 @@ export class LayoutComponent {
     if (this.lsService.get(GlobalName.userName) != null) {
       this.user = this.lsService.get(GlobalName.userName);
       this.role = this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
+      console.log("role", this.user.roles[0].name )
     } else {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
@@ -286,6 +295,7 @@ export class LayoutComponent {
   }
 
   canShowItemBloc(item: MenuItem): boolean {
+    
     if (item.children && Array.isArray(item.children)) {
       return item.children.some(child => this.canShowItem(child));
     }
@@ -293,6 +303,15 @@ export class LayoutComponent {
   }
 
   canShowItem(item: MenuItem): boolean {
+    if (item.label === 'Mon profil') {
+    return true;
+  }
+   if (item.label === 'Paramètre générale') {
+    return true;
+  }
+    if (this.user?.roles?.length > 0 && this.user.roles[0].name === 'Super Admin') {
+      return true;
+    }
     const result = item.key && item.action ? this.appActionCheck.check(item.key, item.action) : false;
     return result;
   }

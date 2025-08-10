@@ -15,6 +15,11 @@ export class ProfilService {
     return this.http.get<any[]>(`${ConfigService.toApiUrl("profil")}/main`, );
   }
 
+  getProfil(){
+   
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("get-profil")}`, );
+  }
+
   getAll(){
    
     return this.http.get<any[]>(`${ConfigService.toApiUrl("profil")}`, );
@@ -26,7 +31,7 @@ export class ProfilService {
   }
   create(ressource:any){
     
-    return this.http.post<any>(`${ConfigService.toApiUrl("profil")}`, ressource,
+    return this.http.post<any>(`${ConfigService.toApiUrl("store-profil")}`, ressource,
      ).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
@@ -37,8 +42,17 @@ export class ProfilService {
       tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
     );
   }
+   updateProfil(ressource:any,id:any){
+    return this.http.post<any>(`${ConfigService.toApiUrl("update-profil/")}${id}`, ressource,
+     ).pipe(
+      tap((ressource: any) => console.log(`upadted ressource ${ressource}`))
+    );
+  }
   delete(id:number){
     return this.http.delete<any[]>(`${ConfigService.toApiUrl("profil/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
+  }  
+   deleteProfil(id:number){
+    return this.http.delete<any[]>(`${ConfigService.toApiUrl("delete-profil/")}${id}`,ConfigService.httpHeader(localStorage.getItem("mataccueilToken"),false));
   }  
 
   addGuideUser(param:any,id:any){

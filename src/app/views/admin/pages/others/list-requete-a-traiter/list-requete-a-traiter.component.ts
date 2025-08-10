@@ -872,6 +872,8 @@ updateSelectedService(newServiceId: any) {
         'Veuillez saisir votre réponse',
         undefined
       );
+                 this.isLoading = false;
+    this.spinner.hide();
       return;
     }
     let complementReponse = '';
@@ -893,9 +895,9 @@ updateSelectedService(newServiceId: any) {
     formData.append('idRequete', this.selected_data.id);
     formData.append('typeStructure', 'Direction');
     formData.append('texteReponse', value.texteReponseApportee);
-    formData.append('interrompu', value.interrompu);
     formData.append('idEntite', this.user.idEntite);
-    formData.append('rejete', value.rejete);
+formData.append('interrompu', value.interrompu ? '1' : '0');
+formData.append('rejete', value.rejete ? '1' : '0');
     formData.append('raisonRejet', value.raisonRejet);
     formData.append('fichier', this.file);
 
@@ -966,6 +968,8 @@ updateSelectedService(newServiceId: any) {
           "Une erreur est survenue lors de l'enregistrement de la réponse.",
           undefined
         );
+                   this.isLoading = false;
+    this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;

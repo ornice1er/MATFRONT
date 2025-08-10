@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { IsAuthedGuard } from './core/guards/is-authed.guard';
 import { IsVerifiedAccountStateGuard } from './core/guards/is-verified-account-state.guard';
-import { AdminRoutes } from './views/admin/admin-routing.module';
+import { AdminRoutes,PublicAuthRoutes } from './views/admin/admin-routing.module';
 import { AccountActivationComponent } from './views/auth/account-activation/account-activation.component';
 import { ForgetPasswordComponent } from './views/auth/forget-password/forget-password.component';
 import { LoginComponent } from './views/auth/login/login.component';
@@ -17,6 +17,8 @@ export const routes: Routes = [
     {path: '', redirectTo: '/auth/login',pathMatch:'full'},
     ...AdminRoutes,
     ...PublicRoutes,
+    ...PublicAuthRoutes,
+
     {
       path:"auth",
       component:LayoutComponent,

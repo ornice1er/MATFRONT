@@ -60,6 +60,10 @@
                                     <th scope="col">Sigle</th>
                                     <th scope="col">Email</th>
                                     <th scope="col">Type </th>
+                                    <th scope="col">Point de Chute</th>
+                                    <th scope="col">Chute Transverse</th>
+                                    <th scope="col">Contrôle Primaire</th>
+                                    <th scope="col">Contrôle Secondaire</th>
                                     <th scope="col">Activé</th>
                                 </tr>
                             </thead>
@@ -93,9 +97,27 @@
                                         <span *ngIf="el.type_s =='di'">Division</span>
                                     </td>
                                     <td class="text-center">
+                                        <span class="badge badge-success" *ngIf="el.point_de_chute">Oui</span>
+                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute">Non</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-success" *ngIf="el.point_de_chute_transverse">Oui</span>
+                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute_transverse">Non</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-success" *ngIf="el.controle_primaire">Oui</span>
+                                        <span class="badge badge-secondary" *ngIf="!el.controle_primaire">Non</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-success" *ngIf="el.controle_secondaire">Oui</span>
+                                        <span class="badge badge-secondary" *ngIf="!el.controle_secondaire">Non</span>
+                                    </td>
+                        
+                                    <td class="text-center">
                                         <span  class="badge badge-success" *ngIf="el.active==1">Oui</span>
                                         <span class="badge badge-danger" *ngIf="el.active==0">Non</span>
                                     </td>
+
                                 </tr>
                                 <tr *ngIf="data.length==0">
                                     <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
@@ -173,6 +195,45 @@
                                     </span>
                                 </div>
                             </div>
+                            <hr>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Point de chute ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="point_de_chute" ngModel>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Point de chute transverse ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="point_de_chute_transverse" ngModel>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Contrôle primaire ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="controle_primaire" ngModel>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Contrôle secondaire ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="controle_secondaire" ngModel>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+
                             <div class="form-group row mb-3">
                                 <label class="col-md-4">Sigle</label>
                                 <div class="col-md-6">
@@ -311,6 +372,44 @@
                                     </span>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="form-group row mb-3">
+                                <label class="col-md-4">Point de chute ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="point_de_chute" [(ngModel)]="selected_data.point_de_chute">
+                                        <option [ngValue]="0">Non</option>
+                                        <option [ngValue]="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Point de chute transverse ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="point_de_chute_transverse" [(ngModel)]="selected_data.point_de_chute_transverse">
+                                        <option [ngValue]="0">Non</option>
+                                        <option [ngValue]="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Contrôle primaire ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="controle_primaire" [(ngModel)]="selected_data.controle_primaire">
+                                        <option [ngValue]="0">Non</option>
+                                        <option [ngValue]="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="form-group row mb-3">
+                                <label class="col-md-4">Contrôle secondaire ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="controle_secondaire" [(ngModel)]="selected_data.controle_secondaire">
+                                        <option [ngValue]="0">Non</option>
+                                        <option [ngValue]="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
 
                             <div class="form-group row mb-3">
                                 <label class="col-md-4">Sigle</label>

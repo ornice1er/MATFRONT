@@ -252,7 +252,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="divRaison" *ngIf="selected_data.rejete==true || selected_data.interrompu==true || selected_data.rejete==1 || selected_data.interrompu==1">
+                    <div id="divRaison" *ngIf="selected_data.rejete || selected_data.interrompu">
                         <div class="row form-group">
                             <label for="raisonRejet" class="col-md-2">Raison :</label>
                             <div class="col-md-10">
