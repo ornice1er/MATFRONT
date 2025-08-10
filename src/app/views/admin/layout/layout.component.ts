@@ -108,7 +108,6 @@ export class LayoutComponent {
         { label: 'Type structure', route: '/admin/type-structures', key: 'TYPE DE STRUCTURE', action: 'LISTER' },
         { label: 'Nature contrat', route: '/admin/nature-contracts', key: 'NATURE DE CONTRAT', action: 'LISTER' },
         { label: 'Centre communaux', route: '/admin/ccsps', key: 'CCSP', action: 'LISTER' },
-        { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
         { label: 'Rôles', route: '/admin/roles', key: 'ROLE', action: 'LISTER' },
         { label: 'Permissions', route: '/admin/permissions', key: 'PERMISSION', action: 'LISTER' },
         { label: 'Rôles & Permissions', route: '/admin/profils', key: 'PROFIL', action: 'LISTER' }
@@ -227,6 +226,8 @@ export class LayoutComponent {
       action: 'LISTER',
       route: '/admin/profil',
     },
+    { label: 'Paramètre générale', route: '/admin/settings', key: 'PARAMÈTRES', action: 'LISTER' },
+
     
   ];
 
@@ -303,6 +304,9 @@ export class LayoutComponent {
 
   canShowItem(item: MenuItem): boolean {
     if (item.label === 'Mon profil') {
+    return true;
+  }
+   if (item.label === 'Paramètre générale') {
     return true;
   }
     if (this.user?.roles?.length > 0 && this.user.roles[0].name === 'Super Admin') {
