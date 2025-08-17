@@ -1,129 +1,80 @@
-<!-- Container Fluid-->
 <div class="container-fluid" id="container-wrapper">
   <div class="d-sm-flex align-items-center justify-content-between mb-4">
-      <h3 class="h3 mb-0 text-gray-800">PROFIL</h3>
-
+    <h1 class="h3 mb-0 text-gray-800">Mon Profil</h1>
   </div>
-  <div class="row d-flex">
-      <div class="col-lg-6 mx-auto">
-          <div class="card my-2">
-              <!-- Header -->
-              <div class="card-header bg-gray-100 p-4 border-0 pt-5">
 
-                <h4>    VOTRE PROFIL</h4>
-              </div>
-              <!-- Body -->
-              <div class="card-body pt-3 pb-0">
+  <div class="row">
+    <div class="col-lg-10 mx-auto">
+      <div class="card shadow-lg rounded-lg">
+        <div class="card-header bg-primary text-white p-4">
+          <h4 class="m-0 font-weight-bold">Aperçu de votre profil</h4>
+        </div>
+        
+        <div class="card-body p-4 p-md-5" *ngIf="user">
 
-                <form #frmAddUser="ngForm" (ngSubmit)="saveUpdateProfil(frmAddUser.value)" class="form-horizontal" novalidate="">
-                	
-
-                  <div class="form-group row mb-3">
-                    <label class="col-sm-4 control-label">Nom </label>
-                    <div class="col-sm-7">
-                    {{user.agent_user==null ? '' : user.agent_user.nom}}
-                    </div>
-                  </div>
-      
-                  <div class="form-group  row">
-                    <label class="col-sm-4 control-label">Prénoms </label>
-                    <div class="col-sm-7">
-                    {{user.agent_user==null ? '' : user.agent_user.prenoms}}
-                    </div>
-                  </div>
-      
-                <div class="form-group  row">
-                  <label class="col-sm-4 control-label">Profil </label>
-                  <div class="col-sm-7">
-                    {{user.profil_user.LibelleProfil}}
-                   </div>
-                </div>
-      
-                  <div class="form-group  row">
-                    <label class="col-sm-4 control-label"> Statut </label>
-                    <div class="col-sm-7">
-                    {{user.statut==1? 'Actif' : 'Inactif'}}
-                  </div>
-                  </div>
-      
-                  <div class="form-group  row">
-                    <label class="col-sm-4 control-label">Email </label>
-                    <div class="col-sm-7">
-                    {{user.email}}
-                    </div>
-                  </div>
-      
-                  <div class="form-group  row">
-                    <label class="col-sm-4 control-label"> Sexe </label>
-                    <div class="col-sm-7">
-                      {{user.agent_user==null ? '' : user.agent_user.sexe}}
-                  </div>
-                  </div>
-      
-                  <div class="form-group  row">
-                    <label class="col-sm-4 control-label"> Profession </label>
-                    <div class="col-sm-7">
-                      {{user.agent_user==null ? '' : user.agent_user.profession}}
-                  </div>
-                  </div>
-      
-                <div class="form-group  row">
-                    <label class="col-sm-4 control-label"> Contacts </label>
-                    <div class="col-sm-7">
-                    {{user.agent_user==null ? '' : user.agent_user.contacts}}
-                  </div>
-                  </div>
-      
-                <hr>
-                <h4>Modifier vos informations </h4>
-                <label>{{errormessage}}</label>
-                <div class="form-group  row">
-                    <label for="email" class="col-sm-4 control-label">Changer votre Email </label>
-                    <div class="col-sm-7">
-                    <input type="email" class="form-control" id="email" placeholder="Nouvelle adresse Email " name="newemail" [(ngModel)]="user.email"  />
-                    
-                  </div>
-                  </div>
-                  
-                 <div class="form-group   row">
-                    <label for="newpassword" class="col-sm-4 control-label">Changer votre mot de passe </label>
-                    <div class="col-sm-7">
-                    <input type="password" class="form-control" id="newpassword" placeholder="Nouveau mot de passe " name="newpassword" ngModel />
-                    
-                    </div>
-                  </div>
-      
-                <div class="form-group   row">
-                    <label for="newpasswordconfirm" class="col-sm-4 control-label">Confirmer le nouveau mot de passe </label>
-                    <div class="col-sm-7">
-                    <input type="password" class="form-control" id="newpasswordconfirm" placeholder="Confirmer nouveau mot de passe " name="newpasswordconfirm" ngModel  />
-                    </div>
-                  </div>
-      
-                <div class="form-group   row">
-                    <label for="contacts" class="col-sm-4 control-label"> Changer vos Contacts </label>
-                    <div class="col-sm-7">
-                    <input type="text" class="form-control" id="contacts" placeholder="Nouveaux contacts " name="newcontacts" ngModel/>
-                  </div>
-                  </div>
-      
-                  <div class="form-group" align="center">
-                    
-                  <button [disabled]="frmAddUser.invalid" type="submit" class="btn btn-primary mx-2" id="btn-save" >
-                      <i class="fas fa-save"></i> &nbsp; Modifier votre profil
-                  </button>
-      
-                    <a routerLink="/dashboard"  class="btn btn-danger"><i class="fas fa-undo"></i> Retour </a>
-                  </div>
-      
-            </form>
-              </div>
-
-
-           
+          <div class="mb-5">
+            <h5 class="text-gray-800 mb-4">Informations actuelles</h5>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
+              <div class="font-weight-bold">Nom : <span class="font-weight-normal">{{ user.agent_user?.nom || 'N/A' }}</span></div>
+              <div class="font-weight-bold">Prénoms : <span class="font-weight-normal">{{ user.agent_user?.prenoms || 'N/A' }}</span></div>
+              <div class="font-weight-bold">Email : <span class="font-weight-normal">{{ user.email }}</span></div>
+              <div class="font-weight-bold">Contacts : <span class="font-weight-normal">{{ user.agent_user?.contacts || 'N/A' }}</span></div>
+              <div class="font-weight-bold">Profil : <span class="font-weight-normal">{{ user.profil_user?.LibelleProfil }}</span></div>
+              <div class="font-weight-bold">Sexe : <span class="font-weight-normal">{{ user.agent_user?.sexe || 'N/A' }}</span></div>
+              <div class="font-weight-bold">Statut : <span class="badge" [ngClass]="user.statut === 1 ? 'badge-success' : 'badge-danger'">{{ user.statut === 1 ? 'Actif' : 'Inactif' }}</span></div>
+            </div>
           </div>
-      </div>
-  </div>
 
+          <hr class="my-5">
+
+          <div>
+            <h5 class="text-gray-800 mb-4">Modifier vos informations de connexion</h5>
+            
+            <div class="alert alert-danger my-3" *ngIf="errormessage">
+              {{ errormessage }}
+            </div>
+
+            <form #frmAddUser="ngForm" (ngSubmit)="saveUpdateProfil(frmAddUser.value)" class="flex flex-col gap-4">
+              
+              <div class="form-group">
+                <label for="email" class="text-sm font-weight-bold text-gray-700 mb-1">Changer votre Email</label>
+                <input type="email" class="form-control" id="email" placeholder="Nouvelle adresse Email" name="newemail" [(ngModel)]="user.email" />
+              </div>
+
+              <div class="form-group relative">
+                <label for="newpassword" class="text-sm font-weight-bold text-gray-700 mb-1">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                <input [type]="newPasswordVisible ? 'text' : 'password'" class="form-control" id="newpassword" placeholder="••••••••" name="newpassword" ngModel />
+                <button type="button" (click)="toggleNewPasswordVisibility()" class="absolute inset-y-0 right-0 top-1/2 flex items-center pr-3 text-gray-600">
+                  <i class="fas" [ngClass]="newPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+
+              <div class="form-group relative">
+                <label for="newpasswordconfirm" class="text-sm font-weight-bold text-gray-700 mb-1">Confirmer le nouveau mot de passe</label>
+                <input [type]="confirmPasswordVisible ? 'text' : 'password'" class="form-control" id="newpasswordconfirm" placeholder="••••••••" name="newpasswordconfirm" ngModel />
+                <button type="button" (click)="toggleConfirmPasswordVisibility()" class="absolute inset-y-0 right-0 top-1/2 flex items-center pr-3 text-gray-600">
+                  <i class="fas" [ngClass]="confirmPasswordVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+                </button>
+              </div>
+
+              <div class="form-group">
+                <label for="contacts" class="text-sm font-weight-bold text-gray-700 mb-1">Changer vos Contacts</label>
+                <input type="text" class="form-control" id="contacts" placeholder="Nouveaux contacts" name="newcontacts" [ngModel]="user.agent_user?.contacts" />
+              </div>
+
+              <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary mx-2" [disabled]="loading">
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <i *ngIf="!loading" class="fas fa-save"></i>&nbsp;
+                    {{ loading ? 'Enregistrement...' : 'Enregistrer les modifications' }}
+                </button>
+                <a routerLink="/admin/dashboard" class="btn btn-outline-secondary">Retour</a>
+              </div>
+            </form>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<!---Container Fluid-->

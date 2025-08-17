@@ -43,6 +43,7 @@ export class UsersMainComponent implements OnInit {
   page = 1;
   pageSize = 10;
   searchText = '';
+  loading = false;
   closeResult = '';
   error = '';
   data: any[] = [];
@@ -205,28 +206,34 @@ export class UsersMainComponent implements OnInit {
     });
   }
 
-  edit(value: any) {
-    value.id = this.selected_data.id;
-    if (value.password && value.password !== value.conf_password) {
-      this.error = 'Les deux mots de passe doivent être identiques';
-      return;
-    }
-    this.userService.update(value, this.selected_data.id).subscribe({
+   edit(value: any) {
+    if (!this.selected_data) return;
+
+    this.loading = true; // <-- On active le loader avant l'appel API
+
+    const payload = { ...this.selected_data, ...value };
+    payload.agent_user_id = value.idAgent;
+
+    this.userService.update(payload, this.selected_data.id).subscribe({
       next: (res: any) => {
+        this.loading = false; // <-- On désactive le loader en cas de succès
         this.modalService.dismissAll();
-        AppSweetAlert.simpleAlert('success', 'Nouvelle modification', 'Modification effectuée avec succès');
+        AppSweetAlert.simpleAlert('success', 'Modification', 'Modification effectuée avec succès');
         this.init();
       },
       error: (err: any) => {
-        AppSweetAlert.simpleAlert('error', 'Nouvelle modification', 'Erreur, vérifiez votre connexion internet');
+        this.loading = false; // <-- On désactive AUSSI le loader en cas d'erreur
+        const message = err.error?.error_list || 'Erreur, vérifiez votre connexion internet';
+        AppSweetAlert.simpleAlert('error', 'Nouvelle modification', JSON.stringify(message));
       }
     });
   }
 
   openAddModal(content: any) {
     this.error = '';
-    this.selected_data = { idEntite: this.user.idEntite || null, idagent: null, profil: null, role: null, statut: false };
+    this.selected_data = { idEntite: this.user.idEntite || null, email: '', idagent: null, profil: null, role: null, statut: false };
     this.acteurs = [];
+    
     this.hide_actors = false;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
@@ -237,6 +244,12 @@ export class UsersMainComponent implements OnInit {
       return;
     }
     this.error = '';
+    if (!this.selected_data.agent_user) {
+      this.selected_data.agent_user = { id: null }; // Objet de secours
+    }
+    if (!this.selected_data.roles || this.selected_data.roles.length === 0) {
+      this.selected_data.roles = [{ name: null }]; // Objet de secours
+    }
     this.loadActeur({ target: { value: this.selected_data.idEntite } });
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }

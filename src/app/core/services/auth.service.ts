@@ -50,8 +50,8 @@ export class AuthService {
     return this.http.post<any>(`${this.url2}api/update-profile`, ressource,ConfigService.addAction('edit'));
   }
 
-  recoverPassword(token:any,ressource:any){
-    return this.http.post<any>(`${this.url2}api/recovery-password/${token}`, ressource);
+  recoverPassword(ressource:any){
+    return this.http.post<any>(`${this.url2}api/recovery-password`, ressource);
   }
 
 

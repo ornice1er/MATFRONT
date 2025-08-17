@@ -1,24 +1,93 @@
-<!-- Container Fluid-->
-<div class="container-fluid" id="container-wrapper">
- 
-    <p class="text-center">A configurer</p>
-    
-    <!-- <div class="row">
-          <div class="card card-body col-8 mx-auto">
-            <form #newForm="ngForm" (ngSubmit)="set(newForm.value)">
-                <div class="form-group">
-                    <label for=""> Message d'entête</label>
-                    <input type="text" class="form-control" name="header_text" [(ngModel)]="setting.header_text">
-                </div>
+<!-- <div *ngIf="isLoading" class="loading-overlay">
+  <app-loading></app-loading>
+</div> -->
 
-                <div class="text-end">
-                    <button  class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
-        
-                </div>
-            </form>
-        </div>
+<div class="container-fluid" id="container-wrapper" [hidden]="isLoading">
+  <div class="card my-4">
+    <div class="card-header p-4 border-0">
+      <h4><i class="fas fa-cogs"></i> Paramètres Généraux de l'Entité</h4>
+      <p class="text-muted">Gérez les configurations globales de votre entité.</p>
     </div>
-   -->
+    <div class="card-body">
+      <form #settingsForm="ngForm">
+        
+        <fieldset class="mb-4">
+          <legend class="h6">Configuration de Base</legend>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="delai_relance">Délai de relance (en jours)</label>
+                <input type="number" id="delai_relance" name="delai_relance" class="form-control" 
+                       [(ngModel)]="setting.delai_relance" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="groupe_acteur_controle_primaire">Groupe d'acteurs pour le contrôle primaire</label>
+                <p-multiSelect id="groupe_acteur_controle_primaire" 
+                               [options]="roles" 
+                               [(ngModel)]="setting.groupe_acteur_controle_primaire" 
+                               name="groupe_acteur_controle_primaire"
+                               optionLabel="name" 
+                               optionValue="id" 
+                               placeholder="Sélectionnez des rôles" 
+                               [style]="{'width': '100%'}"
+                               [maxSelectedLabels]="3" 
+                               selectedItemsLabel="{0} rôles sélectionnés">
+                </p-multiSelect>
+              </div>
+            </div>
+          </div>
+        </fieldset>
 
+        <fieldset>
+          <legend class="h6">Personnalisation Visuelle</legend>
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <div class="form-group">
+                <label for="logo_entite">Logo de l'entité (sera stocké en Base64)</label>
+                <input type="file" id="logo_entite" class="form-control" 
+                       (change)="handleFileInput($event)" accept="image/*">
+                <div class="mt-3 text-center preview-container" *ngIf="setting.logo_entite || logoPreview">
+                  <p class="text-muted small">Aperçu</p>
+                  <img [src]="toFileUrl(logoPreview || setting.logo_entite)" 
+                       alt="Aperçu du logo" class="img-thumbnail">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label for="entete_entite">En-tête des documents</label>
+              <div class="ngx-editor__wrapper">
+                <ngx-editor-menu [editor]="headerEditor"></ngx-editor-menu>
+                <ngx-editor [editor]="headerEditor" 
+                            [(ngModel)]="setting.entete_entite" 
+                            name="entete_entite"
+                            placeholder="Saisissez le contenu de l'en-tête ici...">
+                </ngx-editor>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="pied_page_entite">Pied de page des documents</label>
+              <div class="ngx-editor__wrapper">
+                <ngx-editor-menu [editor]="footerEditor"></ngx-editor-menu>
+                <ngx-editor [editor]="footerEditor" 
+                            [(ngModel)]="setting.pied_page_entite" 
+                            name="pied_page_entite"
+                            placeholder="Saisissez le contenu du pied de page ici...">
+                </ngx-editor>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+    <div class="card-footer text-right">
+      <button type="button" class="btn btn-primary" (click)="saveSettings()" 
+              [disabled]="isLoading || !settingsForm.valid">
+        <i class="fas fa-save"></i>&nbsp; Enregistrer les modifications
+      </button>
+    </div>
+  </div>
 </div>
-<!---Container Fluid-->

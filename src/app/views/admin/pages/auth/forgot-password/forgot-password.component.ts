@@ -28,17 +28,24 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(private activatedRoute:ActivatedRoute,private router:Router,private translateService: TranslateService,private authService:AuthentificationService) { }
   lang="fr"
   ngOnInit(): void {
-    this.lang=this.activatedRoute.snapshot.paramMap.get('lang') ?? '';
-    if(this.lang=="fr" || this.lang=="en"){
-      this.translateService.use(this.lang);
-    }else{
+    const langParam = this.activatedRoute.snapshot.paramMap.get('lang');
+
+    if(langParam && (langParam === "fr" || langParam === "en")) {
+      this.lang = langParam;
+    }
+    this.translateService.use(this.lang);
+
+    // this.lang=this.activatedRoute.snapshot.paramMap.get('lang') ?? '';
+    // if(this.lang=="fr" || this.lang=="en"){
+    //   this.translateService.use(this.lang);
+    // }else{
      
-      this.router.navigateByUrl('/forgot-password');
-    }
-    if(this.lang==null){
-      this.lang="fr"
-      this.translateService.use("fr");
-    }
+    //   this.router.navigateByUrl('/forgot-password');
+    // }
+    // if(this.lang==null){
+    //   this.lang="fr"
+    //   this.translateService.use("fr");
+    // }
   }
 
   submit(value:any){

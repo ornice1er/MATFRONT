@@ -48,6 +48,7 @@
     "jquery": "^3.7.1",
     "lucide-angular": "^0.525.0",
     "ng2-charts": "^8.0.0",
+    "ngx-editor": "^19.0.0-beta.1",
     "ngx-extended-pdf-viewer": "^23.2.0",
     "ngx-pagination": "^6.0.3",
     "ngx-quill": "^28.0.1",
