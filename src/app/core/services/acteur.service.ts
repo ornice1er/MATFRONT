@@ -6,8 +6,9 @@ import { tap } from 'rxjs/internal/operators/tap';
   providedIn: 'root'
 })
 export class ActeurService {
-
-  constructor(private http:HttpClient) { }
+ URI_BO="https://boeservices-api.mtfp-ctd.bj"
+  
+constructor(private http:HttpClient) { }
  
 
   getAll(idEntite:any){
@@ -28,7 +29,7 @@ export class ActeurService {
     );
   }
   Recup_Stat_E_Service(ressource:any){
-    return this.http.post<any>(`https://api.managemtfp.gouv.bj/api/e-services/stats`, ressource,
+    return this.http.post<any>(`${this.URI_BO}/api/e-services/stats`, ressource,
     {headers: new HttpHeaders({'Authorization': 'Basic ' + btoa('adminmtfp@gouv.bj:123')})}).pipe(
       tap((ressource: any) => console.log(`added ressource ${ressource}`))
     );
