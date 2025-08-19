@@ -85,10 +85,10 @@ import { AuthGuard } from "../../core/guards/auth.guard";
 
 export const PublicAuthRoutes: Routes = [
 
-  {
-    path: 'reset-password/:token', // <-- VOTRE ROUTE, MAINTENANT PUBLIQUE
-    component: RecoveryPasswordComponent
-  },
+  // {
+  //   path: 'reset-password/:token', // <-- VOTRE ROUTE, MAINTENANT PUBLIQUE
+  //   component: RecoveryPasswordComponent
+  // },
 ]
 
 
@@ -147,7 +147,7 @@ export const AdminRoutes: Routes = [
         path: 'login/:lang',
         component: LoginComponent
       },
-       
+
       {
         path: 'reset-password/:lang/:token',
         component: ResetPasswordComponent
@@ -475,7 +475,7 @@ export const AdminRoutes: Routes = [
         data: { key: 'PARCOURS REQUETE', action: 'Consulter' }
       },
 
-      
+
       {
         path: 'listrdvs',
         component: ListRdvComponent,
