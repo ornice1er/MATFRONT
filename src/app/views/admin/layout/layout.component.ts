@@ -80,6 +80,12 @@ export class LayoutComponent {
       key: 'REQUÊTE',
       action: 'LISTER'
     },
+      {
+      label: 'Point de chute',
+      route: '/admin/point-de-chute',
+      key: 'REQUÊTE',
+      action: 'LISTER'
+    },
     {
       label: 'Suggestions',
       route: '/admin/listsuggestions',

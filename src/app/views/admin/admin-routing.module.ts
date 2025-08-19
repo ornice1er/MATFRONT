@@ -11,6 +11,7 @@ import { AvancedStatisticsComponent } from "./pages/avanced-statistics/avanced-s
 import { PerformanceRequeteComponent } from "./pages/performance-requete/performance-requete.component";
 import { BaseUsagerComponent } from "./pages/base-usager/base-usager.component";
 import { RecoveryPasswordComponent } from "../auth/recovery-password/recovery-password.component";
+import { PointDeChuteComponent } from "./pages/others/point-de-chute/point-de-chute.component";
 import { BaseComponent } from "./pages/base/base.component";
 import { CcspComponent } from "./pages/ccsp/ccsp.component";
 import { CrudComponent } from "./pages/crud/crud.component";
@@ -417,6 +418,12 @@ export const AdminRoutes: Routes = [
        {
         path: 'list-requete-a-traiter/:type_req',
         component: ListRequeteATraiterComponent,
+        canActivate: [AuthGuard],
+        data: { key: 'REQUÊTE', action: 'Consulter' }
+      },
+       {
+        path: 'point-de-chute',
+        component: PointDeChuteComponent,
         canActivate: [AuthGuard],
         data: { key: 'REQUÊTE', action: 'Consulter' }
       },
