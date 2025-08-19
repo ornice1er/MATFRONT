@@ -82,6 +82,7 @@ import { PermissionComponent } from "./pages/permission/permission.component";
 import { ProfileComponent } from "./pages/profile/profile.component";
 import { RoleComponent } from "./pages/role/role.component";
 import { AuthGuard } from "../../core/guards/auth.guard";
+import { UserProfilComponent } from "../auth/user-profil/user-profil.component";
 
 export const PublicAuthRoutes: Routes = [
 
@@ -99,6 +100,11 @@ export const AdminRoutes: Routes = [
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path:"user-account",
+        canActivate:[AuthGuard],
+        component:UserProfilComponent
+      },
       {
         path: 'dashboard',
         component: DashboardComponent,
