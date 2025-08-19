@@ -9,35 +9,32 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-forget-password',
   templateUrl: './forget-password.component.html',
-  standalone:true,
-  imports:[LoadingComponent,FormsModule,RouterModule,CommonModule],
-  styleUrls: ['./forget-password.component.css']
+  standalone: true,
+  imports: [LoadingComponent, FormsModule, RouterModule, CommonModule],
+  styleUrls: ['./forget-password.component.css'],
 })
 export class ForgetPasswordComponent implements OnInit {
-loading:any
-mailSent=false;
+  loading: any;
+  mailSent = false;
 
   constructor(
-    
-    private authService:AuthService,
+    private authService: AuthService,
     private router: Router,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-    
-  }
-  sendMail(value:any){
-    this.loading=true
-    this.authService.sendMail(value).subscribe((res:any)=>{
-      this.loading=false
-      this.mailSent=true
-     
-    },
-    (err:any)=>{
-      this.loading=false
-      this.toastr.success('Connexion échoué', 'Connexion');
-
-    });
+  ngOnInit(): void {}
+  sendMail(value: any) {
+    this.loading = true;
+    this.authService.sendMail(value).subscribe(
+      (res: any) => {
+        this.loading = false;
+        this.mailSent = true;
+      },
+      (err: any) => {
+        this.loading = false;
+        this.toastr.success('Connexion échoué', 'Connexion');
+      }
+    );
   }
 }

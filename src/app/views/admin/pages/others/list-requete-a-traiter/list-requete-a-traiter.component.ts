@@ -465,6 +465,11 @@ checked(event: any, el: any) {
     this.observerService.setTitle(`Gestion des ${this.typeRequete}`);
     this.RelanceAWho = '';
     this.prepare();
+     this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.prepare();
+      }
+    });
   }
 
   prepare() {
@@ -538,11 +543,11 @@ checked(event: any, el: any) {
       this.compteData = this.pager.total;
     });
 
-    this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        this.prepare();
-      }
-    });
+    // this.router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     this.prepare();
+    //   }
+    // });
   }
 
   pager: any = {

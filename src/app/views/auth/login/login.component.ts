@@ -11,87 +11,106 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AuthentificationService } from '../../../core/services/authentification.service';
 import { SettingService } from '../../../core/services/setting.service';
 import { PermissionService } from '../../../core/services/permission.service';
-
+import { PORTAL_CONFIG } from '../../../core/utils/eservice.config';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  standalone:true,
-  imports:[ CommonModule,LoadingComponent,FormsModule,RouterModule,TranslateModule],
-  styleUrls: ['./login.component.css']
+  standalone: true,
+  imports: [
+    CommonModule,
+    LoadingComponent,
+    FormsModule,
+    RouterModule,
+    TranslateModule,
+  ],
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
- passwordVisible: boolean = false;
-  returnUrl=''
-  loading=false
-  error=''
+  passwordVisible: boolean = false;
+  returnUrl = '';
+  loading = false;
+  error = '';
   constructor(
-    private activatedRoute:ActivatedRoute,
-    private localStorageService:LocalStorageService,
-    private route:ActivatedRoute,
-    private router:Router, 
-    private auth:AuthentificationService,
+    private activatedRoute: ActivatedRoute,
+    private localStorageService: LocalStorageService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private auth: AuthentificationService,
     private permissionService: PermissionService,
-    private settingService: SettingService ) { }
-  lang="fr"
+    private settingService: SettingService
+  ) {}
+  lang = 'fr';
   ngOnInit(): void {
-    
-  this.lang=this.activatedRoute.snapshot.paramMap.get('lang') ?? "" ;
-  
-    this.route.queryParams.subscribe(params => {
+    this.lang = this.activatedRoute.snapshot.paramMap.get('lang') ?? '';
+
+    this.route.queryParams.subscribe((params) => {
       this.returnUrl = params['returnUrl'] || '/dashboard';
     });
-  if (this.localStorageService.get('mataccueilToken')!=null) {
-    this.router.navigate(['/dashboard']);
-  }	
+    if (this.localStorageService.get('mataccueilToken') != null) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
-   togglePasswordVisibility(): void {
+  togglePasswordVisibility(): void {
     this.passwordVisible = !this.passwordVisible;
   }
 
-  submit(value:any,event?: Event):any {
-   // if (event) event.preventDefault();
+  submit(value: any, event?: Event): any {
+    // if (event) event.preventDefault();
     this.loading = true;
-    this.auth
-      .login(value)
-      .subscribe((res:any) => {
+    this.auth.login(value).subscribe(
+      (res: any) => {
         this.loading = false;
         if (res) {
-          this.localStorageService.set(GlobalName.tokenName,res.data.token);
-          this.localStorageService.set(GlobalName.userName,res.data.user);
+          this.localStorageService.set(GlobalName.tokenName, res.data.token);
+          this.localStorageService.set(GlobalName.userName, res.data.user);
           // Récupérer les permissions depuis l'API
           this.permissionService.getAll().subscribe({
             next: (permissions: any) => {
               this.localStorageService.set(GlobalName.features, permissions);
               this.settingService.get().subscribe((result: any) => {
-                this.localStorageService.set(GlobalName.settingName, JSON.stringify(result.data));
+                this.localStorageService.set(
+                  GlobalName.settingName,
+                  JSON.stringify(result.data)
+                );
                 this.router.navigateByUrl('/admin/dashboard');
               });
             },
             error: (err: any) => {
-              console.error('Erreur lors de la récupération des permissions', err);
+              console.error(
+                'Erreur lors de la récupération des permissions',
+                err
+              );
               this.loading = false;
-            }
+            },
           });
-            this.settingService.get().subscribe((result:any)=>{
-              this.localStorageService.set(GlobalName.settingName,JSON.stringify(result.data));
-              this.router.navigateByUrl("/admin/dashboard"); 
-              // setTimeout(function(){
-              //   window.location.reload()
-              // },1000)	
-            })
-        
+          this.settingService.get().subscribe((result: any) => {
+            this.localStorageService.set(
+              GlobalName.settingName,
+              JSON.stringify(result.data)
+            );
+            this.router.navigateByUrl('/admin/dashboard');
+            // setTimeout(function(){
+            //   window.location.reload()
+            // },1000)
+          });
         }
-      },err => {
-        console.log(err)
-        this.loading = false; 
-        if(err.error.error=="invalid_credentials"){
-          this.error="Email ou mot de passe incorrect"
-        }else{
-          this.error="Erreur de connexion ou paramètres incorrects"
+      },
+      (err) => {
+        console.log(err);
+        this.loading = false;
+        if (err.error.error == 'invalid_credentials') {
+          this.error = 'Email ou mot de passe incorrect';
+        } else {
+          this.error = 'Erreur de connexion ou paramètres incorrects';
         }
-      });
+      }
+    );
   }
 
+  goToLdap() {
+    console.log(PORTAL_CONFIG.getRedirectPprodUri());
+    window.location = PORTAL_CONFIG.getRedirectPprodUri();
+  }
 }

@@ -140,7 +140,7 @@ search_text:any=""
     this.structures = []
     this.requeteService.getAll_Structure(this.user.idEntite).subscribe((res: any) => {
       this.spinner.hide();
-      this.data = res
+      this.data = res.data
       this._temp = this.data
       this.subject.next(res);
       this.collectionSize = this.data.length

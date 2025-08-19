@@ -14,8 +14,6 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-recovery-password',
   templateUrl: './recovery-password.component.html',
-  // standalone:true,
-  // imports:[LoadingComponent,FormsModule,],
   standalone: true,
   imports: [
     CommonModule,
@@ -68,10 +66,10 @@ export class RecoveryPasswordComponent implements OnInit {
     this.loading = true;
 
     const payload = {
-      email: value.email, 
+      email: value.email,
       password: value.password,
       password_confirmation: value.password_confirmation,
-      token: this.token 
+      token: this.token
     };
     this.authService.recoverPassword(payload).subscribe(
       (res: any) => {
