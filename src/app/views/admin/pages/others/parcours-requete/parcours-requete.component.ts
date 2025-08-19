@@ -41,7 +41,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
   templateUrl: './parcours-requete.component.html',
   styleUrls: ['./parcours-requete.component.css']
 })
-export class ParcoursRequeteComponent implements OnInit {
+export class  ParcoursRequeteComponent implements OnInit {
 
 
   @Input() cssClasses = '';
@@ -523,7 +523,7 @@ search_text:any=""
     this.requeteService.getAllParcours(this.selected_Entite,this.searchText, this.user.id,
       this.checkType()?.id,this.pg.pageSize,0,this.selected_Struct,value.statut=="" ? null : value.statut,value.startDate,value.endDate,this.type_).subscribe((res: any) => {
         this.spinner.hide();
-        this.data = res.data
+        this.data = res.data?.data
         this.subject.next(res);
     })
   }

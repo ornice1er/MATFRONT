@@ -187,12 +187,12 @@ search_text:any=""
       // this.typeRequete = this.checkType()?.name;
 
     })
-    this.subject2.subscribe((val) => {
-      this.data2 = []
-      this.data2 = val.data
-      // this.typeRequete = this.checkType()?.name;
+    // this.subject2.subscribe((val) => {
+    //   this.data2 = []
+    //   this.data2 = val.data
+    //   // this.typeRequete = this.checkType()?.name;
 
-    })
+    // })
   }
 
   param_stat_hebdo: any = { "user": "all", startDate: "all", endDate: "all", stats: [], typeRequete: this.typeRequete, sended: 0, typeStat: "Structure" }
