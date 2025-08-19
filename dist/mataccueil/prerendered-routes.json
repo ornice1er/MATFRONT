@@ -62,6 +62,7 @@
     "/admin/roles",
     "/admin/settings",
     "/admin/type-structures",
+    "/admin/user-account",
     "/admin/users",
     "/admin/users-main",
     "/auth",
