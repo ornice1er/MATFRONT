@@ -285,18 +285,26 @@ export class LayoutComponent {
     this.menuOpen = !this.menuOpen;
   }
 
-  logout() {
+logout() {
+    const clearSession = () => {
+      this.lsService.remove(GlobalName.tokenName);
+      this.lsService.remove(GlobalName.refreshTokenName);
+      this.lsService.remove(GlobalName.expireIn);
+      this.lsService.remove(GlobalName.userName);
+      this.lsService.remove(GlobalName.exercice);
+      this.router.navigate(['/auth/login']);
+    };
+
     this.authService.logout().subscribe({
       next: () => {
-        this.lsService.remove(GlobalName.tokenName);
-        this.lsService.remove(GlobalName.refreshTokenName);
-        this.lsService.remove(GlobalName.expireIn);
-        this.lsService.remove(GlobalName.userName);
-        this.lsService.remove(GlobalName.exercice);
-        this.router.navigate(['/auth/login']);
         this.toastr.success('Déconnexion réussie', 'Connexion');
+        clearSession(); 
       },
-      error: () => this.toastr.error('Déconnexion échouée', 'Connexion')
+      error: (err) => {
+        console.error('La déconnexion a échoué, nettoyage de la session en local.', err);
+        this.toastr.info('Session expirée, veuillez vous reconnecter.', 'Connexion');
+        clearSession();
+      }
     });
   }
 

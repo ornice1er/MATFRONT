@@ -280,69 +280,68 @@ export class ListRequeteATraiterComponent implements OnInit {
   cpt = 0;
   compteData = 0;
 
-
-checked(event: any, el: any) {
-  this.selected_data = el;
-  if (this.selected_data.usager == null) {
-    this.usager_full_name =
-      ' (PFC) ' +
-      this.selected_data.email +
-      ' Contact : ' +
-      this.selected_data.contact;
-  } else {
-    this.usager_full_name =
-      this.selected_data.usager.nom + ' ' + this.selected_data.usager.prenoms;
-  }
-  console.log(this.selected_data);
-  if (this.selected_data.reponse.length > 0) {
-    this.selected_data.reponse.forEach((item: any) => {
-      if (item.typeStructure == 'Direction')
-        this.selected_data.texteReponseApportee = item.texteReponse;
-      if (item.typeStructure == 'Service')
-        this.selected_data.reponseService = item.texteReponse;
-    });
-  }
-  this.action_transmettre = true;
-  if (this.selected_data.reponse.length > 0) {
-    let check = this.selected_data.reponse.filter(
-      (item: any) => item.typeStructure == 'Direction'
-    );
-    if (check.length == 0) {
+  checked(event: any, el: any) {
+    this.selected_data = el;
+    if (this.selected_data.usager == null) {
+      this.usager_full_name =
+        ' (PFC) ' +
+        this.selected_data.email +
+        ' Contact : ' +
+        this.selected_data.contact;
+    } else {
+      this.usager_full_name =
+        this.selected_data.usager.nom + ' ' + this.selected_data.usager.prenoms;
+    }
+    console.log(this.selected_data);
+    if (this.selected_data.reponse.length > 0) {
+      this.selected_data.reponse.forEach((item: any) => {
+        if (item.typeStructure == 'Direction')
+          this.selected_data.texteReponseApportee = item.texteReponse;
+        if (item.typeStructure == 'Service')
+          this.selected_data.reponseService = item.texteReponse;
+      });
+    }
+    this.action_transmettre = true;
+    if (this.selected_data.reponse.length > 0) {
+      let check = this.selected_data.reponse.filter(
+        (item: any) => item.typeStructure == 'Direction'
+      );
+      if (check.length == 0) {
+        this.action_transmettre = false;
+      }
+    } else {
       this.action_transmettre = false;
     }
-  } else {
-    this.action_transmettre = false;
+    this.hide_actions = false;
+    this.RelanceAWho = '';
+    this.ValStruRelance = '';
+    this.cpt = 0;
+    if (this.selected_data.affectation.length > 0) {
+      this.selected_data.affectation.forEach((item: any) => {
+        this.cpt++;
+        if (
+          this.cpt == this.selected_data.affectation.length &&
+          item.idStructure != this.user.agent_user.idStructure
+        ) {
+          this.RelanceAWho = item.typeStructure;
+          this.ValStruRelance = item.idStructure;
+        }
+      });
+    }
+    this.cpt = 0;
+    if (this.selected_data.parcours.length > 0) {
+      this.selected_data.parcours.forEach((item: any) => {
+        this.cpt++;
+        if (
+          this.cpt == this.selected_data.parcours.length &&
+          item.idStructure == this.user.agent_user.idStructure
+        ) {
+          this.RelanceAWho = '';
+          this.ValStruRelance = '';
+        }
+      });
+    }
   }
-  this.hide_actions = false;
-  this.RelanceAWho = '';
-  this.ValStruRelance = '';
-  this.cpt = 0;
-  if (this.selected_data.affectation.length > 0) {
-    this.selected_data.affectation.forEach((item: any) => {
-      this.cpt++;
-      if (
-        this.cpt == this.selected_data.affectation.length &&
-        item.idStructure != this.user.agent_user.idStructure
-      ) {
-        this.RelanceAWho = item.typeStructure;
-        this.ValStruRelance = item.idStructure;
-      }
-    });
-  }
-  this.cpt = 0;
-  if (this.selected_data.parcours.length > 0) {
-    this.selected_data.parcours.forEach((item: any) => {
-      this.cpt++;
-      if (
-        this.cpt == this.selected_data.parcours.length &&
-        item.idStructure == this.user.agent_user.idStructure
-      ) {
-        this.RelanceAWho = '';
-        this.ValStruRelance = '';
-      }
-    });
-  }
-}
   relancerPreocuppationType() {
     if (this.selected_data == null) {
       AppSweetAlert.simpleAlert(
@@ -465,7 +464,7 @@ checked(event: any, el: any) {
     this.observerService.setTitle(`Gestion des ${this.typeRequete}`);
     this.RelanceAWho = '';
     this.prepare();
-     this.router.events.subscribe((event) => {
+    this.router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         this.prepare();
       }
@@ -619,12 +618,8 @@ checked(event: any, el: any) {
             }
           });
           this._temp = this.data;
-
           this.data = res.data?.data?.map((e: any) => {
-            const estRepondu = e.reponse?.some(
-              (rep: any) => rep.typeStructure === 'Direction'
-            );
-            e.etat = estRepondu ? 'Répondu' : 'En attente';
+            e.etat = e.finalise === 1 ? 'Répondu' : 'En attente';
             return e;
           });
         },
@@ -663,7 +658,7 @@ checked(event: any, el: any) {
           }
           this._temp2 = this.data2;
         },
-        
+
         error: (err) => {
           console.error('Erreur lors du chargement des affectations:', err);
           AppSweetAlert.simpleAlert(
@@ -678,7 +673,6 @@ checked(event: any, el: any) {
           this.spinner.hide();
         },
       });
-      
 
     this.departements = [];
     this.usagersService.getAllDepartement().subscribe({
@@ -770,74 +764,76 @@ checked(event: any, el: any) {
     }
   }
 
-saveAffectation(value: any) {
-  let val = {
-    idRequete: this.selected_data.id,
-    idStructure: this.user.agent_user.idStructure,
-    idService: this.selectedServiceId,
-    listeemails: this.structureservices.find(
-      (e: any) => e.id == this.user.agent_user.idStructure
-    ).contact,
-    typeStructure: 'Service',
-    idEntite: this.user.idEntite,
-    idEtape: 2,
-  };
+  saveAffectation(value: any) {
+    let val = {
+      idRequete: this.selected_data.id,
+      idStructure: this.user.agent_user.idStructure,
+      idService: this.selectedServiceId,
+      listeemails: this.structureservices.find(
+        (e: any) => e.id == this.user.agent_user.idStructure
+      ).contact,
+      typeStructure: 'Service',
+      idEntite: this.user.idEntite,
+      idEtape: 2,
+    };
 
-  if (this.selected_data.reponse.length > 0) {
-    AppSweetAlert.simpleAlert(
-      'error',
-      'Erreur',
-      'Vous ne pouvez plus affecter cette requête car une réponse a été déjà proposée.',
-      undefined
-    );
-    return;
-  }
-
-  if (!this.selectedServiceId) { // J'ai amélioré la vérification ici
-    AppSweetAlert.simpleAlert(
-      'error',
-      'Erreur',
-      'Veuillez sélectionner un service.',
-      undefined
-    );
-    return;
-  }
-
-  this.isLoading = true;
-  this.spinner.show();
-  this.requeteService.createAffectation(val).subscribe({
-    next: (res: any) => {
-      this.data = this.data.filter(item => item.id !== this.selected_data.id);
-
-      this.selected_data = null;
-      
-      this.modalService.dismissAll();
-      AppSweetAlert.simpleAlert(
-        'success',
-        'Nouvelle affectation',
-        'Affectation effectuée avec succès'
-      );
-    },
-    error: (err) => {
-      console.error("Erreur lors de l'affectation:", err);
+    if (this.selected_data.reponse.length > 0) {
       AppSweetAlert.simpleAlert(
         'error',
         'Erreur',
-        "Une erreur est survenue lors de l'affectation."
+        'Vous ne pouvez plus affecter cette requête car une réponse a été déjà proposée.',
+        undefined
       );
-      this.isLoading = false;
-      this.spinner.hide();
-    },
-    complete: () => {
-      this.isLoading = false;
-      this.spinner.hide();
-    },
-  });
-}
+      return;
+    }
 
+    if (!this.selectedServiceId) {
+      // J'ai amélioré la vérification ici
+      AppSweetAlert.simpleAlert(
+        'error',
+        'Erreur',
+        'Veuillez sélectionner un service.',
+        undefined
+      );
+      return;
+    }
 
-updateSelectedService(newServiceId: any) {
-    if (this.selected_data) { 
+    this.isLoading = true;
+    this.spinner.show();
+    this.requeteService.createAffectation(val).subscribe({
+      next: (res: any) => {
+        this.data = this.data.filter(
+          (item) => item.id !== this.selected_data.id
+        );
+
+        this.selected_data = null;
+
+        this.modalService.dismissAll();
+        AppSweetAlert.simpleAlert(
+          'success',
+          'Nouvelle affectation',
+          'Affectation effectuée avec succès'
+        );
+      },
+      error: (err) => {
+        console.error("Erreur lors de l'affectation:", err);
+        AppSweetAlert.simpleAlert(
+          'error',
+          'Erreur',
+          "Une erreur est survenue lors de l'affectation."
+        );
+        this.isLoading = false;
+        this.spinner.hide();
+      },
+      complete: () => {
+        this.isLoading = false;
+        this.spinner.hide();
+      },
+    });
+  }
+
+  updateSelectedService(newServiceId: any) {
+    if (this.selected_data) {
       if (!this.selected_data.service) {
         this.selected_data.service = {};
       }
@@ -847,22 +843,26 @@ updateSelectedService(newServiceId: any) {
 
   getUserDisplay(requete: any): string {
     let displayName = '';
-  
-    if (requete.usager && requete.usager.nom && requete.usager.nom.trim() !== '') {
+
+    if (
+      requete.usager &&
+      requete.usager.nom &&
+      requete.usager.nom.trim() !== ''
+    ) {
       displayName = requete.usager.nom + ' ' + requete.usager.prenoms;
-    
     } else if (requete.usager && requete.usager.email) {
       displayName = requete.usager.email;
-    
     } else {
-      const contactInfo = [requete.contact, requete.email].filter(Boolean).join(' ');
+      const contactInfo = [requete.contact, requete.email]
+        .filter(Boolean)
+        .join(' ');
       displayName = contactInfo;
     }
-  
+
     if (requete.matricule) {
       displayName += ` / Matricule : ${requete.matricule}`;
     }
-  
+
     return displayName.trim();
   }
 
@@ -877,8 +877,8 @@ updateSelectedService(newServiceId: any) {
         'Veuillez saisir votre réponse',
         undefined
       );
-                 this.isLoading = false;
-    this.spinner.hide();
+      this.isLoading = false;
+      this.spinner.hide();
       return;
     }
     let complementReponse = '';
@@ -901,8 +901,8 @@ updateSelectedService(newServiceId: any) {
     formData.append('typeStructure', 'Direction');
     formData.append('texteReponse', value.texteReponseApportee);
     formData.append('idEntite', this.user.idEntite);
-formData.append('interrompu', value.interrompu ? '1' : '0');
-formData.append('rejete', value.rejete ? '1' : '0');
+    formData.append('interrompu', value.interrompu ? '1' : '0');
+    formData.append('rejete', value.rejete ? '1' : '0');
     formData.append('raisonRejet', value.raisonRejet);
     formData.append('fichier', this.file);
 
@@ -942,8 +942,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
                 'Une erreur est survenue lors de la transmission.',
                 undefined
               );
-               this.isLoading = false;
-    this.spinner.hide();
+              this.isLoading = false;
+              this.spinner.hide();
             },
             complete: () => {
               this.isLoading = false;
@@ -973,8 +973,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
           "Une erreur est survenue lors de l'enregistrement de la réponse.",
           undefined
         );
-                   this.isLoading = false;
-    this.spinner.hide();
+        this.isLoading = false;
+        this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
@@ -1024,8 +1024,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
           "Une erreur est survenue lors de l'archivage.",
           undefined
         );
-         this.isLoading = false;
-    this.spinner.hide();
+        this.isLoading = false;
+        this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
@@ -1075,8 +1075,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
           "Une erreur est survenue lors de l'envoi du mail.",
           undefined
         );
-         this.isLoading = false;
-    this.spinner.hide();
+        this.isLoading = false;
+        this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
@@ -1117,8 +1117,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
             'Mail envoyé avec succès au ' + rest.message,
             undefined
           );
-           this.isLoading = false;
-    this.spinner.hide();
+          this.isLoading = false;
+          this.spinner.hide();
         }
       },
       error: (err) => {
@@ -1129,8 +1129,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
           "Une erreur est survenue lors de l'envoi du mail.",
           undefined
         );
-         this.isLoading = false;
-    this.spinner.hide();
+        this.isLoading = false;
+        this.spinner.hide();
       },
       complete: () => {
         this.isLoading = false;
@@ -1228,8 +1228,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
               'Une erreur est survenue lors de la transmission.',
               undefined
             );
-             this.isLoading = false;
-    this.spinner.hide();
+            this.isLoading = false;
+            this.spinner.hide();
           },
           complete: () => {
             this.isLoading = false;
@@ -1276,7 +1276,6 @@ formData.append('rejete', value.rejete ? '1' : '0');
   __services: any[] = [];
   structures: any[] = [];
 
-
   onEntiteChange(event: any) {
     const idEntite = event.value;
 
@@ -1308,7 +1307,7 @@ formData.append('rejete', value.rejete ? '1' : '0');
       next: (res: any) => {
         const servicesData = Array.isArray(res) ? res : res?.data || [];
         this.services = servicesData.filter((e: any) => e.published == 1) || [];
-        this.__services = this.services; 
+        this.__services = this.services;
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -1399,8 +1398,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
                 'Une erreur est survenue lors du transfert.',
                 undefined
               );
-               this.isLoading = false;
-    this.spinner.hide();
+              this.isLoading = false;
+              this.spinner.hide();
             },
             complete: () => {
               this.isLoading = false;
@@ -1486,8 +1485,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
                 'Une erreur est survenue lors du transfert interne.',
                 undefined
               );
-               this.isLoading = false;
-    this.spinner.hide();
+              this.isLoading = false;
+              this.spinner.hide();
             },
             complete: () => {
               this.isLoading = false;
@@ -1561,8 +1560,8 @@ formData.append('rejete', value.rejete ? '1' : '0');
                 'Une erreur est survenue lors de la réorientation.',
                 undefined
               );
-               this.isLoading = false;
-    this.spinner.hide();
+              this.isLoading = false;
+              this.spinner.hide();
             },
             complete: () => {
               this.isLoading = false;
