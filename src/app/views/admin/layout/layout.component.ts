@@ -523,6 +523,8 @@ export class LayoutComponent {
       this.lsService.remove(GlobalName.expireIn);
       this.lsService.remove(GlobalName.userName);
       this.lsService.remove(GlobalName.exercice);
+      this.lsService.remove(GlobalName.settingName);
+      this.lsService.remove(GlobalName.features);
     };
 
     this.authService.logout().subscribe({
