@@ -121,6 +121,8 @@
                   <td>
                     <span class="badge" [ngClass]="{'badge-success': el.etat == 'Répondu', 'badge-warning': el.etat == 'En attente'}">{{el.etat}}</span>
                     <div *ngIf="el.reponse?.length > 0">
+                      <span class="p-1 text-warning ">Une réponse disponible</span>
+                      <br>
                       <span *ngFor="let rep of el.reponse">
                         <span *ngIf="rep.typeStructure == 'Direction'">{{rep.texteReponse}}</span>
                       </span>
@@ -151,30 +153,30 @@
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#fbfbfb;">
               <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Requête</h4>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-2">Prestation :</label>
                 <div class="col-md-10">
-                  <p-dropdown [options]="services"     (ngModelChange)="updateSelectedService($event)" optionLabel="libelle" optionValue="id" name="idPrestation"  styleClass="w-100" ></p-dropdown>
+                  <p-dropdown [options]="services"  [(ngModel)]="selected_data.idPrestation"     (ngModelChange)="updateSelectedService($event)" optionLabel="libelle" optionValue="id" name="idPrestation"  styleClass="w-50" ></p-dropdown>
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-2">Objet :</label>
                 <div class="col-md-10">
                   <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet">
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-2">Message :</label>
                 <div class="col-md-10">
                   <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest"></textarea>
                 </div>
               </div>
-              <a *ngIf="selected_data.fichier_joint!=''" target="_blank" href="{{selected_data.fichier_joint}}" download>Voir fichier joint</a>
+              <a *ngIf="selected_data.fichier_joint" target="_blank" href="{{selected_data.fichier_joint}}" download>Voir fichier joint</a>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
               <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Affectation</h4>
-              <div class="row form-group">
-                <label class="col-md-2">Service * :</label>
+              <div class="row form-group mb-3">
+                <label class="col-md-2">{{user?.agent_user?.structure?.type_s=="dt" ? 'Service': 'Division'}} * :</label>
                 <div class="col-md-10">
                   <p-dropdown [options]="servicesForStructure" [(ngModel)]="selectedServiceId" name="idService" optionLabel="libelle" optionValue="id" placeholder="Sélectionnez un service" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>
                 </div>
@@ -202,29 +204,39 @@
                         : {{usager_full_name}}</h4>
                 </fieldset>
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label for="idPrestation" class="col-md-4">Prestation </label>
                         <div class="col-md-8">
-                            <p-dropdown [options]="services"     (ngModelChange)="updateSelectedService($event)" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-100" ></p-dropdown>
+                            <p-dropdown [options]="services" [(ngModel)]="selected_data.idPrestation"    (ngModelChange)="updateSelectedService($event)" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-50" ></p-dropdown>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label for="objet" class="col-md-4">Objet </label>
                         <div class="col-md-8">
                             <input type="text" readonly="" class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label for="msgrequest" class="col-md-2">Message </label>
                         <div class="col-md-10">
                             <textarea class="form-control form-control-sm" readonly="" name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
                         </div>
                     </div>
                 </fieldset>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;">
+                <fieldset *ngIf="getTypeStructure()=='Direction'" class="divusager" style="border:1px solid #ddd;padding:2px;">
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
                         proposée par le service</h4>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
+                        <label for="reponseService" class="col-md-2">Le texte proposé</label>
+                        <div class="col-md-10">
+                            <textarea class="form-control form-control-sm" name="reponseService" [(ngModel)]="selected_data.reponseService" readonly=""></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+                 <fieldset *ngIf="getTypeStructure()=='Service'" class="divusager" style="border:1px solid #ddd;padding:2px;">
+                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
+                        proposée par la division</h4>
+                    <div class="row form-group mb-3">
                         <label for="reponseService" class="col-md-2">Le texte proposé</label>
                         <div class="col-md-10">
                             <textarea class="form-control form-control-sm" name="reponseService" [(ngModel)]="selected_data.reponseService" readonly=""></textarea>
@@ -234,7 +246,7 @@
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
                         proposée par votre direction</h4>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <div class="col-md-6">
                             <div class="row">
                                 <label for="interrompu" class="col-md-3">Suspendre </label>
@@ -253,20 +265,20 @@
                         </div>
                     </div>
                     <div id="divRaison" *ngIf="selected_data.rejete || selected_data.interrompu">
-                        <div class="row form-group">
+                        <div class="row form-group mb-3">
                             <label for="raisonRejet" class="col-md-2">Raison :</label>
                             <div class="col-md-10">
                                 <textarea class="form-control form-control-sm" id="raisonRejet" name="raisonRejet" placeholder="Raison rejet ou interruption" [(ngModel)]="selected_data.raisonRejet"></textarea>
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label for="texteReponseApportee" class="col-md-2">Votre réponse</label>
                         <div class="col-md-10">
                             <textarea style="min-height: 100px;" class="form-control form-control-sm" id="texteReponseApportee" name="texteReponseApportee" [(ngModel)]="selected_data.texteReponseApportee" required></textarea>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label for="message" class="col-md-2">Pièce Jointe</label>
                         <div class="col-md-10">
                             <input type="file" class="form-control" (change)="onFileChange($event)" #file="ngModel" name="fichier" ngModel>
@@ -298,19 +310,19 @@
               <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-4">Prestation</label>
                 <div class="col-md-8">
                     <p-dropdown [options]="services" [(ngModel)]="selected_data.service.id" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-100" ></p-dropdown>
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-4">Objet</label>
                 <div class="col-md-8">
                   <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
                 </div>
               </div>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label class="col-md-2">Message</label>
                 <div class="col-md-10">
                   <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
@@ -319,7 +331,7 @@
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
               <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Donner la raison pour laquelle vous souhaitez archiver cette préoccupation</h4>
-              <div class="row form-group">
+              <div class="row form-group mb-3">
                 <label for="texteArchive" class="col-md-2">Votre motif</label>
                 <div class="col-md-10">
                   <textarea style="min-height: 100px;" class="form-control form-control-sm" id="texteArchive" name="texteArchive" [(ngModel)]="selected_data.texteArchive" required></textarea>
@@ -345,13 +357,13 @@
                     <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
                 </fieldset>
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label class="col-md-2">Objet</label>
                         <div class="col-md-10">
                             <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label class="col-md-2">Message</label>
                         <div class="col-md-10">
                             <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
@@ -359,13 +371,13 @@
                     </div>
                 </fieldset>
                 <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label class="col-md-2">Type de mail</label>
                         <div class="col-md-10">
                             <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value" placeholder="Sélectionnez un type" styleClass="w-100" ></p-dropdown>
                         </div>
                     </div>
-                    <div class="row form-group">
+                    <div class="row form-group mb-3">
                         <label class="col-md-2">Votre réponse</label>
                         <div class="col-md-10">
                             <textarea style="min-height: 100px;" class="form-control form-control-sm" name="message" [(ngModel)]="selected_data.message" required></textarea>
@@ -388,7 +400,7 @@
            <div class="modal-body">
             <div style="color:red">{{errormessage}}</div>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-4">Structure</label>
                     <div class="col-md-8">
                       <p-dropdown [options]="structures" name="receiverId" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" ></p-dropdown>
@@ -396,13 +408,13 @@
                 </div>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Objet</label>
                     <div class="col-md-10">
                         <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
                     </div>
                 </div>
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Message</label>
                     <div class="col-md-10">
                         <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
@@ -410,13 +422,13 @@
                 </div>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Type de mail</label>
                     <div class="col-md-10">
                        <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value" placeholder="Sélectionnez un type" styleClass="w-100" ></p-dropdown>
                     </div>
                 </div>
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Votre réponse</label>
                     <div class="col-md-10">
                         <textarea style="min-height: 100px;" class="form-control form-control-sm" name="message" [(ngModel)]="selected_data.message" required></textarea>
@@ -442,7 +454,7 @@
                 <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Objet</label>
                     <div class="col-md-10">
                         <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
@@ -461,7 +473,7 @@
                    <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100"  required></p-dropdown>
                 </div>
             </div>
-            <div class="row form-group">
+            <div class="row form-group mb-3">
                 <label class="col-md-2">Prestation</label>
                 <div class="col-md-10">
                    <p-dropdown [options]="services" name="idPrestation" required ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" ></p-dropdown>
@@ -486,7 +498,7 @@
                 <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
             </fieldset>
             <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group">
+                <div class="row form-group mb-3">
                     <label class="col-md-2">Objet</label>
                     <div class="col-md-10">
                         <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
@@ -499,7 +511,7 @@
                   <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100"  required></p-dropdown>
                 </div>
              </div>
-             <div class="row form-group">
+             <div class="row form-group mb-3">
                 <label class="col-md-2">Prestation</label>
                 <div class="col-md-10">
                   <p-dropdown [options]="services" name="idPrestation" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>

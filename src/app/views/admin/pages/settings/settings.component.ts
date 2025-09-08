@@ -70,9 +70,10 @@ export class SettingsComponent implements OnInit {
       this.loadRoles();
     } else {
       AppSweetAlert.simpleAlert(
+        'error',
         'Erreur',
         'Utilisateur non identifié ou entité non trouvée. Reconnectez-vous.',
-        'error'
+        
       );
     }
   }

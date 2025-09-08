@@ -22,11 +22,13 @@ import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
 import { ObserverService } from '../../../../../core/utils/observer.service';
+import { SharedModule } from '../../../../../shared/shared.module';
+import { InstitutionService } from '../../../../../core/services/institution.service';
 
 @Component({
   selector: 'app-listestructures',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule, SharedModule],
   templateUrl: './listestructures.component.html',
   styleUrls: ['./listestructures.component.css']
 })
@@ -40,6 +42,8 @@ export class ListestructuresComponent implements OnInit {
    permissions:any[]=[]
   error=""
   data: any[]=[];
+  entities: any[]=[];
+
   _temp: any[]=[];
 
   selected = [
@@ -55,6 +59,7 @@ export class ListestructuresComponent implements OnInit {
 isPaginate:any=false
 search_text:any=""
 loading:any=false
+selectedEntity:any
   search(){ 
     this.data=this._temp.filter(r => {
       const term = this.searchText.toLowerCase();
@@ -94,10 +99,11 @@ loading:any=false
     }
   }
   
-
+role:any
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
+    private institutionService:InstitutionService,
     private router:Router,
     private structureService:StructureService,
     private spinner: NgxSpinnerService,
@@ -108,10 +114,13 @@ loading:any=false
 
 
   user:any
+  isSuperAdmin=false
   ngOnInit() {
     this.observerService.setTitle('PARAMETRES - STRUCTURES')
 
-         this.user = this.localStorageService.get(GlobalName.userName)
+    this.user = this.localStorageService.get(GlobalName.userName)
+    this.role=this.user.roles[0]?.name
+    this.isSuperAdmin= this.role ==="Super Admin" ?true:false
     this.init()
   }
   init(){
@@ -121,6 +130,11 @@ loading:any=false
     this.structureService.getAll(0,this.user?.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
+    })
+
+     this.institutionService.getAll().subscribe((res:any)=>{
+      this.spinner.hide();
+      this.entities=res.data
     })
   }
   checked(event:any, el:any) {

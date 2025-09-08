@@ -23,12 +23,14 @@ import { UserService } from '../../../../../core/services/user.service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
 import { ObserverService } from '../../../../../core/utils/observer.service';
+import { SharedModule } from '../../../../../shared/shared.module';
+import { InstitutionService } from '../../../../../core/services/institution.service';
 
 
 @Component({
   selector: 'app-listacteurs',
   standalone: true,
-          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule],
+          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule,SharedModule],
   templateUrl: './listacteurs.component.html',
   styleUrls: ['./listacteurs.component.css']
 })
@@ -59,6 +61,10 @@ export class ListacteursComponent implements OnInit {
 loading:any=false
 isPaginate:any=false
 search_text:any=""
+selectedEntity:any
+entities:any[]=[]
+role:any
+isSuperAdmin=false
 
   search(){ 
     this.data=this._temp.filter(r => {
@@ -117,6 +123,7 @@ search_text:any=""
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
+    private institutionService:InstitutionService,
     private router:Router,
     private structureService:StructureService,
     private acteursService:ActeurService,
@@ -136,6 +143,8 @@ search_text:any=""
 
       if (this.localStorageService.get(GlobalName.userName) != null) {
         this.user = this.localStorageService.get(GlobalName.userName)
+          this.role=this.user.roles[0]?.name
+          this.isSuperAdmin= this.role ==="Super Admin" ?true:false
       }
      this.init()
     }
@@ -168,6 +177,10 @@ search_text:any=""
     this.departement=[]
     this.acteursService.getAllDepart().subscribe((res:any)=>{
       this.departement=res.data
+    })
+       this.institutionService.getAll().subscribe((res:any)=>{
+      this.spinner.hide();
+      this.entities=res.data
     })
   }
   

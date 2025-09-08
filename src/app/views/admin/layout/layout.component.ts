@@ -292,9 +292,9 @@ logout() {
       this.lsService.remove(GlobalName.expireIn);
       this.lsService.remove(GlobalName.userName);
       this.lsService.remove(GlobalName.exercice);
-      this.router.navigate(['/auth/login']);
+      
     };
-
+this.router.navigate(['/auth/login']);
     this.authService.logout().subscribe({
       next: () => {
         this.toastr.success('Déconnexion réussie', 'Connexion');

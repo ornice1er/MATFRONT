@@ -410,10 +410,10 @@ edit(value: any) {
     next: (res) => {
       this.modalService.dismissAll();
       this.init();
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Modification effectuée avec succès", 'success');
+      AppSweetAlert.simpleAlert('success',"Nouvelle modification", "Modification effectuée avec succès");
     },
     error: (err) => {
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, veuillez vérifier votre connexion internet", 'error');
+      AppSweetAlert.simpleAlert('error',"Nouvelle modification", "Erreur, veuillez vérifier votre connexion internet");
     }
   });
 }

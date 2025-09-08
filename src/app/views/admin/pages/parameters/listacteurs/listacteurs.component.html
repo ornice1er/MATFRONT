@@ -33,6 +33,14 @@
                          class="form-control form-control-lg ps-5"
                          placeholder="Rechercher un acteur par nom, type ou structure..."
                          [(ngModel)]="search_text">
+
+                           <p-dropdown 
+                                         *ngIf="isSuperAdmin"
+                                        [options]="entities" 
+                                        [(ngModel)]="selectedEntity" 
+                                        optionLabel="libelle"
+                                        class="mx-1"
+                                        placeholder="Selectionner une entité" />
                 </div>
               </div>
               <div class="col-md-4 text-end">

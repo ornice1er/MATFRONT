@@ -146,9 +146,10 @@ export class ListRequeteATraiterComponent implements OnInit {
   }
 
   openAddModal(content: any) {
-    if (this.selected_data != null) {
+    if (this.selected_data != null && this.getTypeStructure()!="Division") {
       this.isLoading = true;
       this.spinner.show();
+      
       this.servicesForStructure = [];
       this.prestationService
         .getServicesStructure(this.user.agent_user.idStructure)
@@ -162,15 +163,15 @@ export class ListRequeteATraiterComponent implements OnInit {
             );
             this.cdr.detectChanges();
             if (this.servicesForStructure.length === 0) {
-              AppSweetAlert.simpleAlert(
-                'error',
-                'Erreur',
-                'Aucun service actif trouvé pour cette structure.',
-                undefined
-              );
+              // AppSweetAlert.simpleAlert(
+              //   'error',
+              //   'Erreur',
+              //   'Aucun service actif trouvé pour cette structure.',
+              //   undefined
+              // );
               this.isLoading = false;
               this.spinner.hide();
-              return;
+             // return;
             }
             this.modalService
               .open(content, {
@@ -206,13 +207,29 @@ export class ListRequeteATraiterComponent implements OnInit {
             this.spinner.hide();
           },
         });
-    } else {
+    } else if(this.selected_data == null ) {
       AppSweetAlert.simpleAlert(
         'error',
         'Erreur',
         'Veuillez sélectionner un élément puis réessayer',
         undefined
       );
+    }else{
+           this.modalService
+              .open(content, {
+                ariaLabelledBy: 'modal-basic-title',
+                size: 'lg',
+              })
+              .result.then(
+                (result) => {
+                  this.closeResult = `Closed with: ${result}`;
+                },
+                (reason) => {
+                  this.closeResult = `Dismissed ${this.getDismissReason(
+                    reason
+                  )}`;
+                }
+              );
     }
   }
 
@@ -488,7 +505,7 @@ export class ListRequeteATraiterComponent implements OnInit {
       return;
     }
 
-    this.isGeneralDirector = this.user.profil_user.CodeProfil === 12;
+   // this.isGeneralDirector = this.user.profil_user.CodeProfil === 12;
 
     this.isLoading = true;
     this.spinner.show();
@@ -639,40 +656,7 @@ export class ListRequeteATraiterComponent implements OnInit {
       });
 
     this._temp2 = [];
-    this.data2 = [];
-    this.requeteService
-      .getAllAffectation(
-        this.user.id,
-        'Service',
-        this.checkType()?.id,
-        this.pg.pageSize,
-        page
-      )
-      .subscribe({
-        next: (res: any) => {
-          console.log('Affectations response:', res);
-          if (Array.isArray(res)) {
-            this.data2 = res;
-          } else {
-            this.data2 = res.data?.data;
-          }
-          this._temp2 = this.data2;
-        },
-
-        error: (err) => {
-          console.error('Erreur lors du chargement des affectations:', err);
-          AppSweetAlert.simpleAlert(
-            'error',
-            'Erreur',
-            'Impossible de charger les affectations.',
-            undefined
-          );
-        },
-        complete: () => {
-          this.isLoading = false;
-          this.spinner.hide();
-        },
-      });
+    this.getAffectations(page)
 
     this.departements = [];
     this.usagersService.getAllDepartement().subscribe({
@@ -757,6 +741,43 @@ export class ListRequeteATraiterComponent implements OnInit {
     });
   }
 
+  getAffectations(page:any){
+    this.data2 = [];
+    this.requeteService
+      .getAllAffectation(
+        this.user.id,
+        this.getTypeStructure2(),
+        this.checkType()?.id,
+        this.pg.pageSize,
+        page
+      )
+      .subscribe({
+        next: (res: any) => {
+          console.log('Affectations response:', res);
+          if (Array.isArray(res)) {
+            this.data2 = res;
+          } else {
+            this.data2 = res.data?.data;
+          }
+          this._temp2 = this.data2;
+        },
+
+        error: (err) => {
+          console.error('Erreur lors du chargement des affectations:', err);
+          AppSweetAlert.simpleAlert(
+            'error',
+            'Erreur',
+            'Impossible de charger les affectations.',
+            undefined
+          );
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.spinner.hide();
+        },
+      });
+  }
+
   file: string | Blob = '';
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
@@ -772,7 +793,7 @@ export class ListRequeteATraiterComponent implements OnInit {
       listeemails: this.structureservices.find(
         (e: any) => e.id == this.user.agent_user.idStructure
       ).contact,
-      typeStructure: 'Service',
+      typeStructure: this.getTypeStructure2(),
       idEntite: this.user.idEntite,
       idEtape: 2,
     };
@@ -814,6 +835,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           'Nouvelle affectation',
           'Affectation effectuée avec succès'
         );
+        this.getAffectations(this.page)
       },
       error: (err) => {
         console.error("Erreur lors de l'affectation:", err);
@@ -898,7 +920,7 @@ export class ListRequeteATraiterComponent implements OnInit {
 
     let formData = new FormData();
     formData.append('idRequete', this.selected_data.id);
-    formData.append('typeStructure', 'Direction');
+    formData.append('typeStructure', this.getTypeStructure());
     formData.append('texteReponse', value.texteReponseApportee);
     formData.append('idEntite', this.user.idEntite);
     formData.append('interrompu', value.interrompu ? '1' : '0');
@@ -914,7 +936,7 @@ export class ListRequeteATraiterComponent implements OnInit {
           var paramInternal = {
             idRequete: this.selected_data.id,
             texteReponse: value.texteReponseApportee,
-            typeStructure: 'Direction',
+            typeStructure: this.getTypeStructure(),
             idEntite: this.user.idEntite,
             typeSuperieur: 'Usager',
             idEtape: 6,
@@ -930,9 +952,9 @@ export class ListRequeteATraiterComponent implements OnInit {
                 'Réponse envoyée et transmise avec succès',
                 undefined
               );
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
+              // setTimeout(() => {
+              //   window.location.reload();
+              // }, 2000);
             },
             error: (err) => {
               console.error('Erreur lors de la transmission:', err);
@@ -960,9 +982,9 @@ export class ListRequeteATraiterComponent implements OnInit {
             'Réponse envoyée avec succès',
             undefined
           );
-          setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+          // setTimeout(() => {
+          //   window.location.reload();
+          // }, 2000);
         }
       },
       error: (err) => {
@@ -997,7 +1019,7 @@ export class ListRequeteATraiterComponent implements OnInit {
     var val = {
       idRequete: this.selected_data.id,
       texteReponse: value.texteArchive,
-      typeStructure: 'Direction',
+      typeStructure: this.getTypeStructure(),
       idEntite: this.user.idEntite,
     };
     this.isLoading = true;
@@ -1204,7 +1226,7 @@ export class ListRequeteATraiterComponent implements OnInit {
         var param = {
           idRequete: this.selected_data.id,
           texteReponse: this.selected_data.reponseStructure,
-          typeStructure: 'Direction',
+          typeStructure: this.getTypeStructure(),
           typeSuperieur: 'Usager',
           idEntite: this.user.idEntite,
           idEtape: 6,
@@ -1614,5 +1636,38 @@ export class ListRequeteATraiterComponent implements OnInit {
       this.cdr.detectChanges();
     }
     console.log('Services for structure:', this.servicesForStructure);
+  }
+ getTypeStructure() {
+  let key=this.user?.agent_user?.structure?.type_s
+    switch (key) {
+        case 'dt':
+        return 'Direction'
+        break;
+      case 'se':
+        return 'Service'
+        break;
+        case 'di':
+        return 'Division'
+        break;
+    
+      default:
+        return 'Direction'
+        break;
+    }
+  }
+
+   getTypeStructure2() {
+  let key=this.user?.agent_user?.structure?.type_s
+    switch (key) {
+        case 'dt':
+        return 'Service'
+        break;
+      case 'se':
+        return 'Division'
+        break;    
+      default:
+        return 'Direction'
+        break;
+    }
   }
 }

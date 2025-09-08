@@ -22,9 +22,9 @@
                                     </div>
                                 </form>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" >
 
-
+                                  
                             </li>
 
                         </ul>
@@ -51,6 +51,13 @@
                                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
                                             Supprimer
                                         </button>
+                                        <p-dropdown 
+                                         *ngIf="isSuperAdmin"
+                                        [options]="entities" 
+                                        [(ngModel)]="selectedEntity" 
+                                        optionLabel="libelle"
+                                        class="mx-1"
+                                        placeholder="Selectionner une entité" />
                                     </td>
                                 </tr>  
                                 <tr>
@@ -120,7 +127,7 @@
 
                                 </tr>
                                 <tr *ngIf="data.length==0">
-                                    <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
+                                    <td colspan="10" class="text-center bg-gray-100">Aucun elements</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -156,6 +163,17 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
                                         aria-hidden="true">×</span>
                                 </button>
+                            </div>
+                            <div class="form-group mb-3" *ngIf="isSuperAdmin">
+                                <label for="">Entité</label>
+                                 <p-dropdown 
+                                        name="idEntite"
+                                        [options]="entities" 
+                                        ngModel
+                                        optionValue="id"
+                                        optionLabel="libelle"
+                                        class="mx-1"
+                                        placeholder="Selectionner une entité" />
                             </div>
                             <div class="form-group row mb-3">
                                 <label class="col-md-4">Type de structure</label>
@@ -335,6 +353,17 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
                                         aria-hidden="true">×</span>
                                 </button>
+                            </div>
+                               <div class="form-group mb-3" *ngIf="isSuperAdmin">
+                                <label for="">Entité</label>
+                                 <p-dropdown 
+                                        name="idEntite"
+                                        [options]="entities" 
+                                        [(ngModel)]="selected_data.idEntite"
+                                        optionValue="id"
+                                        optionLabel="libelle"
+                                        class="mx-1"
+                                        placeholder="Selectionner une entité" />
                             </div>
                             <div class="form-group row mb-3">
                                 <label class="col-md-4">Type de structure</label>

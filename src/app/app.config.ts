@@ -1,4 +1,4 @@
-import { ApplicationConfig, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
@@ -12,6 +12,7 @@ import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { TRANSLATE_PROVIDERS } from './core/providers/translate.providers';
+import { LucideAngularModule, BarChart3, Users, FileText, Clock, TrendingUp,AlertCircle} from 'lucide-angular';
 
 registerLocaleData(localeFr);
 
@@ -27,6 +28,9 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideToastr(), 
     provideCharts(withDefaultRegisterables()),
+      importProvidersFrom(
+      LucideAngularModule.pick({ BarChart3, Users, FileText, Clock,TrendingUp,AlertCircle})
+    ),
    // TRANSLATE_PROVIDERS,
     { provide: LOCALE_ID, useValue: 'fr' },
     AuthGuard,
