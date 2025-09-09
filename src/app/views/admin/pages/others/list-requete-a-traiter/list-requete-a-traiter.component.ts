@@ -149,7 +149,7 @@ export class ListRequeteATraiterComponent implements OnInit {
     if (this.selected_data != null && this.getTypeStructure()!="Division") {
       this.isLoading = true;
       this.spinner.show();
-      
+
       this.servicesForStructure = [];
       this.prestationService
         .getServicesStructure(this.user.agent_user.idStructure)
@@ -493,17 +493,17 @@ export class ListRequeteATraiterComponent implements OnInit {
     console.log('user in prepare:', this.user);
     console.log('idEntite in prepare:', this.user?.idEntite);
 
-    if (!this.user || !this.user.idEntite) {
-      console.error('Utilisateur ou idEntite manquant dans prepare');
-      AppSweetAlert.simpleAlert(
-        'error',
-        'Erreur',
-        'Utilisateur non connecté. Veuillez vous reconnecter.',
-        undefined
-      );
-      this.router.navigate(['/login']);
-      return;
-    }
+    // if (!this.user || !this.user.idEntite) {
+    //   console.error('Utilisateur ou idEntite manquant dans prepare');
+    //   AppSweetAlert.simpleAlert(
+    //     'error',
+    //     'Erreur',
+    //     'Utilisateur non connecté. Veuillez vous reconnecter.',
+    //     undefined
+    //   );
+    //   this.router.navigate(['/auth/login']);
+    //   return;
+    // }
 
    // this.isGeneralDirector = this.user.profil_user.CodeProfil === 12;
 
@@ -1649,7 +1649,7 @@ export class ListRequeteATraiterComponent implements OnInit {
         case 'di':
         return 'Division'
         break;
-    
+
       default:
         return 'Direction'
         break;
@@ -1664,7 +1664,7 @@ export class ListRequeteATraiterComponent implements OnInit {
         break;
       case 'se':
         return 'Division'
-        break;    
+        break;
       default:
         return 'Direction'
         break;
