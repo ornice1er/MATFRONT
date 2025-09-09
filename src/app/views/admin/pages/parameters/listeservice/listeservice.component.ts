@@ -300,7 +300,7 @@ loading:any=false
       this.init()
 
       //this.translate.instant('HOME.TITLE')
-      AppSweetAlert.simpleAlert("Nouvel ajout", "Ajout effectué avec succès", 'success')
+      AppSweetAlert.simpleAlert("'success',Nouvel ajout", "Ajout effectué avec succès", )
     }, (err) => {
 
       if (err.error.detail != null) {
@@ -376,10 +376,10 @@ loading:any=false
       "Cette action est irreversible. Voulez-vous continuer ?").then((result:any) => {
         if (result.value) {
           this.prestationService.update(this.selected_data,this.selected_data.id).subscribe((res: any) => {
-            AppSweetAlert.simpleAlert("Publier cette prestation", "Publication effectuée avec succès", 'success')
+            AppSweetAlert.simpleAlert('success',"Publier cette prestation", "Publication effectuée avec succès")
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert("Publier cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert('error',"Publier cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet")
           })
         }
       })

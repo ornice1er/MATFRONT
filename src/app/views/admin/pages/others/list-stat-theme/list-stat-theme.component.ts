@@ -65,7 +65,7 @@ export class ListStatThemeComponent implements OnInit {
   }
   pg:any={
     pageSize:10,
-    p:0,
+    p:1,
     total:0
   }
 isPaginate:any=false
@@ -156,8 +156,9 @@ search_text:any=""
     // this.requeteService.getStatByTheme(this.checkType()?.id,this.user.idEntite).subscribe((res:any)=>{
     this.requeteService.getStatByTheme(this.selected_type,this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
-      this.data=res
-      this.subject.next(res);
+      this.data=res.data
+      this.pg.total=this.data.length
+      this.subject.next(res.data);
       this._temp=this.data
       this.collectionSize=this.data.length
     })

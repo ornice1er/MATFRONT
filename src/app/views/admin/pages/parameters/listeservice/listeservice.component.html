@@ -21,8 +21,8 @@
                                 <form>
                                     <div class="form-group form-inline">
                                         <input class="form-control form-control-sm form-control-sm "
-                                            placeholder="Rechercher...." type="text" [(ngModel)]="searchText"
-                                            name="searchText" (keyup)="search()" />
+                                            placeholder="Rechercher...." type="text" [(ngModel)]="search_text"
+                                            name="search_text" (keyup)="search()" />
                                     </div>
                                 </form>
                             </li>
@@ -459,7 +459,7 @@ demander plus tôt ?" value="{{default_data.interetDemanderTot}}"
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid"
+                            <button [disabled]="loading" type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid"
                                 type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
@@ -779,7 +779,7 @@ demander plus tôt ?" value="{{selected_data.interetDemanderTot}}"
                             </div-->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid"
+                            <button [disabled]="loading" type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid"
                                 type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                         </div>
                     </form>
@@ -850,7 +850,7 @@ demander plus tôt ?" value="{{selected_data.interetDemanderTot}}"
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" id="btn-save" type="submit"><i
+                            <button [disabled]="loading" class="btn btn-primary" id="btn-save" type="submit"><i
                                     class="fas fa-save"></i>&nbsp;
                                 Enregistrer <app-loading [isVisible]="loading"></app-loading></button>
                         </div>

@@ -63,6 +63,350 @@ export class LayoutComponent {
   title = '';
   role = '';
 
+   menuItems2: MenuItem[] = [
+    {
+      label: 'Accueil',
+      route: '/admin/dashboard',
+      key: 'TABLEAU DE BORD',
+      action: 'LISTER',
+    },
+    {
+      label: 'Point de chute',
+      route: '/admin/point-de-chute',
+      key: 'REQUÊTE',
+      action: 'LISTER',
+    },
+    {
+      label: 'Suggestions',
+      route: '/admin/listsuggestions',
+      key: 'SUGGESTION',
+      action: 'LISTER',
+    },
+    {
+      label: 'Paramètres',
+      key: 'PARAMETRE',
+      action: 'LISTER',
+      children: [
+        {
+          label: 'Structure',
+          route: '/admin/liststructure',
+          key: 'STRUCTURE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Acteurs',
+          route: '/admin/listacteur',
+          key: 'ACTEUR',
+          action: 'LISTER',
+        },
+        {
+          label: 'Utilisateurs',
+          route: '/admin/users-main',
+          key: 'UTILISATEUR',
+          action: 'LISTER',
+        },
+        {
+          label: 'Utilisateurs (sectoriel)',
+          route: '/admin/users',
+          key: 'GESTION DES UTILISATEURS',
+          action: 'LISTER',
+        },
+        {
+          label: 'Thématique',
+          route: '/admin/listthematique',
+          key: 'STATISTIQUES THÉMATIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Gestion des prestations',
+          route: '/admin/listservices',
+          key: 'SERVICE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Profils',
+          route: '/admin/listprofils',
+          key: 'PROFIL',
+          action: 'LISTER',
+        },
+        {
+          label: 'Etapes',
+          route: '/admin/listetapes',
+          key: 'ÉTAPE COURRIER',
+          action: 'LISTER',
+        },
+        {
+          label: 'Nature requetes',
+          route: '/admin/listnature',
+          key: 'NATURE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Entités administratives',
+          route: '/admin/institutions',
+          key: 'INSTITUTION',
+          action: 'LISTER',
+        },
+        {
+          label: 'Relances',
+          route: '/admin/configrelance',
+          key: 'CONFIGURATION RELANCE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Evènements déclencheurs',
+          route: '/admin/events',
+          key: 'ÉVÉNEMENT',
+          action: 'LISTER',
+        },
+        {
+          label: 'Attribution communes',
+          route: '/admin/attributcom',
+          key: 'ATTRIBUTION',
+          action: 'LISTER',
+        },
+        {
+          label: 'E Services',
+          route: '/admin/e-services',
+          key: 'E-SERVICE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Type structure',
+          route: '/admin/type-structures',
+          key: 'TYPE DE STRUCTURE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Nature contrat',
+          route: '/admin/nature-contracts',
+          key: 'NATURE DE CONTRAT',
+          action: 'LISTER',
+        },
+        {
+          label: 'Centre communaux',
+          route: '/admin/ccsps',
+          key: 'CCSP',
+          action: 'LISTER',
+        },
+        {
+          label: 'Rôles',
+          route: '/admin/roles',
+          key: 'ROLE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Permissions',
+          route: '/admin/permissions',
+          key: 'PERMISSION',
+          action: 'LISTER',
+        },
+        {
+          label: 'Rôles & Permissions',
+          route: '/admin/profils',
+          key: 'PROFIL',
+          action: 'LISTER',
+        },
+      ],
+    },
+    {
+      label: 'Prestations par structure',
+      route: '/admin/listservices',
+      key: 'SERVICE',
+      action: 'LISTER',
+    },
+    {
+      label: 'Toutes les prestations',
+      route: '/admin/allservices',
+      key: 'SERVICE',
+      action: 'LISTER',
+    },
+    {
+      label: 'Statistiques',
+      route: '/admin/liststatprestationbystructure',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+    },
+    {
+      label: 'Gestion des usagers',
+      route: '/admin/listusager',
+      key: 'USAGER',
+      action: 'LISTER',
+    },
+    {
+      label: 'Historique',
+      key: 'PARCOURS REQUETE',
+      action: 'LISTER',
+      children: [
+        {
+          label: 'Requêtes',
+          route: '/admin/listrequeteparcours/requetes',
+          key: 'PARCOURS REQUETE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Plaintes',
+          route: '/admin/listrequeteparcours/plaintes',
+          key: 'PARCOURS REQUETE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Demandes infos',
+          route: '/admin/listrequeteparcours/infos',
+          key: 'PARCOURS REQUETE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Point réponses',
+          route: '/admin/listrequetepointreponse',
+          key: 'PARCOURS REQUETE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Régistre de visite',
+          route: '/admin/listregistre',
+          key: 'REGISTRE',
+          action: 'LISTER',
+        },
+        {
+          label: 'Statistique e-service',
+          route: '/admin/statglob/all/all',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Journal de connexion',
+          route: '/admin/statglob/conn/all',
+          key: 'LOGS',
+          action: 'LISTER',
+        },
+      ],
+    },
+    {
+      label: 'Statistiques',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        {
+          label: 'Prestations',
+          route: '/admin/liststatprestation',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Thématiques',
+          route: '/admin/liststattheme/requetes',
+          key: 'STATISTIQUES THÉMATIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Structures',
+          route: '/admin/liststatstructure/requetes',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Taux digitalisation',
+          route: '/admin/listauxdigit',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Avancées',
+          route: '/admin/avanced-statistics',
+          key: 'STATISTIQUES AVANCÉES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Suivi traitement',
+          route: '/admin/follow-treatment',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+      ],
+    },
+    {
+      label: 'Ratio des prestations',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        {
+          label: 'Plaintes',
+          route: '/admin/ratioplainteprestation',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Requêtes',
+          route: '/admin/ratiorequeteprestation',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Demande infos',
+          route: '/admin/ratiodemandeinfosprestation',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+      ],
+    },
+    {
+      label: 'Ratio des structures',
+      key: 'STATISTIQUES',
+      action: 'LISTER',
+      children: [
+        {
+          label: 'Plaintes',
+          route: '/admin/ratioplaintestructure',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Requêtes',
+          route: '/admin/ratiorequetestructure',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+        {
+          label: 'Gestion des usagers',
+          route: '/admin/ratiodemandeinfosstructure',
+          key: 'STATISTIQUES',
+          action: 'LISTER',
+        },
+      ],
+    },
+    // {
+    //   label: 'Graphiques',
+    //   key: 'STATISTIQUES',
+    //   action: 'LISTER',
+    //   children: [
+    //     {
+    //       label: 'Thématiques',
+    //       route: '/admin/grahiquetype/requetes',
+    //       key: 'STATISTIQUES THÉMATIQUES',
+    //       action: 'LISTER',
+    //     },
+    //     {
+    //       label: 'Structures',
+    //       route: '/admin/grahiquestructures/requetes',
+    //       key: 'STATISTIQUES',
+    //       action: 'LISTER',
+    //     },
+    //   ],
+    // },
+    {
+      label: 'Mon profil',
+      key: 'PROFIL',
+      action: 'LISTER',
+      route: '/admin/profil',
+    },
+    {
+      label: 'Paramètre générale',
+      route: '/admin/settings',
+      key: 'PARAMÈTRES',
+      action: 'LISTER',
+    },
+  ];
   menuItems: MenuItem[] = [
     {
       label: 'Accueil',
@@ -430,25 +774,25 @@ export class LayoutComponent {
         },
       ],
     },
-    {
-      label: 'Graphiques',
-      key: 'STATISTIQUES',
-      action: 'LISTER',
-      children: [
-        {
-          label: 'Thématiques',
-          route: '/admin/grahiquetype/requetes',
-          key: 'STATISTIQUES THÉMATIQUES',
-          action: 'LISTER',
-        },
-        {
-          label: 'Structures',
-          route: '/admin/grahiquestructures/requetes',
-          key: 'STATISTIQUES',
-          action: 'LISTER',
-        },
-      ],
-    },
+      // {
+      //   label: 'Graphiques',
+      //   key: 'STATISTIQUES',
+      //   action: 'LISTER',
+      //   children: [
+      //     {
+      //       label: 'Thématiques',
+      //       route: '/admin/grahiquetype/requetes',
+      //       key: 'STATISTIQUES THÉMATIQUES',
+      //       action: 'LISTER',
+      //     },
+      //     {
+      //       label: 'Structures',
+      //       route: '/admin/grahiquestructures/requetes',
+      //       key: 'STATISTIQUES',
+      //       action: 'LISTER',
+      //     },
+      //   ],
+      // },
     {
       label: 'Mon profil',
       key: 'PROFIL',

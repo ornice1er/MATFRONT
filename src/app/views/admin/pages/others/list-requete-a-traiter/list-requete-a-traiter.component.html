@@ -14,7 +14,7 @@
               <li class="nav-item">
                 <form>
                   <div class="form-group form-inline">
-                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="searchText" name="searchText" (keyup)="search()" />
+                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="search_text" name="search_text" (keyup)="search()" />
                   </div>
                 </form>
               </li>
@@ -514,7 +514,7 @@
              <div class="row form-group mb-3">
                 <label class="col-md-2">Prestation</label>
                 <div class="col-md-10">
-                  <p-dropdown [options]="services" name="idPrestation" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>
+                  <p-dropdown [options]="services" name="idPrestation" [(ngModel)]="selected_data.idPrestation" optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>
                 </div>
              </div>
            </div>
@@ -573,7 +573,7 @@
                         <li class="nav-item">
                             <form>
                                 <div class="form-group form-inline">
-                                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="searchText" name="searchText2" (keyup)="search()" />
+                                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="search_text" name="searchText2" (keyup)="search()" />
                                 </div>
                             </form>
                         </li>
