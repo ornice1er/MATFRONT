@@ -550,23 +550,35 @@ search_text:any=""
       year:+full_date.split('/')[0]
     }
   }
-  daysTodayFromDate(checkdate:any) {
-    let timeDiff = 0
-    const date = new Date(this.decomposeDate(checkdate).year,this.decomposeDate(checkdate).month,this.decomposeDate(checkdate).day);
-    timeDiff = (new Date()).getTime() - date.getTime();
+daysTodayFromDate(checkdate: any) {
+  const d = this.decomposeDate(checkdate);
 
-    let daysdiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
-    return daysdiff;
-  }
-  daysBetweenTwoDate(date2:any, date1:any) {
-    let timeDiff = 0
-    var date4 = new Date(this.decomposeReverseDate(date2).year,this.decomposeReverseDate(date2).month,this.decomposeReverseDate(date2).day);
-    var date3 = new Date(this.decomposeDate(date1).year,this.decomposeDate(date1).month,this.decomposeDate(date1).day);
+  if (!d || !d.year || !d.month || !d.day) return "-";
 
-    timeDiff = date3.getTime() - date4.getTime();
-    let daysdiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
-    return daysdiff;
-  }
+  // Attention : mois en JS commence à 0
+  const date = new Date(d.year, d.month - 1, d.day);
+
+  const timeDiff = new Date().getTime() - date.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  return daysDiff;
+}
+
+daysBetweenTwoDate(date2: any, date1: any) {
+  const d2 = this.decomposeReverseDate(date2);
+  const d1 = this.decomposeDate(date1);
+
+  if (!d1 || !d2) return "-";
+
+  const date4 = new Date(d2.year, d2.month - 1, d2.day);
+  const date3 = new Date(d1.year, d1.month - 1, d1.day);
+
+  const timeDiff = date3.getTime() - date4.getTime();
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+  return daysDiff;
+}
+
 
   ratioBetweenTwoDate(delaiTh:any, date2:any, date1:any) {
     var date4 = new Date(this.decomposeReverseDate(date2).year,this.decomposeReverseDate(date2).month,this.decomposeReverseDate(date2).day);

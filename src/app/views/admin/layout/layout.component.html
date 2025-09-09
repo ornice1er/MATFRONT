@@ -16,7 +16,9 @@
     </div>
 
     <nav class="" [ngClass]="{'px-1! pb-6': !menuOpen, 'px-4! py-6!': menuOpen}">
-      <div *ngFor="let item of menuItems" class="mb-1!">
+
+      <ng-container *ngIf="role=='Super Admin'">
+   <div *ngFor="let item of menuItems2" class="mb-1!">
         <button *ngIf="canShowItem(item)" routerLinkActive="bg-white/20! text-white! shadow-lg!" (click)="onNavItemClick(item)"
           class="w-full! flex! items-center! justify-between! px-4! py-3! rounded-xl! transition-all! duration-200! group! text-white/80! hover:bg-white/10! hover:text-white!">
           <div class="flex! items-center! space-x-3!">
@@ -37,6 +39,31 @@
           </button>
         </div>
       </div>
+      </ng-container>
+      <ng-container *ngIf="role!='Super Admin'">
+   <div *ngFor="let item of menuItems" class="mb-1!">
+        <button *ngIf="canShowItem(item)" routerLinkActive="bg-white/20! text-white! shadow-lg!" (click)="onNavItemClick(item)"
+          class="w-full! flex! items-center! justify-between! px-4! py-3! rounded-xl! transition-all! duration-200! group! text-white/80! hover:bg-white/10! hover:text-white!">
+          <div class="flex! items-center! space-x-3!">
+            <span *ngIf="!menuOpen" class="text-xl! font-semibold!">{{item.label.charAt(0) | uppercase}}{{item.label.charAt(1) | uppercase}}</span>
+            <span *ngIf="menuOpen" class="text-sm! font-medium!">{{ item.label }}</span>
+          </div>
+          <lucide-angular
+            *ngIf="menuOpen && item.children && item.children.length > 0"
+            [img]="chevronRightIcon"
+            size="16"
+            [class]="'transition-transform! duration-200! ' + (expandedMenus().has(item.label) ? 'rotate-90!' : '')"
+          ></lucide-angular>
+        </button>
+
+        <div *ngIf="item.children && item.children.length > 0 && expandedMenus().has(item.label) && menuOpen && canShowItemBloc(item)" class="ml-4! mt-2! space-y-1!">
+          <button *ngFor="let child of item.children" routerLinkActive="bg-white/20! text-white! shadow-lg!" [routerLink]="child.route" [hidden]="!canShowItem(child)" class="w-full! text-left! px-4! py-2! text-sm! text-white/70! hover:text-white! hover:bg-white/5! rounded-lg! transition-colors!">
+            {{child.label}}
+          </button>
+        </div>
+      </div>
+      </ng-container>
+   
     </nav>
   </div>
 

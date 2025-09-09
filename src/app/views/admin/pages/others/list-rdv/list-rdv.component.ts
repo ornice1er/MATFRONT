@@ -49,7 +49,14 @@ export class ListRdvComponent implements OnInit {
   current_permissions:any[]=[]
   collectionSize = 0;
   selected_data:any
-
+  pg:any={
+    pageSize:10,
+    p:0,
+    total:0
+  }
+isPaginate:any=false
+search_text:any=""
+loading:any=false
   search(){ 
     this.data=[]
     this._temp=[]

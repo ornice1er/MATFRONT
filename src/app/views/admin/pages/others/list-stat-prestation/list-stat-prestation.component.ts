@@ -96,6 +96,7 @@ search_text:any=""
     
     if (this.lsService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)
+      console.log(this.user)
       this.init()
     }
    
@@ -116,6 +117,7 @@ search_text:any=""
       this.collectionSize=this.data.length
     })
 
+    
     this.insService.getAll().subscribe((res:any)=>{
       this.entities=res.data
     })
