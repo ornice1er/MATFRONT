@@ -138,54 +138,56 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
       (_, i) => currentYear - range + i
     );
   }
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName);
       console.log(this.user);
     }
     this.getReports();
-    // this.formData.summary_synthese_all= this.replaceGraphsInText(this.formData.summary_synthese_all);
-    console.log(await this.replaceGraphsInText(this.formData.summary_synthese_all));
+
+    setTimeout(() => {
+      this.formData.summary_synthese_all = this.replaceGraphsInText(
+        this.formData.summary_synthese_all
+      );
+      console.log(this.formData.summary_synthese_all);
+    }, 100);
   }
 
-  async replaceGraphsInText(text: string): Promise<string> {
+  replaceGraphsInText(text: string): string {
     const regex = /\[GRAPH:([a-zA-Z0-9_]+)\]/g;
-    const promises: Promise<string>[] = [];
 
-    text.replace(regex, (match, graphId) => {
-      promises.push(
-        new Promise((resolve) => {
-          const graph = this.graphMap[graphId];
-          if (!graph) return resolve('');
+    return text.replace(regex, (match, graphId) => {
+      const graph = this.graphMap[graphId];
+      if (!graph) return ''; // placeholder inconnu
 
-          const canvas = document.createElement('canvas');
-          canvas.width = 400;
-          canvas.height = 300;
-          const ctx = canvas.getContext('2d');
-          if (!ctx) return resolve('');
+      // Créer un canvas temporaire
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 300;
 
-          const chart = new Chart(ctx, {
-            ...graph,
-            options: {
-              ...graph.options,
-              animation: {
-                onComplete: () => {
-                  const imgBase64 = canvas.toDataURL('image/png');
-                  chart.destroy();
-                  resolve(
-                    `<img src="${imgBase64}" alt="${graphId}" style="max-width:100%; display:block; margin:10px 0;" />`
-                  );
-                },
-              },
-            },
-          });
-        })
-      );
-      return match;
+      // S'assurer que le canvas a un contexte
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return '';
+
+      // Créer le graphique
+      const chart = new Chart(ctx, graph);
+
+      // Attendre que le graphique soit rendu avant de le convertir
+      // Note: Chart.js rend de manière synchrone pour les graphiques simples
+
+      // setTimeout(() => {
+      // Convertir le graphique en image base64
+      const imgBase64 = canvas.toDataURL('image/png');
+      console.log(canvas.toDataURL('image/png'));
+      console.log(ctx);
+
+      // Nettoyer le graphique pour libérer la mémoire
+      // chart.destroy();
+      // remplacer le placeholder
+      // Retourner la balise img pour Quill
+      return `<img src="${imgBase64}" alt="${graphId}" style="max-width:100%; display:block; margin:10px 0;" />`;
+      // }, 100);
     });
-
-    const results = await Promise.all(promises);
-    return text.replace(regex, () => results.shift() || '');
   }
 
   checkedRegistreReport(el: any) {
