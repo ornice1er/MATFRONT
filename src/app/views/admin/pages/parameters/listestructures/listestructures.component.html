@@ -24,7 +24,7 @@
                             </li>
                             <li class="nav-item" >
 
-                                  
+
                             </li>
 
                         </ul>
@@ -47,19 +47,19 @@
                                         <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                             Modifier
                                         </button>
-                    
+
                                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
                                             Supprimer
                                         </button>
-                                        <p-dropdown 
+                                        <p-dropdown
                                          *ngIf="isSuperAdmin"
-                                        [options]="entities" 
-                                        [(ngModel)]="selectedEntity" 
+                                        [options]="entities"
+                                        [(ngModel)]="selectedEntity"
                                         optionLabel="libelle"
                                         class="mx-1"
                                         placeholder="Selectionner une entité" />
                                     </td>
-                                </tr>  
+                                </tr>
                                 <tr>
                                     <th></th>
                                     <th scope="col">N°</th>
@@ -68,6 +68,7 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">Type </th>
                                     <th scope="col">Point de Chute</th>
+                                    <th scope="col">Point de Chute DSI</th>
                                     <th scope="col">Chute Transverse</th>
                                     <th scope="col">Contrôle Primaire</th>
                                     <th scope="col">Contrôle Secondaire</th>
@@ -108,6 +109,10 @@
                                         <span class="badge badge-secondary" *ngIf="!el.point_de_chute">Non</span>
                                     </td>
                                     <td class="text-center">
+                                        <span class="badge badge-success" *ngIf="el.point_de_chute_dsi">Oui</span>
+                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute_dsi">Non</span>
+                                    </td>
+                                    <td class="text-center">
                                         <span class="badge badge-success" *ngIf="el.point_de_chute_transverse">Oui</span>
                                         <span class="badge badge-secondary" *ngIf="!el.point_de_chute_transverse">Non</span>
                                     </td>
@@ -119,7 +124,7 @@
                                         <span class="badge badge-success" *ngIf="el.controle_secondaire">Oui</span>
                                         <span class="badge badge-secondary" *ngIf="!el.controle_secondaire">Non</span>
                                     </td>
-                        
+
                                     <td class="text-center">
                                         <span  class="badge badge-success" *ngIf="el.active==1">Oui</span>
                                         <span class="badge badge-danger" *ngIf="el.active==0">Non</span>
@@ -131,7 +136,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <pagination-controls 
+                        <pagination-controls
                         id="ngxP1"
                         (pageChange)="getPage($event)"
                       [maxSize]="9"
@@ -166,9 +171,9 @@
                             </div>
                             <div class="form-group mb-3" *ngIf="isSuperAdmin">
                                 <label for="">Entité</label>
-                                 <p-dropdown 
+                                 <p-dropdown
                                         name="idEntite"
-                                        [options]="entities" 
+                                        [options]="entities"
                                         ngModel
                                         optionValue="id"
                                         optionLabel="libelle"
@@ -218,6 +223,15 @@
                                 <label class="col-md-4">Point de chute ?</label>
                                 <div class="col-md-6">
                                     <select class="form-control form-group" name="point_de_chute" ngModel>
+                                        <option value="0">Non</option>
+                                        <option value="1">Oui</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-3">
+                                <label class="col-md-4">Point de chute DSI ?</label>
+                                <div class="col-md-6">
+                                    <select class="form-control form-group" name="point_de_chute_dsi" ngModel>
                                         <option value="0">Non</option>
                                         <option value="1">Oui</option>
                                     </select>
@@ -356,9 +370,9 @@
                             </div>
                                <div class="form-group mb-3" *ngIf="isSuperAdmin">
                                 <label for="">Entité</label>
-                                 <p-dropdown 
+                                 <p-dropdown
                                         name="idEntite"
-                                        [options]="entities" 
+                                        [options]="entities"
                                         [(ngModel)]="selected_data.idEntite"
                                         optionValue="id"
                                         optionLabel="libelle"

@@ -1649,7 +1649,6 @@ export class ListRequeteATraiterComponent implements OnInit {
         case 'di':
         return 'Division'
         break;
-
       default:
         return 'Direction'
         break;
