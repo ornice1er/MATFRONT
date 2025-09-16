@@ -260,7 +260,7 @@ totalPages: number = 1;
         AppSweetAlert.simpleAlert(
           'error',
           'Communes',
-          'Erreur lors de la récupération des communes. Vérifiez votre connexion internet.'
+          err.error.message
         );
       }
     );
@@ -341,7 +341,7 @@ totalPages: number = 1;
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Vérifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -366,7 +366,7 @@ totalPages: number = 1;
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Vérifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -412,7 +412,7 @@ totalPages: number = 1;
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Vérifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );

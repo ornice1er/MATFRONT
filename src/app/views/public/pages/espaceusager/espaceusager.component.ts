@@ -624,7 +624,7 @@ search_text:any=""
             this.init()
             AppSweetAlert.simpleAlert("Suppression requete", "Suppression effectuée avec succès", 'success')
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression requete", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Suppression requete", err.error.message, 'error')
           })
         }
       })
@@ -643,7 +643,7 @@ search_text:any=""
         AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
       }
     }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      AppSweetAlert.simpleAlert("Nouvelle modification", err.error.message, 'error')
     })
 	}
 
@@ -669,7 +669,7 @@ search_text:any=""
             this.init()
             AppSweetAlert.simpleAlert("Transmettre rdv", "Suppression effectuée avec succès", 'success')
           }, (err) => {
-            AppSweetAlert.simpleAlert("Transmettre rdv", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Transmettre rdv", err.error.message, 'error')
           })
         }
       })
@@ -691,7 +691,7 @@ search_text:any=""
             this.init()
             AppSweetAlert.simpleAlert("Suppression rdv", "Suppression effectuée avec succès", 'success')
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression rdv", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Suppression rdv", err.error.message, 'error')
           })
         }
       })

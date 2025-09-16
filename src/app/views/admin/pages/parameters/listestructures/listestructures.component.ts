@@ -228,7 +228,7 @@ export class ListestructuresComponent implements OnInit {
           AppSweetAlert.simpleAlert(
             'error',
             'Nouvel ajout',
-            'Erreur, Verifiez que vous avez une bonne connexion internet'
+            err.error.message
           );
         }
       }
@@ -263,7 +263,7 @@ export class ListestructuresComponent implements OnInit {
             AppSweetAlert.simpleAlert(
               'error',
               'Suppression',
-              'Erreur, Verifiez que vous avez une bonne connexion internet'
+              err.error.message
             );
           }
         );
@@ -334,7 +334,7 @@ export class ListestructuresComponent implements OnInit {
         AppSweetAlert.simpleAlert(
           'error',
           'Nouvelle modification',
-          'Erreur, Verifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );

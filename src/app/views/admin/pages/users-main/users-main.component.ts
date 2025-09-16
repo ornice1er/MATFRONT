@@ -180,7 +180,7 @@ export class UsersMainComponent implements OnInit {
         this.init();
       },
       error: (err: any) => {
-        const message = err.error?.detail || 'Erreur, vérifiez votre connexion internet';
+        const message = err.error?.detail || err.error.message;
         AppSweetAlert.simpleAlert('error', 'Nouvel ajout', message);
       }
     });
@@ -199,7 +199,7 @@ export class UsersMainComponent implements OnInit {
             this.init();
           },
           error: (err: any) => {
-            AppSweetAlert.simpleAlert('error', 'Suppression', 'Erreur, vérifiez votre connexion internet');
+            AppSweetAlert.simpleAlert('error', 'Suppression', err.error.message);
           }
         });
       }
@@ -223,7 +223,7 @@ export class UsersMainComponent implements OnInit {
       },
       error: (err: any) => {
         this.loading = false; // <-- On désactive AUSSI le loader en cas d'erreur
-        const message = err.error?.error_list || 'Erreur, vérifiez votre connexion internet';
+        const message = err.error?.error_list || err.error.message;
         AppSweetAlert.simpleAlert('error', 'Nouvelle modification', JSON.stringify(message));
       }
     });

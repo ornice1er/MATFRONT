@@ -128,7 +128,7 @@ export class RelanceComponent implements OnInit {
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
       }else{
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.message, 'error')
       }
     })
   }

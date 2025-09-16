@@ -138,7 +138,7 @@ export class CrudComponent implements OnInit {
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
       }else{
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.message, 'error')
       }
     })
   }
@@ -147,7 +147,7 @@ export class CrudComponent implements OnInit {
       AppSweetAlert.simpleAlert("Nouvelle modification",  'success')
       this.ngOnInit()
     }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      AppSweetAlert.simpleAlert("Nouvelle modification", err.error.message, 'error')
     })
    
    }
@@ -156,7 +156,7 @@ export class CrudComponent implements OnInit {
         AppSweetAlert.simpleAlert("Nouvelle modification", 'success')
         this.ngOnInit()
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Nouvelle modification", err.error.message, 'error')
       })
    }
   archive(id:any,index:any){
@@ -168,7 +168,7 @@ export class CrudComponent implements OnInit {
         AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
         this.ngOnInit()
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Suppression", err.error.message, 'error')
       })
     }
    })
@@ -178,7 +178,7 @@ export class CrudComponent implements OnInit {
       AppSweetAlert.simpleAlert("Nouvelle modification",  "Motification effectué avec succès", 'success')
       this.ngOnInit()
     }, (err:any)=>{
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      AppSweetAlert.simpleAlert("Nouvelle modification", err.error.message, 'error')
     })
 	}
 

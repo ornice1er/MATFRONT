@@ -185,7 +185,7 @@ search_text:any=""
          if(err.error.detail!=null){    
            AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.detail)
          }else{
-           AppSweetAlert.simpleAlert('error',"Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet")
+           AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.message)
          }
        })
     
@@ -220,7 +220,7 @@ search_text:any=""
       AppSweetAlert.simpleAlert('success',"Nouvelle modification",  "Motification effectué avec succès")
     }, (err:any)=>{
       this.loading=false
-      AppSweetAlert.simpleAlert('error',"Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet")
+      AppSweetAlert.simpleAlert('error',"Nouvelle modification", err.error.message)
     })
 	}
 

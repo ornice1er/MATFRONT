@@ -423,7 +423,7 @@ search_text:any=""
             this.init(this.page)
             AppSweetAlert.simpleAlert("Suppression requete", "Suppression effectuée avec succès", 'success')
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression requete", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Suppression requete", err.error.message, 'error')
           })
         }
       })

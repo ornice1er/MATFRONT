@@ -306,7 +306,7 @@ loading:any=false
       if (err.error.detail != null) {
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
       } else {
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Nouvel ajout",err.error.message, 'error')
       }
     })
   }
@@ -334,7 +334,7 @@ loading:any=false
             AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
            
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Suppression",err.error.message, 'error')
           })
         }
       })
@@ -356,7 +356,7 @@ loading:any=false
             AppSweetAlert.simpleAlert("Soumettre cette prestation", "Soumission effectuée avec succès", 'success')
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert("Soumettre cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Soumettre cette prestation",err.error.message, 'error')
           })
         }
       })
@@ -379,7 +379,7 @@ loading:any=false
             AppSweetAlert.simpleAlert('success',"Publier cette prestation", "Publication effectuée avec succès")
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert('error',"Publier cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet")
+            AppSweetAlert.simpleAlert('error',"Publier cette prestation",err.error.message)
           })
         }
       })
@@ -413,7 +413,7 @@ edit(value: any) {
       AppSweetAlert.simpleAlert('success',"Nouvelle modification", "Modification effectuée avec succès");
     },
     error: (err) => {
-      AppSweetAlert.simpleAlert('error',"Nouvelle modification", "Erreur, veuillez vérifier votre connexion internet");
+      AppSweetAlert.simpleAlert('error',err.error.message);
     }
   });
 }

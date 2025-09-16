@@ -119,7 +119,7 @@ export class CspReportOwnComponent {
       this.loading2=false
     }, (err:any) => {
       this.loading2=true
-      AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
+      AppSweetAlert.simpleAlert('error',"Visites", err.error.message)
     })
   }
   
@@ -132,7 +132,7 @@ export class CspReportOwnComponent {
       this.getReports()
     }, (err:any) => {
       this.loading2=false
-      AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
+      AppSweetAlert.simpleAlert('error',"Visites", err.error.message)
     })
   }
   updateReport(value:any){
@@ -144,7 +144,7 @@ export class CspReportOwnComponent {
       this.getReports()
     }, (err:any) => {
       this.loading2=false
-      AppSweetAlert.simpleAlert('error',"Visites", "Erreur, Verifiez que vous avez une bonne connexion internet")
+      AppSweetAlert.simpleAlert('error',"Visites", err.error.message)
     })
   }
   deleteReport(id:any){
@@ -179,7 +179,7 @@ export class CspReportOwnComponent {
         this.getReports()
       }, (err:any) => {
         this.loading2=false
-        AppSweetAlert.simpleAlert("Visites", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Visites", err.error.message, 'error')
       })
     }
   getPage2(event:any){

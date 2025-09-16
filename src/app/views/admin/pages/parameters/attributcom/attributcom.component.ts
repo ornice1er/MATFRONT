@@ -237,7 +237,7 @@ search_text:any=""
         if(err.error.detail!=null){    
           AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
         }else{
-          AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+          AppSweetAlert.simpleAlert("Nouvel ajout", err.error.message, 'error')
         }
       })
     }
@@ -257,7 +257,7 @@ search_text:any=""
             AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
            
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Suppression", err.error.message, 'error')
           })
         }
       })
@@ -279,7 +279,7 @@ search_text:any=""
             AppSweetAlert.simpleAlert("Soumettre cette prestation", "Soumission effectuée avec succès", 'success')
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert("Soumettre cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert("Soumettre cette prestation", err.error.message, 'error')
           })
         }
       })
@@ -304,7 +304,7 @@ search_text:any=""
         this.modalService.dismissAll()
         this.search()
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert("Nouvelle modification", err.error.message, 'error')
       })
     }
   }

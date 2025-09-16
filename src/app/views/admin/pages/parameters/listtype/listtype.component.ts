@@ -148,7 +148,7 @@ search_text:any=""
       if(err.error.detail!=null){    
         AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.detail)
       }else{
-        AppSweetAlert.simpleAlert('error',"Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet")
+        AppSweetAlert.simpleAlert('error',"Nouvel ajout", err.error.message)
       }
     })
   }
@@ -166,7 +166,7 @@ search_text:any=""
         this.init()
         AppSweetAlert.simpleAlert('success',"Suppression", "Suppression effectuée avec succès")
       }, (err:any)=>{
-        AppSweetAlert.simpleAlert('error',"Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet")
+        AppSweetAlert.simpleAlert('error',"Suppression", err.error.message)
       })
     }
    })
@@ -183,7 +183,7 @@ search_text:any=""
     }, (err:any)=>{
           this.loading=false
 
-      AppSweetAlert.simpleAlert('error',"Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet")
+      AppSweetAlert.simpleAlert('error',"Nouvelle modification", err.error.message)
     })
 	}
 

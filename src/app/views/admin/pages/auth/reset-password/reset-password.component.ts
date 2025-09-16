@@ -43,7 +43,7 @@ export class ResetPasswordComponent implements OnInit {
          window.location.reload();
       },(err:any)=>{   
         this.loading=false
-         AppSweetAlert.simpleAlert('Erreur', 'Une erreur est survenue, verifier votre connexion internet puis reessayer', 'error')})
+         AppSweetAlert.simpleAlert('Erreur', err.error.message, 'error')})
     }else{
       this.loading=false
       this.error="les deux mot de passe ne sont pas  identiques"

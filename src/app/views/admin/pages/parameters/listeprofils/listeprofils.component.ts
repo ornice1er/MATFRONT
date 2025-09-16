@@ -136,7 +136,7 @@ search_text:any=""
         this.init();
       },
       error: (err:any) => {
-        const message = err.error?.detail || "Erreur, veuillez vérifier votre connexion internet.";
+        const message = err.error?.detail || err.error.message;
         AppSweetAlert.simpleAlert("Erreur d'ajout", message, 'error');
       }
     });
@@ -166,7 +166,7 @@ search_text:any=""
         }
       },
       error: (err:any) => {
-        const message = err.error?.detail || "Erreur, veuillez vérifier votre connexion internet.";
+        const message = err.error?.detail || err.error.message;
         AppSweetAlert.simpleAlert("Erreur d'ajout du guide", message, 'error');
       }
     });
@@ -186,7 +186,7 @@ search_text:any=""
               this.init();
             },
             error: (err:any) => {
-              AppSweetAlert.simpleAlert("Erreur de suppression", "Veuillez vérifier votre connexion internet.", 'error');
+              AppSweetAlert.simpleAlert("Erreur de suppression", err.error.message, 'error');
             }
           });
         }
@@ -201,7 +201,7 @@ search_text:any=""
         this.init();
       },
       error: (err:any) => {
-        AppSweetAlert.simpleAlert("Erreur de modification", "Veuillez vérifier votre connexion internet.", 'error');
+        AppSweetAlert.simpleAlert("Erreur de modification", err.error.message, 'error');
       }
     });
   }

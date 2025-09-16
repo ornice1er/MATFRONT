@@ -265,9 +265,9 @@ export class AllServicesComponent implements OnInit {
     }, (err) => {
 
       if (err.error.detail != null) {
-        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.detail)
       } else {
-        AppSweetAlert.simpleAlert("Nouvel ajout", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.message)
       }
     })
   }
@@ -291,7 +291,7 @@ export class AllServicesComponent implements OnInit {
             AppSweetAlert.simpleAlert("Suppression", "Suppression effectuée avec succès", 'success')
            
           }, (err) => {
-            AppSweetAlert.simpleAlert("Suppression", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert( 'error',"Suppression", err.error.message)
           })
         }
       })
@@ -313,7 +313,7 @@ export class AllServicesComponent implements OnInit {
             AppSweetAlert.simpleAlert("Soumettre cette prestation", "Soumission effectuée avec succès", 'success')
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert("Soumettre cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert( 'error',"Soumettre cette prestation", err.error.message)
           })
         }
       })
@@ -335,7 +335,7 @@ export class AllServicesComponent implements OnInit {
             AppSweetAlert.simpleAlert("Publier cette prestation", "Publication effectuée avec succès", 'success')
             this.init()
           }, (err) => {
-            AppSweetAlert.simpleAlert("Publier cette prestation", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+            AppSweetAlert.simpleAlert( 'error',"Publier cette prestation", err.error.message)
           })
         }
       })
@@ -356,7 +356,7 @@ export class AllServicesComponent implements OnInit {
           this.init()
           AppSweetAlert.simpleAlert("Nouvelle modification", "Motification effectué avec succès", 'success')
         }, (err) => {
-      AppSweetAlert.simpleAlert("Nouvelle modification", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+      AppSweetAlert.simpleAlert( 'error',"Nouvelle modification", err.error.message)
     })
   }
 
@@ -376,16 +376,16 @@ export class AllServicesComponent implements OnInit {
     }, (err) => {
 
       if (err.error.detail != null) {
-        AppSweetAlert.simpleAlert("Mise à jour pieces", err.error.detail, 'error')
+        AppSweetAlert.simpleAlert( 'error',"Mise à jour pieces", err.error.detail)
       } else {
-        AppSweetAlert.simpleAlert("Mise à jour pieces", "Erreur, Verifiez que vous avez une bonne connexion internet", 'error')
+        AppSweetAlert.simpleAlert( 'error',"Mise à jour pieces", err.error.message)
       }
     })
   }
   addPiece(value:any) {
     this.listepieces.forEach(function (item) {
       if (item.libellePiece == value.libellePiece)
-        AppSweetAlert.simpleAlert("Ajout piece", "Cette pièce a été déjà ajoutée.", 'error')
+        AppSweetAlert.simpleAlert( 'error',"Ajout piece", "Cette pièce a été déjà ajoutée.")
       return;
     });
 

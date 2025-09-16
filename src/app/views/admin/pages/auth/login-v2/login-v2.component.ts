@@ -75,7 +75,7 @@ export class LoginV2Component implements OnInit {
 				if(err.error.error=="invalid_credentials"){
 					this.error="Email ou mot de passe incorrect"
 				}else{
-					this.error="Erreur de connexion ou paramètres incorrects"
+					this.error=err.error.message
 				}
 				});
 	}

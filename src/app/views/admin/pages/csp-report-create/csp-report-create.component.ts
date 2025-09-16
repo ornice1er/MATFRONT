@@ -1,4 +1,4 @@
-import { Component, ElementRef, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, TemplateRef, ViewChild } from '@angular/core';
 import {
   NgbModal,
   NgbOffcanvas,
@@ -22,6 +22,7 @@ import { SampleSearchPipe } from '../../../../core/pipes/sample-search.pipe';
 import { LoadingComponent } from '../../../components/loading/loading.component';
 import { QuillEditorComponent, QuillModule } from 'ngx-quill';
 import { Chart } from 'chart.js';
+import { GraphComponent } from '../../components/graph/graph.component';
 
 @Component({
   selector: 'app-csp-report-create',
@@ -37,6 +38,7 @@ import { Chart } from 'chart.js';
     NgxExtendedPdfViewerModule,
     FontAwesomeModule,
     RouterModule,
+    GraphComponent,
     QuillModule,
   ],
   templateUrl: './csp-report-create.component.html',
@@ -45,10 +47,10 @@ import { Chart } from 'chart.js';
 export class CspReportCreateComponent {
   @ViewChild('rapportTable', { static: false }) tableRef!: ElementRef;
   @ViewChild('contentPDF') contentPDF: TemplateRef<any> | undefined;
-  pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';
-
+  pdfSrc = 'https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf';   
+  quillEditorInstance: any;
   loading2 = false;
-  data: any[] = [];
+  data: any= [];
   syntheses: any[] = [];
   frequentations: any[] = [];
   months: any[] = [];
@@ -64,33 +66,11 @@ export class CspReportCreateComponent {
   };
 
   formData: any = {
-    summary_report: `Au titre du mois de juillet, les rapports mensuels ont été fournis pour la plupart dans les délais aussi bien par les points focaux que par les DDTFP. Tous les DDTFP ont assorti leurs rapports de commentaires analytiques exploitables.`,
+    summary_report: ``,
 
-    summary_synthese_all: `La compilation des rapports mensuels tels que reçus des points focaux est en annexe 1.
-Le tableau des statistiques comparatives relatives aux taux fréquentation et de satisfaction est en annexe 2. Ce tableau comparatif appelle les commentaires analytiques ci-après :
-[GRAPH:di_stat]
-... (contenu que tu m’as donné précédemment) ...
-`,
+    summary_synthese_all: ``,
 
-    conclusion: `Au cours du mois de juillet 2025, tous les centres de service en ligne (CCSP et GSRU) sont restés opérationnels.
-On note une reprise spectaculaire de la tendance haussière de la fréquentation rompue depuis trois mois et la majorité des usagers visiteurs ont été satisfaits.
-Il convient de noter que (i) l’organisation de la session du comité technique de gestion des CCSP et GSRU, (ii) la tournée foraine organisée par la DGFP dans les départements des Collines et de la Donga ainsi que (iii) la participation du MTFP à la 1ère Conférence des Préfets au titre de 2025, qui a consacré l’implication effective des Préfets dans la supervision du fonctionnement des CCSP et GSRU, ont contribué à cette performance. La récente lettre d’instructions et de rappel du Ministre aux DDTFP (5 août 2025) sur le rôle qui leur revient dans la coordination départementale de la gestion desdits centres permettra sûrement d’améliorer durablement cette performance.
-
-Au regard de ce qui précède, les recommandations suivantes sont formulées :
-
-- DGFP:
-  Exécuter diligemment la mission d’appui et d’assistance aux ministères à gros effectifs pour l’élaboration, la prise et la mise en ligne des actes de carrières de leurs personnels respectifs.
-
-- DSI, PRMP, DNP/PARMAP:
-  * Accélérer la mise en place de l’accord cadre de maintenance corrective et préventive des CCSP et GSRU ;
-  * Promouvoir le traitement automatique des plaintes et préoccupations adressées aussi bien aux structures du MTFP qu’à celles des ministères sectoriels et institutions de la République ;
-  * Faire aboutir diligemment le marché d’acquisition des fournitures et matériels de bureau au profit des CCSP et GSRU.
-
-- PFCom:
-  * Élaborer et mettre en œuvre un programme spécial de communication intensive sur les CCSP et GSRU à l’endroit des populations.
-
-- Toutes structures du MTFP:
-  * Poursuivre le traitement diligent des plaintes et des demandes d’information exprimées par les usagers de l’Administration publique à travers les plateformes des CCSP/GSRU et du Centre de service du Ministère.`,
+    conclusion: ``,
   };
 
   search_text = '';
@@ -100,32 +80,13 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
   month: any;
   years: number[] = [];
 
-  graphMap: { [key: string]: any } = {
-    di_stat: {
-      type: 'bar',
-      data: {
-        labels: ['Juin', 'Juillet', 'Juilletrt', 'Juilletd', 'Juilletg'],
-        datasets: [
-          {
-            label: 'Totales DI',
-            data: [0, 40, 67, 89, 90],
-            backgroundColor: 'rgba(75,192,192,0.5)',
-          },
-          {
-            label: 'DI Non Traitées',
-            data: [0, 0, 0, 0, 0],
-            backgroundColor: 'rgba(153,102,255,0.5)',
-          },
-        ],
-      },
-      options: { responsive: true },
-    },
-  };
+  graphMap: { [key: string]: any } = {};
 
   constructor(
     private reportService: ReportService,
     private reportTransmissionService: ReportTransmissionService,
     private modalService: NgbModal,
+    private ngZone: NgZone,
     private router: Router,
     private offcanvasService: NgbOffcanvas,
     private localStorageService: LocalStorageService
@@ -145,50 +106,45 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
     }
     this.getReports();
 
-    setTimeout(() => {
-      this.formData.summary_synthese_all = this.replaceGraphsInText(
-        this.formData.summary_synthese_all
-      );
-      console.log(this.formData.summary_synthese_all);
-    }, 100);
   }
 
-  replaceGraphsInText(text: string): string {
-    const regex = /\[GRAPH:([a-zA-Z0-9_]+)\]/g;
+  async insertGraphIntoQuill(quill: any, graphId: string, graphConfig: any) {
+  const html = await this.generateGraphHTML(graphConfig, graphId);
 
-    return text.replace(regex, (match, graphId) => {
-      const graph = this.graphMap[graphId];
-      if (!graph) return ''; // placeholder inconnu
+  const range = quill.getSelection(true);
+  quill.clipboard.dangerouslyPasteHTML(range.index, html);
+  quill.setSelection(range.index + 1);
+}
+generateGraphHTML(graphConfig: any, graphId: string): Promise<string> {
+  return new Promise((resolve) => {
+    // Création d'un canvas temporaire
+    const canvas = document.createElement('canvas');
+    canvas.width = 400;
+    canvas.height = 300;
+    const ctx = canvas.getContext('2d');
 
-      // Créer un canvas temporaire
-      const canvas = document.createElement('canvas');
-      canvas.width = 400;
-      canvas.height = 300;
+    if (!ctx) return resolve('');
 
-      // S'assurer que le canvas a un contexte
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return '';
+    // On désactive l'animation pour que le rendu soit immédiat
+    const config = { ...graphConfig, options: { ...graphConfig.options, animation: false } };
 
-      // Créer le graphique
-      const chart = new Chart(ctx, graph);
+    // Créer le graphique
+    const chart = new Chart(ctx, config);
 
-      // Attendre que le graphique soit rendu avant de le convertir
-      // Note: Chart.js rend de manière synchrone pour les graphiques simples
-
-      // setTimeout(() => {
-      // Convertir le graphique en image base64
+    // Utiliser requestAnimationFrame pour s'assurer que le rendu est terminé
+    requestAnimationFrame(() => {
       const imgBase64 = canvas.toDataURL('image/png');
-      console.log(canvas.toDataURL('image/png'));
-      console.log(ctx);
+      chart.destroy();
 
-      // Nettoyer le graphique pour libérer la mémoire
-      // chart.destroy();
-      // remplacer le placeholder
-      // Retourner la balise img pour Quill
-      return `<img src="${imgBase64}" alt="${graphId}" style="max-width:100%; display:block; margin:10px 0;" />`;
-      // }, 100);
+      const html = `<img src="${imgBase64}" alt="${graphId}" style="max-width:100%; display:block; margin:10px 0;" />`;
+      resolve(html);
     });
-  }
+  });
+}
+
+setQuillInstance(editor: any) {
+  this.quillEditorInstance = editor;
+}
 
   checkedRegistreReport(el: any) {
     this.selected_data = el;
@@ -260,7 +216,7 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Verifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -283,31 +239,54 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
           this.filteredStats = this.generateTable(this.data);
         } else {
           const dataForStats = res.data?.di_stats?.stats;
-          this.graphMap['di_stat'].data = {
-            labels: dataForStats.map((item: any) => item.structure),
-            datasets: [
-              {
-                label: 'Totales DI',
-                data: dataForStats.map((item: any) => item.total),
-                backgroundColor: 'rgba(75,192,192,0.5)',
-              },
-              {
-                label: 'DI Non Traitées',
-                data: dataForStats.map((item: any) => item.non_traitees),
-                backgroundColor: 'rgba(153,102,255,0.5)',
-              },
-            ],
-          };
+          const dataForStats2 = res.data?.plainte_stats?.stats;
 
-          this.formData.summary_synthese_all = this.replaceGraphsInText(
-            this.formData.summary_synthese_all
-          );
+          this.graphMap={
+             plaintes_stat:{
+              type: 'bar',
+              data: {
+                labels: dataForStats2.map((item: any) => item.structure),
+                datasets: [
+                   {
+                    label: 'Totales Plaintes',
+                    data: dataForStats2.map((item: any) => item.total),
+                    backgroundColor: 'rgba(75,192,192,0.5)',
+                  },
+                  {
+                    label: 'Plaintes Non Traitées',
+                    data: dataForStats2.map((item: any) => item.non_traitees),
+                    backgroundColor: 'rgba(153,102,255,0.5)',
+                  },
+                ],
+              },
+              options: { responsive: true, animation: false },
+            },
+            di_stat:{
+              type: 'bar',
+              data: {
+                labels: dataForStats.map((item: any) => item.structure),
+                datasets: [
+                   {
+                    label: 'Totales DI',
+                    data: dataForStats.map((item: any) => item.total),
+                    backgroundColor: 'rgba(75,192,192,0.5)',
+                  },
+                  {
+                    label: 'DI Non Traitées',
+                    data: dataForStats.map((item: any) => item.non_traitees),
+                    backgroundColor: 'rgba(153,102,255,0.5)',
+                  },
+                ],
+              },
+              options: { responsive: true, animation: false },
+            }
+          }
           this.data = res.data.groupedByDepartement;
           this.syntheses = res.data.synthese;
           this.frequentations = res.data.frequentations;
           this.months = res.data.months;
-
           this.sexData = res.data.groupedByDepartement;
+          this.initializeSynthse(this.month, this.year)
         }
         this.modalService.dismissAll();
         this.loading2 = false;
@@ -317,7 +296,7 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Verifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -449,7 +428,7 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Vérifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -469,7 +448,7 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
         AppSweetAlert.simpleAlert(
           'error',
           'Visites',
-          'Erreur, Verifiez que vous avez une bonne connexion internet'
+          err.error.message
         );
       }
     );
@@ -522,7 +501,7 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
           this.loading2 = false;
           AppSweetAlert.simpleAlert(
             'Visites',
-            'Erreur, Verifiez que vous avez une bonne connexion internet',
+            err.error.message,
             'error'
           );
         }
@@ -537,4 +516,33 @@ Au regard de ce qui précède, les recommandations suivantes sont formulées :
       return acc + (Number(item?.[field]) || 0);
     }, 0);
   }
+
+  initializeSynthse(mois:any,year:any){
+      this.formData = {
+    summary_report: `Au titre du mois de ${this.getMoisFrancais(mois)}, les rapports mensuels ont été fournis pour la plupart dans les délais aussi bien par les points focaux que par les DDTFP. Tous les DDTFP ont assorti leurs rapports de commentaires analytiques exploitables.`,
+
+    summary_synthese_all: `<p>La&nbsp;compilation&nbsp;des&nbsp;rapports&nbsp;mensuels&nbsp;tels&nbsp;que&nbsp;reçus&nbsp;des&nbsp;points&nbsp;focaux&nbsp;est&nbsp;en&nbsp;annexe&nbsp;1.&nbsp;Le&nbsp;tableau&nbsp;des&nbsp;statistiques&nbsp;comparatives&nbsp;relatives&nbsp;aux&nbsp;taux&nbsp;fréquentation&nbsp;et&nbsp;de&nbsp;satisfaction&nbsp;est&nbsp;en&nbsp;annexe&nbsp;2.&nbsp;Ce&nbsp;tableau&nbsp;comparatif&nbsp;appelle&nbsp;les&nbsp;commentaires&nbsp;analytiques&nbsp;ci-après&nbsp;:&nbsp;</p><p></p><p>2.1.&nbsp;Fréquentation&nbsp;des&nbsp;CCSP&nbsp;et&nbsp;GSRU&nbsp;Au&nbsp;cours&nbsp;du&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year},&nbsp;....................&nbsp;</p><p>Le&nbsp;graphique&nbsp;ci-après,&nbsp;présente&nbsp;l’évolution&nbsp;des&nbsp;statistiques&nbsp;de&nbsp;fréquentation&nbsp;des&nbsp;CCSP&nbsp;et&nbsp;GSRU&nbsp;:&nbsp;</p><p>(Insérer&nbsp;le&nbsp;graphe&nbsp;de&nbsp;la&nbsp;fréquentation)&nbsp;</p><p></p><p>2.2.&nbsp;Niveau&nbsp;de&nbsp;satisfaction&nbsp;des&nbsp;usagers&nbsp;Au&nbsp;cours&nbsp;du&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year},&nbsp;le&nbsp;taux&nbsp;global&nbsp;de&nbsp;satisfaction&nbsp;des&nbsp;usagers&nbsp;..................&nbsp;</p><p></p><p>2.3.&nbsp;Principaux&nbsp;motifs&nbsp;d’insatisfaction&nbsp;des&nbsp;usagers&nbsp;</p><p></p><p>2.4.&nbsp;Traitement&nbsp;des&nbsp;plaintes&nbsp;et&nbsp;de&nbsp;préoccupations&nbsp;émises&nbsp;par&nbsp;les&nbsp;usagers&nbsp;Les&nbsp;statistiques&nbsp;des&nbsp;plaintes&nbsp;enregistrées&nbsp;au&nbsp;cours&nbsp;du&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year}&nbsp;au&nbsp;niveau&nbsp;.......................&nbsp;</p><p>(Insérer&nbsp;le&nbsp;graphe&nbsp;des&nbsp;plaintes)&nbsp;</p><p></p><p>Quant&nbsp;aux&nbsp;demandes&nbsp;d’informations&nbsp;ou&nbsp;requêtes&nbsp;formulées&nbsp;par&nbsp;les&nbsp;usagers,&nbsp;les&nbsp;statistiques&nbsp;au&nbsp;cours&nbsp;du&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year}&nbsp;se&nbsp;présentent&nbsp;comme&nbsp;indiqué&nbsp;dans&nbsp;le&nbsp;graphique&nbsp;suivant&nbsp;:&nbsp;Ce&nbsp;graphique&nbsp;révèle&nbsp;que&nbsp;pendant&nbsp;le&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year}&nbsp;...............&nbsp;</p><p></p><p>Au&nbsp;regard&nbsp;de&nbsp;ce&nbsp;qui&nbsp;précède,&nbsp;le&nbsp;taux&nbsp;moyen&nbsp;global&nbsp;de&nbsp;traitement&nbsp;des&nbsp;préoccupations&nbsp;..............................................&nbsp;</p><p>(Insérer&nbsp;le&nbsp;graphe&nbsp;des&nbsp;demandes&nbsp;d&#39;information)&nbsp;</p><p></p><p>2.5&nbsp;Problèmes/difficultés&nbsp;rencontrées&nbsp;par&nbsp;les&nbsp;points&nbsp;focaux&nbsp;Au&nbsp;cours&nbsp;du&nbsp;mois&nbsp;de&nbsp;${this.getMoisFrancais(mois)} ${year},&nbsp;les&nbsp;difficultés&nbsp;signalées&nbsp;concernent&nbsp;essentiellement&nbsp;:&nbsp;</p><p></p><p>2.6.&nbsp;Approches&nbsp;de&nbsp;solutions&nbsp;</p>`,
+
+    conclusion: `Au cours du mois de ${this.getMoisFrancais(mois)} ${year},...............................................`,
+  };
+  }
+
+  getMoisFrancais(mois: string): string {
+  const moisMap: { [key: string]: string } = {
+    "01": "Janvier",
+    "02": "Février",
+    "03": "Mars",
+    "04": "Avril",
+    "05": "Mai",
+    "06": "Juin",
+    "07": "Juillet",
+    "08": "Août",
+    "09": "Septembre",
+    "10": "Octobre",
+    "11": "Novembre",
+    "12": "Décembre"
+  };
+  return moisMap[mois] || mois;
+}
+
 }
