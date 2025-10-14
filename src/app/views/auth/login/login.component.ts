@@ -12,6 +12,7 @@ import { AuthentificationService } from '../../../core/services/authentification
 import { SettingService } from '../../../core/services/setting.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { PORTAL_CONFIG } from '../../../core/utils/eservice.config';
+import { AppSweetAlert } from '../../../core/utils/app-sweet-alert';
 
 @Component({
   selector: 'app-login',
@@ -110,7 +111,8 @@ export class LoginComponent implements OnInit {
   }
 
   goToLdap() {
+    AppSweetAlert.simpleAlert('Info','Accès LDAP','Non accessible pour le moment.')
     console.log(PORTAL_CONFIG.getRedirectPprodUri());
-    window.location = PORTAL_CONFIG.getRedirectPprodUri();
+   // window.location = PORTAL_CONFIG.getRedirectPprodUri();
   }
 }
