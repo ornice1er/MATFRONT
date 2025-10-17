@@ -11,7 +11,7 @@
           <input type="text" name="search_text" [(ngModel)]="search_text">
         </div>
         <button class="btn btn-warning btn-sm mb-1" (click)="open(dialog2,r)">Copier vers </button>
-        <button *ngIf="buttonsPermission.add" class="btn btn-primary btn-sm" (click)="open(dialog,r)">Ajouter un droit
+        <button *ngIf="buttonsPermission.add && r.user_id ==user.id" class="btn btn-primary btn-sm" (click)="open(dialog,r)">Ajouter un droit
         </button>
       </div>
 

@@ -99,6 +99,8 @@ export class PermissionComponent implements OnInit {
     total: 0,
   };
 
+  role:any
+
   constructor(
     private cdRef: ChangeDetectorRef,
 
@@ -115,6 +117,9 @@ export class PermissionComponent implements OnInit {
     this.features = this.localService.get(GlobalName.features)?.features;
 
     this.actions = this.localService.get(GlobalName.features)?.actions;
+
+    this.role= this.localService.get(GlobalName.userName)?.roles[0]?.name
+
 
     this.buttonsPermission = {
       show: true,

@@ -83,8 +83,8 @@
     <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
 
         <div class="modal-header bg-secondary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Générer un rapport</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <h5 class="modal-title text-white mb-0">Générer un rapport</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
@@ -135,8 +135,8 @@
     <form #editReportForm="ngForm" (ngSubmit)="updateReport(editReportForm.value)" class="form-horizontal " novalidate="">
 
         <div class="modal-header bg-secondary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Mettre à jour le rapport</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <h5 class="modal-title text-white mb-0">Mettre à jour le rapport</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
@@ -162,8 +162,8 @@
 <ng-template #showReport let-modal>
 
         <div class="modal-header bg-secondary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Détails rapport</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <h5 class="modal-title text-white mb-0">Détails rapport</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
@@ -220,8 +220,8 @@
 <ng-template #correctReport let-modal>
 
         <div class="modal-header bg-secondary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Détails instruction</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <h5 class="modal-title text-white mb-0">Détails instruction</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
@@ -261,8 +261,8 @@
 <ng-template #correctShowReport let-modal>
 
     <div class="modal-header bg-secondary">
-        <h5 class="modal-title text-white" id="modal-basic-title">Détails instruction</h5>
-        <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <h5 class="modal-title text-white mb-0">Détails instruction</h5>
+        <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
             X
         </button>
     </div>

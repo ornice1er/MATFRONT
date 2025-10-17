@@ -254,9 +254,9 @@
 
   <form #relan="ngForm" (ngSubmit)="sendRelance(relan.value)">
 
-    <div class="modal-header bg-mat-primary">
-      <h5 class="modal-title text-white" id="modal-basic-title">Envoyer une notification de relance</h5>
-      <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <div class="modal-header bg-mat-primary d-flex align-items-center">
+      <h5 class="modal-title text-white mb-0">Envoyer une notification de relance</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
         X
       </button>
     </div>

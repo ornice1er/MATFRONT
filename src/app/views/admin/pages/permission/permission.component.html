@@ -7,7 +7,7 @@
 
     <div class="d-flex justify-content-between">
 
-      <button class="btn btn-sm btn-info" *ngIf="buttonsPermission.add" (click)="add(addContent)">Ajouter</button>
+      <button class="btn btn-sm btn-info" *ngIf="buttonsPermission.add && role=='Super Admin'" (click)="add(addContent)">Ajouter</button>
 
       <div class="align-self-center">
 

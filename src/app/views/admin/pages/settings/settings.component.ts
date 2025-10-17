@@ -161,9 +161,9 @@ export class SettingsComponent implements OnInit {
         localStorage.setItem('mataccueilSettings', JSON.stringify(res.data)); 
         this.settingId = res.data.id; 
         AppSweetAlert.simpleAlert(
-          'Succès',
-          'Paramètres mis à jour avec succès !',
-          'success'
+          'success',
+          'Paramètre général',
+          'Paramètres mis à jour avec success !'
         );
         this.resetFiles();
       },
@@ -172,9 +172,9 @@ export class SettingsComponent implements OnInit {
         this.isLoading = false;
         this.spinner.hide();
         AppSweetAlert.simpleAlert(
-          'Erreur',
-          'Une erreur est survenue lors de la sauvegarde.',
-          'error'
+          'error',
+         'Paramètre général',
+          'Paramètres mis à jour avec success !'
         );
       },
     });

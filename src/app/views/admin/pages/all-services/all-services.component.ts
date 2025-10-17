@@ -102,6 +102,7 @@ export class AllServicesComponent implements OnInit {
       total:0
     }
   isPaginate:any=false
+  role:any
 
   search() {
     this.data = this._temp.filter(r => {
@@ -173,6 +174,7 @@ export class AllServicesComponent implements OnInit {
     this.observerService.setTitle('TOUS LES SERVICES')
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localStorageService.get(GlobalName.userName)
+      this.role=this.user?.roles[0].name
       this.init()
     }
   }

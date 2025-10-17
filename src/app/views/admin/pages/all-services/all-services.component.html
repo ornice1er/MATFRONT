@@ -48,7 +48,7 @@
 
                         <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
                             <thead>
-                                <tr>
+                                <tr *ngIf="role == 'Super Admin'">
                                     <td class="left text-left" colspan="9">
                                         <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                             Modifier
@@ -72,7 +72,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let s of data; index as i">
+                                <tr *ngFor="let s of data | sampleSearch: search_text
+                                    | paginate: {
+                                        id: 'ngxP1',
+                                        itemsPerPage: pg.pageSize,
+                                        currentPage: pg.p,
+                                        totalItems: pg.total
+                                        }; index as i">
                                     <td>
                                         <input type="radio" [value]="s" ngModel name="get" (change)="checked($event,s)">
                                     </td>
@@ -121,9 +127,9 @@
 
                 <ng-template #content let-modal>
                     <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-                        <div class="modal-header bg-mat-primary">
-                            <h5 class="modal-title text-white" id="modal-basic-title">Ajouter un service</h5>
-                            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                            <h5 class="modal-title text-white mb-0">Ajouter un service</h5>
+                            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
                         </div>
@@ -411,8 +417,8 @@ demander plus tôt ?"
                 </ng-template>
                 <ng-template #contentU let-modal>
                     <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                        <div class="modal-header bg-mat-primary">
-                            <h4 class="modal-title text-white" id="modal-basic-title">Modifier un service</h4>
+                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                            <h4 class="modal-title text-white mb-0">Modifier un service</h4>
                             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
@@ -706,8 +712,8 @@ demander plus tôt ?"
                 </ng-template>
                 <ng-template #pieces let-modal>
                     <form #manageForm="ngForm" (ngSubmit)="savePiece()">
-                        <div class="modal-header bg-mat-primary">
-                            <h4 class="modal-title text-white" id="modal-basic-title">Gérer les pièces</h4>
+                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                            <h4 class="modal-title text-white mb-0">Gérer les pièces</h4>
                             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
                             </button>

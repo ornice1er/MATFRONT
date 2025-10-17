@@ -142,7 +142,7 @@
 
       <ng-template #affectation let-modal>
         <form #frmrequeteusager="ngForm" (ngSubmit)="saveAffectation(frmrequeteusager.value)" class="form-horizontal">
-          <div class="modal-header bg-mat-primary">
+          <div class="modal-header bg-mat-primary d-flex align-items-center">
             <h5 class="modal-title text-white">Affecter une requête</h5>
             <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
           </div>
@@ -191,9 +191,9 @@
 
       <ng-template #reponse let-modal>
         <form #frmrequeteusager="ngForm" (ngSubmit)="saveReponse(frmrequeteusager.value)" class="form-horizontal">
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Répondre à la requête</h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Répondre à la requête</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -300,7 +300,7 @@
       <ng-template #archiver let-modal>
         <form #frmrequeteArchive="ngForm" (ngSubmit)="Archiver_Requete(frmrequeteArchive.value)"
           class="form-horizontal">
-          <div class="modal-header bg-mat-primary">
+          <div class="modal-header bg-mat-primary d-flex align-items-center">
             <h5 class="modal-title text-white">Archiver la requête</h5>
             <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
           </div>
@@ -347,7 +347,7 @@
 
       <ng-template #reponseRapide let-modal>
         <form #frmrequeteusager="ngForm" (ngSubmit)="transmettreReponseRapide(frmrequeteusager.value)" class="form-horizontal">
-            <div class="modal-header bg-mat-primary">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
                 <h5 class="modal-title text-white">Mail à l'usager</h5>
                 <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
             </div>
@@ -393,7 +393,7 @@
 
       <ng-template #mailStructureContent let-modal>
         <form #frmrequeteusagermailstructure="ngForm" (ngSubmit)="mailStructure(frmrequeteusagermailstructure.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary">
+           <div class="modal-header bg-mat-primary d-flex align-items-center">
               <h5 class="modal-title text-white">Mail à une structure</h5>
               <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
            </div>
@@ -444,7 +444,7 @@
 
       <ng-template #tranfertEntite let-modal>
         <form #frmrequeteusagertranfert="ngForm" (ngSubmit)="transferPreocuppation(frmrequeteusagertranfert.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary">
+           <div class="modal-header bg-mat-primary d-flex align-items-center">
               <h5 class="modal-title text-white">Transférer à une autre entité</h5>
               <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
            </div>
@@ -488,7 +488,7 @@
 
       <ng-template #tranfertStructure let-modal>
         <form #frmrequeteusagertranfertstructure="ngForm" (ngSubmit)="transfertInternePreocuppation(frmrequeteusagertranfertstructure.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary">
+           <div class="modal-header bg-mat-primary d-flex align-items-center">
               <h5 class="modal-title text-white">Transférer à une autre structure</h5>
               <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
            </div>
@@ -525,7 +525,7 @@
       </ng-template>
 
       <ng-template #mailListContent let-modal>
-        <div class="modal-header bg-mat-primary">
+        <div class="modal-header bg-mat-primary d-flex align-items-center">
             <h5 class="modal-title text-white">Liste des mails</h5>
             <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
         </div>

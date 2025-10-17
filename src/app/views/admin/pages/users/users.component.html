@@ -104,11 +104,11 @@
         <!-- Modale pour ajouter un utilisateur -->
         <ng-template #content let-modal>
           <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-            <div class="modal-header bg-mat-primary">
-              <h5 class="modal-title text-white" id="modal-basic-title">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+              <h5 class="modal-title text-white mb-0">
                 Ajouter un utilisateur
               </h5>
-              <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
               </button>
             </div>
@@ -235,8 +235,8 @@
         <!-- Modale pour modifier un utilisateur -->
         <ng-template #contentU let-modal>
           <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-            <div class="modal-header bg-mat-primary">
-              <h4 class="modal-title text-white" id="modal-basic-title">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+              <h4 class="modal-title text-white mb-0">
                 Modifier un utilisateur
               </h4>
               <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">

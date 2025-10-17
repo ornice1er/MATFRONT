@@ -80,8 +80,8 @@
                   
                     <ng-template #contentU let-modal>
                         <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                            <div class="modal-header bg-mat-primary">
-                                <h4 class="modal-title text-white" id="modal-basic-title">
+                            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                                <h4 class="modal-title text-white mb-0">
                                         Modifier les paramètres de prise de RDV
                                 </h4>
                                 <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">

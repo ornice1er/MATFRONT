@@ -259,9 +259,9 @@
     </div>
     <ng-template #newrdv let-modal>
         <form #frmrdv="ngForm" (ngSubmit)="saveRdv(frmrdv.value)" class="form-horizontal" novalidate="">
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Prendre un rendez-vous </h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Prendre un rendez-vous </h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -360,9 +360,9 @@
     </ng-template>
     <ng-template #editrdv let-modal>
             <form #frmeditrdv="ngForm" (ngSubmit)="editRDV(frmeditrdv.value)" class="form-horizontal" novalidate="">
-                <div class="modal-header bg-mat-primary">
-                    <h5 class="modal-title text-white" id="modal-basic-title">Modifier un rendez-vous </h5>
-                    <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <div class="modal-header bg-mat-primary d-flex align-items-center">
+                    <h5 class="modal-title text-white mb-0">Modifier un rendez-vous </h5>
+                    <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                         X
                     </button>
                 </div>
@@ -457,9 +457,9 @@
     <ng-template #note let-modal>
         <form #frmnoter="ngForm" (ngSubmit)="noterRequete(frmnoter.value)" class="form-horizontal"
             novalidate="">
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Appreciation</h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Appreciation</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -529,9 +529,9 @@
     <ng-template #profil let-modal>
         <form #frmusager="ngForm" (ngSubmit)="saveUsager(frmusager.value)" class="form-horizontal"
             novalidate="">
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Mon profil</h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Mon profil</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -641,9 +641,9 @@
 
     </ng-template>
     <ng-template #listrdv let-modal>
-        <div class="modal-header bg-mat-primary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Mes rdv</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <h5 class="modal-title text-white mb-0">Mes rdv</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
@@ -659,9 +659,9 @@
         <form #frmrequeteusagerU="ngForm" (ngSubmit)="saveRequeteusager(frmrequeteusagerU.value)" class="form-horizontal"
             novalidate="">
 
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Modifier la préoccupation</h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Modifier la préoccupation</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -868,9 +868,9 @@
     <ng-template #add let-modal>
         <form #frmrequeteusager="ngForm" (ngSubmit)="addRequeteusager(frmrequeteusager.value)" class="form-horizontal">
 
-            <div class="modal-header bg-mat-primary">
-                <h5 class="modal-title text-white" id="modal-basic-title">Ajouter une préoccupation</h5>
-                <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <div class="modal-header bg-mat-primary d-flex align-items-center">
+                <h5 class="modal-title text-white mb-0">Ajouter une préoccupation</h5>
+                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                     X
                 </button>
             </div>
@@ -1039,9 +1039,9 @@
     </ng-template>
     <ng-template #info let-modal>
 
-        <div class="modal-header bg-mat-primary">
-            <h5 class="modal-title text-white" id="modal-basic-title">Informations sur la prestation</h5>
-            <button type="button" class="close text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <h5 class="modal-title text-white mb-0">Informations sur la prestation</h5>
+            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
             </button>
         </div>
