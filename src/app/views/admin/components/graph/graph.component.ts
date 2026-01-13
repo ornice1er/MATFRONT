@@ -2,6 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, OnDestroy, NgZone, ElementRef, QueryList, ViewChildren, SimpleChanges } from '@angular/core';
 import { Chart } from 'chart.js/auto';
+
 @Component({
   selector: 'app-graph',
   standalone: true,
@@ -41,20 +42,38 @@ export class GraphComponent {
   }
 
 
-  insertIntoEditor(graphKey: string) {
-    if (!this.quill) return;
+  private canvasToBase64(canvas: HTMLCanvasElement): string {
+  const tmp = document.createElement('canvas');
+  tmp.width = canvas.width;
+  tmp.height = canvas.height;
 
-    const canvas = this.canvasRefs.find(
-      c => c.nativeElement.getAttribute('data-id') === graphKey
-    )?.nativeElement;
+  const ctx = tmp.getContext('2d')!;
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, tmp.width, tmp.height);
+  ctx.drawImage(canvas, 0, 0);
 
-    if (!canvas) return;
+  return tmp.toDataURL('image/png');
+}
 
-    const imgBase64 = canvas.toDataURL('image/png');
-    const html = `<img src="${imgBase64}" alt="${graphKey}" style="max-width:100%; display:block; margin:10px 0;" />`;
 
-    const range = this.quill.getSelection(true);
-    this.quill.clipboard.dangerouslyPasteHTML(range.index, html);
-    this.quill.setSelection(range.index + 1);
-  }
+ insertIntoEditor(graphKey: string) {
+  if (!this.quill) return;
+
+  const canvas = this.canvasRefs.find(
+    c => c.nativeElement.getAttribute('data-id') === graphKey
+  )?.nativeElement;
+
+  if (!canvas) return;
+
+  const imgBase64 = this.canvasToBase64(canvas);
+  const range = this.quill.getSelection(true);
+
+  this.quill.insertEmbed(range.index, 'graphImage', {
+    src: imgBase64,
+    alt: graphKey
+  });
+
+  this.quill.setSelection(range.index + 1);
+}
+
 }
