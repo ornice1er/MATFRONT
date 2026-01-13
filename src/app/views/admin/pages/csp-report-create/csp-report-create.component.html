@@ -8,7 +8,7 @@
 
         <p>{{registresReports!.length}} élément(s)</p>
 
-        <ng-container *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
+        <ng-container *ngIf="user.agent_user.categorie_acteur === 'departemental'">
             <div class="table-responsive">
                 <table class="table table-sm table-bordered">
                     <thead class="">
@@ -97,7 +97,7 @@
 
     </div>
         </ng-container>
-        <ng-container *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
+        <ng-container *ngIf="user.agent_user.categorie_acteur !== 'departemental'">
 
             <h6>Tableau de synthèse</h6>
         <div class="table-responsive ">
@@ -273,7 +273,7 @@
 </div>
 
 <div class="container text-center p-3">
-    <div class="card" *ngIf="user.agent_user.categorie_acteur === 'Departemental'">
+    <div class="card" *ngIf="user.agent_user.categorie_acteur === 'departemental'">
         <div class="card-body">
                <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
          <div class="row">
@@ -317,7 +317,7 @@
     </form>
         </div>
     </div>
-    <div class="card" *ngIf="user.agent_user.categorie_acteur !== 'Departemental'">
+    <div class="card" *ngIf="user.agent_user.categorie_acteur !== 'departemental'">
         <div class="card-body">
                <form #addReportForm="ngForm" (ngSubmit)="storeReport(addReportForm.value)" class="form-horizontal " novalidate="">
          <div class="row">
