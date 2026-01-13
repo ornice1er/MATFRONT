@@ -233,7 +233,7 @@ setQuillInstance(editor: any) {
     this.loading2 = true;
     this.reportService.getDataReport(value).subscribe(
       (res: any) => {
-        if (this.user.agent_user.categorie_acteur === 'Departemental') {
+        if (this.user.agent_user.categorie_acteur === 'departemental') {
           this.data = res.data;
 
           this.filteredStats = this.generateTable(this.data);
@@ -409,7 +409,7 @@ setQuillInstance(editor: any) {
     value.summary_synthese_all = this.formData.summary_synthese_all;
     value.conclusion = this.formData.conclusion;
 
-    if (this.user.agent_user.categorie_acteur === 'Departemental') {
+    if (this.user.agent_user.categorie_acteur === 'departemental') {
       const summaryHtml = this.generateTableHtml(this.data);
       value['summary_synthese'] = summaryHtml;
     } else {
