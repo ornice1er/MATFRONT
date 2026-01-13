@@ -155,7 +155,7 @@ export class ListestructuresComponent implements OnInit {
     this.data = [];
     this.spinner.show();
     this.structureService
-      .getAll(0, this.user?.idEntite)
+      .getAll(0,   this.isSuperAdmin ? this.selectedEntity:this.user?.idEntite)
       .subscribe((res: any) => {
         this.spinner.hide();
         this.data = res.data;
@@ -166,6 +166,12 @@ export class ListestructuresComponent implements OnInit {
       this.entities = res.data;
     });
   }
+  
+
+  loadData(ev:any){
+   this.init()
+  }
+
   checked(event: any, el: any) {
     this.selected_data = el;
   }

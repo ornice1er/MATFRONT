@@ -245,12 +245,12 @@ search_text:any=""
    
     if (this.localStorageService.get(GlobalName.userName) != null) {
       this.user = this.localService.get(GlobalName.userName)
-      if (this.user.profil_user.CodeProfil === 12) {
+      if (this.user.profil_user?.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {
         this.isGeneralDirector = false;
       }
-      if (this.user.profil_user.CodeProfil === 2) { //Administrateur
+      if (this.user.profil_user?.CodeProfil === 2) { //Administrateur
         this.isAdmin = true;
       } else {
         this.isAdmin = false;

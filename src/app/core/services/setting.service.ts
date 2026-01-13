@@ -34,7 +34,7 @@ export class SettingService {
   update(id: any, settings: any) {
     const payload = { ...settings, '_method': 'patch' };
 
-    return this.http.post<any>(`${ConfigService.toApiUrl(`settings/${id}`)}`, payload,
+    return this.http.post<any>(`${ConfigService.toApiUrl(`settings/update/${id}`)}`, payload,
       ConfigService.httpHeader(localStorage.getItem("mataccueilToken"))).pipe(
         tap((res: any) => console.log(`Paramètres mis à jour`, res))
       );

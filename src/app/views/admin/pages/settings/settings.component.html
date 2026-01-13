@@ -21,7 +21,7 @@
                        [(ngModel)]="setting.delai_relance" required>
               </div>
             </div>
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
               <div class="form-group">
                 <label for="groupe_acteur_controle_primaire">Groupe d'acteurs pour le contrôle primaire</label>
                 <p-multiSelect id="groupe_acteur_controle_primaire" 
@@ -36,7 +36,7 @@
                                selectedItemsLabel="{0} rôles sélectionnés">
                 </p-multiSelect>
               </div>
-            </div>
+            </div> -->
           </div>
         </fieldset>
 
@@ -56,22 +56,41 @@
               </div>
             </div>
 
-            <div class="col-md-6">
-              <label for="entete_entite">En-tête des documents</label>
-              <div class="ngx-editor__wrapper">
-                <ngx-editor-menu [editor]="headerEditor"></ngx-editor-menu>
-                <ngx-editor [editor]="headerEditor" 
-                            [(ngModel)]="setting.entete_entite" 
-                            name="entete_entite"
-                            placeholder="Saisissez le contenu de l'en-tête ici...">
-                </ngx-editor>
-              </div>
-            </div>
+            <div class="col-md-6 mb-4">
+  <label for="entete_entite" class="form-label font-semibold text-gray-700">
+    En-tête des documents
+  </label>
+
+  <!-- Toolbar d'interligne -->
+  <div class="line-spacing-toolbar flex gap-2 mb-2">
+    <button *ngFor="let l of lineSpacing"
+            type="button"
+            (click)="setLineHeight(l.value)"
+            [class.active]="currentLineHeight === l.value"
+            class="px-3 py-1 rounded border border-gray-300 bg-white hover:bg-gray-100 text-sm font-medium transition">
+      {{ l.label }}
+    </button>
+  </div>
+
+  <!-- Éditeur -->
+  <div class="ngx-editor__wrapper border border-gray-300 rounded-md shadow-sm">
+    <ngx-editor-menu [editor]="headerEditor" [toolbar]="toolbar" class="bg-gray-50 border-b border-gray-200 rounded-t-md"></ngx-editor-menu>
+    
+    <ngx-editor
+      [editor]="headerEditor"
+      [(ngModel)]="setting.entete_entite"
+      name="entete_entite"
+      placeholder="Saisissez le contenu de l'en-tête ici..."
+      class="p-2 min-h-[150px]"
+    ></ngx-editor>
+  </div>
+</div>
+
             
             <div class="col-md-6">
               <label for="pied_page_entite">Pied de page des documents</label>
               <div class="ngx-editor__wrapper">
-                <ngx-editor-menu [editor]="footerEditor"></ngx-editor-menu>
+                <ngx-editor-menu [editor]="footerEditor" [toolbar]="toolbar"></ngx-editor-menu>
                 <ngx-editor [editor]="footerEditor" 
                             [(ngModel)]="setting.pied_page_entite" 
                             name="pied_page_entite"

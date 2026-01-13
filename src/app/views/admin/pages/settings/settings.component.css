@@ -27,3 +27,42 @@
     justify-content: center;
     align-items: center;
 }
+
+.ngx-editor p,
+.ngx-editor div,
+.ngx-editor span {
+  line-height: inherit;
+}
+
+/* Toolbar d'interligne */
+.line-spacing-toolbar button {
+  min-width: 36px;
+  height: 28px;
+  padding: 2px 6px;
+  font-size: 12px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.line-spacing-toolbar button.active {
+  background-color: #3b82f6; /* bleu */
+  color: white;
+  border-color: #2563eb;
+}
+
+/* Éditeur ngx-editor */
+.ngx-editor__wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.ngx-editor {
+  min-height: 150px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Toolbar ngx-editor intégrée */
+.ngx-editor-menu {
+  padding: 4px 8px;
+}

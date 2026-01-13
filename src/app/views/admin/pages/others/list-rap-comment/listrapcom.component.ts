@@ -21,6 +21,7 @@ import { ConfigService } from '../../../../../core/utils/config-service';
 import { LocalStorageService } from '../../../../../core/utils/local-stoarge-service';
 import { GlobalName } from '../../../../../core/utils/global-name';
 import { ObserverService } from '../../../../../core/utils/observer.service';
+import { ServiceService } from '../../../../../core/services/service.service';
 
 @Component({
   selector: 'app-listrapcom',
@@ -68,12 +69,37 @@ search_text:any=""
     window.open(url, "_blank")  
   }
   print_rapp_periode(){
-    if(this.dated && this.datef){
-      var url= ConfigService.toApiUrl('rapportconsult?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
-      window.open(url, "_blank")  
-    }else{
-      AppSweetAlert.finish("Error", "Date début et fin sont obligatoire", 'error')
-    }
+
+const dated = new Date(this.dated);
+const datef = new Date(this.datef);
+
+if (!this.dated || !this.datef) {
+  AppSweetAlert.finish("Validation", "Veuillez renseigner les deux dates.", "warning");
+  return;
+}
+
+if (datef < dated) {
+  AppSweetAlert.finish(
+    "Validation",
+    "La date de fin ne peut pas être antérieure à la date de début.",
+    "error"
+  );
+  return;
+}
+
+     this.sService.genPdfRapport({
+      dated:this.dated,
+      datef:this.datef,
+      idEntite:this.user.idEntite
+     }).subscribe((res:any)=>{
+       window.open(res.data, "_blank")  
+    },(err:any)=>{
+      if(err.error.detail!=null){    
+        AppSweetAlert.finish("Nouvel ajout", err.error.detail, 'error')
+      }else{
+        AppSweetAlert.finish("Nouvel ajout", err.error.message, 'error')
+      }
+    })
   }
   print_graphe_periode(){
     if(this.dated && this.datef){
@@ -127,6 +153,7 @@ search_text:any=""
     private commentaireService:CommentaireService,
     private spinner: NgxSpinnerService,
     private activatedRoute: ActivatedRoute,
+    private sService:ServiceService,
     private localStorageService : LocalStorageService,
     private observerService:ObserverService
     ) {}

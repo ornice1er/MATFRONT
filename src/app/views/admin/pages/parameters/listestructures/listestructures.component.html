@@ -51,13 +51,15 @@
                                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
                                             Supprimer
                                         </button>
-                                        <p-dropdown
-                                         *ngIf="isSuperAdmin"
-                                        [options]="entities"
-                                        [(ngModel)]="selectedEntity"
-                                        optionLabel="libelle"
-                                        class="mx-1"
-                                        placeholder="Selectionner une entité" />
+                                      <p-dropdown
+                                                *ngIf="isSuperAdmin"
+                                                [options]="entities"
+                                                [(ngModel)]="selectedEntity"
+                                                optionLabel="libelle"
+                                                [optionValue]="'id'"
+                                                placeholder="Sélectionner une entité"
+                                                (ngModelChange)="loadData($event)">
+                                            </p-dropdown>
                                     </td>
                                 </tr>
                                 <tr>

@@ -375,12 +375,12 @@ search_text:any=""
       this.user = this.localService.get(GlobalName.userName)
       // console.log('eeeeeeeeeeee') 
       // console.log(this.user)
-      if (this.user.profil_user.CodeProfil === 12) {
+      if (this.user.profil_user?.CodeProfil === 12) {
         this.isGeneralDirector = true;
       } else {
         this.isGeneralDirector = false;
       }
-      if (this.user.profil_user.CodeProfil === 2 || this.user?.agent_user?.structure?.type_s == 'dg') { //Administrateur - SGM - DC -MINISTRE
+      if (this.user.profil_user?.CodeProfil === 2 || this.user?.agent_user?.structure?.type_s == 'dg') { //Administrateur - SGM - DC -MINISTRE
         this.isAdmin = true;
         this.selected_Struct = '-1'
         this.selected_Entite = '-1'
@@ -389,7 +389,7 @@ search_text:any=""
         this.selected_Struct = this.user.agent_user.idStructure
         this.selected_Entite = this.user.idEntite
       }
-      if (this.user.profil_user.CodeProfil === 5 || this.user.profil_user.CodeProfil === 6 || this.user.profil_user.CodeProfil === 7) { //SGM - DC -MINISTRE
+      if (this.user.profil_user?.CodeProfil === 5 || this.user.profil_user.CodeProfil === 6 || this.user.profil_user.CodeProfil === 7) { //SGM - DC -MINISTRE
         this.isSuperieur = true;
         this.selected_Struct = '-1'
       } else {
@@ -512,7 +512,7 @@ search_text:any=""
   select_date_end=""
   filter(value:any){
     // console.log(this.user)
-    if (this.user.profil_user.CodeProfil === 2 || this.user.profil_user.CodeProfil === 5 || this.user.profil_user.CodeProfil === 6 || this.user.profil_user.CodeProfil === 7 || this.user.id === 98) { //Administrateur et directeur
+    if (this.user.profil_user?.CodeProfil === 2 || this.user.profil_user.CodeProfil === 5 || this.user.profil_user.CodeProfil === 6 || this.user.profil_user.CodeProfil === 7 || this.user.id === 98) { //Administrateur et directeur
       this.selected_Struct = value.structure
       this.type_ = value.idType
     } else {

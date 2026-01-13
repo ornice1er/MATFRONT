@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { HttpClient , HttpHeaders, HttpParams } from '@angular/common/http';
 import { ConfigService } from '../utils/config-service';
 import { tap } from 'rxjs/internal/operators/tap';
 @Injectable({
@@ -66,6 +66,18 @@ export class ServiceService {
    
     return this.http.post<any[]>(`${ConfigService.toApiUrl("genererpdfstathebdo")}`,param);
   }
+  
+  
+
+    genPdfRapport(param:any){
+       const params = new HttpParams()
+    .set('dated', param.dated)
+    .set('datef', param.datef)
+    .set('idEntite', param.idEntite ?? '');
+
+    return this.http.get<any[]>(`${ConfigService.toApiUrl("rapportconsult")}`, { params: params });
+  }
+  
   
   
   

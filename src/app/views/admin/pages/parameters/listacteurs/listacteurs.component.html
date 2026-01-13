@@ -185,6 +185,19 @@
                   </span>
                 </div>
               </div>
+                <div class="form-group mb-3" *ngIf="isSuperAdmin">
+                                <label for="">Entité</label> 
+                                  <p-dropdown
+                                                *ngIf="isSuperAdmin"
+                                                [options]="entities"
+                                                name="idEntite"
+                                                [(ngModel)]="selectedEntity"
+                                                optionLabel="libelle"
+                                                [optionValue]="'id'"
+                                                placeholder="Sélectionner une entité"
+                                                (ngModelChange)="loadData($event)">
+                                            </p-dropdown>
+                            </div>
 
               <div class="form-group row mb-3">
                 <label class="col-md-4">Structure :</label>

@@ -10,7 +10,7 @@ import { AppSweetAlert } from '../../../../core/utils/app-sweet-alert';
 import { ObserverService } from '../../../../core/utils/observer.service';
 import { ConfigService } from '../../../../core/utils/config-service';
 import { LoadingComponent } from '../../../components/loading/loading.component';
-import { Editor, NgxEditorModule } from 'ngx-editor'; 
+import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor'; 
 import { MultiSelectModule } from 'primeng/multiselect'; 
 import { RoleService } from '../../../../core/services/role.service'; 
 
@@ -34,6 +34,30 @@ export class SettingsComponent implements OnInit {
   roles: any[] = [];
   headerEditor: Editor = new Editor();
   footerEditor: Editor = new Editor();
+toolbar: Toolbar = [
+  ['undo', 'redo'],
+  ['bold', 'italic', 'underline', 'strike'],
+  ['code', 'blockquote'],
+  ['ordered_list', 'bullet_list'],
+  [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+  ['link', 'image'],
+  ['text_color', 'background_color'],
+  ['align_left', 'align_center', 'align_right', 'align_justify'],
+  ['indent', 'outdent'],
+  ['horizontal_rule'],
+  ['format_clear'],
+];
+  currentLineHeight: string = '1'; // valeur par défaut
+
+
+lineSpacing = [
+  { label: '1', value: '1' },
+  { label: '1.15', value: '1.15' },
+  { label: '1.5', value: '1.5' },
+  { label: '2', value: '2' },
+  { label: '2.5', value: '2.5' },
+];
+
 
   setting: any = {
     entite_id: null,
@@ -150,9 +174,11 @@ export class SettingsComponent implements OnInit {
 
     const payload = { ...this.setting };
 
-    const action = this.settingId 
-      ? this.settingService.update(this.settingId, payload) 
-      : this.settingService.create(payload);
+    // const action = this.settingId 
+    //   ? this.settingService.update(this.settingId, payload) 
+    //   : 
+
+      const action =  this.settingService.create(payload);
 
     action.subscribe({
       next: (res) => {
@@ -186,6 +212,16 @@ export class SettingsComponent implements OnInit {
     }
     return ConfigService.toFile(path);
   }
+
+setLineHeight(value: string) {
+  this.currentLineHeight = value;
+
+  const editorEl = document.querySelector('.ngx-editor') as HTMLElement;
+  if (editorEl) {
+    editorEl.style.lineHeight = value; // valeur appliquée au conteneur
+  }
+}
+
 
   private resetFiles(): void {
     this.logoFile = null;

@@ -158,7 +158,7 @@ isSuperAdmin=false
   init(){
     this.data=[]
           this.spinner.show();
-    this.acteursService.getAll(this.user.idEntite).subscribe((res:any)=>{
+    this.acteursService.getAll(this.isSuperAdmin ?this.selectedEntity: this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
     },
@@ -170,7 +170,7 @@ isSuperAdmin=false
         })
     
     this.structures=[]
-    this.structureService.getAll(0,this.user.idEntite).subscribe((res:any)=>{
+    this.structureService.getAll(0,this.isSuperAdmin ?this.selectedEntity: this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.structures=res.data
     })
@@ -184,8 +184,13 @@ isSuperAdmin=false
     })
   }
   
+
+    loadData(ev:any){
+   this.init()
+  }
+
   create(value:any){
-    value.idEntite=this.user.idEntite
+    value.idEntite= this.isSuperAdmin?this.selectedEntity: this.user.idEntite
 
     if(value.idDepart == null || value.idDepart == ""){
       AppSweetAlert.simpleAlert('error',"Erreur","Veuillez choisir un département.")

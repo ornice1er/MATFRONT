@@ -16,8 +16,7 @@ export class AppActionCheckService {
     // console.log('User:', user);
     // console.log('Windows:', windows);
     const permissions = user?.roles?.[0]?.permissions || [];
-   
-  return  permissions.find((el:any)=> el.name == `${action} ${key}`)=== undefined ? false : true;
+return permissions.some((el: any) => el.name === `${action} ${key}`);
   }
 
   hasPermission(key: string): boolean {

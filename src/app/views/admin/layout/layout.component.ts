@@ -814,7 +814,8 @@ export class LayoutComponent {
   userIcon = User;
   chevronDownIcon = ChevronDown;
   expandedMenus = this.navigationService.expandedMenus;
-
+isSuperAdmin=false
+isAdmin=false
   constructor(
     private authService: AuthentificationService,
     private router: Router,
@@ -836,6 +837,9 @@ export class LayoutComponent {
       this.role =
         this.user?.roles?.length > 0 ? this.user.roles[0].name : 'N/A';
       console.log('role', this.user.roles[0].name);
+        this.isSuperAdmin= this.role ==="Super Admin" ?true:false
+          this.isAdmin= this.role.toLowerCase().includes('admin')?true:false
+           console.log('isAdmin',  this.isAdmin);
     } else {
       this.authService.getUserByToken().subscribe({
         next: (res: any) => {
@@ -854,6 +858,7 @@ export class LayoutComponent {
         },
       });
     }
+
   }
 
   toggleMenu() {
@@ -896,14 +901,16 @@ export class LayoutComponent {
     if (item.children && Array.isArray(item.children)) {
       return item.children.some((child) => this.canShowItem(child));
     }
+    console.log(this.canShowItem(item))
     return this.canShowItem(item);
   }
 
   canShowItem(item: MenuItem): boolean {
+
     if (item.label === 'Mon profil') {
       return true;
     }
-    if (item.label === 'Paramètre générale') {
+    if (item.label === 'Paramètre générale' && this.isAdmin) {
       return true;
     }
     if (
@@ -912,11 +919,7 @@ export class LayoutComponent {
     ) {
       return true;
     }
-    const result =
-      item.key && item.action
-        ? this.appActionCheck.check(item.key, item.action)
-        : false;
-    return result;
+    return this.appActionCheck.check(item.key, item.action??'');
   }
 
   toggleSubmenu(menuId: string) {
