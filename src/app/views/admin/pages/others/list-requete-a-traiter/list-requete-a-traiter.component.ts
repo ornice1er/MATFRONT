@@ -92,6 +92,8 @@ export class ListRequeteATraiterComponent implements OnInit {
   isPaginate: any = false;
   search_text: any = '';
   isLoading = false;
+  institutionSelected:any
+
 
   search() {
     this.isLoading = true;
@@ -296,7 +298,7 @@ export class ListRequeteATraiterComponent implements OnInit {
   ValStruRelance = '';
   cpt = 0;
   compteData = 0;
-
+structureSelected:any
   checked(event: any, el: any) {
     this.selected_data = el;
     if (this.selected_data.usager == null) {
@@ -1669,4 +1671,144 @@ export class ListRequeteATraiterComponent implements OnInit {
         break;
     }
   }
+
+
+  filterByInstitution() {
+   this.requeteService
+      .getAllRequest(
+        this.institutionSelected,
+        null,
+        0,
+        this.user.id,
+        "",
+        this.checkType()?.id,
+        this.pg.pageSize,
+        1
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.subject.next(res);
+          this.data = res.data?.data?.filter((e: any) => {
+            const hasServiceAffectation = e.affectation?.some(
+              (aff: any) => aff.typeStructure === 'Service'
+            );
+            const isFinalized = e.finalise === 1;
+            const isArchived = e.archiver === 1;
+            if (hasServiceAffectation || isFinalized || isArchived) {
+              return false;
+            }
+            if (e.lastparcours != null) {
+              return (
+                e.lastparcours.idEtape == 1 ||
+                e.lastparcours.idEtape == 5 ||
+                (e.lastparcours.idEtape == 7) ||
+                (e.lastparcours.idEtape == 8 &&
+                  e.lastparcours.idEntite == this.user.idEntite)
+              );
+            } else {
+              return e.lastparcours == null;
+            }
+          });
+          this._temp = this.data;
+          this.data = res.data?.data?.map((e: any) => {
+            e.etat = e.finalise === 1 ? 'Répondu' : 'En attente';
+            return e;
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des requêtes:', err);
+          AppSweetAlert.simpleAlert(
+            'error',
+            'Erreur',
+            'Impossible de charger les requêtes.',
+            undefined
+          );
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.spinner.hide();
+        },
+      });
+
+
+       this.structureService.getAll(1, this.institutionSelected).subscribe({
+      next: (res: any) => {
+        console.log('Structures response:', res);
+        this.structures = Array.isArray(res) ? res : res?.data || [];
+        console.log('Structures chargées:', this.structures);
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Erreur lors du chargement des structures:', err);
+        AppSweetAlert.simpleAlert(
+          'error',
+          'Erreur',
+          'Impossible de charger les structures.',
+          undefined
+        );
+        this.structures = [];
+        this.cdr.detectChanges();
+      },
+    });
+
+}
+
+filterByStructure() {
+ this.requeteService
+      .getAllRequest(
+        this.institutionSelected,
+        null,
+        0,
+        this.user.id,
+        this.structureSelected,
+        this.checkType()?.id,
+        this.pg.pageSize,
+        1
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.subject.next(res);
+          this.data = res.data?.data?.filter((e: any) => {
+            const hasServiceAffectation = e.affectation?.some(
+              (aff: any) => aff.typeStructure === 'Service'
+            );
+            const isFinalized = e.finalise === 1;
+            const isArchived = e.archiver === 1;
+            if (hasServiceAffectation || isFinalized || isArchived) {
+              return false;
+            }
+            if (e.lastparcours != null) {
+              return (
+                e.lastparcours.idEtape == 1 ||
+                e.lastparcours.idEtape == 5 ||
+                (e.lastparcours.idEtape == 7) ||
+                (e.lastparcours.idEtape == 8 &&
+                  e.lastparcours.idEntite == this.user.idEntite)
+              );
+            } else {
+              return e.lastparcours == null;
+            }
+          });
+          this._temp = this.data;
+          this.data = res.data?.data?.map((e: any) => {
+            e.etat = e.finalise === 1 ? 'Répondu' : 'En attente';
+            return e;
+          });
+        },
+        error: (err) => {
+          console.error('Erreur lors du chargement des requêtes:', err);
+          AppSweetAlert.simpleAlert(
+            'error',
+            'Erreur',
+            'Impossible de charger les requêtes.',
+            undefined
+          );
+        },
+        complete: () => {
+          this.isLoading = false;
+          this.spinner.hide();
+        },
+      });
+
+}
 }

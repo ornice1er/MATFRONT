@@ -3,39 +3,97 @@
   <div class="row d-flex">
     <div class="col-md-12">
       <div class="card my-2">
-        <div class="card-header p-4 border-0 pt-5">
-          <h4>Liste des {{typeRequete}} en instance au niveau de votre structure</h4>
-          <div class="card-toolbar d-flex justify-content-between">
-            <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
-              <li class="nav-item">
-                <span class="mr-2">{{pager.total}} élément(s) ( <strong>{{data.length}}</strong> en instance et
-                  <strong>{{compteData - data.length}}</strong> affecté(s) ou transféré(s) )</span>
-              </li>
-              <li class="nav-item">
-                <form>
-                  <div class="form-group form-inline">
-                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="search_text" name="search_text" (keyup)="search()" />
-                  </div>
-                </form>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div class="card-header p-4 border-0 pt-5 d-flex justify-content-between align-items-center">
+
+  <!-- Titre -->
+  <h4 class="mb-0">
+    Liste des {{ typeRequete }} en instance au niveau de votre structure
+        <!-- Compteurs -->
+    <span class="text-muted">
+      {{ pager.total }} élément(s) (
+      <strong>{{ data.length }}</strong> en instance et
+      <strong>{{ compteData - data.length }}</strong> affecté(s) ou transféré(s)
+      )
+    </span>
+  </h4>
+
+  <!-- Outils à droite -->
+  <div class="d-flex align-items-center gap-3">
+
+    <p-dropdown
+    *ngIf="user?.agent_user?.structure?.controle_primaire"
+        [options]="institutions"
+        [(ngModel)]="institutionSelected"
+        optionLabel="libelle"
+        optionValue="id"
+        placeholder="Toutes les institutions"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="libelle,sigle"
+        styleClass="p-inputtext-sm w-200px"
+        (onChange)="filterByInstitution()">
+    </p-dropdown>
+
+    <!-- Structure -->
+    <p-dropdown
+         *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire"
+        [options]="structures"
+        [(ngModel)]="structureSelected"
+        optionLabel="libelle"
+        optionValue="id"
+        placeholder="Toutes les structures"
+        [showClear]="true"
+        [filter]="true"
+        filterBy="libelle,sigle"
+        styleClass="p-inputtext-sm w-200px"
+        (onChange)="filterByStructure()">
+    </p-dropdown>
+
+
+    <!-- Recherche -->
+    <input class="form-control form-control-sm w-200px"
+           placeholder="Rechercher..."
+           type="text"
+           [(ngModel)]="search_text"
+           name="search_text"
+           (keyup)="search()" />
+  </div>
+</div>
+
         <div class="card-body pt-3 pb-0">
           <div class="table-responsive">
             <table class="table table-striped datatable table-head-custom table-vertical-center" id="kt_datatable">
               <thead>
                 <tr>
                   <td class="left text-left" colspan="9">
-                    <button *ngIf="RelanceAWho !=''" title="Relancer" (click)="relancerPreocuppationType()"
+                    <ng-container *ngIf="user?.agent_user?.structure?.controle_primaire ">
+                      <button title="Relancer"  (click)="relancerPreocuppationType()"
                       class="btn mx-1 btn-xs btn-danger edit" [disabled]="isLoading">
                       Relancer {{RelanceAWho}}
                     </button>
-                    <button *ngIf="(isGeneralDirector === false) && !hide_actions" (click)="openAddModal(affectation)"
+
+                      <button title="Transférer la requête à une autre entité" (click)="openAddModal(tranfertEntite)"
+                      class="btn mx-1 btn-xs btn-info edit" [disabled]="isLoading">
+                      Transfert externe
+                    </button>
+                    <button title="Transférer la requête à une autre structure"
+                      (click)="openAddModal(tranfertStructure)" class="btn mx-1 btn-xs btn-info edit"
+                      [disabled]="isLoading">
+                      Transfert interne
+                    </button>
+                    </ng-container>
+
+                    <ng-container *ngIf="!user?.agent_user?.structure?.controle_primaire ">
+                    
+                     <button title="Relancer"  (click)="relancerPreocuppationType()"
+                      class="btn mx-1 btn-xs btn-danger edit" [disabled]="isLoading">
+                      Relancer {{RelanceAWho}}
+                    </button>
+                      <button *ngIf="(isGeneralDirector === false) && !hide_actions" (click)="openAddModal(affectation)"
                       title="Affecter la requête" class="btn mx-1 btn-xs btn-success edit" [disabled]="isLoading">
                       Affecter
                     </button>
-                    <button title="Répondre à la requête" (click)="openAddModal(reponse)"
+                     <button title="Répondre à la requête" (click)="openAddModal(reponse)"
                       class="btn mx-1 btn-xs btn-info edit" [disabled]="isLoading">
                       Répondre
                     </button>
@@ -68,6 +126,10 @@
                       [disabled]="isLoading">
                       Transfert interne
                     </button>
+                    </ng-container>
+                   
+                    
+                   
                   </td>
                 </tr>
                 <tr>
@@ -81,6 +143,7 @@
                   <th width="15%">Source</th>
                   <th width="15%">Parcours</th>
                   <th width="10%">Réponse</th>
+                  <th *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire">Nb. relance</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,6 +191,7 @@
                       </span>
                     </div>
                   </td>
+                  <td *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire">{{el.relance_count}}</td>
                 </tr>
                 <tr *ngIf="data.length==0">
                   <td colspan="9" class="text-center bg-gray-100">Aucun élément</td>
