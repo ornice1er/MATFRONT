@@ -59,6 +59,7 @@ export class UsersMainComponent implements OnInit {
   hide_actors = false;
   user: any;
   role:any[]=[]
+  selectedRoleName: string | null = null;
 
 
   constructor(
@@ -169,6 +170,8 @@ export class UsersMainComponent implements OnInit {
 
   checked(event: any, el: any) {
     this.selected_data = { ...el };
+        this.selectedRoleName = this.selected_data.roles[0]?.name;
+
   }
 
   create(value: any) {
@@ -210,7 +213,7 @@ export class UsersMainComponent implements OnInit {
     if (!this.selected_data) return;
 
     this.loading = true; // <-- On active le loader avant l'appel API
-
+    value.role=this.selectedRoleName
     const payload = { ...this.selected_data, ...value };
     payload.agent_user_id = value.idAgent;
 

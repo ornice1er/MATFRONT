@@ -123,6 +123,9 @@ search_text:any=""
     role:any[]=[]
 
   user:any
+  selectedRoleName: string | null = null;
+
+
   ngOnInit() {
     this.observerService.setTitle('PARAMETRES - UTILISATEURS')
 
@@ -135,6 +138,9 @@ search_text:any=""
   checked(event:any, el:any) {
     this.selected_data = el
     this.is_active=el.is_active
+      if (this.selected_data?.roles?.length) {
+    this.selectedRoleName = this.selected_data.roles[0]?.name;
+  }
   }
   
   init(){
@@ -212,6 +218,7 @@ search_text:any=""
   
   edit(value:any) {
     value.id=this.selected_data.id
+    value.role=this.selectedRoleName
     this.loading=true
     this.userService.update(value,this.selected_data.id).subscribe((res:any)=>{
       this.loading=false

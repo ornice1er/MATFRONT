@@ -112,7 +112,7 @@
 
                 <ng-template #content let-modal>
                     <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h5 class="modal-title text-white mb-0">Ajouter un utilisateur</h5>
                             <button type="button" class="close text-white" aria-label="Close"
                                 (click)="modal.dismiss('Cross click')">
@@ -213,9 +213,12 @@
                 </ng-template>
                 <ng-template #contentU let-modal>
         <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-            <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                 <h4 class="modal-title text-white">Modifier un utilisateur</h4>
-                <button type="button" class="close" (click)="modal.dismiss('Cross click')">X</button>
+                <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
             </div>
             <div class="modal-body">
                 <div class="form-group row mb-3">
@@ -237,7 +240,7 @@
                 <div class="form-group row mb-3">
                     <label class="col-md-4">Rôle *</label>
                     <div class="col-md-8">
-                        <select class="form-control form-control-sm" name="role" [(ngModel)]="selected_data.roles[0].name" required>
+                        <select class="form-control form-control-sm" name="role"  [(ngModel)]="selectedRoleName" required>
                             <option *ngFor="let e of role" [value]="e.name">{{ e?.name }}</option>
                         </select>
                     </div>
@@ -251,7 +254,7 @@
                 <div class="form-group row mb-3">
                     <label class="col-md-4">Activé</label>
                     <div class="col-md-8">
-                        <input type="checkbox" name="is_active" [(ngModel)]="selected_data.is_active">
+                        <input type="checkbox" name="statut" [(ngModel)]="selected_data.statut">
                     </div>
                 </div>
             </div>

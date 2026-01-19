@@ -113,7 +113,10 @@
           <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
             <div class="modal-header bg-gray-100">
               <h5 class="modal-title" id="modal-basic-title">Nouvel ajout</h5>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
                X
               </button>
             </div>
@@ -181,7 +184,10 @@
           <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
             <div class="modal-header bg-gray-100">
               <h4 class="modal-title" id="modal-basic-title">Nouvelle modification</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
                 <i class="la la-close font-size-h3"></i>
               </button>
             </div>

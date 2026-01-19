@@ -95,7 +95,7 @@ if (datef < dated) {
        window.open(res.data, "_blank")  
     },(err:any)=>{
       if(err.error.detail!=null){    
-        AppSweetAlert.finish("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.finish( 'error',"Nouvel ajout", err.error.detail)
       }else{
         AppSweetAlert.finish("Nouvel ajout", err.error.message, 'error')
       }
@@ -217,7 +217,7 @@ if (datef < dated) {
       }
     },(err:any)=>{
       if(err.error.detail!=null){    
-        AppSweetAlert.finish("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.finish( 'error',"Nouvel ajout", err.error.detail)
       }else{
         AppSweetAlert.finish("Nouvel ajout", err.error.message, 'error')
       }

@@ -300,13 +300,13 @@ loading:any=false
       this.init()
 
       //this.translate.instant('HOME.TITLE')
-      AppSweetAlert.simpleAlert("'success',Nouvel ajout", "Ajout effectué avec succès", )
+      AppSweetAlert.simpleAlert('success',"Nouvel ajout", "Ajout effectué avec succès", )
     }, (err) => {
 
       if (err.error.detail != null) {
-        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.detail)
       } else {
-        AppSweetAlert.simpleAlert("Nouvel ajout",err.error.message, 'error')
+        AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.detail)
       }
     })
   }

@@ -235,7 +235,7 @@ search_text:any=""
        this.search() 
       },(err:any)=>{
         if(err.error.detail!=null){    
-          AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+          AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.detail)
         }else{
           AppSweetAlert.simpleAlert("Nouvel ajout", err.error.message, 'error')
         }

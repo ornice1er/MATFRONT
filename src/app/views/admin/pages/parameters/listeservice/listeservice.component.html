@@ -150,7 +150,7 @@
 
                 <ng-template #content let-modal>
                     <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h5 class="modal-title text-white mb-0">Ajouter un service</h5>
                             <button type="button" class="close text-white" aria-label="Close"
                                 (click)="modal.dismiss('Cross click')">
@@ -284,8 +284,7 @@ demander plus tôt ?" value="{{default_data.interetDemanderTot}}"
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
-                                            <label for="delai" class="col-sm-3 control-label">Délai à afficher à
-                                                l'usager</label>
+                                            <label for="delai" class="col-sm-3 control-label">Délai de traitement</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control form-control-sm has-error"
                                                     id="delai" name="delai" placeholder="Délai de la prestation"
@@ -466,7 +465,7 @@ demander plus tôt ?" value="{{default_data.interetDemanderTot}}"
                 </ng-template>
                 <ng-template #contentU let-modal>
                     <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h4 class="modal-title text-white mb-0">Modifier un service</h4>
                             <button type="button" class="close" aria-label="Close"
                                 (click)="modal.dismiss('Cross click')">
@@ -600,8 +599,7 @@ demander plus tôt ?" value="{{selected_data.interetDemanderTot}}"
                                             </div>
                                         </div>
                                         <div class="form-group row mb-3">
-                                            <label for="delai" class="col-sm-3 control-label">Délai à afficher à
-                                                l'usager</label>
+                                            <label for="delai" class="col-sm-3 control-label">Délai de traitement</label>
                                             <div class="col-sm-9">
                                                 <input type="text" class="form-control form-control-sm has-error"
                                                     id="delai" name="delai" placeholder="Délai de la prestation"
@@ -786,7 +784,7 @@ demander plus tôt ?" value="{{selected_data.interetDemanderTot}}"
                 </ng-template>
                 <ng-template #pieces let-modal>
                     <form #manageForm="ngForm" (ngSubmit)="savePiece()">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h4 class="modal-title text-white mb-0">Gérer les pièces</h4>
                             <button type="button" class="close" aria-label="Close"
                                 (click)="modal.dismiss('Cross click')">

@@ -109,7 +109,7 @@
 
         <ng-template #contentGuide let-modal>
           <form #newFormGuide="ngForm" (ngSubmit)="addGuide(newFormGuide.value)">
-            <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
               <h5 class="modal-title text-white mb-0">Joindre le guide d'utilisation </h5>
               <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
@@ -133,7 +133,7 @@
 
         <ng-template #content let-modal>
           <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-            <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
               <h5 class="modal-title text-white mb-0">Ajouter un profil</h5>
               <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                 X
@@ -263,9 +263,12 @@
 
         <ng-template #contentU let-modal>
           <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-            <div class="modal-header bg-mat-primary d-flex align-items-center">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
               <h4 class="modal-title text-white mb-0">Modifier un profil</h4>
-              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
                 X
               </button>
             </div>

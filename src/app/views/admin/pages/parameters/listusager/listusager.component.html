@@ -126,7 +126,7 @@
 
                 <ng-template #content let-modal>
                     <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h5 class="modal-title text-white mb-0">Ajouter un usager</h5>
                             <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
@@ -262,9 +262,12 @@
                 </ng-template>
                 <ng-template #contentU let-modal>
                     <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h4 class="modal-title text-white mb-0">Modifier un usager</h4>
-                            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                            <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
                                 X
                             </button>
                         </div>
@@ -400,7 +403,7 @@
                     <form #frmrequeteusager="ngForm" (ngSubmit)="addRequeteusager(frmrequeteusager.value)" class="form-horizontal"
                         novalidate="">
 
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h5 class="modal-title text-white mb-0">Ajouter une Préoccupation</h5>
                             <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
@@ -567,7 +570,7 @@
                 </ng-template>
                 <ng-template #newrdv let-modal>
                     <form #frmrdv="ngForm" (ngSubmit)="saveRdv(frmrdv.value)" class="form-horizontal" novalidate="">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h5 class="modal-title text-white mb-0">Prendre un rendez-vous</h5>
                             <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                                 X
@@ -653,7 +656,7 @@
 
                 <ng-template #detailPresta let-modal>
                     <form #frmrdv="ngForm"  class="form-horizontal" novalidate="" *ngFor="let depi of detailpiece">
-                        <div class="modal-header bg-mat-primary d-flex align-items-center">
+                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                             <h4 class="modal-title text-white mb-0">Informations sur la prestation</h4>
                             <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">X</button>
                         </div>

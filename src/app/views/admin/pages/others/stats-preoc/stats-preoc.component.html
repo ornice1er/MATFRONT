@@ -174,9 +174,12 @@
 
   <ng-template #contentU let-modal>
 
-    <div class="modal-header bg-mat-primary d-flex align-items-center">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
       <h4 class="modal-title text-white mb-0">Nombre d'instance et de relance </h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">X</button>
+      <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
     </div>
     <div class="modal-body">
       <table class="table">

@@ -265,7 +265,7 @@ search_text:any=""
     }, (err) => {
 
       if (err.error.detail != null) {
-        AppSweetAlert.simpleAlert("Nouvel ajout", err.error.detail, 'error')
+        AppSweetAlert.simpleAlert( 'error',"Nouvel ajout", err.error.detail)
       } else {
         AppSweetAlert.simpleAlert("Nouvel ajout", err.error.message, 'error')
       }

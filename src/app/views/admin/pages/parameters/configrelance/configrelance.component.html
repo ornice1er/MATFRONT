@@ -95,7 +95,7 @@
   
           <ng-template #content let-modal>
             <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-              <div class="modal-header bg-mat-primary d-flex align-items-center">
+              <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                 <h5 class="modal-title text-white mb-0">Ajouter une relance</h5>
                 <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
                   X
@@ -149,9 +149,12 @@
 
           <ng-template #contentU let-modal>
             <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-              <div class="modal-header bg-mat-primary d-flex align-items-center">
+              <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
                 <h4 class="modal-title text-white mb-0">Modifier une relance</h4>
-                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"> X </button>
+                <button type="button"
+        class="btn-close btn-close-white ml-auto"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"> X </button>
               </div>
               <div class="modal-body">
                 <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">

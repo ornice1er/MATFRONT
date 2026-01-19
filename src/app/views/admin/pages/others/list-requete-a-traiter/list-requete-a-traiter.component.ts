@@ -1660,6 +1660,9 @@ structureSelected:any
    getTypeStructure2() {
   let key=this.user?.agent_user?.structure?.type_s
     switch (key) {
+       case 'dc':
+        return 'Service'
+        break;
         case 'dt':
         return 'Service'
         break;
