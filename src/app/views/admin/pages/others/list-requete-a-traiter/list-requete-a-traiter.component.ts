@@ -928,7 +928,7 @@ structureSelected:any
     formData.append('interrompu', value.interrompu ? '1' : '0');
     formData.append('rejete', value.rejete ? '1' : '0');
     formData.append('raisonRejet', value.raisonRejet);
-    formData.append('fichier', this.file);
+    formData.append('fichier_joint', this.file);
 
     this.isLoading = true;
     this.spinner.show();
