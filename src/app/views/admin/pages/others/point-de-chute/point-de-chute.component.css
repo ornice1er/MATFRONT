@@ -1,0 +1,20 @@
+/* Dropdown ng-select au-dessus des cartes */
+:host ::ng-deep .ng-dropdown-panel {
+  z-index: 9999 !important;
+}
+
+/* Éviter que la card clip le dropdown */
+:host ::ng-deep .ng-select-container {
+  min-height: 36px;
+}
+
+/* Harmoniser la hauteur avec les inputs Bootstrap */
+:host ::ng-deep .ng-select .ng-select-container {
+  height: auto;
+  min-height: 38px;
+  border-radius: 4px;
+}
+
+:host ::ng-deep .ng-select.ng-select-multiple .ng-select-container {
+  min-height: 38px;
+}

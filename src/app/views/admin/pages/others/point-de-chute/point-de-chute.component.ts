@@ -54,6 +54,7 @@ export class PointDeChuteComponent implements OnInit {
   // --- Sélection points de chute (liés aux structures) ---
   selectedPointDeChuteMain: number | null = null;
   selectedPointDeChuteSecondaires: number[] = [];
+  private originalFlags = new Map<number, { point_de_chute: number; point_de_chute_dsi: number }>();
 
   page = 1;
   // --- Données pour les listes et filtres ---
@@ -119,6 +120,15 @@ export class PointDeChuteComponent implements OnInit {
           .filter((s: any) => s.point_de_chute_dsi == 1 || s.point_de_chute_dsi === true)
           .map((s: any) => s.id);
 
+        // Mémoriser l'état initial pour ne sauvegarder que les changements
+        this.originalFlags.clear();
+        this.allStructures.forEach((s: any) => {
+          this.originalFlags.set(s.id, {
+            point_de_chute:     (s.point_de_chute == 1 || s.point_de_chute === true) ? 1 : 0,
+            point_de_chute_dsi: (s.point_de_chute_dsi == 1 || s.point_de_chute_dsi === true) ? 1 : 0,
+          });
+        });
+
         this.requetes = requetesRes.data?.data || [];
         this.pg.total = requetesRes.data?.total || this.requetes.length;
         this.applyFilters();
@@ -158,22 +168,41 @@ export class PointDeChuteComponent implements OnInit {
   }
 
   saveSettings() {
+    // Calculer les nouvelles valeurs par structure
+    const toUpdate = this.allStructures.filter((s: any) => {
+      const isMain      = s.id === this.selectedPointDeChuteMain    ? 1 : 0;
+      const isSecondary = this.selectedPointDeChuteSecondaires.includes(s.id) ? 1 : 0;
+      const orig        = this.originalFlags.get(s.id);
+      // N'envoyer que si la valeur a changé
+      return orig && (orig.point_de_chute !== isMain || orig.point_de_chute_dsi !== isSecondary);
+    });
+
+    if (toUpdate.length === 0) {
+      AppSweetAlert.simpleAlert('info', 'Aucun changement', 'Aucune modification à enregistrer.');
+      return;
+    }
+
     this.isSavingSettings = true;
 
-    // Pour chaque structure, recalculer ses flags point_de_chute / point_de_chute_dsi
-    const updates = this.allStructures.map((s: any) => {
-      const isMain      = s.id === this.selectedPointDeChuteMain;
-      const isSecondary = this.selectedPointDeChuteSecondaires.includes(s.id);
-      return this.structureService.update(
-        { ...s, point_de_chute: isMain ? 1 : 0, point_de_chute_dsi: isSecondary ? 1 : 0 },
+    const updates = toUpdate.map((s: any) =>
+      this.structureService.update(
+        { ...s, point_de_chute: s.id === this.selectedPointDeChuteMain ? 1 : 0,
+                point_de_chute_dsi: this.selectedPointDeChuteSecondaires.includes(s.id) ? 1 : 0 },
         s.id
-      );
-    });
+      )
+    );
 
     forkJoin(updates).subscribe({
       next: () => {
         this.isSavingSettings = false;
-        AppSweetAlert.simpleAlert('success', 'Succès', 'Points de chute mis à jour.');
+        // Mettre à jour les flags mémorisés
+        toUpdate.forEach((s: any) => {
+          this.originalFlags.set(s.id, {
+            point_de_chute:     s.id === this.selectedPointDeChuteMain ? 1 : 0,
+            point_de_chute_dsi: this.selectedPointDeChuteSecondaires.includes(s.id) ? 1 : 0,
+          });
+        });
+        AppSweetAlert.simpleAlert('success', 'Succès', `${toUpdate.length} structure(s) mise(s) à jour.`);
       },
       error: () => {
         this.isSavingSettings = false;
