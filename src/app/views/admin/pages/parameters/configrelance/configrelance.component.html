@@ -42,10 +42,10 @@
             <!--begin::Table-->
             <div class="table-responsive">
               NB : Merci de respecter l'écriture des variables suivant : <strong>var_containt</strong>  (Renvois les Statistiques) <strong>var_nbreRelance</strong> (Renvois le nombre de relance)
-              <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
+              <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable">
                 <thead>
                   <tr>
-                    <td class="left text-left" colspan="9">
+                    <td class="left text-left" colspan="6">
                         <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white"> Modifier </button>
                         <button (click)="archive()" class="btn mx-1 btn-sm btn-danger"> Supprimer </button>
                     </td>
@@ -59,13 +59,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
+                  <tr *ngFor="let el of data| paginate: {
                                 id:'ngxP1',
                                 itemsPerPage: pg.pageSize,
                                 currentPage: pg.p,
                                 totalItems: pg.total }; index as i">
                     <td> <input type="radio" [value]="el" ngModel name="get" (change)="checked($event,el)"> </td>
-                    <td> {{i+1}} </td>
+                    <td> {{ ((pg.p||1)-1)*pg.pageSize + i + 1 }} </td>
                     <td> {{el.msg_relance}} </td>
                     <td> {{el.apartir_de}} </td>
                     <td> {{el.id_user == '-1'?'Toutes les directions': el.user_?.agent_user?.nomprenoms}} </td>
@@ -140,7 +140,7 @@
                 
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
               </div>
             </form>
           </ng-template>
@@ -194,7 +194,7 @@
               </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
               </div>
             </form>
           </ng-template>

@@ -1,19 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PipeTransform } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { FormControl, FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import {NgbModal, ModalDismissReasons, NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { ProfilService } from '../../../../../core/services/profil.service';
@@ -23,7 +18,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listeprofils',
   standalone: true,
-          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule],
   templateUrl: './listeprofils.component.html',
   styleUrls: ['./listeprofils.component.css']
 })
@@ -51,6 +46,7 @@ export class ListeprofilsComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math
   file: string | Blob =""
 
   constructor(
@@ -91,13 +87,13 @@ search_text:any=""
     }
   }
   
-  search(){ 
-    if (!this.searchText) {
+  search(){
+    if (!this.search_text) {
       this.data = [...this._temp];
       return;
     }
-    this.data = this._temp.filter(r => 
-      r.LibelleProfil && r.LibelleProfil.toLowerCase().includes(this.searchText.toLowerCase())
+    this.data = this._temp.filter(r =>
+      r.LibelleProfil && r.LibelleProfil.toLowerCase().includes(this.search_text.toLowerCase())
     );
   }
   
@@ -118,12 +114,6 @@ search_text:any=""
     window.open(url, '_blank');
   }
   
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) return 'by pressing ESC';
-    if (reason === ModalDismissReasons.BACKDROP_CLICK) return 'by clicking on a backdrop';
-    return `with: ${reason}`;
-  }
-
   checked(event:any, el:any) {
     this.selected_data = el
   }

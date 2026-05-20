@@ -2,554 +2,499 @@
 <ngx-spinner type="ball-scale-multiple"></ngx-spinner>
 
 <div class="container-fluid" id="container-wrapper">
+  <div class="row d-flex">
+    <div class="col-md-12">
+      <div class="card my-2">
 
-    <div class="row d-flex">
-        <div class="col-md-12">
-            <div class="card my-2">
-                <!-- Header -->
-                <div class="card-header p-4 border-0 pt-5">
+        <!-- Header -->
+        <div class="card-header p-4 border-0 pt-5">
+          <div class="card-toolbar d-flex justify-content-between align-items-center flex-wrap gap-2">
 
-                    <div class="card-toolbar d-flex justify-content-between">
-                        <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
-                            <li class="nav-item">
-                                <span class="mr-2">{{data.length}} élement(s)</span>
-                            </li>
-                            <li class="nav-item">
-                                <form>
-                                    <div class="form-group form-inline">
-                                        <input class="form-control form-control-sm " placeholder="Rechercher...." type="text"
-                                            [(ngModel)]="search_text" name="search_text" (keyup)="search()" />
-                                    </div>
-                                </form>
-                            </li>
-                            <li class="nav-item" >
-
-
-                            </li>
-
-                        </ul>
-                        <div>
-                            <button class="btn btn-sm bg-mat-primary text-white" (click)="openAddModal(content)">
-                                Ajouter une structure</button>
-                        </div>
-                    </div>
+            <!-- Gauche : compteur + recherche + taille de page -->
+            <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75 align-items-center flex-wrap gap-2">
+              <li class="nav-item">
+                <span class="mr-2 text-muted small">{{ filteredData.length }} / {{ data.length }} élément(s)</span>
+              </li>
+              <li class="nav-item">
+                <div class="input-group input-group-sm" style="width: 260px;">
+                  <input
+                    class="form-control form-control-sm"
+                    placeholder="Rechercher (libellé, sigle, email)…"
+                    type="text"
+                    [(ngModel)]="search_text"
+                    name="search_text"
+                    (ngModelChange)="onSearchChange()" />
+                  <button
+                    *ngIf="search_text"
+                    class="btn btn-outline-secondary btn-sm"
+                    type="button"
+                    (click)="search_text = ''; onSearchChange()">
+                    &times;
+                  </button>
                 </div>
-                <!-- Body -->
-                <div class="card-body pt-3 pb-0">
+              </li>
+              <li class="nav-item">
+                <select class="form-select form-select-sm" style="width: auto;" [(ngModel)]="pageSize" (ngModelChange)="page = 1" name="pageSize">
+                  <option [ngValue]="5">5 / page</option>
+                  <option [ngValue]="10">10 / page</option>
+                  <option [ngValue]="25">25 / page</option>
+                  <option [ngValue]="50">50 / page</option>
+                </select>
+              </li>
+              <li class="nav-item" *ngIf="isSuperAdmin">
+                <p-dropdown
+                  [options]="entities"
+                  [(ngModel)]="selectedEntity"
+                  optionLabel="libelle"
+                  [optionValue]="'id'"
+                  placeholder="Sélectionner une entité"
+                  (ngModelChange)="loadData($event)">
+                </p-dropdown>
+              </li>
+            </ul>
 
-                    <!--begin::Table-->
-                    <div class="table-responsive">
-
-                        <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
-                            <thead>
-                                <tr>
-                                    <td class="left text-left" colspan="9">
-                                        <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
-                                            Modifier
-                                        </button>
-
-                                        <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
-                                            Supprimer
-                                        </button>
-                                      <p-dropdown
-                                                *ngIf="isSuperAdmin"
-                                                [options]="entities"
-                                                [(ngModel)]="selectedEntity"
-                                                optionLabel="libelle"
-                                                [optionValue]="'id'"
-                                                placeholder="Sélectionner une entité"
-                                                (ngModelChange)="loadData($event)">
-                                            </p-dropdown>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th scope="col">N°</th>
-                                    <th scope="col">Libellé</th>
-                                    <th scope="col">Sigle</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Type </th>
-                                    <th scope="col">Point de Chute</th>
-                                    <th scope="col">Point de Chute DSI</th>
-                                    <th scope="col">Chute Transverse</th>
-                                    <th scope="col">Contrôle Primaire</th>
-                                    <th scope="col">Contrôle Secondaire</th>
-                                    <th scope="col">Activé</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
-                                id:'ngxP1',
-                                itemsPerPage: pg.pageSize,
-                                currentPage: pg.p,
-                                totalItems: pg.total }; index as i">
-                                    <td>
-                                        <input type="radio" [value]="el" ngModel name="get" (change)="checked($event,el)">
-                                    </td>
-                                    <td>
-                                        {{i+1}}
-                                    </td>
-                                    <td>
-                                        {{el.libelle}}
-                                    </td>
-                                    <td>
-                                        {{el.sigle}}
-                                    </td>
-                                    <td>
-                                        {{el.contact}}
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-danger" *ngIf="el.type_s==null || el.type_s==''">Aucun type</span>
-                                        <span *ngIf="el.type_s =='dg'">Direction Générale</span>
-                                        <span *ngIf="el.type_s =='dc'">Direction Centrale</span>
-                                        <span *ngIf="el.type_s =='dt'">Direction Technique</span>
-                                        <span *ngIf="el.type_s =='se'">Service</span>
-                                        <span *ngIf="el.type_s =='di'">Division</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-success" *ngIf="el.point_de_chute">Oui</span>
-                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute">Non</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-success" *ngIf="el.point_de_chute_dsi">Oui</span>
-                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute_dsi">Non</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-success" *ngIf="el.point_de_chute_transverse">Oui</span>
-                                        <span class="badge badge-secondary" *ngIf="!el.point_de_chute_transverse">Non</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-success" *ngIf="el.controle_primaire">Oui</span>
-                                        <span class="badge badge-secondary" *ngIf="!el.controle_primaire">Non</span>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge badge-success" *ngIf="el.controle_secondaire">Oui</span>
-                                        <span class="badge badge-secondary" *ngIf="!el.controle_secondaire">Non</span>
-                                    </td>
-
-                                    <td class="text-center">
-                                        <span  class="badge badge-success" *ngIf="el.active==1">Oui</span>
-                                        <span class="badge badge-danger" *ngIf="el.active==0">Non</span>
-                                    </td>
-
-                                </tr>
-                                <tr *ngIf="data.length==0">
-                                    <td colspan="10" class="text-center bg-gray-100">Aucun elements</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <pagination-controls
-                        id="ngxP1"
-                        (pageChange)="getPage($event)"
-                      [maxSize]="9"
-                      [directionLinks]="true"
-                      [autoHide]="true"
-                      [responsive]="true"
-                      [previousLabel]="'Précédent'"
-                      [nextLabel]="'Suivant'"
-                      [screenReaderPaginationLabel]="'Pagination'"
-                      [screenReaderPageLabel]="'page'"
-                      [screenReaderCurrentLabel]="'Vous êtes sur la page'">
-                     </pagination-controls>
-                    </div>
-                    <!--end::Table-->
-                </div>
-
-
-                <ng-template #content let-modal>
-                    <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-                            <h5 class="modal-title text-white mb-0">Ajouter une structure</h5>
-                            <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                                X
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">
-                                {{error}}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
-                                        aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                            <div class="form-group mb-3" *ngIf="isSuperAdmin">
-                                <label for="">Entité</label>
-                                 <p-dropdown
-                                        name="idEntite"
-                                        [options]="entities"
-                                        ngModel
-                                        optionValue="id"
-                                        optionLabel="libelle"
-                                        class="mx-1"
-                                        placeholder="Selectionner une entité" />
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Type de structure</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" required name="type_s" id="type_s" #type_s="ngModel" ngModel>
-                                        <option value="">- Choisir - </option>
-                                        <option value="dg">Direction Générale</option>
-                                        <option value="dc">Direction Centrale</option>
-                                        <option value="dt">Direction Technique</option>
-                                        <option value="se">Service</option>
-                                        <option value="di">Division</option>
-                                        <option value="ma">Mairie</option>
-
-                                    </select>
-                                    <span *ngIf="type_s.invalid && (type_s.dirty || type_s.touched)" class="text-danger">
-                                        <small *ngIf="type_s.errors?.['required']">
-                                            Type est requis
-                                        </small>
-                                        <small *ngIf="active.errors?.['maxlength']">
-                                            Type pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Libellé *</label>
-                                <div class="col-md-6">
-                                    <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
-                                        required name="libelle" ngModel>
-                                    <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                                        <small *ngIf="libelle.errors?.['required']">
-                                            libelle est requis
-                                        </small>
-                                        <small *ngIf="libelle.errors?.['maxlength']">
-                                            libelle ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <hr>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Point de chute ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="point_de_chute" ngModel>
-                                        <option value="0">Non</option>
-                                        <option value="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Point de chute DSI ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="point_de_chute_dsi" ngModel>
-                                        <option value="0">Non</option>
-                                        <option value="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3" *ngIf="role=='Super Admin'">
-                                <label class="col-md-4">Point de chute transverse ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="point_de_chute_transverse" ngModel>
-                                        <option value="0">Non</option>
-                                        <option value="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Contrôle primaire ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="controle_primaire" ngModel>
-                                        <option value="0">Non</option>
-                                        <option value="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Contrôle secondaire ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="controle_secondaire" ngModel>
-                                        <option value="0">Non</option>
-                                        <option value="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Sigle</label>
-                                <div class="col-md-6">
-                                    <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" name="sigle"
-                                        ngModel>
-                                    <span *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)" class="text-danger">
-                                        <small *ngIf="sigle.errors?.['required']">
-                                            sigle est requis
-                                        </small>
-                                        <small *ngIf="sigle.errors?.['maxlength']">
-                                            sigle ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Email</label>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
-                                        name="contact" ngModel>
-                                    <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                                        <small *ngIf="email.errors?.['required']">
-                                            email est requis
-                                        </small>
-                                        <small *ngIf="email.errors?.['maxlength']">
-                                            email ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Email du prefet</label>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control form-control-sm" #email_pft="ngModel" maxlength="250"
-                                        name="email_prefet" ngModel>
-                                    <span *ngIf="email_pft.invalid && (email_pft.dirty || email_pft.touched)" class="text-danger">
-                                        <small *ngIf="email_pft.errors?.['required']">
-                                           l'email du prefet est requis
-                                        </small>
-                                        <small *ngIf="email_pft.errors?.['maxlength']">
-                                            email ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Sous tutelle de :</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-control-sm" #structure="ngModel" maxlength="250"
-                                        name="idParent" ngModel>
-                                        <option value=""></option>
-                                        <option [value]="e.id" *ngFor="let e of data">{{e.libelle}}</option>
-                                    </select>
-                                    <span *ngIf="structure.invalid && (structure.dirty || structure.touched)" class="text-danger">
-                                        <small *ngIf="structure.errors?.['required']">
-                                            structure est requis
-                                        </small>
-                                        <small *ngIf="structure.errors?.['maxlength']">
-                                            structure ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Activé</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" required name="active" id="active" #active="ngModel" ngModel>
-                                        <option value="">- Choisir - </option>
-                                        <option value="1">Oui</option>
-                                        <option value="0">Non</option>
-                                    </select>
-                                    <span *ngIf="active.invalid && (active.dirty || active.touched)" class="text-danger">
-                                        <small *ngIf="active.errors?.['required']">
-                                            Active est requis
-                                        </small>
-                                        <small *ngIf="active.errors?.['maxlength']">
-                                            Active ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
-                        </div>
-                    </form>
-                </ng-template>
-                <ng-template #contentU let-modal>
-                    <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
-                        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-                            <h4 class="modal-title text-white mb-0">Modifier une structure</h4>
-                            <button type="button"
-        class="btn-close btn-close-white ml-auto"
-        aria-label="Close"
-        (click)="modal.dismiss('Cross click')">
-                                X
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">
-                                {{error}}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span
-                                        aria-hidden="true">×</span>
-                                </button>
-                            </div>
-                               <div class="form-group mb-3" *ngIf="isSuperAdmin">
-                                <label for="">Entité</label>
-                                 <p-dropdown
-                                        name="idEntite"
-                                        [options]="entities"
-                                        [(ngModel)]="selected_data.idEntite"
-                                        optionValue="id"
-                                        optionLabel="libelle"
-                                        class="mx-1"
-                                        placeholder="Selectionner une entité" />
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Type de structure</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" required name="type_s" id="type_s" #type_s="ngModel" [(ngModel)]="selected_data.type_s">
-                                        <option value="">- Choisir - </option>
-                                        <option value="dg">Direction Générale</option>
-                                        <option value="dc">Direction Centrale</option>
-                                        <option value="dt">Direction Technique</option>
-                                        <option value="se">Service</option>
-                                        <option value="di">Division</option>
-                                    </select>
-                                    <span *ngIf="type_s.invalid && (type_s.dirty || type_s.touched)" class="text-danger">
-                                        <small *ngIf="type_s.errors?.['required']">
-                                            Type est requis
-                                        </small>
-                                        <small *ngIf="active.errors?.['maxlength']">
-                                            Type pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Libellé</label>
-                                <div class="col-md-6">
-                                    <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
-                                        required name="libelle" [(ngModel)]="selected_data.libelle">
-                                    <span *ngIf="libelle.invalid && (libelle.dirty || libelle.touched)" class="text-danger">
-                                        <small *ngIf="libelle.errors?.['required']">
-                                            libelle est requis
-                                        </small>
-                                        <small *ngIf="libelle.errors?.['maxlength']">
-                                            libelle ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Point de chute ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="point_de_chute" [(ngModel)]="selected_data.point_de_chute">
-                                        <option [ngValue]="0">Non</option>
-                                        <option [ngValue]="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Point de chute transverse ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="point_de_chute_transverse" [(ngModel)]="selected_data.point_de_chute_transverse">
-                                        <option [ngValue]="0">Non</option>
-                                        <option [ngValue]="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Contrôle primaire ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="controle_primaire" [(ngModel)]="selected_data.controle_primaire">
-                                        <option [ngValue]="0">Non</option>
-                                        <option [ngValue]="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                             <div class="form-group row mb-3">
-                                <label class="col-md-4">Contrôle secondaire ?</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-group" name="controle_secondaire" [(ngModel)]="selected_data.controle_secondaire">
-                                        <option [ngValue]="0">Non</option>
-                                        <option [ngValue]="1">Oui</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Sigle</label>
-                                <div class="col-md-6">
-                                    <input class="form-control form-control-sm" #sigle="ngModel" maxlength="250" name="sigle"
-                                        [(ngModel)]="selected_data.sigle">
-                                    <span *ngIf="sigle.invalid && (sigle.dirty || sigle.touched)" class="text-danger">
-                                        <small *ngIf="sigle.errors?.['required']">
-                                            sigle est requis
-                                        </small>
-                                        <small *ngIf="sigle.errors?.['maxlength']">
-                                            sigle ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Email</label>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control form-control-sm" #email="ngModel" maxlength="250"
-                                        name="contact" [(ngModel)]="selected_data.contact">
-                                    <span *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger">
-                                        <small *ngIf="email.errors?.['required']">
-                                            email est requis
-                                        </small>
-                                        <small *ngIf="email.errors?.['maxlength']">
-                                            email ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Email du prefet</label>
-                                <div class="col-md-6">
-                                    <input type="email" class="form-control form-control-sm" #email_pft="ngModel" maxlength="250"
-                                        name="email_prefet" [(ngModel)]="selected_data.email_prefet">
-                                    <span *ngIf="email_pft.invalid && (email_pft.dirty || email_pft.touched)" class="text-danger">
-                                        <small *ngIf="email_pft.errors?.['required']">
-                                           l'email du prefet est requis
-                                        </small>
-                                        <small *ngIf="email_pft.errors?.['maxlength']">
-                                            email ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Sous tutelle de :</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-control-sm" #structure="ngModel" maxlength="250"
-                                        name="idParent" [(ngModel)]="selected_data.idParent">
-                                        <option value=""></option>
-                                        <option [value]="e.id" *ngFor="let e of data">{{e.libelle}}</option>
-                                    </select>
-                                    <span *ngIf="structure.invalid && (structure.dirty || structure.touched)" class="text-danger">
-                                        <small *ngIf="structure.errors?.['required']">
-                                            structure est requis
-                                        </small>
-                                        <small *ngIf="structure.errors?.['maxlength']">
-                                            structure ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-3">
-                                <label class="col-md-4">Activé</label>
-                                <div class="col-md-6">
-                                    <select class="form-control form-control-sm" required name="active" id="active" #active="ngModel" [(ngModel)]="selected_data.active">
-                                        <option value="">- Choisir - </option>
-                                        <option value="1">Oui</option>
-                                        <option value="0">Non</option>
-                                    </select>
-                                    <span *ngIf="active.invalid && (active.dirty || active.touched)" class="text-danger">
-                                        <small *ngIf="active.errors?.['required']">
-                                            Active est requis
-                                        </small>
-                                        <small *ngIf="active.errors?.['maxlength']">
-                                            Active ,pas plus de 250 caractères.
-                                        </small>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid || loading" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading> </button>
-                        </div>
-                    </form>
-                </ng-template>
+            <!-- Droite : Ajouter -->
+            <div>
+              <button class="btn btn-sm bg-mat-primary text-white" (click)="openAddModal(content)">
+                Ajouter une structure
+              </button>
             </div>
-        </div>
-    </div>
 
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="card-body pt-3 pb-0">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-head-custom table-vertical-center align-middle" id="kt_datatable">
+              <thead>
+                <tr>
+                  <td class="left text-left" colspan="12">
+                    <button (click)="openEditModal(contentU)" class="mx-1 btn btn-sm bg-mat-primary text-white">
+                      Modifier
+                    </button>
+                    <button (click)="archive()" class="btn mx-1 btn-sm btn-danger">
+                      Supprimer
+                    </button>
+                  </td>
+                </tr>
+                <tr class="table-light">
+                  <th style="width: 36px;"></th>
+                  <th scope="col" style="width: 50px;">N°</th>
+                  <th scope="col">Libellé</th>
+                  <th scope="col">Sigle</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Type</th>
+                  <th scope="col" class="text-center">Pt. Chute</th>
+                  <th scope="col" class="text-center">Pt. Chute DSI</th>
+                  <th scope="col" class="text-center">Chute Transverse</th>
+                  <th scope="col" class="text-center">Ctrl. Primaire</th>
+                  <th scope="col" class="text-center">Ctrl. Secondaire</th>
+                  <th scope="col" class="text-center">Activé</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let el of filteredData | paginate: {
+                    id: 'structureP',
+                    itemsPerPage: pageSize,
+                    currentPage: page,
+                    totalItems: filteredData.length
+                  }; index as i"
+                  [class.table-active]="selected_data?.id === el.id"
+                  style="cursor: pointer;"
+                  (click)="checked($event, el)">
+
+                  <td>
+                    <input type="radio" [value]="el" name="selected_struct"
+                      [checked]="selected_data?.id === el.id"
+                      (change)="checked($event, el)">
+                  </td>
+                  <td>{{ (page - 1) * pageSize + i + 1 }}</td>
+                  <td>{{ el.libelle }}</td>
+                  <td>{{ el.sigle }}</td>
+                  <td>{{ el.contact }}</td>
+                  <td>
+                    <span class="badge bg-secondary" *ngIf="!el.type_s">Aucun type</span>
+                    <span *ngIf="el.type_s === 'dg'">Direction Générale</span>
+                    <span *ngIf="el.type_s === 'dc'">Direction Centrale</span>
+                    <span *ngIf="el.type_s === 'dt'">Direction Technique</span>
+                    <span *ngIf="el.type_s === 'se'">Service</span>
+                    <span *ngIf="el.type_s === 'di'">Division</span>
+                    <span *ngIf="el.type_s === 'ma'">Mairie</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.point_de_chute">Oui</span>
+                    <span class="badge bg-secondary" *ngIf="!el.point_de_chute">Non</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.point_de_chute_dsi">Oui</span>
+                    <span class="badge bg-secondary" *ngIf="!el.point_de_chute_dsi">Non</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.point_de_chute_transverse">Oui</span>
+                    <span class="badge bg-secondary" *ngIf="!el.point_de_chute_transverse">Non</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.controle_primaire">Oui</span>
+                    <span class="badge bg-secondary" *ngIf="!el.controle_primaire">Non</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.controle_secondaire">Oui</span>
+                    <span class="badge bg-secondary" *ngIf="!el.controle_secondaire">Non</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="badge bg-success" *ngIf="el.active == 1">Oui</span>
+                    <span class="badge bg-danger" *ngIf="el.active == 0">Non</span>
+                  </td>
+                </tr>
+
+                <tr *ngIf="filteredData.length === 0">
+                  <td colspan="12" class="text-center py-4 text-muted">
+                    <span *ngIf="search_text">Aucun résultat pour « {{ search_text }} »</span>
+                    <span *ngIf="!search_text">Aucun élément</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-2 mb-3 flex-wrap gap-2">
+              <span class="text-muted small">
+                Page {{ page }} sur {{ Math.ceil(filteredData.length / pageSize) || 1 }}
+              </span>
+              <pagination-controls
+                id="structureP"
+                (pageChange)="page = $event"
+                [maxSize]="7"
+                [directionLinks]="true"
+                [autoHide]="true"
+                [responsive]="true"
+                [previousLabel]="'Précédent'"
+                [nextLabel]="'Suivant'">
+              </pagination-controls>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- Modal Ajout -->
+        <ng-template #content let-modal>
+          <form #newForm="ngForm" (ngSubmit)="create(newForm.value)">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+              <h5 class="modal-title text-white mb-0">Ajouter une structure</h5>
+              <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+                (click)="modal.dismiss('Cross click')">X</button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">
+                {{ error }}
+              </div>
+
+              <div class="form-group mb-3" *ngIf="isSuperAdmin">
+                <label>Entité</label>
+                <p-dropdown name="idEntite" [options]="entities" ngModel optionValue="id"
+                  optionLabel="libelle" class="mx-1" placeholder="Sélectionner une entité" />
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Type de structure *</label>
+                <div class="col-md-6">
+                  <select class="form-control" required name="type_s" #type_s="ngModel" ngModel>
+                    <option value="">- Choisir -</option>
+                    <option value="dg">Direction Générale</option>
+                    <option value="dc">Direction Centrale</option>
+                    <option value="dt">Direction Technique</option>
+                    <option value="se">Service</option>
+                    <option value="di">Division</option>
+                    <option value="ma">Mairie</option>
+                  </select>
+                  <small class="text-danger" *ngIf="type_s.invalid && type_s.touched && type_s.errors?.['required']">
+                    Type est requis
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Libellé *</label>
+                <div class="col-md-6">
+                  <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
+                    required name="libelle" ngModel>
+                  <small class="text-danger" *ngIf="libelle.invalid && libelle.touched && libelle.errors?.['required']">
+                    Libellé est requis
+                  </small>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Point de chute ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute" ngModel>
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Point de chute DSI ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute_dsi" ngModel>
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3" *ngIf="role === 'Super Admin'">
+                <label class="col-md-4">Point de chute transverse ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute_transverse" ngModel>
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Contrôle primaire ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="controle_primaire" ngModel>
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Contrôle secondaire ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="controle_secondaire" ngModel>
+                    <option value="0">Non</option>
+                    <option value="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Sigle</label>
+                <div class="col-md-6">
+                  <input class="form-control form-control-sm" maxlength="250" name="sigle" ngModel>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Email</label>
+                <div class="col-md-6">
+                  <input type="email" class="form-control form-control-sm" maxlength="250" name="contact" ngModel>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Email du préfet</label>
+                <div class="col-md-6">
+                  <input type="email" class="form-control form-control-sm" maxlength="250" name="email_prefet" ngModel>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Sous tutelle de :</label>
+                <div class="col-md-6">
+                  <select class="form-control form-control-sm" name="idParent" ngModel>
+                    <option value=""></option>
+                    <option [value]="e.id" *ngFor="let e of data">{{ e.libelle }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Activé *</label>
+                <div class="col-md-6">
+                  <select class="form-control" required name="active" #active="ngModel" ngModel>
+                    <option value="">- Choisir -</option>
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                  </select>
+                  <small class="text-danger" *ngIf="active.invalid && active.touched && active.errors?.['required']">
+                    Ce champ est requis
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-sm bg-mat-primary text-white" [disabled]="!newForm.form.valid || loading" type="submit">
+                Sauvegarder <app-loading [isVisible]="loading"></app-loading>
+              </button>
+            </div>
+          </form>
+        </ng-template>
+
+
+        <!-- Modal Modification -->
+        <ng-template #contentU let-modal>
+          <form #updateForm="ngForm" (ngSubmit)="edit(updateForm.value)">
+            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+              <h4 class="modal-title text-white mb-0">Modifier une structure</h4>
+              <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+                (click)="modal.dismiss('Cross click')">X</button>
+            </div>
+            <div class="modal-body">
+              <div *ngIf="error" class="alert alert-danger my-1 alert-rounded">
+                {{ error }}
+              </div>
+
+              <div class="form-group mb-3" *ngIf="isSuperAdmin">
+                <label>Entité</label>
+                <p-dropdown name="idEntite" [options]="entities" [(ngModel)]="selected_data.idEntite"
+                  optionValue="id" optionLabel="libelle" class="mx-1" placeholder="Sélectionner une entité" />
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Type de structure *</label>
+                <div class="col-md-6">
+                  <select class="form-control" required name="type_s" #type_s="ngModel" [(ngModel)]="selected_data.type_s">
+                    <option value="">- Choisir -</option>
+                    <option value="dg">Direction Générale</option>
+                    <option value="dc">Direction Centrale</option>
+                    <option value="dt">Direction Technique</option>
+                    <option value="se">Service</option>
+                    <option value="di">Division</option>
+                    <option value="ma">Mairie</option>
+                  </select>
+                  <small class="text-danger" *ngIf="type_s.invalid && type_s.touched && type_s.errors?.['required']">
+                    Type est requis
+                  </small>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Libellé *</label>
+                <div class="col-md-6">
+                  <input class="form-control form-control-sm" #libelle="ngModel" maxlength="250"
+                    required name="libelle" [(ngModel)]="selected_data.libelle">
+                  <small class="text-danger" *ngIf="libelle.invalid && libelle.touched && libelle.errors?.['required']">
+                    Libellé est requis
+                  </small>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Point de chute ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute" [(ngModel)]="selected_data.point_de_chute">
+                    <option [ngValue]="0">Non</option>
+                    <option [ngValue]="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Point de chute DSI ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute_dsi" [(ngModel)]="selected_data.point_de_chute_dsi">
+                    <option [ngValue]="0">Non</option>
+                    <option [ngValue]="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3" *ngIf="role === 'Super Admin'">
+                <label class="col-md-4">Point de chute transverse ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="point_de_chute_transverse" [(ngModel)]="selected_data.point_de_chute_transverse">
+                    <option [ngValue]="0">Non</option>
+                    <option [ngValue]="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Contrôle primaire ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="controle_primaire" [(ngModel)]="selected_data.controle_primaire">
+                    <option [ngValue]="0">Non</option>
+                    <option [ngValue]="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Contrôle secondaire ?</label>
+                <div class="col-md-6">
+                  <select class="form-control" name="controle_secondaire" [(ngModel)]="selected_data.controle_secondaire">
+                    <option [ngValue]="0">Non</option>
+                    <option [ngValue]="1">Oui</option>
+                  </select>
+                </div>
+              </div>
+
+              <hr>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Sigle</label>
+                <div class="col-md-6">
+                  <input class="form-control form-control-sm" maxlength="250" name="sigle"
+                    [(ngModel)]="selected_data.sigle">
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Email</label>
+                <div class="col-md-6">
+                  <input type="email" class="form-control form-control-sm" maxlength="250"
+                    name="contact" [(ngModel)]="selected_data.contact">
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Email du préfet</label>
+                <div class="col-md-6">
+                  <input type="email" class="form-control form-control-sm" maxlength="250"
+                    name="email_prefet" [(ngModel)]="selected_data.email_prefet">
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Sous tutelle de :</label>
+                <div class="col-md-6">
+                  <select class="form-control form-control-sm" name="idParent" [(ngModel)]="selected_data.idParent">
+                    <option value=""></option>
+                    <option [value]="e.id" *ngFor="let e of data">{{ e.libelle }}</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group row mb-3">
+                <label class="col-md-4">Activé *</label>
+                <div class="col-md-6">
+                  <select class="form-control" required name="active" #active="ngModel" [(ngModel)]="selected_data.active">
+                    <option value="">- Choisir -</option>
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                  </select>
+                  <small class="text-danger" *ngIf="active.invalid && active.touched && active.errors?.['required']">
+                    Ce champ est requis
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-sm bg-mat-primary text-white" [disabled]="!updateForm.form.valid || loading" type="submit">
+                Sauvegarder <app-loading [isVisible]="loading"></app-loading>
+              </button>
+            </div>
+          </form>
+        </ng-template>
+
+      </div>
+    </div>
+  </div>
 </div>
-<!---Container Fluid-->
+<!-- Container Fluid -->

@@ -1,712 +1,890 @@
 
 <div class="container-fluid" id="container-wrapper">
   <div class="row d-flex">
+
+    <!-- ═══════════════════════════════════════════
+         TABLE 1 — Requêtes en instance
+    ═══════════════════════════════════════════ -->
     <div class="col-md-12">
       <div class="card my-2">
-      <div class="card-header p-4 border-0 pt-5 d-flex justify-content-between align-items-center">
 
-  <!-- Titre -->
-  <h4 class="mb-0">
-    Liste des {{ typeRequete }} en instance au niveau de votre structure
-        <!-- Compteurs -->
-    <span class="text-muted">
-      {{ pager.total }} élément(s) (
-      <strong>{{ data.length }}</strong> en instance et
-      <strong>{{ compteData - data.length }}</strong> affecté(s) ou transféré(s)
-      )
-    </span>
-  </h4>
+        <!-- Header -->
+        <div class="card-header p-4 border-0 pt-5">
+          <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
 
-  <!-- Outils à droite -->
-  <div class="d-flex align-items-center gap-3">
+            <!-- Info gauche -->
+            <div>
+              <h5 class="mb-1 fw-semibold">
+                Liste des {{ typeRequete }} en instance
+              </h5>
+              <p class="text-muted small mb-0">
+                <strong>{{ pager.total }}</strong> au total —
+                <span class="text-danger fw-semibold">{{ data.length }}</span> en instance,
+                <span class="text-secondary">{{ compteData - data.length }}</span> affecté(s) / transféré(s)
+              </p>
+            </div>
 
-    <p-dropdown
-    *ngIf="user?.agent_user?.structure?.controle_primaire"
-        [options]="institutions"
-        [(ngModel)]="institutionSelected"
-        optionLabel="libelle"
-        optionValue="id"
-        placeholder="Toutes les institutions"
-        [showClear]="true"
-        [filter]="true"
-        filterBy="libelle,sigle"
-        styleClass="p-inputtext-sm w-200px"
-        (onChange)="filterByInstitution()">
-    </p-dropdown>
+            <!-- Contrôles droite -->
+            <div class="d-flex align-items-center flex-wrap gap-2">
 
-    <!-- Structure -->
-    <p-dropdown
-         *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire"
-        [options]="structures"
-        [(ngModel)]="structureSelected"
-        optionLabel="libelle"
-        optionValue="id"
-        placeholder="Toutes les structures"
-        [showClear]="true"
-        [filter]="true"
-        filterBy="libelle,sigle"
-        styleClass="p-inputtext-sm w-200px"
-        (onChange)="filterByStructure()">
-    </p-dropdown>
+              <p-dropdown
+                *ngIf="user?.agent_user?.structure?.controle_primaire"
+                [options]="institutions"
+                [(ngModel)]="institutionSelected"
+                optionLabel="libelle"
+                optionValue="id"
+                placeholder="Toutes les institutions"
+                [showClear]="true"
+                [filter]="true"
+                filterBy="libelle,sigle"
+                styleClass="p-inputtext-sm w-200px"
+                (onChange)="filterByInstitution()">
+              </p-dropdown>
 
+              <p-dropdown
+                *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire"
+                [options]="structures"
+                [(ngModel)]="structureSelected"
+                optionLabel="libelle"
+                optionValue="id"
+                placeholder="Toutes les structures"
+                [showClear]="true"
+                [filter]="true"
+                filterBy="libelle,sigle"
+                styleClass="p-inputtext-sm w-200px"
+                (onChange)="filterByStructure()">
+              </p-dropdown>
 
-    <!-- Recherche -->
-    <input class="form-control form-control-sm w-200px"
-           placeholder="Rechercher..."
-           type="text"
-           [(ngModel)]="search_text"
-           name="search_text"
-           (keyup)="search()" />
-  </div>
-</div>
+              <div class="input-group input-group-sm" style="width:220px;">
+                <input class="form-control form-control-sm"
+                       placeholder="Rechercher..."
+                       type="text"
+                       [(ngModel)]="search_text"
+                       name="search_text"
+                       (keyup)="search()" />
+                <button *ngIf="search_text"
+                        class="btn btn-outline-secondary btn-sm" type="button"
+                        (click)="search_text=''; search()">&times;</button>
+              </div>
 
+            </div>
+          </div>
+        </div>
+
+        <!-- Body -->
         <div class="card-body pt-3 pb-0">
           <div class="table-responsive">
-            <table class="table table-striped datatable table-head-custom table-vertical-center" id="kt_datatable">
+            <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable">
               <thead>
+
+                <!-- Ligne des actions (icônes) -->
                 <tr>
-                  <td class="left text-left" colspan="9">
-                    <ng-container *ngIf="user?.agent_user?.structure?.controle_primaire ">
-                      <button title="Relancer"  (click)="relancerPreocuppationType()"
-                      class="btn mx-1 btn-xs btn-danger edit" [disabled]="isLoading">
-                      Relancer {{RelanceAWho}}
-                    </button>
+                  <td class="text-left py-2" colspan="11">
 
-                      <button title="Transférer la requête à une autre entité" (click)="openAddModal(tranfertEntite)"
-                      class="btn mx-1 btn-xs btn-info edit" [disabled]="isLoading">
-                      Transfert externe
-                    </button>
-                    <button title="Transférer la requête à une autre structure"
-                      (click)="openAddModal(tranfertStructure)" class="btn mx-1 btn-xs btn-info edit"
-                      [disabled]="isLoading">
-                      Transfert interne
-                    </button>
+                    <!-- CAS : controle_primaire -->
+                    <ng-container *ngIf="user?.agent_user?.structure?.controle_primaire">
+                      <button
+                        [ngbTooltip]="'Relancer ' + RelanceAWho" placement="bottom"
+                        (click)="relancerPreocuppationType()"
+                        class="btn btn-sm btn-danger me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="bellIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Transférer à une autre entité" placement="bottom"
+                        (click)="openAddModal(tranfertEntite)"
+                        class="btn btn-sm btn-info me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="externalLinkIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Transférer à une autre structure" placement="bottom"
+                        (click)="openAddModal(tranfertStructure)"
+                        class="btn btn-sm btn-info me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="shuffleIcon" size="14"></lucide-angular>
+                      </button>
                     </ng-container>
 
-                    <ng-container *ngIf="!user?.agent_user?.structure?.controle_primaire ">
-                    
-                     <button title="Relancer"  (click)="relancerPreocuppationType()"
-                      class="btn mx-1 btn-xs btn-danger edit" [disabled]="isLoading">
-                      Relancer {{RelanceAWho}}
-                    </button>
-                      <button *ngIf="(isGeneralDirector === false) && !hide_actions" (click)="openAddModal(affectation)"
-                      title="Affecter la requête" class="btn mx-1 btn-xs btn-success edit" [disabled]="isLoading">
-                      Affecter
-                    </button>
-                     <button title="Répondre à la requête" (click)="openAddModal(reponse)"
-                      class="btn mx-1 btn-xs btn-info edit" [disabled]="isLoading">
-                      Répondre
-                    </button>
-                    <button title="Archiver la requête" (click)="openAddModal(archiver)"
-                      class="btn mx-1 btn-xs btn-danger edit" [disabled]="isLoading">
-                      Archiver
-                    </button>
-                    <button *ngIf="(isGeneralDirector === false) && action_transmettre" (click)="transmettreReponse()"
-                      title="Transmettre" class="btn mx-1 btn-xs btn-warning" [disabled]="isLoading">
-                      Transmettre
-                    </button>
-                    <button title="Mail à l'usager" (click)="openAddModal(reponseRapide)"
-                      class="btn mx-1 btn-xs btn-danger" [disabled]="isLoading">
-                      Mail usager
-                    </button>
-                    <button title="Mail à une structure" (click)="openAddModal(mailStructureContent)"
-                      class="btn mx-1 btn-xs btn-danger" [disabled]="isLoading">
-                      Mail structure
-                    </button>
-                    <button title="Liste mail" (click)="openAddModal(mailListContent)"
-                      class="btn mx-1 btn-xs btn-primary" [disabled]="isLoading">
-                      Liste mail
-                    </button>
-                    <button title="Transférer la requête à une autre entité" (click)="openAddModal(tranfertEntite)"
-                      class="btn mx-1 btn-xs btn-info edit" [disabled]="isLoading">
-                      Transfert externe
-                    </button>
-                    <button title="Transférer la requête à une autre structure"
-                      (click)="openAddModal(tranfertStructure)" class="btn mx-1 btn-xs btn-info edit"
-                      [disabled]="isLoading">
-                      Transfert interne
-                    </button>
+                    <!-- CAS : non controle_primaire -->
+                    <ng-container *ngIf="!user?.agent_user?.structure?.controle_primaire">
+                      <button
+                        [ngbTooltip]="'Relancer ' + RelanceAWho" placement="bottom"
+                        (click)="relancerPreocuppationType()"
+                        class="btn btn-sm btn-danger me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="bellIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        *ngIf="(isGeneralDirector === false) && !hide_actions"
+                        ngbTooltip="Affecter la requête" placement="bottom"
+                        (click)="openAddModal(affectation)"
+                        class="btn btn-sm btn-success me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="userPlusIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Répondre à la requête" placement="bottom"
+                        (click)="openAddModal(reponse)"
+                        class="btn btn-sm btn-primary me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="replyIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Archiver la requête" placement="bottom"
+                        (click)="openAddModal(archiver)"
+                        class="btn btn-sm btn-danger me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="archiveIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        *ngIf="(isGeneralDirector === false) && action_transmettre"
+                        ngbTooltip="Transmettre la réponse" placement="bottom"
+                        (click)="transmettreReponse()"
+                        class="btn btn-sm btn-warning me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="sendIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Envoyer un mail à l'usager" placement="bottom"
+                        (click)="openAddModal(reponseRapide)"
+                        class="btn btn-sm btn-secondary me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="mailIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Envoyer un mail à une structure" placement="bottom"
+                        (click)="openAddModal(mailStructureContent)"
+                        class="btn btn-sm btn-secondary me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="mailOpenIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Voir la liste des mails" placement="bottom"
+                        (click)="openAddModal(mailListContent)"
+                        class="btn btn-sm btn-outline-primary me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="listIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Transférer à une autre entité" placement="bottom"
+                        (click)="openAddModal(tranfertEntite)"
+                        class="btn btn-sm btn-info me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="externalLinkIcon" size="14"></lucide-angular>
+                      </button>
+                      <button
+                        ngbTooltip="Transférer à une autre structure" placement="bottom"
+                        (click)="openAddModal(tranfertStructure)"
+                        class="btn btn-sm btn-info me-1" [disabled]="isLoading">
+                        <lucide-angular [img]="shuffleIcon" size="14"></lucide-angular>
+                      </button>
                     </ng-container>
-                   
-                    
-                   
+
                   </td>
                 </tr>
-                <tr>
-                  <th></th>
-                  <th width="8%">Date enreg.</th>
-                  <th width="7%" class="no-display">Canal</th>
-                  <th width="15%">Prestation</th>
+
+                <!-- Ligne des en-têtes de colonnes -->
+                <tr class="table-light">
+                  <th style="width:36px;"></th>
+                  <th style="width:100px;">Date enreg.</th>
+                  <th style="width:80px;" class="no-display">Canal</th>
+                  <th style="width:140px;">Prestation</th>
                   <th>Objet</th>
                   <th>Préoccupation</th>
-                  <th width="15%">Usager</th>
-                  <th width="15%">Source</th>
-                  <th width="15%">Parcours</th>
-                  <th width="10%">Réponse</th>
-                  <th *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire">Nb. relance</th>
+                  <th style="width:130px;">Usager</th>
+                  <th style="width:100px;">Source</th>
+                  <th style="width:130px;">Parcours</th>
+                  <th style="width:100px;">Réponse</th>
+                  <th *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire"
+                      style="width:80px;">Nb. relance</th>
                 </tr>
               </thead>
+
               <tbody>
                 <tr *ngFor="let el of data | sampleSearch:search_text | paginate: {
-                    id:'ngxP1',
-                    itemsPerPage: pg.pageSize,
-                    currentPage: pg.p,
-                    totalItems: pg.total }; index as i;">
+                      id:'ngxP1',
+                      itemsPerPage: pg.pageSize,
+                      currentPage: pg.p,
+                      totalItems: pg.total
+                    }; index as i"
+                    [class.table-active]="selected_data?.id === el.id"
+                    style="cursor:pointer;"
+                    (click)="checked($event, el)">
+
                   <td>
-                    <input type="radio" [value]="el" ngModel name="getrequete" (change)="checked($event,el)">
+                    <input type="radio" [value]="el" name="getrequete"
+                      [checked]="selected_data?.id === el.id"
+                      (change)="checked($event, el)">
                   </td>
-                  <td>{{el.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</td>
-                  <td class="no-display">{{el.nature==null ? '' : el.nature.libelle}}</td>
-                  <td>{{el.service==null ? '' : el.service?.libelle}}</td>
-                  <td *ngIf="el.usager==null? '' : el.usager.id=='91586'">
-                    <dl>
-                      <dt>Matricule</dt>
-                      <dd>{{el.matricule}}</dd>
-                    </dl>
-                    <dl>
-                      <dt>Année de départ</dt>
-                      <dd>{{el.out_year}}</dd>
-                    </dl>
-                    <dl>
-                      <dt>Ministère/Inst.</dt>
-                      <dd>{{el.entity_name}}</dd>
-                    </dl>
+
+                  <td class="small text-nowrap">
+                    {{ el.created_at | date:'dd/MM/yy HH:mm' }}
                   </td>
-                  <td>{{el.objet}}</td>
-                  <td>{{el.msgrequest}}</td>
-<td>{{ getUserDisplay(el) }}</td>
-                  <td>{{el.interfaceRequete}}</td>
-                  <td>
-                    <div *ngFor="let parc of el.parcours; let i=index">
-                      {{i+1}}. {{ show_step(parc.idEtape)==null ? '' : show_step(parc.idEtape).LibelleEtape }}
+
+                  <td class="no-display small">
+                    {{ el.nature == null ? '—' : el.nature.libelle }}
+                  </td>
+
+                  <td class="small">
+                    {{ el.service == null ? '—' : el.service?.libelle }}
+                  </td>
+
+                  <!-- Colonne objet spéciale (usager 91586) -->
+                  <td *ngIf="el.usager != null && el.usager.id == '91586'" class="small">
+                    <div class="text-muted" style="font-size:11px;line-height:1.5;">
+                      <div><span class="fw-semibold">Matricule :</span> {{ el.matricule }}</div>
+                      <div><span class="fw-semibold">Année départ :</span> {{ el.out_year }}</div>
+                      <div><span class="fw-semibold">Minist./Inst. :</span> {{ el.entity_name }}</div>
                     </div>
                   </td>
-                  <td>
-                    <span class="badge" [ngClass]="{'badge-success': el.etat == 'Répondu', 'badge-warning': el.etat == 'En attente'}">{{el.etat}}</span>
-                    <div *ngIf="el.reponse?.length > 0">
-                      <span class="p-1 text-warning ">Une réponse disponible</span>
-                      <br>
-                      <span *ngFor="let rep of el.reponse">
-                        <span *ngIf="rep.typeStructure == 'Direction'">{{rep.texteReponse}}</span>
-                      </span>
+                  <td *ngIf="el.usager == null || el.usager.id != '91586'" class="small">
+                    {{ el.objet }}
+                  </td>
+
+                  <td class="small" style="max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                      [ngbTooltip]="el.msgrequest" placement="top">
+                    {{ el.msgrequest }}
+                  </td>
+
+                  <td class="small">{{ getUserDisplay(el) }}</td>
+
+                  <td class="small">{{ el.interfaceRequete }}</td>
+
+                  <td class="small">
+                    <div *ngFor="let parc of el.parcours; let j=index" style="line-height:1.6;">
+                      {{ j+1 }}. {{ show_step(parc.idEtape) == null ? '' : show_step(parc.idEtape).LibelleEtape }}
                     </div>
                   </td>
-                  <td *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire">{{el.relance_count}}</td>
+
+                  <td>
+                    <span class="badge"
+                      [ngClass]="{
+                        'bg-success text-white': el.etat === 'Répondu',
+                        'bg-warning text-dark': el.etat === 'En attente'
+                      }">
+                      {{ el.etat }}
+                    </span>
+                    <div *ngIf="el.reponse?.length > 0" class="mt-1">
+                      <small class="text-warning">Une réponse disponible</small>
+                      <div *ngFor="let rep of el.reponse">
+                        <small *ngIf="rep.typeStructure === 'Direction'" class="text-muted">{{ rep.texteReponse }}</small>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td *ngIf="user?.agent_user?.structure?.controle_primaire || user?.agent_user?.structure?.controle_secondaire"
+                      class="text-center">
+                    <span class="badge bg-secondary">{{ el.relance_count }}</span>
+                  </td>
+
                 </tr>
-                <tr *ngIf="data.length==0">
-                  <td colspan="9" class="text-center bg-gray-100">Aucun élément</td>
+
+                <tr *ngIf="data.length === 0">
+                  <td colspan="11" class="text-center py-4 text-muted">
+                    <span *ngIf="search_text">Aucun résultat pour « {{ search_text }} »</span>
+                    <span *ngIf="!search_text">Aucun élément en instance</span>
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <pagination-controls id="ngxP1" (pageChange)="getPage($event)" [maxSize]="9" [directionLinks]="true" [autoHide]="true" [responsive]="true" previousLabel="Précédent" nextLabel="Suivant" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="Vous êtes sur la page">
-            </pagination-controls>
+
+            <!-- Pagination table 1 -->
+            <div class="d-flex justify-content-end mt-2 mb-3">
+              <pagination-controls
+                id="ngxP1"
+                (pageChange)="getPage($event)"
+                [maxSize]="7"
+                [directionLinks]="true"
+                [autoHide]="true"
+                [responsive]="true"
+                previousLabel="Précédent"
+                nextLabel="Suivant">
+              </pagination-controls>
+            </div>
+
           </div>
+        </div>
+
+      </div><!-- /card 1 -->
+    </div><!-- /col -->
+
+
+    <!-- ═══════════════════════════════════════════
+         TABLE 2 — Requêtes affectées aux services
+    ═══════════════════════════════════════════ -->
+    <div class="col-md-12">
+      <div class="card my-2">
+
+        <div class="card-header p-4 border-0 pt-5">
+          <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+            <div>
+              <h5 class="mb-1 fw-semibold">Vos {{ typeRequete }} affectées aux services</h5>
+              <span class="text-muted small">{{ data2.length }} élément(s)</span>
+            </div>
+            <div class="input-group input-group-sm" style="width:240px;">
+              <input class="form-control form-control-sm"
+                     placeholder="Rechercher..."
+                     type="text"
+                     [(ngModel)]="search_text"
+                     name="searchText2"
+                     (keyup)="search()" />
+              <button *ngIf="search_text"
+                      class="btn btn-outline-secondary btn-sm" type="button"
+                      (click)="search_text=''; search()">&times;</button>
+            </div>
           </div>
+        </div>
+
+        <div class="card-body pt-3 pb-0">
+          <div class="table-responsive">
+            <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable2">
+              <thead>
+                <tr class="table-light">
+                  <th style="width:120px;">Date affect.</th>
+                  <th style="width:150px;">Service</th>
+                  <th style="width:150px;">Prestation</th>
+                  <th>Objet</th>
+                  <th style="width:150px;">Usager</th>
+                  <th style="width:150px;">Parcours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let el of data2; index as i">
+                  <td class="small text-nowrap">
+                    {{ el.dateAffectation | date:'dd/MM/yy HH:mm' }}
+                  </td>
+                  <td class="small">{{ el.structure.libelle }}</td>
+                  <td class="small">{{ el.requete?.service == null ? '—' : el.requete?.service?.libelle }}</td>
+                  <td class="small">{{ el.requete?.objet }}</td>
+                  <td class="small">
+                    {{ el.requete?.usager == null ? '—' : el.requete?.usager.nom + ' ' + el.requete?.usager.prenoms }}
+                  </td>
+                  <td class="small">
+                    <div *ngFor="let parc of el.requete?.parcours; let j=index" style="line-height:1.6;">
+                      {{ j+1 }}. {{ show_step(parc.idEtape) == null ? '' : show_step(parc.idEtape).LibelleEtape }}
+                    </div>
+                  </td>
+                </tr>
+                <tr *ngIf="data2.length === 0">
+                  <td colspan="6" class="text-center py-4 text-muted">Aucun élément</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Pagination table 2 (serveur) -->
+            <div class="d-flex justify-content-end p-2">
+              <ul *ngIf="pager?.pages && pager.pages.length" class="pagination pagination-sm">
+                <li [ngClass]="{disabled: pager.current_page === 1}" class="page-item">
+                  <a routerLink="/listrequetestructures/{{key_type_req}}" [queryParams]="{page:1}" class="page-link">«</a>
+                </li>
+                <li [ngClass]="{disabled: pager.current_page === 1}" class="page-item">
+                  <a routerLink="/listrequetestructures/{{key_type_req}}"
+                     [queryParams]="{page: pager.current_page - 1}" class="page-link">‹</a>
+                </li>
+                <li *ngFor="let page of pager.pages"
+                    [ngClass]="{active: pager.current_page === page}" class="page-item">
+                  <a routerLink="/listrequetestructures/{{key_type_req}}"
+                     [queryParams]="{page: page}" class="page-link">{{ page }}</a>
+                </li>
+                <li [ngClass]="{disabled: pager.current_page === pager.last_page}" class="page-item">
+                  <a routerLink="/listrequetestructures/{{key_type_req}}"
+                     [queryParams]="{page: pager.current_page + 1}" class="page-link">›</a>
+                </li>
+                <li [ngClass]="{disabled: pager.current_page === pager.last_page}" class="page-item">
+                  <a routerLink="/listrequetestructures/{{key_type_req}}"
+                     [queryParams]="{page: pager.last_page}" class="page-link">»</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /card 2 -->
+    </div><!-- /col -->
+
+  </div><!-- /row -->
+</div><!-- /container -->
+
+
+<!-- ═══════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════ -->
+
+<!-- Modal : Affecter -->
+<ng-template #affectation let-modal>
+  <form #frmrequeteusager="ngForm" (ngSubmit)="saveAffectation(frmrequeteusager.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Affecter une requête</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="erroraffectation" class="alert alert-danger small py-2">{{ erroraffectation }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
       </div>
 
-      <ng-template #affectation let-modal>
-        <form #frmrequeteusager="ngForm" (ngSubmit)="saveAffectation(frmrequeteusager.value)" class="form-horizontal">
-          <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-            <h5 class="modal-title text-white">Affecter une requête</h5>
-            <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group" style="color:red;padding-left: 30px;">{{erroraffectation}}</div>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-              <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#fbfbfb;">
-              <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Requête</h4>
-              <div class="row form-group mb-3">
-                <label class="col-md-2">Prestation :</label>
-                <div class="col-md-10">
-                  <p-dropdown [options]="services"  [(ngModel)]="selected_data.idPrestation"     (ngModelChange)="updateSelectedService($event)" optionLabel="libelle" optionValue="id" name="idPrestation"  styleClass="w-50" ></p-dropdown>
-                </div>
-              </div>
-              <div class="row form-group mb-3">
-                <label class="col-md-2">Objet :</label>
-                <div class="col-md-10">
-                  <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet">
-                </div>
-              </div>
-              <div class="row form-group mb-3">
-                <label class="col-md-2">Message :</label>
-                <div class="col-md-10">
-                  <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest"></textarea>
-                </div>
-              </div>
-              <a *ngIf="selected_data.fichier_joint" target="_blank" href="{{selected_data.fichier_joint}}" download>Voir fichier joint</a>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-              <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Affectation</h4>
-              <div class="row form-group mb-3">
-                <label class="col-md-2">{{user?.agent_user?.structure?.type_s=="dc" || user?.agent_user?.structure?.type_s=="dt" ? 'Service': 'Division'}} * :</label>
-                <div class="col-md-10">
-                  <p-dropdown [options]="servicesForStructure" [(ngModel)]="selectedServiceId" name="idService" optionLabel="libelle" optionValue="id" placeholder="Sélectionnez un service" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="isLoading"><i class="fas fa-save"></i>&nbsp; Enregistrer</button>
-          </div>
-        </form>
-      </ng-template>
-
-      <ng-template #reponse let-modal>
-        <form #frmrequeteusager="ngForm" (ngSubmit)="saveReponse(frmrequeteusager.value)" class="form-horizontal">
-            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-                <h5 class="modal-title text-white mb-0">Répondre à la requête</h5>
-                <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                    X
-                </button>
-            </div>
-            <div class="modal-body">
-                <div style="color:red">{{errormessage}}</div>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager
-                        : {{usager_full_name}}</h4>
-                </fieldset>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                    <div class="row form-group mb-3">
-                        <label for="idPrestation" class="col-md-4">Prestation </label>
-                        <div class="col-md-8">
-                            <p-dropdown [options]="services" [(ngModel)]="selected_data.idPrestation"    (ngModelChange)="updateSelectedService($event)" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-50" ></p-dropdown>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label for="objet" class="col-md-4">Objet </label>
-                        <div class="col-md-8">
-                            <input type="text" readonly="" class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label for="msgrequest" class="col-md-2">Message </label>
-                        <div class="col-md-10">
-                            <textarea class="form-control form-control-sm" readonly="" name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset *ngIf="getTypeStructure()=='Direction'" class="divusager" style="border:1px solid #ddd;padding:2px;">
-                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
-                        proposée par le service</h4>
-                    <div class="row form-group mb-3">
-                        <label for="reponseService" class="col-md-2">Le texte proposé</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control form-control-sm" name="reponseService" [(ngModel)]="selected_data.reponseService" readonly=""></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                 <fieldset *ngIf="getTypeStructure()=='Service'" class="divusager" style="border:1px solid #ddd;padding:2px;">
-                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
-                        proposée par la division</h4>
-                    <div class="row form-group mb-3">
-                        <label for="reponseService" class="col-md-2">Le texte proposé</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control form-control-sm" name="reponseService" [(ngModel)]="selected_data.reponseService" readonly=""></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Réponse
-                        proposée par votre direction</h4>
-                    <div class="row form-group mb-3">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <label for="interrompu" class="col-md-3">Suspendre </label>
-                                <div class="col-md-1">
-                                    <input type="checkbox" id="interrompu" name="interrompu" [(ngModel)]="selected_data.interrompu">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <label for="rejete" class="col-md-3">Rejeter </label>
-                                <div class="col-md-1">
-                                    <input type="checkbox" name="rejete" [(ngModel)]="selected_data.rejete">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="divRaison" *ngIf="selected_data.rejete || selected_data.interrompu">
-                        <div class="row form-group mb-3">
-                            <label for="raisonRejet" class="col-md-2">Raison :</label>
-                            <div class="col-md-10">
-                                <textarea class="form-control form-control-sm" id="raisonRejet" name="raisonRejet" placeholder="Raison rejet ou interruption" [(ngModel)]="selected_data.raisonRejet"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label for="texteReponseApportee" class="col-md-2">Votre réponse</label>
-                        <div class="col-md-10">
-                            <textarea style="min-height: 100px;" class="form-control form-control-sm" id="texteReponseApportee" name="texteReponseApportee" [(ngModel)]="selected_data.texteReponseApportee" required></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label for="message" class="col-md-2">Pièce Jointe</label>
-                        <div class="col-md-10">
-                            <input type="file" class="form-control" (change)="onFileChange($event)" #file="ngModel" name="fichier" ngModel>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-            <div class="modal-footer">
-                <button *ngIf="(isGeneralDirector === false)" type="submit" class="btn btn-primary" [disabled]="isLoading">
-                    <i class="fas fa-save"></i>&nbsp; Enregistrer
-                </button>
-                <button *ngIf="(isGeneralDirector === false)" type="submit" class="btn btn-secondary" (click)="isSended=!isSended" [disabled]="isLoading">
-                    <i class="fas fa-save"></i>&nbsp; Transmettre
-                </button>
-            </div>
-        </form>
-      </ng-template>
-
-      <ng-template #archiver let-modal>
-        <form #frmrequeteArchive="ngForm" (ngSubmit)="Archiver_Requete(frmrequeteArchive.value)"
-          class="form-horizontal">
-          <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-            <h5 class="modal-title text-white">Archiver la requête</h5>
-            <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-          </div>
-          <div class="modal-body">
-            <div style="color:red">{{errormessage}}</div>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-              <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-              <div class="row form-group mb-3">
-                <label class="col-md-4">Prestation</label>
-                <div class="col-md-8">
-                    <p-dropdown [options]="services" [(ngModel)]="selected_data.service.id" name="idPrestation" optionLabel="libelle" optionValue="id"  styleClass="w-100" ></p-dropdown>
-                </div>
-              </div>
-              <div class="row form-group mb-3">
-                <label class="col-md-4">Objet</label>
-                <div class="col-md-8">
-                  <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                </div>
-              </div>
-              <div class="row form-group mb-3">
-                <label class="col-md-2">Message</label>
-                <div class="col-md-10">
-                  <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
-                </div>
-              </div>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-              <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Donner la raison pour laquelle vous souhaitez archiver cette préoccupation</h4>
-              <div class="row form-group mb-3">
-                <label for="texteArchive" class="col-md-2">Votre motif</label>
-                <div class="col-md-10">
-                  <textarea style="min-height: 100px;" class="form-control form-control-sm" id="texteArchive" name="texteArchive" [(ngModel)]="selected_data.texteArchive" required></textarea>
-                </div>
-              </div>
-            </fieldset>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary" [disabled]="isLoading"><i class="fas fa-save"></i>&nbsp; Archiver</button>
-          </div>
-        </form>
-      </ng-template>
-
-      <ng-template #reponseRapide let-modal>
-        <form #frmrequeteusager="ngForm" (ngSubmit)="transmettreReponseRapide(frmrequeteusager.value)" class="form-horizontal">
-            <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-                <h5 class="modal-title text-white">Mail à l'usager</h5>
-                <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-            </div>
-            <div class="modal-body">
-                <div style="color:red">{{errormessage}}</div>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                    <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
-                </fieldset>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                    <div class="row form-group mb-3">
-                        <label class="col-md-2">Objet</label>
-                        <div class="col-md-10">
-                            <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label class="col-md-2">Message</label>
-                        <div class="col-md-10">
-                            <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-                    <div class="row form-group mb-3">
-                        <label class="col-md-2">Type de mail</label>
-                        <div class="col-md-10">
-                            <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value" placeholder="Sélectionnez un type" styleClass="w-100" ></p-dropdown>
-                        </div>
-                    </div>
-                    <div class="row form-group mb-3">
-                        <label class="col-md-2">Votre réponse</label>
-                        <div class="col-md-10">
-                            <textarea style="min-height: 100px;" class="form-control form-control-sm" name="message" [(ngModel)]="selected_data.message" required></textarea>
-                        </div>
-                    </div>
-                </fieldset>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-secondary" [disabled]="frmrequeteusager.invalid || isLoading"><i class="fas fa-save"></i>&nbsp; Envoyer</button>
-            </div>
-        </form>
-      </ng-template>
-
-      <ng-template #mailStructureContent let-modal>
-        <form #frmrequeteusagermailstructure="ngForm" (ngSubmit)="mailStructure(frmrequeteusagermailstructure.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-              <h5 class="modal-title text-white">Mail à une structure</h5>
-              <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-           </div>
-           <div class="modal-body">
-            <div style="color:red">{{errormessage}}</div>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                <div class="row form-group mb-3">
-                    <label class="col-md-4">Structure</label>
-                    <div class="col-md-8">
-                      <p-dropdown [options]="structures" name="receiverId" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" ></p-dropdown>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Objet</label>
-                    <div class="col-md-10">
-                        <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                    </div>
-                </div>
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Message</label>
-                    <div class="col-md-10">
-                        <textarea class="form-control form-control-sm" readonly name="msgrequest" [(ngModel)]="selected_data.msgrequest" required></textarea>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;">
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Type de mail</label>
-                    <div class="col-md-10">
-                       <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value" placeholder="Sélectionnez un type" styleClass="w-100" ></p-dropdown>
-                    </div>
-                </div>
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Votre réponse</label>
-                    <div class="col-md-10">
-                        <textarea style="min-height: 100px;" class="form-control form-control-sm" name="message" [(ngModel)]="selected_data.message" required></textarea>
-                    </div>
-                </div>
-            </fieldset>
-           </div>
-           <div class="modal-footer">
-             <button type="submit" class="btn btn-secondary" [disabled]="frmrequeteusagermailstructure.invalid || isLoading"><i class="fas fa-save"></i>&nbsp; Envoyer</button>
-           </div>
-        </form>
-      </ng-template>
-
-      <ng-template #tranfertEntite let-modal>
-        <form #frmrequeteusagertranfert="ngForm" (ngSubmit)="transferPreocuppation(frmrequeteusagertranfert.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-              <h5 class="modal-title text-white">Transférer à une autre entité</h5>
-              <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-           </div>
-           <div class="modal-body">
-            <div style="color:red">{{errormessage}}</div>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Objet</label>
-                    <div class="col-md-10">
-                        <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                    </div>
-                </div>
-            </fieldset>
-            <div class="form-group row mb-3 mt-3">
-                <label class="col-sm-4">Structure destinatrice</label>
-                <div class="col-sm-8">
-                  <p-dropdown [options]="institutions" name="idEntiteReceive" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une entité" [filter]="true" filterBy="libelle" [showClear]="true" (onChange)="onEntiteChange($event)" styleClass="w-100"  required></p-dropdown>
-                </div>
-            </div>
-            <div class="form-group row mb-3" style="margin-top: 30px;">
-                <label class="col-sm-4">Structure</label>
-                <div class="col-sm-8" style="padding-left:0px;">
-                   <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100"  required></p-dropdown>
-                </div>
-            </div>
-            <div class="row form-group mb-3">
-                <label class="col-md-2">Prestation</label>
-                <div class="col-md-10">
-                   <p-dropdown [options]="services" name="idPrestation" required ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" ></p-dropdown>
-                </div>
-            </div>
-           </div>
-           <div class="modal-footer">
-            <button type="submit" class="btn btn-secondary" [disabled]="isLoading"><i class="fas fa-save"></i>&nbsp; Transmettre</button>
-           </div>
-        </form>
-      </ng-template>
-
-      <ng-template #tranfertStructure let-modal>
-        <form #frmrequeteusagertranfertstructure="ngForm" (ngSubmit)="transfertInternePreocuppation(frmrequeteusagertranfertstructure.value)" class="form-horizontal">
-           <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-              <h5 class="modal-title text-white">Transférer à une autre structure</h5>
-              <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
-           </div>
-           <div class="modal-body">
-            <div style="color:red">{{errormessage}}</div>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:10px;background:#f8f8f8;">
-                <h4 style="font-size:14px;font-weight: bold;border-bottom:1px solid #eee;padding-bottom: 10px;">Usager : {{usager_full_name}}</h4>
-            </fieldset>
-            <fieldset class="divusager" style="border:1px solid #ddd;padding:2px;background:#fbfbfb;">
-                <div class="row form-group mb-3">
-                    <label class="col-md-2">Objet</label>
-                    <div class="col-md-10">
-                        <input type="text" readonly class="form-control form-control-sm" name="objet" [(ngModel)]="selected_data.objet" required>
-                    </div>
-                </div>
-            </fieldset>
-             <div class="form-group row mb-3" style="margin-top: 30px;">
-                <label class="col-sm-4">Structure</label>
-                <div class="col-sm-8" style="padding-left:0px;">
-                  <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle" [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100"  required></p-dropdown>
-                </div>
-             </div>
-             <div class="row form-group mb-3">
-                <label class="col-md-2">Prestation</label>
-                <div class="col-md-10">
-                  <p-dropdown [options]="services" name="idPrestation" [(ngModel)]="selected_data.idPrestation" optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100"  required></p-dropdown>
-                </div>
-             </div>
-           </div>
-           <div class="modal-footer">
-              <button type="submit" class="btn btn-secondary" [disabled]="isLoading"><i class="fas fa-save"></i>&nbsp; Transmettre</button>
-           </div>
-        </form>
-      </ng-template>
-
-      <ng-template #mailListContent let-modal>
-        <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-            <h5 class="modal-title text-white">Liste des mails</h5>
-            <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Prestation</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="services" [(ngModel)]="selected_data.idPrestation"
+            (ngModelChange)="updateSelectedService($event)" optionLabel="libelle" optionValue="id"
+            name="idPrestation" styleClass="w-100"></p-dropdown>
         </div>
-        <div class="modal-body">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Emetteur</th>
-                        <th>Type</th>
-                        <th>Type destinataire</th>
-                        <th>Message</th>
-                        <th>Destinataire</th>
-                        <th>Reponse</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let el of selected_data.reponses_rapide">
-                        <td>{{el.emailstructure}}</td>
-                        <td>{{el.type}}</td>
-                        <td>{{el.typerReceiver}}</td>
-                        <td>{{el.message}}</td>
-                        <td>{{el.receiver}}{{el.emailrecevier==null?'':" E-mail : "+el.emailrecevier}}</td>
-                        <td>{{el.complement}}</td>
-                    </tr>
-                    <tr *ngIf="!selected_data.reponses_rapide || selected_data.reponses_rapide.length==0">
-                        <td colspan="7" class="text-center">Aucun élément</td>
-                    </tr>
-                </tbody>
-            </table>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Objet</label>
+        <div class="col-md-9">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet">
         </div>
-        <div class="modal-footer"></div>
-      </ng-template>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Message</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" readonly name="msgrequest"
+            [(ngModel)]="selected_data.msgrequest"></textarea>
+        </div>
+      </div>
+      <a *ngIf="selected_data.fichier_joint" target="_blank" href="{{selected_data.fichier_joint}}"
+        class="btn btn-sm btn-outline-secondary mb-3">
+        <lucide-angular [img]="paperclipIcon" size="14"></lucide-angular> Voir fichier joint
+      </a>
 
+      <hr>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label fw-semibold">
+          {{ user?.agent_user?.structure?.type_s == "dc" || user?.agent_user?.structure?.type_s == "dt" ? 'Service' : 'Division' }} *
+        </label>
+        <div class="col-md-9">
+          <p-dropdown [options]="servicesForStructure" [(ngModel)]="selectedServiceId" name="idService"
+            optionLabel="libelle" optionValue="id" placeholder="Sélectionnez un service"
+            [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" required></p-dropdown>
+        </div>
+      </div>
     </div>
-
-    <div class="col-md-12">
-        <div class="card my-2">
-            <div class="card-header p-4 border-0 pt-5">
-                <h4>Liste de vos {{typeRequete}} affectées aux services</h4>
-                <div class="card-toolbar d-flex justify-content-between">
-                    <ul class="nav nav-pills ml-2 nav-pills-sm nav-dark-75">
-                        <li class="nav-item">
-                            <span class="mr-2">{{data2.length}} élément(s)</span>
-                        </li>
-                        <li class="nav-item">
-                            <form>
-                                <div class="form-group form-inline">
-                                    <input class="form-control form-control-sm" placeholder="Rechercher...." type="text" [(ngModel)]="search_text" name="searchText2" (keyup)="search()" />
-                                </div>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card-body pt-3 pb-0">
-                <div class="table-responsive">
-                    <table class="table table-striped datatable table-head-custom table-vertical-center" id="kt_datatable2">
-                        <thead>
-                            <tr>
-                                <th width="10%">Date affect.</th>
-                                <th width="15%">Service</th>
-                                <th width="15%">Prestation</th>
-                                <th>Objet</th>
-                                <th width="15%">Usager</th>
-                                <th width="15%">Parcours</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let el of data2 ; index as i">
-                                <td>{{el.dateAffectation | date:'dd/MM/yyyy HH:mm:ss' }}</td>
-                                <td>{{el.structure.libelle}}</td>
-                                <td>{{el.requete?.service==null ? '' : el.requete?.service?.libelle}}</td>
-                                <td>{{el.requete?.objet}}</td>
-                                <td>{{el.requete?.usager==null ? '' : el.requete?.usager.nom}} {{el.requete?.usager==null ? '' :
-                                    el.requete?.usager.prenoms}}</td>
-                                <td>
-                                    <div *ngFor="let parc of el.requete?.parcours; let i=index">
-                                        {{i+1}}. {{ show_step(parc.idEtape)==null ? '' : show_step(parc.idEtape).LibelleEtape }}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr *ngIf="data2.length==0">
-                                <td colspan="6" class="text-center bg-gray-100">Aucun élément</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="d-flex justify-content-end p-2">
-                        <div *ngIf="pager!=null">
-                            <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
-                                <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item first-item">
-                                    <a routerLink="/listrequetestructures/{{key_type_req}}" [queryParams]="{ page: 1 }"
-                                        class="page-link">Début</a>
-                                </li>
-                                <li [ngClass]="{disabled:pager.current_page === 1}" class="page-item previous-item">
-                                    <a routerLink="/listrequetestructures/{{key_type_req}}"
-                                        [queryParams]="{ page: pager.current_page - 1 }" class="page-link">Précédent</a>
-                                </li>
-                                <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.current_page === page}"
-                                    class="page-item number-item">
-                                    <a routerLink="/listrequetestructures/{{key_type_req}}" [queryParams]="{ page: page }"
-                                        class="page-link">{{page}}</a>
-                                </li>
-                                <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item next-item">
-                                    <a routerLink="/listrequetestructures/{{key_type_req}}"
-                                        [queryParams]="{ page: pager.current_page + 1 }" class="page-link">Suivant</a>
-                                </li>
-                                <li [ngClass]="{disabled:pager.current_page === pager.last_page}" class="page-item last-item">
-                                    <a routerLink="/listrequetestructures/{{key_type_req}}" [queryParams]="{ page: pager.last_page }"
-                                        class="page-link">Fin</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                </div>
-        </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm bg-mat-primary text-white" [disabled]="isLoading">
+        <lucide-angular [img]="saveIcon" size="14"></lucide-angular> Enregistrer
+      </button>
     </div>
+  </form>
+</ng-template>
 
+
+<!-- Modal : Répondre -->
+<ng-template #reponse let-modal>
+  <form #frmrequeteusager="ngForm" (ngSubmit)="saveReponse(frmrequeteusager.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Répondre à la requête</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Prestation</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="services" [(ngModel)]="selected_data.idPrestation"
+            (ngModelChange)="updateSelectedService($event)" name="idPrestation"
+            optionLabel="libelle" optionValue="id" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Objet</label>
+        <div class="col-md-9">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Message</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" readonly name="msgrequest"
+            [(ngModel)]="selected_data.msgrequest" required></textarea>
+        </div>
+      </div>
+
+      <div *ngIf="getTypeStructure() == 'Direction'" class="card mb-3 border-0 bg-light">
+        <div class="card-body py-2 px-3">
+          <p class="small fw-semibold mb-2">Réponse proposée par le service</p>
+          <textarea class="form-control form-control-sm" name="reponseService"
+            [(ngModel)]="selected_data.reponseService" readonly></textarea>
+        </div>
+      </div>
+
+      <div *ngIf="getTypeStructure() == 'Service'" class="card mb-3 border-0 bg-light">
+        <div class="card-body py-2 px-3">
+          <p class="small fw-semibold mb-2">Réponse proposée par la division</p>
+          <textarea class="form-control form-control-sm" name="reponseService"
+            [(ngModel)]="selected_data.reponseService" readonly></textarea>
+        </div>
+      </div>
+
+      <hr>
+      <p class="small fw-semibold mb-3">Réponse proposée par votre direction</p>
+
+      <div class="row mb-3">
+        <div class="col-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="interrompu" name="interrompu"
+              [(ngModel)]="selected_data.interrompu">
+            <label class="form-check-label small" for="interrompu">Suspendre</label>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="rejete" name="rejete"
+              [(ngModel)]="selected_data.rejete">
+            <label class="form-check-label small" for="rejete">Rejeter</label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="selected_data.rejete || selected_data.interrompu" class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Raison</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" name="raisonRejet"
+            placeholder="Raison du rejet ou de l'interruption"
+            [(ngModel)]="selected_data.raisonRejet"></textarea>
+        </div>
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Votre réponse *</label>
+        <div class="col-md-9">
+          <textarea style="min-height:100px;" class="form-control form-control-sm"
+            name="texteReponseApportee" [(ngModel)]="selected_data.texteReponseApportee" required></textarea>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Pièce jointe</label>
+        <div class="col-md-9">
+          <input type="file" class="form-control form-control-sm" (change)="onFileChange($event)"
+            name="fichier" ngModel>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button *ngIf="isGeneralDirector === false" type="submit"
+        class="btn btn-sm bg-mat-primary text-white" [disabled]="isLoading">
+        <lucide-angular [img]="saveIcon" size="14"></lucide-angular> Enregistrer
+      </button>
+      <button *ngIf="isGeneralDirector === false" type="submit"
+        class="btn btn-sm btn-secondary" (click)="isSended=!isSended" [disabled]="isLoading">
+        <lucide-angular [img]="sendIcon" size="14"></lucide-angular> Transmettre
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Archiver -->
+<ng-template #archiver let-modal>
+  <form #frmrequeteArchive="ngForm" (ngSubmit)="Archiver_Requete(frmrequeteArchive.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Archiver la requête</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Prestation</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="services" [(ngModel)]="selected_data.service.id" name="idPrestation"
+            optionLabel="libelle" optionValue="id" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Objet</label>
+        <div class="col-md-9">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Message</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" readonly name="msgrequest"
+            [(ngModel)]="selected_data.msgrequest" required></textarea>
+        </div>
+      </div>
+
+      <hr>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Motif d'archivage *</label>
+        <div class="col-md-9">
+          <textarea style="min-height:100px;" class="form-control form-control-sm"
+            name="texteArchive" [(ngModel)]="selected_data.texteArchive" required></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm btn-danger" [disabled]="isLoading">
+        <lucide-angular [img]="archiveIcon" size="14"></lucide-angular> Archiver
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Mail à l'usager -->
+<ng-template #reponseRapide let-modal>
+  <form #frmrequeteusager="ngForm" (ngSubmit)="transmettreReponseRapide(frmrequeteusager.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Mail à l'usager</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Objet</label>
+        <div class="col-md-9">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Message</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" readonly name="msgrequest"
+            [(ngModel)]="selected_data.msgrequest" required></textarea>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Type de mail</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value"
+            placeholder="Sélectionnez un type" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Votre réponse *</label>
+        <div class="col-md-9">
+          <textarea style="min-height:100px;" class="form-control form-control-sm" name="message"
+            [(ngModel)]="selected_data.message" required></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm bg-mat-primary text-white"
+        [disabled]="frmrequeteusager.invalid || isLoading">
+        <lucide-angular [img]="sendIcon" size="14"></lucide-angular> Envoyer
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Mail à une structure -->
+<ng-template #mailStructureContent let-modal>
+  <form #frmrequeteusagermailstructure="ngForm"
+    (ngSubmit)="mailStructure(frmrequeteusagermailstructure.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Mail à une structure</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Structure *</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="structures" name="receiverId" ngModel optionLabel="libelle" optionValue="id"
+            placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle"
+            [showClear]="true" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Objet</label>
+        <div class="col-md-9">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Message</label>
+        <div class="col-md-9">
+          <textarea class="form-control form-control-sm" readonly name="msgrequest"
+            [(ngModel)]="selected_data.msgrequest" required></textarea>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Type de mail</label>
+        <div class="col-md-9">
+          <p-dropdown [options]="mailTypes" name="type" ngModel optionLabel="label" optionValue="value"
+            placeholder="Sélectionnez un type" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Votre réponse *</label>
+        <div class="col-md-9">
+          <textarea style="min-height:100px;" class="form-control form-control-sm" name="message"
+            [(ngModel)]="selected_data.message" required></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm bg-mat-primary text-white"
+        [disabled]="frmrequeteusagermailstructure.invalid || isLoading">
+        <lucide-angular [img]="sendIcon" size="14"></lucide-angular> Envoyer
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Transfert externe -->
+<ng-template #tranfertEntite let-modal>
+  <form #frmrequeteusagertranfert="ngForm"
+    (ngSubmit)="transferPreocuppation(frmrequeteusagertranfert.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Transférer à une autre entité</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Objet</label>
+        <div class="col-md-8">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Entité destinatrice *</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="institutions" name="idEntiteReceive" ngModel optionLabel="libelle"
+            optionValue="id" placeholder="Sélectionnez une entité" [filter]="true" filterBy="libelle"
+            [showClear]="true" (onChange)="onEntiteChange($event)" styleClass="w-100" required></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Structure *</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle"
+            optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle"
+            [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100" required></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Prestation *</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="services" name="idPrestation" required ngModel optionLabel="libelle"
+            optionValue="id" placeholder="Sélectionnez une prestation" [filter]="true" filterBy="libelle"
+            [showClear]="true" styleClass="w-100"></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm bg-mat-primary text-white" [disabled]="isLoading">
+        <lucide-angular [img]="sendIcon" size="14"></lucide-angular> Transmettre
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Transfert interne -->
+<ng-template #tranfertStructure let-modal>
+  <form #frmrequeteusagertranfertstructure="ngForm"
+    (ngSubmit)="transfertInternePreocuppation(frmrequeteusagertranfertstructure.value)">
+    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+      <h5 class="modal-title text-white mb-0">Transférer à une autre structure</h5>
+      <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">X</button>
+    </div>
+    <div class="modal-body">
+      <div *ngIf="errormessage" class="alert alert-danger small py-2">{{ errormessage }}</div>
+
+      <div class="alert alert-light border small py-2 mb-3">
+        <strong>Usager :</strong> {{ usager_full_name }}
+      </div>
+
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Objet</label>
+        <div class="col-md-8">
+          <input type="text" readonly class="form-control form-control-sm" name="objet"
+            [(ngModel)]="selected_data.objet" required>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Structure *</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="structures" name="idStructure" ngModel optionLabel="libelle"
+            optionValue="id" placeholder="Sélectionnez une structure" [filter]="true" filterBy="libelle"
+            [showClear]="true" (onChange)="onStructureChange($event)" styleClass="w-100" required></p-dropdown>
+        </div>
+      </div>
+      <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">Prestation *</label>
+        <div class="col-md-8">
+          <p-dropdown [options]="services" name="idPrestation" [(ngModel)]="selected_data.idPrestation"
+            optionLabel="libelle" optionValue="id" placeholder="Sélectionnez une prestation"
+            [filter]="true" filterBy="libelle" [showClear]="true" styleClass="w-100" required></p-dropdown>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-sm bg-mat-primary text-white" [disabled]="isLoading">
+        <lucide-angular [img]="sendIcon" size="14"></lucide-angular> Transmettre
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+
+<!-- Modal : Liste des mails -->
+<ng-template #mailListContent let-modal>
+  <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+    <h5 class="modal-title text-white mb-0">
+      <lucide-angular [img]="listIcon" size="14"></lucide-angular> Liste des mails
+    </h5>
+    <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+      (click)="modal.dismiss('Cross click')">X</button>
   </div>
-</div>
+  <div class="modal-body p-0">
+    <div class="table-responsive">
+      <table class="table table-striped table-hover mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Émetteur</th>
+            <th>Type</th>
+            <th>Dest. type</th>
+            <th>Message</th>
+            <th>Destinataire</th>
+            <th>Réponse</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let el of selected_data.reponses_rapide">
+            <td class="small">{{ el.emailstructure }}</td>
+            <td class="small">{{ el.type }}</td>
+            <td class="small">{{ el.typerReceiver }}</td>
+            <td class="small">{{ el.message }}</td>
+            <td class="small">{{ el.receiver }}{{ el.emailrecevier == null ? '' : ' — ' + el.emailrecevier }}</td>
+            <td class="small">{{ el.complement }}</td>
+          </tr>
+          <tr *ngIf="!selected_data.reponses_rapide || selected_data.reponses_rapide.length === 0">
+            <td colspan="6" class="text-center py-3 text-muted">Aucun mail</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>

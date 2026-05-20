@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import {  } from '../../../../../core/pipes/sample-search.pipe';
 import { EtapeService } from '../../../../../core/services/etape.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -28,7 +28,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listetapes',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule],
   templateUrl: './listetapes.component.html',
   styleUrls: ['./listetapes.component.css']
 })
@@ -56,9 +56,10 @@ export class ListetapesComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math
   search(){ 
     this.data=this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
+      const term = this.search_text.toLowerCase();
       return r.LibelleEtape.toLowerCase().includes(term) 
     })
     this.collectionSize=this.data.length

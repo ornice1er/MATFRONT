@@ -83,8 +83,13 @@ body {
   }
 }
 
-.bg-mat-primary{
-  background-color: #2f3364 !important
+.bg-mat-primary {
+  background-color: #312e81 !important;
+  color: #ffffff !important;
+}
+
+.bg-mat-primary:hover {
+  background-color: #3730a3 !important;
 }
 
 h3{

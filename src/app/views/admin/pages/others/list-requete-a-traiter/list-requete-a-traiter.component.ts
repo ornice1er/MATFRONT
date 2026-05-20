@@ -21,6 +21,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import {
+  LucideAngularModule,
+  Bell, UserPlus, Reply, Archive, Send, Mail, MailOpen,
+  List, ExternalLink, Shuffle, Save, Paperclip,
+} from 'lucide-angular';
 import { EtapeService } from '../../../../../core/services/etape.service';
 import { InstitutionService } from '../../../../../core/services/institution.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
@@ -51,11 +56,26 @@ interface DropdownOption {
     NgxPaginationModule,
     RouterModule,
     DropdownModule,
+    LucideAngularModule,
   ],
   templateUrl: './list-requete-a-traiter.component.html',
   styleUrl: './list-requete-a-traiter.component.css',
 })
 export class ListRequeteATraiterComponent implements OnInit {
+  // Lucide icons
+  readonly bellIcon       = Bell;
+  readonly userPlusIcon   = UserPlus;
+  readonly replyIcon      = Reply;
+  readonly archiveIcon    = Archive;
+  readonly sendIcon       = Send;
+  readonly mailIcon       = Mail;
+  readonly mailOpenIcon   = MailOpen;
+  readonly listIcon       = List;
+  readonly externalLinkIcon = ExternalLink;
+  readonly shuffleIcon    = Shuffle;
+  readonly saveIcon       = Save;
+  readonly paperclipIcon  = Paperclip;
+
   @Input() cssClasses = '';
   errormessage = '';
   erroraffectation = '';

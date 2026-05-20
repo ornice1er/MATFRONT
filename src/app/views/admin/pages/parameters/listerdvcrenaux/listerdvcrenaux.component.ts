@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import {  } from '../../../../../core/pipes/sample-search.pipe';
 import { RdvCreneauService } from '../../../../../core/services/rdv-creneau.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -27,7 +27,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listerdvcrenaux',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule],
   templateUrl: './listerdvcrenaux.component.html',
   styleUrls: ['./listerdvcrenaux.component.css']
 })
@@ -49,6 +49,7 @@ export class ListerdvcrenauxComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math
   selected = [
   ];
   current_permissions:any[]=[]
@@ -57,7 +58,7 @@ search_text:any=""
 
   search(){ 
     this.data=this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
+      const term = this.search_text.toLowerCase();
       return r.heureDebut.toLowerCase().includes(term) ||
       r.heureFin.toLowerCase().includes(term) 
     })

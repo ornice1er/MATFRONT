@@ -1,24 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PipeTransform } from '@angular/core';
-import { CommonModule, DecimalPipe } from '@angular/common';
-import { FormControl, FormsModule } from '@angular/forms';
-
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
   NgbModal,
   ModalDismissReasons,
   NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { UserService } from '../../../../core/_services/user.service';
 
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
-
-import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 import { LoadingComponent } from '../../../../components/loading/loading.component';
@@ -37,7 +29,6 @@ import { InstitutionService } from '../../../../../core/services/institution.ser
     FormsModule,
     NgbModule,
     LoadingComponent,
-    SampleSearchPipe,
     NgSelectModule,
     NgxPaginationModule,
     NgxSpinnerModule,
@@ -48,39 +39,81 @@ import { InstitutionService } from '../../../../../core/services/institution.ser
 })
 export class ListestructuresComponent implements OnInit {
   @Input() cssClasses = '';
+
   page = 1;
   pageSize = 10;
-  searchText = '';
+  search_text = '';
   closeResult = '';
-  permissions: any[] = [];
   error = '';
   data: any[] = [];
   entities: any[] = [];
-
-  _temp: any[] = [];
-
-  selected = [];
-  current_permissions: any[] = [];
-  collectionSize = 0;
-  selected_data: any;
-  pg: any = {
-    pageSize: 10,
-    p: 0,
-    total: 0,
-  };
-  isPaginate: any = false;
-  search_text: any = '';
-  loading: any = false;
+  selected_data: any = null;
+  loading = false;
   selectedEntity: any;
-  search() {
-    this.data = this._temp.filter((r) => {
-      const term = this.searchText.toLowerCase();
-      return (
-        r.libelle.toLowerCase().includes(term) ||
-        r.sigle.toLowerCase().includes(term)
-      );
+
+  readonly Math = Math;
+
+  role: any;
+  user: any;
+  isSuperAdmin = false;
+
+  get filteredData(): any[] {
+    const term = this.search_text.trim().toLowerCase();
+    if (!term) return this.data;
+    return this.data.filter(
+      (r) =>
+        r.libelle?.toLowerCase().includes(term) ||
+        r.sigle?.toLowerCase().includes(term) ||
+        r.contact?.toLowerCase().includes(term)
+    );
+  }
+
+  constructor(
+    private modalService: NgbModal,
+    private userService: UserService,
+    private institutionService: InstitutionService,
+    private router: Router,
+    private structureService: StructureService,
+    private spinner: NgxSpinnerService,
+    private activatedRoute: ActivatedRoute,
+    private observerService: ObserverService,
+    private localStorageService: LocalStorageService
+  ) {}
+
+  ngOnInit() {
+    this.observerService.setTitle('PARAMETRES - STRUCTURES');
+    this.user = this.localStorageService.get(GlobalName.userName);
+    this.role = this.user.roles[0]?.name;
+    this.isSuperAdmin = this.role === 'Super Admin';
+    this.init();
+  }
+
+  init() {
+    this.data = [];
+    this.spinner.show();
+    this.structureService
+      .getAll(0, this.isSuperAdmin ? this.selectedEntity : this.user?.idEntite)
+      .subscribe((res: any) => {
+        this.spinner.hide();
+        this.data = res.data ?? [];
+        this.page = 1;
+      });
+
+    this.institutionService.getAll().subscribe((res: any) => {
+      this.entities = res.data ?? [];
     });
-    this.collectionSize = this.data.length;
+  }
+
+  loadData(ev: any) {
+    this.init();
+  }
+
+  onSearchChange() {
+    this.page = 1;
+  }
+
+  checked(event: any, el: any) {
+    this.selected_data = el;
   }
 
   openAddModal(content: any) {
@@ -97,11 +130,11 @@ export class ListestructuresComponent implements OnInit {
   }
 
   openEditModal(content: any) {
-    if (this.selected_data == null) {
+    if (!this.selected_data) {
       AppSweetAlert.simpleAlert(
         'error',
         'Erreur',
-        'Veuillez selectionnez un élément puis réessayer'
+        'Veuillez sélectionner un élément puis réessayer'
       );
       return;
     }
@@ -118,62 +151,9 @@ export class ListestructuresComponent implements OnInit {
   }
 
   private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-  role: any;
-  constructor(
-    private modalService: NgbModal,
-    private userService: UserService,
-    private institutionService: InstitutionService,
-    private router: Router,
-    private structureService: StructureService,
-    private spinner: NgxSpinnerService,
-    private activatedRoute: ActivatedRoute,
-    private observerService: ObserverService,
-    private localStorageService: LocalStorageService
-  ) {}
-
-  user: any;
-  isSuperAdmin = false;
-  ngOnInit() {
-    this.observerService.setTitle('PARAMETRES - STRUCTURES');
-
-    this.user = this.localStorageService.get(GlobalName.userName);
-    this.role = this.user.roles[0]?.name;
-    this.isSuperAdmin = this.role === 'Super Admin' ? true : false;
-    this.init();
-  }
-  init() {
-    this._temp = [];
-    this.data = [];
-    this.spinner.show();
-    this.structureService
-      .getAll(0,   this.isSuperAdmin ? this.selectedEntity:this.user?.idEntite)
-      .subscribe((res: any) => {
-        this.spinner.hide();
-        this.data = res.data;
-      });
-
-    this.institutionService.getAll().subscribe((res: any) => {
-      this.spinner.hide();
-      this.entities = res.data;
-    });
-  }
-  
-
-  loadData(ev:any){
-   this.init()
-  }
-
-  checked(event: any, el: any) {
-    this.selected_data = el;
+    if (reason === ModalDismissReasons.ESC) return 'by pressing ESC';
+    if (reason === ModalDismissReasons.BACKDROP_CLICK) return 'by clicking on a backdrop';
+    return `with: ${reason}`;
   }
 
   create(value: any) {
@@ -189,7 +169,7 @@ export class ListestructuresComponent implements OnInit {
         return;
       }
     }
-     if (value.point_de_chute_dsi == 1) {
+    if (value.point_de_chute_dsi == 1) {
       const existing = this.data.find((s) => s.point_de_chute_dsi);
       if (existing) {
         AppSweetAlert.simpleAlert(
@@ -215,67 +195,49 @@ export class ListestructuresComponent implements OnInit {
     this.structureService.create(value).subscribe(
       (res: any) => {
         this.loading = false;
-
         this.modalService.dismissAll();
-        //this.translate.instant('HOME.TITLE')
-        AppSweetAlert.simpleAlert(
-          'success',
-          'Nouvel ajout',
-          'Ajout effectué avec succès'
-        );
+        AppSweetAlert.simpleAlert('success', 'Nouvel ajout', 'Ajout effectué avec succès');
         this.init();
       },
       (err: any) => {
         this.loading = false;
-
-        if (err.error.detail != null) {
-          AppSweetAlert.simpleAlert('error', 'Nouvel ajout', err.error.detail);
-        } else {
-          AppSweetAlert.simpleAlert(
-            'error',
-            'Nouvel ajout',
-            err.error.message
-          );
-        }
+        AppSweetAlert.simpleAlert(
+          'error',
+          'Nouvel ajout',
+          err.error?.detail ?? err.error?.message
+        );
       }
     );
   }
 
   archive() {
-    if (this.selected_data == null) {
+    if (!this.selected_data) {
       AppSweetAlert.simpleAlert(
         'error',
         'Erreur',
-        'Veuillez selectionnez un élément puis réessayer'
+        'Veuillez sélectionner un élément puis réessayer'
       );
       return;
     }
     AppSweetAlert.confirmBox(
       'Suppression',
-      'Cette action est irreversible. Voulez-vous continuer ?'
+      'Cette action est irréversible. Voulez-vous continuer ?'
     ).then((result: any) => {
       if (result.value) {
         this.structureService.delete(this.selected_data.id).subscribe(
           (res: any) => {
-            this.init();
-            AppSweetAlert.simpleAlert(
-              'success',
-              'Suppression',
-              'Suppression effectuée avec succès'
-            );
+            this.selected_data = null;
+            AppSweetAlert.simpleAlert('success', 'Suppression', 'Suppression effectuée avec succès');
             this.init();
           },
           (err: any) => {
-            AppSweetAlert.simpleAlert(
-              'error',
-              'Suppression',
-              err.error.message
-            );
+            AppSweetAlert.simpleAlert('error', 'Suppression', err.error?.message);
           }
         );
       }
     });
   }
+
   edit(value: any) {
     value.id = this.selected_data.id;
     value.idEntite = this.user.idEntite;
@@ -292,7 +254,6 @@ export class ListestructuresComponent implements OnInit {
         return;
       }
     }
-
     if (value.point_de_chute_dsi == 1) {
       const existing = this.data.find(
         (s) => s.point_de_chute_dsi && s.id !== this.selected_data.id
@@ -306,7 +267,6 @@ export class ListestructuresComponent implements OnInit {
         return;
       }
     }
-
     if (value.point_de_chute_transverse == 1) {
       const existing = this.data.find(
         (s) => s.point_de_chute_transverse && s.id !== this.selected_data.id
@@ -321,32 +281,17 @@ export class ListestructuresComponent implements OnInit {
       }
     }
     this.loading = true;
-
     this.structureService.update(value, this.selected_data.id).subscribe(
       (res: any) => {
         this.loading = false;
-
         this.modalService.dismissAll();
         this.init();
-        AppSweetAlert.simpleAlert(
-          'success',
-          'Nouvelle modification',
-          'Motification effectué avec succès'
-        );
+        AppSweetAlert.simpleAlert('success', 'Modification', 'Modification effectuée avec succès');
       },
       (err: any) => {
         this.loading = false;
-
-        AppSweetAlert.simpleAlert(
-          'error',
-          'Nouvelle modification',
-          err.error.message
-        );
+        AppSweetAlert.simpleAlert('error', 'Modification', err.error?.message);
       }
     );
-  }
-
-  getPage(event: any) {
-    this.pg.p = event;
   }
 }

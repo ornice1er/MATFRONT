@@ -6,9 +6,8 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { forkJoin } from 'rxjs';
+import { LucideAngularModule, Settings, List, Save, Bell, UserPlus } from 'lucide-angular';
 
-// --- Vos Services ---
-import { SettingService } from '../../../../../core/services/setting.service';
 import { RequeteService } from '../../../../../core/services/requete.service';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { InstitutionService } from '../../../../../core/services/institution.service';
@@ -16,7 +15,6 @@ import { LocalStorageService } from '../../../../../core/utils/local-stoarge-ser
 import { ObserverService } from '../../../../../core/utils/observer.service';
 import { AppSweetAlert } from '../../../../../core/utils/app-sweet-alert';
 
-// --- Vos Composants/Pipes ---
 import { LoadingComponent } from '../../../../components/loading/loading.component';
 import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
 import { GlobalName } from '../../../../../core/utils/global-name';
@@ -32,20 +30,31 @@ import { GlobalName } from '../../../../../core/utils/global-name';
     NgSelectModule,
     NgxPaginationModule,
     LoadingComponent,
-    SampleSearchPipe
+    SampleSearchPipe,
+    LucideAngularModule,
   ],
   templateUrl: './point-de-chute.component.html',
   styleUrls: ['./point-de-chute.component.css']
 })
 export class PointDeChuteComponent implements OnInit {
-  
-  // --- États de chargement ---
+
+  // Lucide icons
+  readonly settingsIcon = Settings;
+  readonly listIcon     = List;
+  readonly saveIcon     = Save;
+  readonly bellIcon     = Bell;
+  readonly userPlusIcon = UserPlus;
+
+  readonly Math = Math;
+
   isLoading = true;
   isSavingSettings = false;
+  selectedAffectationStructureId: number | null = null;
 
-  // --- Données pour les paramètres ---
-  settings: any = { point_chute_principal: null, point_chute_secondaire: [] };
-  settingsId: number | null = null;
+  // --- Sélection points de chute (liés aux structures) ---
+  selectedPointDeChuteMain: number | null = null;
+  selectedPointDeChuteSecondaires: number[] = [];
+
   page = 1;
   // --- Données pour les listes et filtres ---
   requetes: any[] = [];
@@ -64,7 +73,6 @@ export class PointDeChuteComponent implements OnInit {
   pg = { pageSize: 10, p: 1, total: 0 };
 
   constructor(
-    private settingService: SettingService,
     private requeteService: RequeteService,
     private structureService: StructureService,
     private institutionService: InstitutionService,
@@ -85,32 +93,33 @@ export class PointDeChuteComponent implements OnInit {
     this.isLoading = true;
     this.pg.p = page;
 
-    const settings$ = this.settingService.getPointDeChuteSettings();
     const structures$ = this.structureService.getAll(0, this.user.idEntite);
     const institutions$ = this.institutionService.getAll();
-    
-    // On appelle la méthode existante avec les bons paramètres pour ce contexte
+
     const requetes$ = this.requeteService.getAllRequest(
         this.user.idEntite,
-        null,       // search: null pour le chargement initial
-        0,          // traiteOuiNon: 0 pour les requêtes en instance
+        null,
+        0,
         this.user.id,
-        "",         // structure: "" pour ne pas filtrer par la structure de l'utilisateur
-        null,       // plainte: null car on n'a pas cette information ici
+        "",
+        null,
         this.pg.pageSize,
         this.pg.p
     );
 
-    forkJoin([settings$, structures$, institutions$, requetes$]).subscribe({
-      next: ([settingsRes, structuresRes, institutionsRes, requetesRes]: any[]) => {
-        this.settings = settingsRes.data;
-        this.settingsId = settingsRes.data.id;
-
+    forkJoin([structures$, institutions$, requetes$]).subscribe({
+      next: ([structuresRes, institutionsRes, requetesRes]: any[]) => {
         this.allStructures = structuresRes.data;
         this.allInstitutions = institutionsRes.data;
-        
+
+        // Initialiser les sélections depuis les flags sur les structures
+        const principal = this.allStructures.find((s: any) => s.point_de_chute == 1 || s.point_de_chute === true);
+        this.selectedPointDeChuteMain = principal?.id ?? null;
+        this.selectedPointDeChuteSecondaires = this.allStructures
+          .filter((s: any) => s.point_de_chute_dsi == 1 || s.point_de_chute_dsi === true)
+          .map((s: any) => s.id);
+
         this.requetes = requetesRes.data?.data || [];
-        // NOTE: La pagination et le total doivent venir de l'API. Assurez-vous que `requetesRes` contient ces infos.
         this.pg.total = requetesRes.data?.total || this.requetes.length;
         this.applyFilters();
         
@@ -149,17 +158,24 @@ export class PointDeChuteComponent implements OnInit {
   }
 
   saveSettings() {
-    if (!this.settingsId) {
-      AppSweetAlert.simpleAlert('error', 'Erreur', 'ID de configuration manquant.');
-      return;
-    }
     this.isSavingSettings = true;
-    this.settingService.updatePointDeChuteSettings(this.settingsId, this.settings).subscribe({
+
+    // Pour chaque structure, recalculer ses flags point_de_chute / point_de_chute_dsi
+    const updates = this.allStructures.map((s: any) => {
+      const isMain      = s.id === this.selectedPointDeChuteMain;
+      const isSecondary = this.selectedPointDeChuteSecondaires.includes(s.id);
+      return this.structureService.update(
+        { ...s, point_de_chute: isMain ? 1 : 0, point_de_chute_dsi: isSecondary ? 1 : 0 },
+        s.id
+      );
+    });
+
+    forkJoin(updates).subscribe({
       next: () => {
         this.isSavingSettings = false;
-        AppSweetAlert.simpleAlert('success', 'Succès', 'Paramètres des points de chute mis à jour.');
+        AppSweetAlert.simpleAlert('success', 'Succès', 'Points de chute mis à jour.');
       },
-      error: (err) => {
+      error: () => {
         this.isSavingSettings = false;
         AppSweetAlert.simpleAlert('error', 'Erreur', 'La mise à jour a échoué.');
       }
@@ -177,10 +193,20 @@ export class PointDeChuteComponent implements OnInit {
 
   openAffectationModal(content: any) {
     if (!this.selectedRequete) {
-        AppSweetAlert.simpleAlert('error', 'Erreur', 'Veuillez sélectionner une requête à affecter.');
-        return;
+      AppSweetAlert.simpleAlert('error', 'Erreur', 'Veuillez sélectionner une requête à affecter.');
+      return;
     }
+    this.selectedAffectationStructureId = null;
     this.modalService.open(content, { size: 'lg' });
+  }
+
+  saveAffectation() {
+    if (!this.selectedAffectationStructureId) {
+      AppSweetAlert.simpleAlert('error', 'Erreur', 'Veuillez sélectionner une structure.');
+      return;
+    }
+    AppSweetAlert.simpleAlert('info', 'Action', 'Logique d\'affectation à implémenter ici.');
+    this.modalService.dismissAll();
   }
 
   getPage(event: any) {

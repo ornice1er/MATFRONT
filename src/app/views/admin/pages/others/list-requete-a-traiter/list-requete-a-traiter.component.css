@@ -1,3 +1,26 @@
+/* ── Dropdown largeur fixe ── */
+:host ::ng-deep .w-200px {
+  min-width: 180px;
+}
+
+/* ── Boutons icône de la barre d'actions ── */
+.btn-sm i.fa {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Badge état reqête */
+.badge.bg-success { background-color: #16a34a !important; }
+.badge.bg-warning  { background-color: #f59e0b !important; }
+
+/* Colonne préoccupation : texte tronqué avec tooltip */
+td[ngbTooltip] {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .p-multiselect-panel {
   z-index: 9999 !important;
 }

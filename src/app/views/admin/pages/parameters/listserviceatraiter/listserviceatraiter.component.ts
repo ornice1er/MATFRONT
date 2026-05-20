@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import {  } from '../../../../../core/pipes/sample-search.pipe';
 import { ServiceService } from '../../../../../core/services/service.service';
 import { StructureService } from '../../../../../core/services/structure.service';
 import { TypeService } from '../../../../../core/services/type.service';
@@ -29,7 +29,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listserviceatraiter',
   standalone: true,
-            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule],
+            imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule],
   templateUrl: './listserviceatraiter.component.html',
   styleUrls: ['./listserviceatraiter.component.css']
 })
@@ -97,9 +97,10 @@ export class ListserviceatraiterComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math
   search() {
     this.data = this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
+      const term = this.search_text.toLowerCase();
       return r.libelle.toLowerCase().includes(term)
     })
     this.collectionSize = this.data.length

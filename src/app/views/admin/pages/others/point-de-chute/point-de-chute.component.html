@@ -2,114 +2,233 @@
 
 <div class="container-fluid" id="container-wrapper" *ngIf="!isLoading">
 
+  <!-- ═══════════════════════════════════════════
+       CARTE 1 — Configuration des points de chute
+  ═══════════════════════════════════════════ -->
   <div class="card my-4">
-    <div class="card-header p-4 border-0">
-      <h4><i class="fas fa-cogs"></i> Configuration des Points de Chute</h4>
+    <div class="card-header p-4 border-0 pt-5">
+      <div class="d-flex align-items-center gap-2">
+        <lucide-angular [img]="settingsIcon" size="18" class="text-muted"></lucide-angular>
+        <h5 class="mb-0 fw-semibold">Configuration des Points de Chute</h5>
+      </div>
     </div>
+
     <div class="card-body">
-      <div class="row">
+      <div class="row g-3">
         <div class="col-md-6">
-          <div class="form-group">
-            <label for="pointChutePrincipal">Point de Chute Principal</label>
-            <ng-select id="pointChutePrincipal" name="pointChutePrincipal" [(ngModel)]="settings.point_chute_principal"
-              [items]="allStructures" bindLabel="libelle" bindValue="id" placeholder="Sélectionnez une structure">
-            </ng-select>
-          </div>
+          <label class="form-label fw-semibold small">Point de Chute Principal</label>
+          <ng-select
+            name="pointChutePrincipal"
+            [(ngModel)]="selectedPointDeChuteMain"
+            [items]="allStructures"
+            bindLabel="libelle"
+            bindValue="id"
+            placeholder="Sélectionnez une structure">
+          </ng-select>
         </div>
         <div class="col-md-6">
-          <div class="form-group">
-            <label for="pointChuteSecondaire">Points de Chute Secondaires (multi-sélection)</label>
-            <ng-select id="pointChuteSecondaire" name="pointChuteSecondaire" [(ngModel)]="settings.point_chute_secondaire"
-              [items]="allStructures" bindLabel="libelle" bindValue="id" placeholder="Sélectionnez des structures" [multiple]="true">
-            </ng-select>
-          </div>
+          <label class="form-label fw-semibold small">Points de Chute Secondaires</label>
+          <ng-select
+            name="pointChuteSecondaire"
+            [(ngModel)]="selectedPointDeChuteSecondaires"
+            [items]="allStructures"
+            bindLabel="libelle"
+            bindValue="id"
+            placeholder="Sélectionnez des structures"
+            [multiple]="true">
+          </ng-select>
         </div>
       </div>
     </div>
-    <div class="card-footer text-right">
-      <button class="btn btn-primary" (click)="saveSettings()" [disabled]="isSavingSettings">
+
+    <div class="card-footer text-end">
+      <button class="btn btn-sm bg-mat-primary text-white" (click)="saveSettings()" [disabled]="isSavingSettings">
+        <lucide-angular [img]="saveIcon" size="14"></lucide-angular>
         Enregistrer les paramètres
         <app-loading [isVisible]="isSavingSettings"></app-loading>
       </button>
     </div>
   </div>
 
+
+  <!-- ═══════════════════════════════════════════
+       CARTE 2 — Liste des requêtes en point de chute
+  ═══════════════════════════════════════════ -->
   <div class="card my-4">
     <div class="card-header p-4 border-0 pt-5">
-      <h4><i class="fas fa-list-ul"></i> Liste des Requêtes en Point de Chute</h4>
-      <div class="d-flex justify-content-end align-items-center mt-3 gap-2">
-        <ng-select [items]="allInstitutions" bindLabel="libelle" bindValue="id" name="filterInstitution"
-                   [(ngModel)]="filterInstitutionId" placeholder="Filtrer par entité" class="w-25">
-        </ng-select>
-        <ng-select [items]="allStructures" bindLabel="libelle" bindValue="id" name="filterStructure"
-                   [(ngModel)]="filterStructureId" placeholder="Filtrer par structure" class="w-25">
-        </ng-select>
-        <button class="btn btn-info btn-sm" (click)="applyFilters()">Appliquer</button>
-        <button class="btn btn-secondary btn-sm" (click)="resetFilters()">Réinitialiser</button>
+      <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+
+        <!-- Titre gauche -->
+        <div class="d-flex align-items-center gap-2">
+          <lucide-angular [img]="listIcon" size="18" class="text-muted"></lucide-angular>
+          <div>
+            <h5 class="mb-0 fw-semibold">Requêtes en Point de Chute</h5>
+            <span class="text-muted small">{{ filteredRequetes.length }} élément(s)</span>
+          </div>
+        </div>
+
+        <!-- Filtres droite -->
+        <div class="d-flex align-items-center flex-wrap gap-2">
+          <ng-select
+            [items]="allInstitutions"
+            bindLabel="libelle"
+            bindValue="id"
+            name="filterInstitution"
+            [(ngModel)]="filterInstitutionId"
+            placeholder="Filtrer par entité"
+            style="min-width:200px;">
+          </ng-select>
+          <ng-select
+            [items]="allStructures"
+            bindLabel="libelle"
+            bindValue="id"
+            name="filterStructure"
+            [(ngModel)]="filterStructureId"
+            placeholder="Filtrer par structure"
+            style="min-width:200px;">
+          </ng-select>
+          <div class="input-group input-group-sm" style="width:200px;">
+            <input class="form-control form-control-sm"
+                   placeholder="Rechercher..."
+                   type="text"
+                   [(ngModel)]="search_text"
+                   name="search_text" />
+            <button *ngIf="search_text" class="btn btn-outline-secondary btn-sm" type="button"
+              (click)="search_text = ''"> &times; </button>
+          </div>
+          <button class="btn btn-sm bg-mat-primary text-white" (click)="applyFilters()">Appliquer</button>
+          <button class="btn btn-sm btn-outline-secondary" (click)="resetFilters()">Réinitialiser</button>
+        </div>
+
       </div>
     </div>
+
     <div class="card-body pt-3 pb-0">
       <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped table-hover table-head-custom table-vertical-center">
           <thead>
+            <!-- Ligne des actions -->
             <tr>
-              <td class="left text-left" colspan="9">
-                <button class="btn mx-1 btn-xs btn-danger" (click)="relancer()" [disabled]="!selectedRequete">
+              <td class="text-left py-2" colspan="6">
+                <button
+                  ngbTooltip="Relancer la requête" placement="bottom"
+                  class="btn btn-sm btn-danger me-1"
+                  (click)="relancer()"
+                  [disabled]="!selectedRequete">
+                  <lucide-angular [img]="bellIcon" size="14"></lucide-angular>
                   Relancer
                 </button>
-                <button class="btn mx-1 btn-xs btn-success" (click)="openAffectationModal(affectationModal)" [disabled]="!selectedRequete">
+                <button
+                  ngbTooltip="Affecter la requête" placement="bottom"
+                  class="btn btn-sm btn-success me-1"
+                  (click)="openAffectationModal(affectationModal)"
+                  [disabled]="!selectedRequete">
+                  <lucide-angular [img]="userPlusIcon" size="14"></lucide-angular>
                   Affecter
                 </button>
               </td>
             </tr>
-            <tr>
-              <th></th>
-              <th>Date</th>
+            <!-- En-têtes colonnes -->
+            <tr class="table-light">
+              <th style="width:36px;"></th>
+              <th style="width:50px;">N°</th>
+              <th style="width:130px;">Date</th>
               <th>Objet</th>
-              <th>Usager</th>
-              <th>Entité</th>
-              <th>Parcours</th>
+              <th style="width:160px;">Usager</th>
+              <th style="width:160px;">Entité</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let req of filteredRequetes | sampleSearch:search_text | paginate: { id:'ngxP1', itemsPerPage: pg.pageSize, currentPage: pg.p, totalItems: pg.total }">
+            <tr *ngFor="let req of filteredRequetes | sampleSearch:search_text | paginate: {
+                  id: 'ngxP1',
+                  itemsPerPage: pg.pageSize,
+                  currentPage: pg.p,
+                  totalItems: pg.total
+                }; index as i"
+                [class.table-active]="selectedRequete?.id === req.id"
+                style="cursor:pointer;"
+                (click)="checked(req)">
               <td>
-                <input type="radio" name="getrequete" [value]="req" (change)="checked(req)">
+                <input type="radio" name="getrequete" [value]="req"
+                  [checked]="selectedRequete?.id === req.id"
+                  (change)="checked(req)">
               </td>
-              <td>{{ req.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
-              <td>{{ req.objet }}</td>
-              <td>{{ req.usager?.nom }} {{ req.usager?.prenoms }}</td>
-              <td>{{ req.entite?.libelle }}</td>
-              <td></td>
+              <td>{{ (pg.p - 1) * pg.pageSize + i + 1 }}</td>
+              <td class="small text-nowrap">{{ req.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td class="small">{{ req.objet }}</td>
+              <td class="small">{{ req.usager?.nom }} {{ req.usager?.prenoms }}</td>
+              <td class="small">{{ req.entite?.libelle || '—' }}</td>
             </tr>
+
             <tr *ngIf="filteredRequetes.length === 0">
-              <td colspan="6" class="text-center bg-gray-100">Aucune requête à afficher</td>
+              <td colspan="6" class="text-center py-4 text-muted">
+                <span *ngIf="search_text">Aucun résultat pour « {{ search_text }} »</span>
+                <span *ngIf="!search_text">Aucune requête en point de chute</span>
+              </td>
             </tr>
           </tbody>
         </table>
-        <pagination-controls id="ngxP1" (pageChange)="getPage($event)" previousLabel="Précédent" nextLabel="Suivant"></pagination-controls>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-2 mb-3 flex-wrap gap-2">
+          <span class="text-muted small">
+            Page {{ pg.p }} sur {{ Math.ceil(filteredRequetes.length / pg.pageSize) || 1 }}
+          </span>
+          <pagination-controls
+            id="ngxP1"
+            (pageChange)="getPage($event)"
+            [maxSize]="7"
+            [directionLinks]="true"
+            [autoHide]="true"
+            [responsive]="true"
+            previousLabel="Précédent"
+            nextLabel="Suivant">
+          </pagination-controls>
+        </div>
+
       </div>
     </div>
   </div>
+
 </div>
 
+
+<!-- Modal : Affecter une requête -->
 <ng-template #affectationModal let-modal>
-    <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
-        <h5 class="modal-title text-white">Affecter une Requête</h5>
-        <button type="button" class="close text-white" (click)="modal.dismiss('Cross click')">X</button>
+  <div class="modal-header bg-mat-primary d-flex justify-content-between align-items-center">
+    <h5 class="modal-title text-white mb-0">
+      <lucide-angular [img]="userPlusIcon" size="15"></lucide-angular>
+      Affecter une requête
+    </h5>
+    <button type="button" class="btn-close btn-close-white ms-auto" aria-label="Close"
+      (click)="modal.dismiss('Cross click')">X</button>
+  </div>
+  <div class="modal-body">
+
+    <div class="alert alert-light border small py-2 mb-3">
+      <strong>Requête :</strong> {{ selectedRequete?.objet }}
     </div>
-    <div class="modal-body">
-        <p>Requête sélectionnée : <strong>{{ selectedRequete?.objet }}</strong></p>
-        <div class="form-group">
-            <label for="affectationStructure">Affecter à la structure :</label>
-            <ng-select id="affectationStructure" [items]="allStructures" bindLabel="libelle" bindValue="id"
-                       placeholder="Sélectionnez une structure">
-            </ng-select>
-        </div>
+
+    <div class="form-group mb-3">
+      <label class="form-label fw-semibold small">Structure destinatrice *</label>
+      <ng-select
+        id="affectationStructure"
+        name="affectationStructure"
+        [(ngModel)]="selectedAffectationStructureId"
+        [items]="allStructures"
+        bindLabel="libelle"
+        bindValue="id"
+        placeholder="Sélectionnez une structure">
+      </ng-select>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-primary">
-            <i class="fas fa-save"></i>&nbsp; Valider l'affectation
-        </button>
-    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-sm bg-mat-primary text-white"
+      (click)="saveAffectation()"
+      [disabled]="!selectedAffectationStructureId">
+      <lucide-angular [img]="userPlusIcon" size="14"></lucide-angular>
+      Valider l'affectation
+    </button>
+  </div>
 </ng-template>

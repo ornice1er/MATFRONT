@@ -41,10 +41,10 @@
                     <!--begin::Table-->
                     <div class="table-responsive">
 
-                        <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
+                        <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable">
                             <thead>
                                 <tr>
-                                    <td class="left text-left" colspan="9">
+                                    <td class="left text-left" colspan="7">
                                         <button (click)="openEditModal(contentU)" *ngIf="user.profil_user.admin_sectoriel==1" class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                             Modifier
                                         </button>
@@ -72,7 +72,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
+                                <tr *ngFor="let el of data| paginate: {
                                 id:'ngxP1',
                                 itemsPerPage: pg.pageSize,
                                 currentPage: pg.p,
@@ -81,7 +81,7 @@
                                             <input type="radio" [value]="el" ngModel name="get" (change)="checked($event,el)">
                                     </td>
                                     <td>
-                                        {{i+1}}
+                                        {{ ((pg.p||1)-1)*pg.pageSize + i + 1 }}
                                     </td>
                                     <td>
                                         {{el.departement==null ? '' :el.departement.libelle}}
@@ -98,7 +98,7 @@
 
                                    
                                 <tr *ngIf="data.length==0">
-                                    <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
+                                    <td colspan="7" class="text-center bg-gray-100">Aucun elements</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -256,7 +256,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
                         </div>
                     </form>
                 </ng-template>
@@ -394,7 +394,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
                         </div>
                     </form>
                 </ng-template>
@@ -647,7 +647,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" [disabled]="frmrdv.invalid"><i class="fas fa-save"></i>&nbsp;
+                            <button type="submit" class="btn btn-sm bg-mat-primary text-white" [disabled]="frmrdv.invalid"><i class="fas fa-save"></i>&nbsp;
                                 Enregistrer</button>
                             <br><br>
                         </div>

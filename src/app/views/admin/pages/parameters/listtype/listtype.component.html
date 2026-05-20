@@ -39,10 +39,10 @@
                 <!--begin::Table-->
                 <div class="table-responsive">
       
-                  <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
+                  <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable">
                     <thead>
                       <tr>
-                        <td class="left text-left" colspan="9">
+                        <td class="left text-left" colspan="5">
                             <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                 Modifier
                             </button>
@@ -61,7 +61,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr *ngFor="let el of data | sampleSearch:search_text| paginate: {
+                      <tr *ngFor="let el of data| paginate: {
                                 id:'ngxP1',
                                 itemsPerPage: pg.pageSize,
                                 currentPage: pg.p,
@@ -70,7 +70,7 @@
                             <input type="radio" [value]="el" ngModel name="get" (change)="checked($event,el)">
                         </td>
                         <td>
-                          {{i+1}}
+                          {{ ((pg.p||1)-1)*pg.pageSize + i + 1 }}
                         </td>
                         <td>
                           {{el.libelle}}
@@ -81,7 +81,7 @@
                        
                       </tr>
                       <tr *ngIf="data.length==0">
-                        <td colspan="6" class="text-center bg-gray-100">Aucun elements</td>
+                        <td colspan="5" class="text-center bg-gray-100">Aucun elements</td>
                       </tr>
                     </tbody>
                   </table>
@@ -141,7 +141,7 @@
                   </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+                    <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!newForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                   </div>
                 </form>
               </ng-template>
@@ -187,7 +187,7 @@
       
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
+                    <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder <app-loading [isVisible]="loading"></app-loading></button>
                   </div>
                 </form>
               </ng-template>

@@ -30,7 +30,7 @@ import { InstitutionService } from '../../../../../core/services/institution.ser
 @Component({
   selector: 'app-listacteurs',
   standalone: true,
-          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,NgxSpinnerModule,SharedModule],
+          imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule,NgxSpinnerModule,SharedModule],
   templateUrl: './listacteurs.component.html',
   styleUrls: ['./listacteurs.component.css']
 })
@@ -61,14 +61,15 @@ export class ListacteursComponent implements OnInit {
 loading:any=false
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math;
 selectedEntity:any
 entities:any[]=[]
 role:any
 isSuperAdmin=false
 
-  search(){ 
+  search(){
     this.data=this._temp.filter(r => {
-      const term = this.searchText.toLowerCase();
+      const term = this.search_text.toLowerCase();
       return r.nomprenoms.toLowerCase().includes(term) ||
       (r.structure==null ? '' : r.structure.libelle).toString().toLowerCase().includes(term)
     })
@@ -157,10 +158,12 @@ isSuperAdmin=false
     
   init(){
     this.data=[]
+    this._temp=[]
           this.spinner.show();
     this.acteursService.getAll(this.isSuperAdmin ?this.selectedEntity: this.user.idEntite).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
+      this._temp=res.data
     },
         (err:any)=>{
           this.loading=false

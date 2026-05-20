@@ -64,55 +64,70 @@ search_text:any=""
     })
     this.collectionSize=this.data.length
   }
-  print_rapp(libdate:any){
-    var url= ConfigService.toApiUrl('rapportconsult?date='+libdate)
-    window.open(url, "_blank")  
+  private downloadAndOpen(url: string, filename: string) {
+    fetch(url)
+      .then(r => {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.blob();
+      })
+      .then(blob => {
+        const objectUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = objectUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(objectUrl);
+      })
+      .catch(() => AppSweetAlert.finish('error', 'Erreur', 'Impossible de télécharger le fichier.'));
   }
-  print_rapp_periode(){
 
-const dated = new Date(this.dated);
-const datef = new Date(this.datef);
-
-if (!this.dated || !this.datef) {
-  AppSweetAlert.finish("Validation", "Veuillez renseigner les deux dates.", "warning");
-  return;
-}
-
-if (datef < dated) {
-  AppSweetAlert.finish(
-    "Validation",
-    "La date de fin ne peut pas être antérieure à la date de début.",
-    "error"
-  );
-  return;
-}
-
-     this.sService.genPdfRapport({
-      dated:this.dated,
-      datef:this.datef,
-      idEntite:this.user.idEntite
-     }).subscribe((res:any)=>{
-       window.open(res.data, "_blank")  
-    },(err:any)=>{
-      if(err.error.detail!=null){    
-        AppSweetAlert.finish( 'error',"Nouvel ajout", err.error.detail)
-      }else{
-        AppSweetAlert.finish("Nouvel ajout", err.error.message, 'error')
-      }
-    })
+  print_rapp(libdate: any) {
+    const url = ConfigService.toApiUrl('rapportconsult?date=' + libdate);
+    this.downloadAndOpen(url, 'rapport-' + libdate + '.pdf');
   }
-  print_graphe_periode(){
-    if(this.dated && this.datef){
-      var url= ConfigService.toApiUrl('rapportGraph?date='+this.dated+'&datef='+this.datef+'&idEntite='+this.user.idEntite)
-      window.open(url, "_blank")  
-    }else{
-      AppSweetAlert.finish("Error", "Date début et fin sont obligatoire", 'error')
+
+  print_rapp_periode() {
+    const dated = new Date(this.dated);
+    const datef = new Date(this.datef);
+
+    if (!this.dated || !this.datef) {
+      AppSweetAlert.finish("Validation", "Veuillez renseigner les deux dates.", "warning");
+      return;
     }
+    if (datef < dated) {
+      AppSweetAlert.finish("Validation", "La date de fin ne peut pas être antérieure à la date de début.", "error");
+      return;
+    }
+
+    this.sService.genPdfRapport({
+      dated: this.dated,
+      datef: this.datef,
+      idEntite: this.user.idEntite
+    }).subscribe((res: any) => {
+      this.downloadAndOpen(res.data, 'rapport-' + this.dated + '-' + this.datef + '.pdf');
+    }, (err: any) => {
+      if (err.error?.detail) {
+        AppSweetAlert.finish('error', "Statistiques", err.error.detail);
+      } else {
+        AppSweetAlert.finish("Statistiques", err.error?.message, 'error');
+      }
+    });
   }
 
-  graphe_rapp(libdate:any){
-    var url= ConfigService.toApiUrl('rapportGraph?date='+libdate)
-    window.open(url, "_blank")  
+  print_graphe_periode() {
+    if (!this.dated || !this.datef) {
+      AppSweetAlert.finish("Erreur", "Date début et fin sont obligatoire", 'error');
+      return;
+    }
+    const url = ConfigService.toApiUrl('rapportGraph?date=' + this.dated + '&datef=' + this.datef + '&idEntite=' + this.user.idEntite);
+    this.downloadAndOpen(url, 'graphes-' + this.dated + '-' + this.datef + '.pdf');
+  }
+
+  graphe_rapp(libdate: any) {
+    const url = ConfigService.toApiUrl('rapportGraph?date=' + libdate);
+    this.downloadAndOpen(url, 'graphes-' + libdate + '.pdf');
   }
   openAddModal(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {

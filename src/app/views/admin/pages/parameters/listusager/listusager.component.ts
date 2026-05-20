@@ -14,7 +14,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { TranslateService } from '@ngx-translate/core';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { SampleSearchPipe } from '../../../../../core/pipes/sample-search.pipe';
+import {  } from '../../../../../core/pipes/sample-search.pipe';
 import { NatureRequeteService } from '../../../../../core/services/nature-requete.service';
 import { ProfilService } from '../../../../../core/services/profil.service';
 import { RdvCreneauService } from '../../../../../core/services/rdv-creneau.service';
@@ -34,7 +34,7 @@ import { ObserverService } from '../../../../../core/utils/observer.service';
 @Component({
   selector: 'app-listusager',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,SampleSearchPipe,NgSelectModule,NgxPaginationModule,RouterModule],
+  imports: [CommonModule,FormsModule,NgbModule,LoadingComponent,NgSelectModule,NgxPaginationModule,RouterModule],
   templateUrl: './listusager.component.html',
   styleUrls: ['./listusager.component.css']
 })
@@ -68,10 +68,11 @@ export class ListusagerComponent implements OnInit {
   }
 isPaginate:any=false
 search_text:any=""
+readonly Math = Math
   search(){ 
     this.data=[]
     this._temp=[]
-    this.usagersService.getAll(this.searchText,this.page).subscribe((res:any)=>{
+    this.usagersService.getAll(this.search_text,this.page).subscribe((res:any)=>{
       this.spinner.hide();
       this.data=res.data
       this._temp=this.data

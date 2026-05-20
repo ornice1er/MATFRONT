@@ -197,3 +197,181 @@ body {
     font-size: 0.875rem;
   }
 }
+
+/* ═══════════════════════════════════════════
+   CARD — redesign moderne
+═══════════════════════════════════════════ */
+.card {
+  border: none !important;
+  border-radius: 14px !important;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04) !important;
+  background: #ffffff !important;
+  transition: box-shadow 0.2s !important;
+}
+
+.card:hover {
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10) !important;
+}
+
+.card-header {
+  background: #ffffff !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  border-radius: 14px 14px 0 0 !important;
+  padding: 18px 24px !important;
+}
+
+.card-body {
+  padding: 16px 24px !important;
+}
+
+/* ═══════════════════════════════════════════
+   BG-MAT-PRIMARY — boutons et highlights
+═══════════════════════════════════════════ */
+.bg-mat-primary {
+  background-color: #312e81 !important;
+}
+
+.bg-mat-primary:hover {
+  background-color: #3730a3 !important;
+}
+
+/* ═══════════════════════════════════════════
+   BOUTONS — uniformisation
+═══════════════════════════════════════════ */
+.btn-sm {
+  padding: 5px 14px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  letter-spacing: 0.2px !important;
+}
+
+/* ═══════════════════════════════════════════
+   TABLE — modernisée
+═══════════════════════════════════════════ */
+.table {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.table thead th {
+  background-color: #f8fafc !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.4px !important;
+  color: #475569 !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  padding: 10px 12px !important;
+  white-space: nowrap !important;
+}
+
+.table tbody td {
+  padding: 10px 12px !important;
+  font-size: 13px !important;
+  color: #334155 !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle !important;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f8fafc !important;
+  cursor: pointer !important;
+}
+
+.table-active {
+  background-color: rgba(49, 46, 129, 0.06) !important;
+}
+
+.badge {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 4px 10px !important;
+  border-radius: 20px !important;
+}
+
+/* ═══════════════════════════════════════════
+   PRIMENG OVERLAY — user menu
+═══════════════════════════════════════════ */
+.mat-overlay.p-overlaypanel {
+  border-radius: 14px !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06) !important;
+  padding: 16px !important;
+  min-width: 260px !important;
+}
+
+.mat-overlay.p-overlaypanel::before,
+.mat-overlay.p-overlaypanel::after {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════
+   PAGINATION ngx
+═══════════════════════════════════════════ */
+.ngx-pagination {
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+}
+
+.ngx-pagination a,
+.ngx-pagination button {
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+  border: 1px solid #e2e8f0 !important;
+  margin: 0 2px !important;
+  transition: all 0.15s !important;
+}
+
+.ngx-pagination a:hover,
+.ngx-pagination button:hover {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  color: #1e1b4b !important;
+}
+
+.ngx-pagination .current {
+  background: #312e81 !important;
+  border-color: #312e81 !important;
+  border-radius: 8px !important;
+  padding: 4px 10px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  margin: 0 2px !important;
+}
+
+/* ═══════════════════════════════════════════
+   MODAL — modernisée
+═══════════════════════════════════════════ */
+.modal-content {
+  border: none !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18) !important;
+  overflow: hidden !important;
+}
+
+.modal-header.bg-mat-primary {
+  background: linear-gradient(135deg, #1e1b4b, #312e81) !important;
+  border-bottom: none !important;
+  padding: 18px 24px !important;
+}
+
+.modal-header.bg-mat-primary .modal-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.3px !important;
+}
+
+.modal-body {
+  padding: 24px !important;
+}
+
+.modal-footer {
+  border-top: 1px solid #f1f5f9 !important;
+  padding: 14px 24px !important;
+  background: #fafafa !important;
+}

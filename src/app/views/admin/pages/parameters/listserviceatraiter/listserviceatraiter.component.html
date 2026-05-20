@@ -37,14 +37,14 @@
                     <!--begin::Table-->
                     <div class="table-responsive">
 
-                        <table class="table table-striped datatable  table-head-custom table-vertical-center" id="kt_datatable">
+                        <table class="table table-striped table-hover table-head-custom table-vertical-center" id="kt_datatable">
                             <thead>
                                 <tr>
-                                    <td class="left text-left" colspan="9">
+                                    <td class="left text-left" colspan="12">
                                         <button (click)="openEditModal(contentU)" class=" mx-1 btn btn-sm bg-mat-primary text-white">
                                             Modifier
                                         </button>
-                                        <button title="Gérer les pièces" (click)="openEditModal(pieces)" class="btn my-2 btn-sm btn-primary">
+                                        <button title="Gérer les pièces" (click)="openEditModal(pieces)" class="btn my-2 btn-sm bg-mat-primary text-white">
                                                                 Gérer pièces    
                                         </button>
 
@@ -73,7 +73,7 @@
                                     <td>
                                         <input type="radio" [value]="s" ngModel name="get" (change)="checked($event,s)">
                                     </td>
-                                    <td>{{i+1}}</td>
+                                    <td>{{ ((pg.p||1)-1)*pg.pageSize + i + 1 }}</td>
                                     <td>{{s.libelle}} </td>
                                     <td>{{s.cout}} </td>
                                     <td>{{s.delai}} </td>
@@ -393,7 +393,7 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!newForm.form.valid" type="submit">Sauvegarder</button>
                         </div>
                     </form>
                 </ng-template>
@@ -691,7 +691,7 @@ demander plus tôt ?"
                             </div-->
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-dark" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
+                            <button type="button" class="btn btn-sm bg-mat-primary text-white" [disabled]="!updateForm.form.valid" type="submit">Sauvegarder</button>
                         </div>
                     </form>
                 </ng-template>
@@ -758,7 +758,7 @@ demander plus tôt ?"
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" id="btn-save" 
+                            <button class="btn btn-sm bg-mat-primary text-white" id="btn-save" 
                                 type="submit"><i class="fas fa-save"></i>&nbsp; Enregistrer</button>
                         </div>
                     </form>
