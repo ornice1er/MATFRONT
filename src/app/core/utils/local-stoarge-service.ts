@@ -14,10 +14,16 @@ export class LocalStorageService {
   }
 
   get(key: string) {
-    let el: any = '';
     if (isPlatformBrowser(this.platformId)) {
-      el = localStorage.getItem(key);
-      return el != null ? JSON.parse(el) : null;
+      const el = localStorage.getItem(key);
+      if (el == null) return null;
+      try {
+        return JSON.parse(el);
+      } catch {
+        // Valeur corrompue (ex. JWT stocké sans JSON.stringify) → on purge et on retourne null
+        localStorage.removeItem(key);
+        return null;
+      }
     }
     return null;
   }

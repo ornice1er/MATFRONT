@@ -10,6 +10,7 @@ import { ProfilService } from '../../../../../../core/services/profil.service';
 import { LoadingComponent } from '../../../../../components/loading/loading.component';
 import { GlobalName, Roles } from '../../../../../../core/utils/global-name';
 import { LocalStorageService } from '../../../../../../core/utils/local-stoarge-service';
+import { AppSweetAlert } from '../../../../../../core/utils/app-sweet-alert';
 import { Router } from '@angular/router';
 
 declare var $: any;
@@ -64,7 +65,7 @@ export class AsideComponent implements OnInit {
       // console.log('------------------------------------')
       // console.log(res.fichier_guide)
       if(res.fichier_guide == null || res.fichier_guide == ''){
-        alert("Aucune documentation n'est associée à ce profil")
+        AppSweetAlert.simpleAlert('info', 'Guide', "Aucune documentation n'est associée à ce profil.")
       }else{
         var url= 'https://api.mataccueil.gouv.bj/rapports/'+res.fichier_guide
         window.open(url, "_blank")  

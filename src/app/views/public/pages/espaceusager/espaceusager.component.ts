@@ -331,7 +331,7 @@ search_text:any=""
       }
     }else{
       if (this.localService.get(GlobalName.tokenName)==null) {
-        alert("Vous devez vous connecter pour accéder à cette page");
+        AppSweetAlert.simpleAlert('warning', 'Accès refusé', 'Vous devez vous connecter pour accéder à cette page.');
 
       } else {
         this.init()
